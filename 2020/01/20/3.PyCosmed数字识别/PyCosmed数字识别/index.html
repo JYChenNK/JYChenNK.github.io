@@ -1,11 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
+
+<script type="text/javascript"
+color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>PyCosmed数字识别 | 萤火</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://jychennk.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
   <meta name="description" content="PyCosmed数字识别程序回顾与优化。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PyCosmed数字识别">
@@ -26,266 +83,508 @@
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jychennk.github.io/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="萤火" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<link rel="canonical" href="https://jychennk.github.io/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">萤火</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">有一份热，发一分光。</a>
-        </h2>
-      
+  <title>PyCosmed数字识别 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jychennk.github.io"></form>
-      </div>
+        <p class="site-subtitle">有一份热，发一分光。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-3.PyCosmed数字识别/PyCosmed数字识别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" class="article-date">
-  <time class="dt-published" datetime="2020-01-19T16:00:00.000Z" itemprop="datePublished">2020-01-20</time>
-</a>
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      PyCosmed数字识别
-    </h1>
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="name" content="JYChen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PyCosmed数字识别
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-20T00:00:00+08:00">2020-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-13 13:54:52" itemprop="dateModified" datetime="2020-11-13T13:54:52+08:00">2020-11-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
+                    <span itemprop="name">工程开发</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" class="post-meta-item leancloud_visitors" data-flag-title="PyCosmed数字识别" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
   
 
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <p>PyCosmed数字识别程序回顾与优化。</p>
 <span id="more"></span>
 
 <h3 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h3><p>首先要将截取的图片转为灰度图像，然后绘制灰度直方图，确定二值化阈值<code>150</code>，然后进行二值化：</p>
-<p><img src="Figure_1.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_1.png"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取图像</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img</span>(<span class="params">index</span>):</span></span><br><span class="line">    img = Image.<span class="built_in">open</span>(<span class="string">&quot;E:\\Python\\PyCosmed\\v3.0\DIGIT2\\&quot;</span>+<span class="built_in">str</span>(index)+<span class="string">&quot;.png&quot;</span>)</span><br><span class="line">    plt.subplot(<span class="number">221</span>)</span><br><span class="line">    plt.imshow(img)</span><br><span class="line">    <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析灰度直方图，从而选择合适的二值化阈值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gray_hist</span>(<span class="params">img</span>):</span></span><br><span class="line">    img_arr = np.array(img.convert(<span class="string">&#x27;L&#x27;</span>))    <span class="comment">#  convert - 转换图像格式   L - 八位黑白像素</span></span><br><span class="line">                                            <span class="comment">#  array - image格式转为array数组</span></span><br><span class="line">    plt.subplot(<span class="number">223</span>)</span><br><span class="line">    plt.imshow(img_arr)</span><br><span class="line"></span><br><span class="line">    img_arr = img_arr.flatten()             <span class="comment">#  flatten - 转化为一维数组</span></span><br><span class="line">    plt.subplot(<span class="number">222</span>)</span><br><span class="line">    plt.hist(img_arr,bins=<span class="number">256</span>)              <span class="comment">#  hist - 绘制直方图  bins - 条形数</span></span><br><span class="line">    plt.ylim((<span class="number">0</span>,<span class="number">50</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像二值化</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binarize</span>(<span class="params">img, threshold=threshold</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;二值化&quot;&quot;&quot;</span></span><br><span class="line">    img = img.convert(<span class="string">&#x27;L&#x27;</span>)</span><br><span class="line">    table = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        <span class="keyword">if</span> i &lt; threshold:</span><br><span class="line">            table.append(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            table.append(<span class="number">1</span>)</span><br><span class="line">    bin_img = img.point(table, <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    plt.subplot(<span class="number">222</span>)</span><br><span class="line">    plt.imshow(bin_img)</span><br><span class="line">    <span class="keyword">return</span> bin_img</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="图像分割"><a href="#图像分割" class="headerlink" title="图像分割"></a>图像分割</h3><p>加入分割宽度机制，避免数字相连情况:</p>
-<p><img src="Figure_2.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_2.png"></p>
 <p>分割后的图像集：</p>
-<p><img src="Figure_4.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_4.png"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">vertical_cut</span>(<span class="params">img</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;纵向切割&quot;&quot;&quot;</span></span><br><span class="line">    px = <span class="built_in">list</span>(np.<span class="built_in">sum</span>(np.array(img) == <span class="number">0</span>, axis=<span class="number">0</span>))</span><br><span class="line">    py = <span class="built_in">list</span>(np.<span class="built_in">sum</span>(np.array(img) == <span class="number">0</span>, axis=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 列表保存像素累加值大于0的列</span></span><br><span class="line">    x0 = []</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(px)):</span><br><span class="line">        <span class="keyword">if</span> px[x] &gt; <span class="number">0</span>:</span><br><span class="line">            x0.append(x)</span><br><span class="line">    y0 = []</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(py)):</span><br><span class="line">        <span class="keyword">if</span> py[y] &gt; <span class="number">1</span>:</span><br><span class="line">            y0.append(y)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找出边界</span></span><br><span class="line">    cut_list = [x0[<span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(x0)):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(x0[i] - x0[i - <span class="number">1</span>]) &gt; <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">abs</span>(x0[i-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">10</span>:</span><br><span class="line">                cut_list.extend([x0[i - <span class="number">1</span>]+<span class="number">1</span>, x0[i]])</span><br><span class="line">            <span class="keyword">elif</span> <span class="built_in">abs</span>(x0[i-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">16</span>:</span><br><span class="line">                cut_list.extend([x0[i-<span class="number">1</span>]+<span class="number">1</span>, x0[i-<span class="number">1</span>]+<span class="number">8</span>])</span><br><span class="line">                cut_list.extend([x0[i-<span class="number">1</span>]+<span class="number">8</span>, x0[i]])</span><br><span class="line">            <span class="keyword">elif</span> <span class="built_in">abs</span>(x0[i-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">24</span>:</span><br><span class="line">                cut_list.extend([x0[i-<span class="number">1</span>]+<span class="number">1</span>, x0[i-<span class="number">1</span>]+<span class="number">8</span>])</span><br><span class="line">                cut_list.extend([x0[i-<span class="number">1</span>]+<span class="number">8</span>, x0[i-<span class="number">1</span>]+<span class="number">16</span>])</span><br><span class="line">                cut_list.extend([x0[i-<span class="number">1</span>]+<span class="number">16</span>, x0[i]])</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(x0[-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">10</span>:</span><br><span class="line">        cut_list.append(x0[-<span class="number">1</span>]+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">abs</span>(x0[-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">17</span>:</span><br><span class="line">        cut_list.extend([cut_list[-<span class="number">1</span>]+<span class="number">8</span>, cut_list[-<span class="number">1</span>]+<span class="number">8</span>])</span><br><span class="line">        cut_list.append(x0[-<span class="number">1</span>]+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">abs</span>(x0[-<span class="number">1</span>] - cut_list[-<span class="number">1</span>]) &lt; <span class="number">25</span>:</span><br><span class="line">        cut_list.extend([cut_list[-<span class="number">1</span>]+<span class="number">8</span>, cut_list[-<span class="number">1</span>]+<span class="number">8</span>])</span><br><span class="line">        cut_list.extend([cut_list[-<span class="number">1</span>]+<span class="number">8</span>, cut_list[-<span class="number">1</span>]+<span class="number">8</span>])</span><br><span class="line">        cut_list.append(x0[-<span class="number">1</span>]+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    cut_list_y = [y0[<span class="number">0</span>]]</span><br><span class="line">    cut_list_y.append(y0[-<span class="number">1</span>]+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    cut_imgs = []</span><br><span class="line">    <span class="comment"># 切割顺利的话应该是整对</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(cut_list) % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(cut_list) // <span class="number">2</span>):</span><br><span class="line">            cut_img = img.crop([cut_list[i * <span class="number">2</span>], cut_list_y[<span class="number">0</span>], cut_list[i * <span class="number">2</span> + <span class="number">1</span>], cut_list_y[<span class="number">1</span>]])</span><br><span class="line">            plt.imshow(cut_img)</span><br><span class="line">        <span class="keyword">return</span> cut_imgs</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&#x27;Vertical cut failed.&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="计算Hash码"><a href="#计算Hash码" class="headerlink" title="计算Hash码"></a>计算Hash码</h3><p>分割后的图像被统一缩放到<code>8*15</code>的大小，然后计算其Hash码，并提取每个字符的标准Hash码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 标准Hash码</span></span><br><span class="line">hash_vals = &#123;</span><br><span class="line">    <span class="string">&quot;0&quot;</span>: <span class="string">&quot;110000111000000110011001100110000001100000111100001111000011110000111100001111000001100010011001100110011000000111000011&quot;</span>,</span><br><span class="line">    <span class="string">&quot;1&quot;</span>: <span class="string">&quot;111000000000000000000000111110001111100011111000111110001111100011111000111110001111100011111000111110001111100011111000&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2&quot;</span>: <span class="string">&quot;100000111000000111110001111110011111100111111001111110011111000111110011111000111100011111001111100111110000000000000000&quot;</span>,</span><br><span class="line">    <span class="string">&quot;3&quot;</span>: <span class="string">&quot;100000111000000111111000111111001111110011111001110000011100000111111000111111001111110011111100111110000000000110000011&quot;</span>,</span><br><span class="line">    <span class="string">&quot;4&quot;</span>: <span class="string">&quot;111100011111000111100001111000011100100111001001100110011001100100111001000000000000000011111001111110011111100111111001&quot;</span>,</span><br><span class="line">    <span class="string">&quot;5&quot;</span>: <span class="string">&quot;110000001100000010011111100111111001111110011111100000111000000011111000111111001111110011111100111110000000000100000011&quot;</span>,</span><br><span class="line">    <span class="string">&quot;6&quot;</span>: <span class="string">&quot;111110011110000111000111110011111001111110011111000000010000000100011000001111000011110000011100100110001000000111000011&quot;</span>,</span><br><span class="line">    <span class="string">&quot;7&quot;</span>: <span class="string">&quot;000000000000000011111001111110011111100111110011111100111111001111100111111001111100011111001111110011111000111110011111&quot;</span>,</span><br><span class="line">    <span class="string">&quot;8&quot;</span>: <span class="string">&quot;111000111100000110011000100111001001110010001001110000011100000110001000100111000001110000011100100111001000000011000011&quot;</span>, </span><br><span class="line">    <span class="string">&quot;9&quot;</span>: <span class="string">&quot;110000111000000110011001000110000011110000111100000111001001100010000000111010001111100111110001111000111000011110001111&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.&quot;</span>: <span class="string">&quot;111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111000000000000011100000&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hashing</span>(<span class="params">img</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算哈希值&quot;&quot;&quot;</span></span><br><span class="line">    img = img.resize((<span class="number">8</span>, <span class="number">15</span>), Image.LANCZOS)</span><br><span class="line">    px = np.array(img).flatten()</span><br><span class="line">    hash_val = (px &gt; px.mean()).astype(<span class="built_in">int</span>)</span><br><span class="line">    hash_val = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">str</span>(e) <span class="keyword">for</span> e <span class="keyword">in</span> hash_val)</span><br><span class="line">    <span class="keyword">return</span> hash_val</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hamming</span>(<span class="params">hash1, hash2</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算汉明距离&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(hash1) != <span class="built_in">len</span>(hash2):</span><br><span class="line">        print(<span class="string">&#x27;hash1: &#x27;</span>, hash1)</span><br><span class="line">        print(<span class="string">&#x27;hash2: &#x27;</span>, hash2)</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;Undefined for sequences of unequal length&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>(i != j <span class="keyword">for</span> i, j <span class="keyword">in</span> <span class="built_in">zip</span>(hash1, hash2))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recognize</span>(<span class="params">img</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;识别结果&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># img = img.convert(&#x27;L&#x27;)</span></span><br><span class="line">    <span class="comment"># img = binarize(img)</span></span><br><span class="line">    <span class="comment"># chars = vertical_cut(img)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 相近度列表</span></span><br><span class="line">    nearness = &#123;&#125;</span><br><span class="line">    <span class="comment"># expr = &#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># for char in chars:</span></span><br><span class="line">    hash_val = hashing(img)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> hash_vals:</span><br><span class="line">        nearness[h] = hamming(hash_val, hash_vals[h])</span><br><span class="line">    expr = <span class="built_in">sorted</span>(nearness.items(), key=<span class="keyword">lambda</span> d: d[<span class="number">1</span>])[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> expr</span><br></pre></td></tr></table></figure>
 
 <h3 id="识别结果"><a href="#识别结果" class="headerlink" title="识别结果"></a>识别结果</h3><p>分割数据集下的识别结果：</p>
-<p><img src="Figure_5.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_5.png"></p>
 <p>原始图像下的识别结果：</p>
-<p><img src="Figure_6.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_6.png"></p>
 <h3 id="One-More-Thing"><a href="#One-More-Thing" class="headerlink" title="One More Thing"></a>One More Thing</h3><p>另外对分割图像集进行个主成分分析（PCA），在第一主成分和第二主成分平面上不具有明显的可分性，故没有进一步研究：</p>
-<p><img src="Figure_7.png"></p>
+<p><img src="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/Figure_7.png"></p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://jychennk.github.io/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" data-id="ckmh3ker80005pys8bbv51vie" data-title="PyCosmed数字识别" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag"># 图像处理</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" rel="prev" title="IMU原理与人体姿态检测">
+      <i class="fa fa-chevron-left"></i> IMU原理与人体姿态检测
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="next" title="非线性规划">
+      非线性规划 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">图像预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2"><span class="nav-number">2.</span> <span class="nav-text">图像分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97Hash%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">计算Hash码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">识别结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-More-Thing"><span class="nav-number">5.</span> <span class="nav-text">One More Thing</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JYChen"
+      src="/images/avatar2.jpg">
+  <p class="site-author-name" itemprop="name">JYChen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JYChen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          非线性规划
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">IMU原理与人体姿态检测</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/">外骨骼</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/">阻抗研究</a></li></ul>
-    </div>
-  </div>
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenSim/" rel="tag">OpenSim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag">外骨骼系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag">控制算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag">数据处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="tag">硬件基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">硬件开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" rel="tag">肌肉骨骼模型</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/OpenSim/" style="font-size: 10px;">OpenSim</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 20px;">优化</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 10px;">图像处理</a> <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">外骨骼系统</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" style="font-size: 10px;">控制算法</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="font-size: 10px;">数据处理</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">硬件基础</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" style="font-size: 10px;">硬件开发</a> <a href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">肌肉骨骼模型</a>
-    </div>
-  </div>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
-    </div>
-  </div>
+
+
+
+
+
+
+
+
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/">阻抗控制</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">IMU无线系统设计</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/">下肢外骨骼系统简介</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">OpenSim源码安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/14/2.AIOS/AIOS/">102Lab数据处理软件AIOS</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
   
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
       
-      &copy; 2021 JYChen<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
     
 
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
+      appKey: '9lmT7wOl05J6beLWJKpGoq0N',
+      placeholder: "Say something",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: true,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
 </body>
 </html>

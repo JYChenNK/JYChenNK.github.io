@@ -1,11 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
+
+<script type="text/javascript"
+color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>非线性规划 | 萤火</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://jychennk.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
   <meta name="description" content="前言优化是自然界和人类社会最为普遍行为，物理系统趋于较低的能量，化学分子相互作用以达到最小的电子势能，投资者寻求最佳收益，工程师寻求最佳性能，优化是宇宙运行的本质之一。在本文中，我们将主要讨论非线性规划的数值方法。 根据函数性质，优化问题可分为线性优化和非线性优化；根据是否含有约束，可以分为无约束优化和有约束优化。一般来说，有约束优化问题要比无约束优化问题更难求解，因此本文将先介绍非线性优化的求解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="非线性规划">
@@ -26,91 +83,204 @@
 <meta property="article:tag" content="优化">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jychennk.github.io/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587611833869.png">
-  
-    <link rel="alternate" href="/atom.xml" title="萤火" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<link rel="canonical" href="https://jychennk.github.io/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">萤火</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">有一份热，发一分光。</a>
-        </h2>
-      
+  <title>非线性规划 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jychennk.github.io"></form>
-      </div>
+        <p class="site-subtitle">有一份热，发一分光。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-6.非线性规划/6.非线性规划" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="article-date">
-  <time class="dt-published" datetime="2020-04-21T16:00:00.000Z" itemprop="datePublished">2020-04-22</time>
-</a>
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      非线性规划
-    </h1>
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="name" content="JYChen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          非线性规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-22 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-22T00:00:00+08:00">2020-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-02 20:35:50" itemprop="dateModified" datetime="2020-12-02T20:35:50+08:00">2020-12-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">仿真研究</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="post-meta-item leancloud_visitors" data-flag-title="非线性规划" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
   
 
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>优化是自然界和人类社会最为普遍行为，物理系统趋于较低的能量，化学分子相互作用以达到最小的电子势能，投资者寻求最佳收益，工程师寻求最佳性能，优化是宇宙运行的本质之一。在本文中，我们将主要讨论非线性规划的数值方法。</p>
 <p>根据函数性质，优化问题可分为线性优化和非线性优化；根据是否含有约束，可以分为无约束优化和有约束优化。一般来说，有约束优化问题要比无约束优化问题更难求解，因此本文将先介绍非线性优化的求解算法，再介绍非线性规划的内点法。阅读本文之前最好对高等数学的基础知识有一定了解。</p>
@@ -124,11 +294,11 @@
 <p>在线搜索策略中，算法每次迭代会先在当前参数$x_k$处确定一个参数的<strong>迭代方向</strong>$d_k$，然后让参数在该方向上移动一定<strong>步长</strong>$\alpha_k$，即：<br>$$x_{k+1}=x_k+\alpha_k d_k$$</p>
 <h4 id="迭代步长"><a href="#迭代步长" class="headerlink" title="迭代步长"></a>迭代步长</h4><p>假定我们已经确定了一个迭代方向$d_k$，则原优化问题可以转化为一个一维搜索问题：<br>$$\min <em>{\alpha&gt;0} f\left(x</em>{k}+\alpha d_{k}\right)$$<br>我们可以进行精确一维搜索，采用例如二分法、黄金分割法来求出该一维问题的最佳步长；当然我们也可以采用非精确一维搜索来确定$\alpha_k$，只要其满足：<br>$$f(x_k+\alpha_k d_k) &lt; f(x_k)$$<br>实际上，在现代优化算法中，一般采取非精确一维搜索的策略，虽然其每次迭代目标函数的下降幅度不如精确一维搜索，但整体的优化效率更高。</p>
 <h4 id="梯度法"><a href="#梯度法" class="headerlink" title="梯度法"></a>梯度法</h4><p>非线性优化的主要问题在于确定一个适当的迭代方向$d_k$。<strong>最速下降方向</strong>，即负梯度方向$-\nabla f(x_k)$是最明显的迭代方向，它本身就描述目标函数下降最快的方向。除了最速下降方向，任何与其夹角小于$\pi/2$的方向，都可以作为迭代方向，都能够保证目标函数下降。即$d_k=-B_k \nabla f_k$，$B_k$为·正定矩阵。如图所示，灰色表示原函数的等高线，蓝色向量表示目标函数梯度，同样指向了等高线的法向，红色表示一种可行的迭代方向。</p>
-<p><img src="./1587611833869.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587611833869.png"></p>
 <p>上面我们已经说过，在确定了迭代方向后，可以采用线搜索的方法来确定合适的迭代步长。由于精确一维搜索比较耗时，因此往往采用非精确一维搜索策略，使$f_{k+1}&lt;f_k$：<br>$$x_{k+1}=x_k-\alpha_k\nabla f_k$$<br>梯度下降法简单直观，但对复杂问题的求解效果往往不太理想，尤其是当迭代点接近最优点时，函数梯度会变得很小，优化速度也因而变得很慢，下图所示。</p>
-<p><img src="./1587611935345.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587611935345.png"></p>
 <h4 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h4><p>另一种更常用的方法是<strong>Newtown法</strong>。考虑对目标函数$f(x)$在$x=x_k$处进行二阶泰勒近似：<br>$$f\left(x_{k}+d\right) \approx f_{k}+d^{T} \nabla f_{k}+\frac{1}{2} d^{T} \nabla^{2} f_{k} d \stackrel{\text { def }}{=} m_{k}(d)$$<br>我们将其看作为关于步长$d$的函数。假定海森矩阵$\nabla^2 f_k$是整定的，对$m_k(d)$求导并令导数等于零可得：<br>$$d_{k}=-\left(\nabla^{2} f_{k}\right)^{-1} \nabla f_{k}$$<br>本质上来说牛顿法是通过在迭代点处，利用目标函数的一阶导和二阶导的信息来对目标函数进行估计，并用估计函数的最小值作为参数迭代的方向。下图展示了这种优化思路，绿色为所估计的函数。在牛顿法中，迭代方向$d_k$由迭代点$x_k$指向估计函数的最小值，因此有一个自然步长$\alpha=1$：<br>$$x_{k+1}=x_k-\left(\nabla^{2} f_{k}\right)^{-1} \nabla f_{k}$$</p>
-<p><img src="./1587614043275.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587614043275.png"></p>
 <p>因为利用了目标函数更多的信息，因此牛顿法是一种比梯度法更有“远见”的算法。当估计函数比较接近目标函数时，尤其是接近最优解时，牛顿法的下降速度很快，具有二阶收敛性，也就是对于二次形式的目标函数，牛顿法可以通过一次迭代得到结果。</p>
 <p>同时牛顿法也存在着一些的问题。一方面在优化初期时，对于目标函数的估计往往不太准确，导致优化性能大大下降；另一方面，二阶海森矩阵的计算非常困难。为了避免海森矩阵的计算问题，实际中更多的使用<strong>拟牛顿法</strong>，通过在迭代过程中目标函数和梯度信息来近似估计海森矩阵或海森矩阵的逆矩阵，再用该估计来计算迭代方向，例如<strong>BFGS</strong>算法等。</p>
 <h2 id="非线性规划"><a href="#非线性规划" class="headerlink" title="非线性规划"></a>非线性规划</h2><p>非线性规划是指在一定约束条件下的优化问题，对于有约束优化我们一般用Programming来表示，其标准数学表述如下，其中约束包含等式约束和不等式约束：<br>$$\min <em>{x \in \mathbb{R}^{n}} f(x) \quad \text { subject to }\left{\begin{array}{ll}<br>c</em>{i}(x)=0, &amp; i \in \mathcal{E} \<br>c_{i}(x) \geq 0, &amp; i \in \mathcal{I}<br>\end{array}\right.$$</p>
@@ -139,169 +309,297 @@
 <p>KKT条件为必要性条件，也就是用来判断所求参数是否为优化问题的解。其在约束优化中有非常重要的意义，几乎所有的约束优化算法的收敛性都需要借助KKT条件进行证明。</p>
 <h3 id="序列二次型规划"><a href="#序列二次型规划" class="headerlink" title="序列二次型规划"></a>序列二次型规划</h3><p>我们先来研究一种相对简单的约束优化问题，即等式约束下的优化问题：<br>$$\begin{array}{c}<br>\min <em>{x} f(x) \<br>\text { s.t. } \quad c(x)=0 \<br>\end{array}$$<br>首先我们构造拉格朗日函数，将该约束优化问题转化为无约束优化问题：<br>$$\min <em>{x, \lambda} \mathcal{L}(x, \lambda)= f\left(x\right)-\lambda^T c\left(x\right)$$<br>之后采用牛顿法进行求解，对于一个初始估计$(x_0,\lambda_0)$，通过构造序列$\left{\left(x</em>{k}, \lambda</em>{k}\right)\right}$来逼近问题的解：<br>$$\left(x_{k+1}, \lambda_{k+1}\right)=\left(x_{k}, \lambda_{k}\right)+\left(d_{k}, d_{k}^{\lambda}\right)$$<br>正如我们在非线性优化里讨论的那样，下面公式左侧矩阵为拉格朗日函数的海森矩阵，右侧为拉格朗日函数的梯度向量：<br>$$\left[\begin{array}{cc}<br>W_{k} &amp; -A_{k}^{T} \<br>-A_{k} &amp; 0<br>\end{array}\right]\left(\begin{array}{c}<br>d_{k} \<br>d_{k}^{\lambda}<br>\end{array}\right)=-\left(\begin{array}{c}<br>\nabla f_{k}- \lambda_{k} A_{k} \<br>c_{k}<br>\end{array}\right)$$<br>$$W_{k}=\nabla_{x x}^{2} \mathcal{L}\left(x_{k}, \lambda_{k}\right), A_{k} = \nabla c(x)$$</p>
 <p>接下来我们用一个例子来说明约束优化。首先考虑如下的约束优化问题：<br>$$\begin{array}{c}<br>\min <em>{x, y} f(x, y) = (x-4)^2+y^2 \<br>\text { s.t. } \quad c(x, y) = y-x^2-1 =0 \<br>\end{array}$$<br>为了方便理解，这里将该问题进行了可视化，蓝色表示约束轨迹或可行域，绿色表述目标函数，红色点表示该问题的解。在使用拉格朗日乘子法进行优化迭代时，参数$x$的最速下降方向为$d_k=-\nabla f</em>{k} + \lambda_{k} A_{k}$，即由目标函数梯度$\nabla f_{k}$和约束函数梯度$\lambda_{k} A_{k}$组合而成，由于梯度方向与等高线方向垂直，因此$-\nabla f_{k}$指向目标函数下降方向，而$\lambda_{k} A_{k}$垂直约束方程并指向可行域，如图中蓝点处所示。实际的迭代方向由这两个方向合成，使得参数向着目标函数下降方向，又逐渐靠近约束轨迹。当最终参数到达解的位置，也是时图中的红点处，约束轨迹与目标函数等高线相切，这两个梯度方向反相共线，也就是满足了KKT条件：$\nabla_{x}\mathcal{L}(x, \lambda)= \nabla f\left(x\right)- \lambda^T \nabla c\left(x\right) = 0$。</p>
-<p><img src="./1587653797241.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587653797241.png"></p>
 <h3 id="内点法优化"><a href="#内点法优化" class="headerlink" title="内点法优化"></a>内点法优化</h3><p>不等式约束下的优化求解比等式约束更加复杂，因为当$c(x)&gt;0$时，该约束实际不对目标函数产生影响，只有$c(x)=0$时，才真正起到约束作用。</p>
 <p>内点法又称障碍函数法，它通过在目标函数中添加障碍项，来消去不等式约束，并通过迭代减小障碍权重，不断逼近最优解的方法。对于含有不等式约束的情况，考虑为优化问题添加一个参数向量$s$，并构造如下形式的优化问题：<br>$$\begin{array}{c}<br>\min <em>{x, s} f(x)-\mu \sum</em>{i=1}^{m} \ln s_{i} \<br>\text { s.t. } \quad c_{\mathrm{E}}(x)=0 \<br>c_{I}(x)-s=0<br>\end{array}$$</p>
 <p>其中$\mu$是一个大于零的参数。我们用新增加的参数$s$与函数$c_{I}(x)$构成等式约束，来取代之前的不等式约束，由于采用了自然对数$\ln s$，因此$s$被限制严格大于0，因而约束函数$c_I(x)&gt;0$，同时当参数$s$接近0时，目标函数值会迅速增大，使得参数$s$无法减小。函数$\ln s$像是屏障一样限制的参数$s$的变化，因此被称为障碍函数法。这样构造出来的优化问题成为原问题的对偶问题。</p>
 <p>还是考虑上面的例子，在原问题的基础上再增加一个$y\ge 3$的不等式约束。我们绘出对偶问题中$\mu =18$时的目标函数图像，如下所示。可以看出对偶问题的目标函数和原问题的目标函数存在很大的差异，且对偶问题的最优解$x^*_{dual}$也显然不同于原问题的最优解$x^*$。</p>
-<p><img src="./1587974512275.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587974512275.png"></p>
 <p>显然参数$\mu$会影响问题的解。当$\mu$越大时，$-\mu \sum_{i=1}^{m} \ln s_{i}$所占的比重也越大，因此参数$s$趋于增大，即约束函数$c_I(x)$趋于增大，表明参数$x$趋向于远离$c_I(x)=0$的边界。反之当$\mu$减小时，参数$x$才有可能靠近$c_I(x)=0$所表示的边界，但当$\mu_k \to 0$时，对偶问题会逐渐接近于原问题。</p>
 <p>内点法通过构造一个$\mu$序列${\mu_k}$，使$\mu_k\to 0$，并在每个$\mu_k$上求解上述优化问题，求解结果作为下一次优化的初值，得到与${\mu_k}$对应解序列${x^*_k}$，且有$x^*_k\to x^*$，该解序列始终在原问题的可行域内，并逐渐靠近问题的最优解，因此也称为内点法。</p>
-<p><img src="./1587975500963.png"></p>
+<p><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587975500963.png"></p>
 <p>为了求解上面的优化问题，定义拉格朗日函数：<br>$$\mathcal{L}(x, s, y, z)=f(x) -\mu \sum_{i=1}^{m} \ln s_{i}-y^{T} c_{\mathrm{E}}(x)-z^{T}\left(c_{\mathrm{l}}(x)-s\right)$$<br>其中$x, s$为参数，$y, z$为拉格朗日乘子。对该函数使用牛顿法：<br>$$\left[\begin{array}{cccc}<br>\nabla_{x x}^{2} \mathcal{L} &amp; 0 &amp; -A_{\mathrm{E}}^{T}(x) &amp; -A_{I}^{T}(x) \<br>0 &amp; Z &amp; 0 &amp; S \<br>A_{\mathrm{E}}(x) &amp; 0 &amp; 0 &amp; 0 \<br>A_{1}(x) &amp; -I &amp; 0 &amp; 0<br>\end{array}\right]\left[\begin{array}{c}<br>d_{x} \<br>d_{s} \<br>d_{y} \<br>d_{z}<br>\end{array}\right]=-\left[\begin{array}{c}<br>\nabla f(x)-A_{\mathrm{E}}^{T}(x) y-A_{I}^{T}(x) z \<br>S z-\mu e \<br>c_{\mathrm{E}}(x) \<br>c_{I}(x)-s<br>\end{array}\right]$$<br>$A_E(x), A_I(x)$表示约束函数的梯度，定义$S$和$Z$为对角矩阵且其对角元素由向量$s$和$z$给出。</p>
-<p>最后给出内点法的伪代码，算法分为外循环和内循环，外循环迭代障碍参数，内循环迭代问题参数：<br><img src="./1587660896699.png"></p>
+<p>最后给出内点法的伪代码，算法分为外循环和内循环，外循环迭代障碍参数，内循环迭代问题参数：<br><img src="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/1587660896699.png"></p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://jychennk.github.io/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" data-id="ckmh3keri000vpys8d6b37lhm" data-title="非线性规划" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" rel="prev" title="PyCosmed数字识别">
+      <i class="fa fa-chevron-left"></i> PyCosmed数字识别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" rel="next" title="轨迹优化与直接配点法">
+      轨迹优化与直接配点法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">非线性优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0%E4%B8%8E%E5%BF%85%E8%A6%81%E6%80%A7%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述与必要性条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BC%98%E5%8C%96%E7%9A%84%E6%95%B0%E5%80%BC%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">非线性优化的数值方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%AD%A5%E9%95%BF"><span class="nav-number">2.2.1.</span> <span class="nav-text">迭代步长</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%B3%95"><span class="nav-number">2.2.2.</span> <span class="nav-text">梯度法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%9B%E9%A1%BF%E6%B3%95"><span class="nav-number">2.2.3.</span> <span class="nav-text">牛顿法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-number">3.</span> <span class="nav-text">非线性规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E6%80%A7%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">必要性条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E4%BA%8C%E6%AC%A1%E5%9E%8B%E8%A7%84%E5%88%92"><span class="nav-number">3.2.</span> <span class="nav-text">序列二次型规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%82%B9%E6%B3%95%E4%BC%98%E5%8C%96"><span class="nav-number">3.3.</span> <span class="nav-text">内点法优化</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JYChen"
+      src="/images/avatar2.jpg">
+  <p class="site-author-name" itemprop="name">JYChen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JYChen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          轨迹优化与直接配点法
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">PyCosmed数字识别</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/">外骨骼</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/">阻抗研究</a></li></ul>
-    </div>
-  </div>
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenSim/" rel="tag">OpenSim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag">外骨骼系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag">控制算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag">数据处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="tag">硬件基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">硬件开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" rel="tag">肌肉骨骼模型</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/OpenSim/" style="font-size: 10px;">OpenSim</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 20px;">优化</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 10px;">图像处理</a> <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">外骨骼系统</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" style="font-size: 10px;">控制算法</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="font-size: 10px;">数据处理</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">硬件基础</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" style="font-size: 10px;">硬件开发</a> <a href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">肌肉骨骼模型</a>
-    </div>
-  </div>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
-    </div>
-  </div>
+
+
+
+
+
+
+
+
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/">阻抗控制</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">IMU无线系统设计</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/">下肢外骨骼系统简介</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">OpenSim源码安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/14/2.AIOS/AIOS/">102Lab数据处理软件AIOS</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
   
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
       
-      &copy; 2021 JYChen<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
     
 
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
+      appKey: '9lmT7wOl05J6beLWJKpGoq0N',
+      placeholder: "Say something",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: true,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
 </body>
 </html>
