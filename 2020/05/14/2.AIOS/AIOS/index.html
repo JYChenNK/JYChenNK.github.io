@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-<script type="text/javascript"
-color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
-
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -19,49 +13,12 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-<script>
-    (function(){
-        if(''){
-            if (prompt('请输入文章密码') !== ''){
-                alert('密码错误！');
-                history.back();
-            }
-        }
-    })();
-</script>
-
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('https://jychennk.github.io').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="最新版本 v5.6">
 <meta property="og:type" content="article">
@@ -101,8 +58,9 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -145,18 +103,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">萤火</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <p class="site-subtitle">有一份热，发一分光。</p>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -164,35 +110,44 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
   </ul>
-
 </nav>
+
+
+
+
 </div>
     </header>
 
@@ -208,18 +163,17 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content post posts-expand">
             
 
-  <div class="posts-expand">
-      
+    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/05/14/2.AIOS/AIOS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -235,7 +189,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -243,20 +197,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-05 10:25:58" itemprop="dateModified" datetime="2020-12-05T10:25:58+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
-                    <span itemprop="name">工程开发</span>
-                  </a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">工程开发</span></a>
                 </span>
             </span>
 
@@ -272,11 +224,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/05/14/2.AIOS/AIOS/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/05/14/2.AIOS/AIOS/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/05/14/2.AIOS/AIOS/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -292,13 +244,12 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/2020/05/14/2.AIOS/AIOS/fig1.png"></p>
+        <p><img src="/2020/05/14/2.AIOS/AIOS/fig1.png" alt></p>
 <h2 id="最新版本-v5-6"><a href="#最新版本-v5-6" class="headerlink" title="最新版本 v5.6"></a>最新版本 v5.6</h2><span id="more"></span>
-
 <p><a href="/download/AIOS_v5.6.mlappinstall">下载链接</a>，拖动到Matlab命令行窗口中即可安装</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><h3 id="v5-6"><a href="#v5-6" class="headerlink" title="v5.6"></a>v5.6</h3><ul>
 <li>支持一维、二维特征插值与拟合</li>
-<li>支持4种显著性分析（T-test、Anova、Mann-Whhitney-Wilcoxon、Kruskal-Wallis）<br><img src="/2020/05/14/2.AIOS/AIOS/fig1.png"><br><img src="/2020/05/14/2.AIOS/AIOS/fig2.png"></li>
+<li>支持4种显著性分析（T-test、Anova、Mann-Whhitney-Wilcoxon、Kruskal-Wallis）<br><img src="/2020/05/14/2.AIOS/AIOS/fig1.png" alt><br><img src="/2020/05/14/2.AIOS/AIOS/fig2.png" alt></li>
 </ul>
 <h3 id="v5-1"><a href="#v5-1" class="headerlink" title="v5.1"></a>v5.1</h3><ul>
 <li>优化显示界面</li>
@@ -307,11 +258,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <li>优化色彩排序</li>
 <li>修复单组柱状图绘制BUG</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/demo2.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/demo2.gif" alt></p>
 <h3 id="v4-12"><a href="#v4-12" class="headerlink" title="v4.12"></a>v4.12</h3><ul>
 <li>支持绘制SubPlot：选择子图数目，点击<code>NEW SubPlot</code>创建子图；选择子图行、列序号，点击<code>SELECT Sub</code>选中子图进行绘制</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/demo1.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/demo1.gif" alt></p>
 <h3 id="v4-10"><a href="#v4-10" class="headerlink" title="v4.10"></a>v4.10</h3><ul>
 <li>增加对双侧外骨骼的实验数据支持。确保数据中包含变量”state_r”和”state_l”；所有变量名中包含”_r”/“_R”的变量将作为右侧数据进行步态分割；所有变量名中包含”_l”/“_L”的变量将作为右侧数据进行步态分割；其他数据作为右侧数据进行步态分割。</li>
 </ul>
@@ -344,33 +295,33 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <hr>
 <hr>
 <h4 id="软件使用介绍"><a href="#软件使用介绍" class="headerlink" title="软件使用介绍"></a>软件使用介绍</h4><h5 id="打开软件"><a href="#打开软件" class="headerlink" title="打开软件"></a>打开软件</h5><p>有两种方式打开AIOS，第一种通过Matlab APP打开，启动速度较快；第二种通过exe文件直接打开，无需依赖。</p>
-<p>通过Matlab APP打开：<br><img src="/2020/05/14/2.AIOS/AIOS/4.gif"><br>通过exe文件打开：<br><img src="/2020/05/14/2.AIOS/AIOS/5.gif"></p>
+<p>通过Matlab APP打开：<br><img src="/2020/05/14/2.AIOS/AIOS/4.gif" alt><br>通过exe文件打开：<br><img src="/2020/05/14/2.AIOS/AIOS/5.gif" alt></p>
 <h4 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h4><h5 id="导入实验文件"><a href="#导入实验文件" class="headerlink" title="导入实验文件"></a>导入实验文件</h5><p>软件可导入由dSPACE ControlDesk采集得到的数据，并支持多个数据文件的导入与分析：</p>
-<p><img src="/2020/05/14/2.AIOS/AIOS/6.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/6.gif" alt></p>
 <h5 id="提取数据变量并处理"><a href="#提取数据变量并处理" class="headerlink" title="提取数据变量并处理"></a>提取数据变量并处理</h5><p>从原始数据中提取有用数据变量进行分析</p>
 <ul>
 <li>支持变量重命名</li>
 <li>支持数据一键处理（处理详情待补充），需先提取state变量</li>
 <li>支持数据保存</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/7.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/7.gif" alt></p>
 <h4 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h4><h5 id="绘制时间序列曲线"><a href="#绘制时间序列曲线" class="headerlink" title="绘制时间序列曲线"></a>绘制时间序列曲线</h5><ul>
 <li>在新建Figure窗口中绘图，方便图像缩放、保存和进一步处理</li>
 <li>支持多曲线绘制与窗口清空</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/8.gif"><br><img src="/2020/05/14/2.AIOS/AIOS/9.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/8.gif" alt><br><img src="/2020/05/14/2.AIOS/AIOS/9.gif" alt></p>
 <h5 id="绘制步态周期曲线"><a href="#绘制步态周期曲线" class="headerlink" title="绘制步态周期曲线"></a>绘制步态周期曲线</h5><ul>
 <li>支持步态周期逐条曲线、平均曲线、方差区域的绘制</li>
 <li>支持多曲线绘制与颜色设置</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/10.gif"><br><img src="/2020/05/14/2.AIOS/AIOS/11.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/10.gif" alt><br><img src="/2020/05/14/2.AIOS/AIOS/11.gif" alt></p>
 <h5 id="绘制步态特征柱状图"><a href="#绘制步态特征柱状图" class="headerlink" title="绘制步态特征柱状图"></a>绘制步态特征柱状图</h5><ul>
 <li>支持柱状图数据导入与删除</li>
 <li>支持步态特征选择（rms、mean、max、min）</li>
 <li>支持bar与error bar切换</li>
 <li>支持colormap设置</li>
 </ul>
-<p><img src="/2020/05/14/2.AIOS/AIOS/12.gif"></p>
+<p><img src="/2020/05/14/2.AIOS/AIOS/12.gif" alt></p>
 <hr>
 <h2 id="历史版本"><a href="#历史版本" class="headerlink" title="历史版本"></a>历史版本</h2><ul>
 <li><a href="/download/AIOS_v1.0.mlappinstall">v1.0版本</a></li>
@@ -414,7 +365,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-  </div>
 
 
           </div>
@@ -423,7 +373,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -473,7 +423,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="JYChen"
-      src="/images/avatar2.jpg">
+      src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">JYChen</p>
   <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
 </div>
@@ -496,6 +446,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -513,20 +471,17 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 2019 – 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">JYChen</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
-  </div>
 
         
 
@@ -542,8 +497,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   </div>
 
   
-  
-  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -586,27 +539,27 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
     var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);
     });
     new Valine({
-      el: '#valine-comments',
-      verify: false,
-      notify: false,
-      appId: 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
-      appKey: '9lmT7wOl05J6beLWJKpGoq0N',
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
+      appKey     : '9lmT7wOl05J6beLWJKpGoq0N',
       placeholder: "Say something",
-      avatar: 'mm',
-      meta: guest,
-      pageSize: '10' || 10,
-      visitor: true,
-      lang: 'zh-cn' || 'zh-cn',
-      path: location.pathname,
-      recordIP: false,
-      serverURLs: ''
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
     });
   }, window.Valine);
 });

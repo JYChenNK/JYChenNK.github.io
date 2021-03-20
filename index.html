@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-<script type="text/javascript"
-color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
-
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -19,49 +13,12 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-<script>
-    (function(){
-        if(''){
-            if (prompt('请输入文章密码') !== ''){
-                alert('密码错误！');
-                history.back();
-            }
-        }
-    })();
-</script>
-
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('https://jychennk.github.io').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="Life becomes a lot more fun when you know that it is meaningless.">
 <meta property="og:type" content="website">
@@ -80,8 +37,9 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -124,18 +82,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">萤火</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <p class="site-subtitle">有一份热，发一分光。</p>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -143,35 +89,44 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
   </ul>
-
 </nav>
+
+
+
+
 </div>
     </header>
 
@@ -187,18 +142,16 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content index posts-expand">
             
-
-  <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/12/02/9.ImpedanceControl/ImpedanceControl/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -207,15 +160,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/" class="post-title-link" itemprop="url">阻抗控制</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -223,20 +176,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2021-01-04 10:26:58" itemprop="dateModified" datetime="2021-01-04T10:26:58+08:00">2021-01-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">阻抗研究</span>
-                  </a>
+                  <a href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">阻抗研究</span></a>
                 </span>
             </span>
 
@@ -252,11 +203,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/9.ImpedanceControl/ImpedanceControl/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -274,7 +225,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       
           <p>Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。</p>
 <p>根据个人浅显的理解，对论文进行一点总结。</p>
-<p><img src="/2020/12/02/9.ImpedanceControl/ImpedanceControl/Interaction.png"></p>
+<p><img src="/2020/12/02/9.ImpedanceControl/ImpedanceControl/Interaction.png" alt></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/#more" rel="contents">
@@ -297,14 +248,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -313,15 +264,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">IMU无线系统设计</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -329,20 +280,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-05 10:23:10" itemprop="dateModified" datetime="2020-12-05T10:23:10+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
-                    <span itemprop="name">工程开发</span>
-                  </a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">工程开发</span></a>
                 </span>
             </span>
 
@@ -358,11 +307,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -379,7 +328,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
       
           <p>在之前的<a target="_blank" rel="noopener" href="https://jychen102.gitee.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/">博客</a>中，已经对IMU的工作原理以及姿态结算方法进行了具体介绍，当时也设计了一个简单的有限姿态采集系统。在后来使用中发现，通过有线连接的IMU姿态采集系统，在运动过程中线缆连接处不可避免的会出现接触不良的情况，导致经常出现连接中断与数据丢失。因此在之前的基础上，设计了一套无线姿态传感系统，本文将主要介绍硬件设计的基本方案。</p>
-<p><img src="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/13.png"></p>
+<p><img src="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/13.png" alt></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/#more" rel="contents">
@@ -402,14 +351,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -418,15 +367,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">下肢外骨骼系统简介</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -434,20 +383,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-05 10:38:00" itemprop="dateModified" datetime="2020-12-05T10:38:00+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/" itemprop="url" rel="index">
-                    <span itemprop="name">外骨骼</span>
-                  </a>
+                  <a href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/" itemprop="url" rel="index"><span itemprop="name">外骨骼</span></a>
                 </span>
             </span>
 
@@ -463,11 +410,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -507,14 +454,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -523,15 +470,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="post-title-link" itemprop="url">OpenSim源码安装</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -539,20 +486,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-02 20:35:38" itemprop="dateModified" datetime="2020-12-02T20:35:38+08:00">2020-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">仿真研究</span>
-                  </a>
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
                 </span>
             </span>
 
@@ -568,11 +513,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -611,14 +556,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/05/14/2.AIOS/AIOS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -627,15 +572,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/05/14/2.AIOS/AIOS/" class="post-title-link" itemprop="url">102Lab数据处理软件AIOS</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -643,20 +588,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-05 10:25:58" itemprop="dateModified" datetime="2020-12-05T10:25:58+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
-                    <span itemprop="name">工程开发</span>
-                  </a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">工程开发</span></a>
                 </span>
             </span>
 
@@ -672,11 +615,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/05/14/2.AIOS/AIOS/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/05/14/2.AIOS/AIOS/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/05/14/2.AIOS/AIOS/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -692,7 +635,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/2020/05/14/2.AIOS/AIOS/fig1.png"></p>
+          <p><img src="/2020/05/14/2.AIOS/AIOS/fig1.png" alt></p>
 <h2 id="最新版本-v5-6"><a href="#最新版本-v5-6" class="headerlink" title="最新版本 v5.6"></a>最新版本 v5.6</h2>
           <!--noindex-->
             <div class="post-button">
@@ -716,14 +659,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -732,15 +675,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" class="post-title-link" itemprop="url">基于肌肉骨骼模型的预测仿真</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -748,20 +691,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-02 20:31:22" itemprop="dateModified" datetime="2020-12-02T20:31:22+08:00">2020-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">仿真研究</span>
-                  </a>
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
                 </span>
             </span>
 
@@ -777,11 +718,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -797,7 +738,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="肌肉骨骼模型"><a href="#肌肉骨骼模型" class="headerlink" title="肌肉骨骼模型"></a>肌肉骨骼模型</h2><h3 id="骨骼的刚体动力学模型"><a href="#骨骼的刚体动力学模型" class="headerlink" title="骨骼的刚体动力学模型"></a>骨骼的刚体动力学模型</h3><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587749146996.png"></p>
+          <h2 id="肌肉骨骼模型"><a href="#肌肉骨骼模型" class="headerlink" title="肌肉骨骼模型"></a>肌肉骨骼模型</h2><h3 id="骨骼的刚体动力学模型"><a href="#骨骼的刚体动力学模型" class="headerlink" title="骨骼的刚体动力学模型"></a>骨骼的刚体动力学模型</h3><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587749146996.png" alt></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/#more" rel="contents">
@@ -820,14 +761,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -836,15 +777,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="post-title-link" itemprop="url">轨迹优化与直接配点法</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -852,20 +793,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-02 20:35:32" itemprop="dateModified" datetime="2020-12-02T20:35:32+08:00">2020-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">仿真研究</span>
-                  </a>
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
                 </span>
             </span>
 
@@ -881,11 +820,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -924,14 +863,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -940,15 +879,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">非线性规划</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -956,20 +895,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-12-02 20:35:50" itemprop="dateModified" datetime="2020-12-02T20:35:50+08:00">2020-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">仿真研究</span>
-                  </a>
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
                 </span>
             </span>
 
@@ -985,11 +922,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -1029,14 +966,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -1045,15 +982,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" class="post-title-link" itemprop="url">PyCosmed数字识别</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -1061,20 +998,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-11-13 13:54:52" itemprop="dateModified" datetime="2020-11-13T13:54:52+08:00">2020-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
-                    <span itemprop="name">工程开发</span>
-                  </a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">工程开发</span></a>
                 </span>
             </span>
 
@@ -1090,11 +1025,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -1133,14 +1068,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -1149,15 +1084,15 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <meta itemprop="name" content="萤火">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">IMU原理与人体姿态检测</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -1165,20 +1100,18 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2021-03-20 11:15:04" itemprop="dateModified" datetime="2021-03-20T11:15:04+08:00">2021-03-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
-                    <span itemprop="name">工程开发</span>
-                  </a>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">工程开发</span></a>
                 </span>
             </span>
 
@@ -1194,11 +1127,11 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/#comments" itemprop="discussionUrl">
+    <a title="valine" href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
     </a>
   </span>
@@ -1237,7 +1170,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
 
-  </div>
 
   
 
@@ -1248,7 +1180,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -1297,7 +1229,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="JYChen"
-      src="/images/avatar2.jpg">
+      src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">JYChen</p>
   <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
 </div>
@@ -1320,6 +1252,14 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -1337,20 +1277,17 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 2019 – 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">JYChen</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
-  </div>
 
         
 
@@ -1366,8 +1303,6 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   </div>
 
   
-  
-  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -1405,52 +1340,57 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
   
       
-<script type="text/x-mathjax-config">
-    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
 
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        extensions: ['[mhchem]/mhchem.js'],
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
 <script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
 </script>
 
     
@@ -1460,27 +1400,27 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
     var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);
     });
     new Valine({
-      el: '#valine-comments',
-      verify: false,
-      notify: false,
-      appId: 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
-      appKey: '9lmT7wOl05J6beLWJKpGoq0N',
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'lv9Mj3EBnaJd2OXPIPwXzU4L-gzGzoHsz',
+      appKey     : '9lmT7wOl05J6beLWJKpGoq0N',
       placeholder: "Say something",
-      avatar: 'mm',
-      meta: guest,
-      pageSize: '10' || 10,
-      visitor: true,
-      lang: 'zh-cn' || 'zh-cn',
-      path: location.pathname,
-      recordIP: false,
-      serverURLs: ''
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
     });
   }, window.Valine);
 });
