@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>轨迹优化与直接配点法 | 萤火</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="轨迹优化与直接配点法">
+<meta property="og:url" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png">
+<meta property="article:published_time" content="2020-04-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-02T12:35:32.000Z">
+<meta property="article:author" content="JYChen">
+<meta property="article:tag" content="优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+  
+    <link rel="alternate" href="/atom.xml" title="萤火" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">萤火</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有一份热，发一分光。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jychennk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-5.轨迹优化与直接配点法/5.轨迹优化与直接配点法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2020-04-23T16:00:00.000Z" itemprop="datePublished">2020-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      轨迹优化与直接配点法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。</p>
+<span id="more"></span>
+
+<h2 id="轨迹优化问题"><a href="#轨迹优化问题" class="headerlink" title="轨迹优化问题"></a>轨迹优化问题</h2><h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>轨迹用来描述一个物体的运动过程，通常是关于时间的变量。轨迹优化一种用于寻找最佳轨迹选择的方法，通常是通过选择合适的系统输入或控制量，是系统完成期望的运动过程。在控制领域，轨迹优化近似于最优控制，但从更广的概念上来讲，轨迹优化更具一般性。</p>
+<p>下面我们用一个例子来进一步说明轨迹优化问题。</p>
+<p><img src="./1587399082007.png"></p>
+<p>如图所示，一个滑块放置在光滑地面上，并受到一个水平方向的作用力。我们想要滑块在里的作用下，在1s的时间内从开始位置运动到指定位置，并刚好停在该处。这个问题存在着无数种可能的运动轨迹，进一步，我们希望从中确定一条最优的轨迹，如图所示。</p>
+<p><img src="./1587400040884.png"><br><img src="./1587400055329.png"></p>
+<p>我们可以把这个问题用数学语言形式化。系统满足如下的动力学方程：<br>$$\dot{x}=\nu, \quad \dot{\nu}=u$$<br>并要求满足如下的边界约束：<br>$$\begin{array}{ll}<br>x(0)=0, &amp; x(1)=1 \<br>\nu(0)=0, &amp; \nu(1)=0<br>\end{array}$$<br>轨迹优化关心在一定指标下的最优轨迹，这样的指标可以用如下的目标函数来描述：<br>$$\min <em>{u(t), x(t), \nu(t)} \int</em>{0}^{1} u^{2}(\tau) d \tau$$</p>
+<h3 id="形式化描述"><a href="#形式化描述" class="headerlink" title="形式化描述"></a>形式化描述</h3><p>一般来说，轨迹优化问题通过在一定的约束条件下优化如下的目标函数来得到最优轨迹：<br>$$\min <em>{t</em>{0}, t_{F}, \boldsymbol{x}(t), \boldsymbol{u}(t)} \underbrace{J\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right)}<em>{\text {Mayer Term }}+\underbrace{\int</em>{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau}<em>{\text {Lagrange Term }}$$<br>其中的约束条件包含如下形式：<br>系统的动力学约束：<br>$$\dot{\boldsymbol{x}}(t)=\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))$$<br>路径约束：<br>$$\boldsymbol{h}(t, \boldsymbol{x}(t), \boldsymbol{u}(t)) \leq \mathbf{0}$$<br>边界约束：<br>$$\boldsymbol{g}\left(t</em>{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right) \leq \mathbf{0}$$<br>和状态量与控制量边界：<br>$$\begin{array}{l}<br>\boldsymbol{x}<em>{\mathrm{low}} \leq \boldsymbol{x}(t) \leq \boldsymbol{x}</em>{\mathrm{upp}} \<br>\boldsymbol{u}<em>{\mathrm{low}} \leq \boldsymbol{u}(t) \leq \boldsymbol{u}</em>{\mathrm{upp}}<br>\end{array}$$</p>
+<p>由于最终我们想要求得的是控制量关于时间的具体函数形式，而非一个值或一个参数，因此轨迹优化问题也可以理解为在一定约束或大量约束下的泛函问题。</p>
+<h3 id="变分法求解"><a href="#变分法求解" class="headerlink" title="变分法求解"></a>变分法求解</h3><p>（对变分法不熟悉的可以跳过本部分）<br>针对泛函问题，可以采用变分法进行求解。以滑块移动的问题为例，由于其目标函数可以表示为如下形式：<br>$$J=\int_{0}^{1} u^{2}(\tau) d \tau=\int_{0}^{1} \ddot{x}^{2}(\tau) d \tau$$<br>因此可以构建拉格朗日方程：<br>$$\mathcal{L}(t, x, \dot{x}, \ddot{x})=\mathcal{L}(\ddot{x})=\ddot{x}^{2}$$<br>对此应用推广的欧拉-拉格朗日方程：<br>$$\frac{\partial \mathcal{L}}{\partial x^{<em>}}-\frac{d}{d t} \frac{\partial \mathcal{L}}{\partial \dot{x}^{</em>}}-\frac{d^{2}}{d t^{2}} \frac{\partial \mathcal{L}}{\partial \dot{x}^{<em>}}=0$$<br>可得：<br>$$\begin{aligned}<br>(0)-(0)-\frac{d^{2}}{d t^{2}}\left(2 \ddot{x}^{</em>}\right) &amp;=0 \<br>\frac{d^{4}}{d t^{4}} x^{<em>} &amp;=0<br>\end{aligned}$$<br>因此$x$具有三次函数的形式，将相应的边界条件代入，得到最优轨迹：<br>$$u^{</em>}(t)=6-12 t, \quad x^{*}(t)=3 t^{2}-2 t^{3}$$</p>
+<h2 id="直接配点法-direct-collocation-methods"><a href="#直接配点法-direct-collocation-methods" class="headerlink" title="直接配点法-direct collocation methods"></a>直接配点法-direct collocation methods</h2><p>对于简单问题，使用变分法可以很快的求解出最优轨迹，但对于复杂的轨迹优化问题，状态变量或控制变量有可能达到几十万的维度，约束条件也会非常复杂。因此有必要研究通过数值方法求解轨迹优化问题，接下来我们介绍其中一种数值求解的思想，也就是直接配点法。对于一些其他的方法，例如shooting methods，则不在本文的讨论范围之内。接下来我们先通过滑块移动的问题来说明直接配点法的思想，之后再详细介绍梯形聚点法。</p>
+<p>直接配点法的核心思想是将连续时间曲线离散为有限时间序列，从而把轨迹规划问题转化大规模非线性规划问题。首先，我们对轨迹进行离散化，将状态变量$x(t)$和$v(t)$表示为一系列离散时刻上的值，也称为配置点：<br>$$\begin{array}{l}<br>t \rightarrow t_{0} \ldots t_{k} \ldots t_{N} \<br>x \rightarrow x_{0} \ldots x_{k} \ldots x_{N} \<br>\nu \rightarrow \nu_{0} \ldots \nu_{k} \ldots \nu_{N}\<br>u \rightarrow u_{0} \ldots u_{k} \ldots u_{N} \<br>\end{array}$$</p>
+<p>这些配置点实际上就是最终转化的NLP问题优化变量，$N$表示离散的细化程度，N越大则离散化误差越小，但优化单独越大。接下来我们要把原始问题用这些配置点进行近似表示，其核心思想是两个配置点之间的状态变化等于系统动力学的积分：</p>
+<p>$$\begin{aligned}<br>\dot{x} &amp;=\nu \<br>\int_{t_{k}}^{t_{k+1}} \dot{x} d t &amp;=\int_{t_{k}}^{t_{k+1}} \nu d t \<br>x_{k+1}-x_{k} &amp; \approx \frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right)<br>\end{aligned}$$</p>
+<p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t_k$积分到时刻$t_{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h_k=(t_{k+1}-t_k)$。</p>
+<p>我们把速度与作用力的动力学关系同样转化成上面的形式，忽略由梯形积分近似的误差，得到以下由配置点表示的约束方程：<br>$$\begin{array}{l}<br>x_{k+1}-x_{k}=\frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right) \<br>\nu_{k+1}-\nu_{k}=\frac{1}{2}\left(h_{k}\right)\left(u_{k+1}+u_{k}\right)<br>\end{array}$$<br>注意到通过离散化，我们把原来连续的动力学方程，转化为N个等式约束。当然为了满足题目要求，配置点还要满足以下的约束：<br>$$\begin{array}{ll}<br>x_{0}=0, &amp; x_{N}=1 \<br>\nu_{0}=0, &amp; \nu_{N}=0<br>\end{array}$$<br>最后，通过采用梯形积分近似的方法，将目标函数也用配置点进行表示：<br>$$\min <em>{u(t)} \int</em>{t_{0}}^{t_{N}} u^{2}(\tau) d \tau \quad = \min <em>{u</em>{0} \ldots u_{N}} \sum_{k=0}^{N-1} \frac{1}{2}\left(h_{k}\right)\left(u_{k}^{2}+u_{k+1}^{2}\right)$$<br>至此，滑块移动问题被完全转化为一个3N个优化参数（配置点），2N+4个约束的非线性规划问题，采用类似内点法的非线性规划求解器（IPOPT）进行求解，就可以得到问题数值结果。</p>
+<h2 id="梯形配点法"><a href="#梯形配点法" class="headerlink" title="梯形配点法"></a>梯形配点法</h2><p>在上面的例子中，我们采用梯形公式来近似积分，将问题中的所用连续问题转化为离散问题，这种方法称为梯形配点法，下面对其进行详细说明。</p>
+<h3 id="积分方程的近似"><a href="#积分方程的近似" class="headerlink" title="积分方程的近似"></a>积分方程的近似</h3><p>积分方程一般出现在目标函数中，梯形配点法中采用被积函数两个时刻之间的梯形面积来近似积分：<br>$$\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau \quad \approx \sum_{k=0}^{N-1} \frac{1}{2} h_{k} \cdot\left(w_{k}+w_{k+1}\right)$$</p>
+<h3 id="微分方程的近似"><a href="#微分方程的近似" class="headerlink" title="微分方程的近似"></a>微分方程的近似</h3><p>微分方程一般出现在动力学方程中。直接配点法的关键特征之一是，它将系统动力学表示为一组约束，称为配点约束。梯形配点法将动力学方程写成积分形式，然后用梯形求积法来近似积分：<br>$$\begin{aligned}<br>\dot{\boldsymbol{x}} &amp;=\boldsymbol{f} \<br>\int_{t_{k}}^{t_{k+1}} \boldsymbol{x} d t &amp;=\int_{t_{k}}^{t_{k+1}} \boldsymbol{f} d t \<br>\boldsymbol{x}<em>{k+1}-\boldsymbol{x}</em>{k} &amp; \approx \frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}<em>{k+1}+\boldsymbol{f}</em>{k}\right)<br>\end{aligned}$$<br>然后在每对配置点之间都建立这种近似的约束关系：<br>$$\boldsymbol{x}<em>{k+1}-\boldsymbol{x}</em>{k}=\frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}<em>{k+1}+\boldsymbol{f}</em>{k}\right), \quad k \in 0, \ldots,(N-1)$$</p>
+<h3 id="原始约束"><a href="#原始约束" class="headerlink" title="原始约束"></a>原始约束</h3><p>离散后的配置点，应当满足原问题的状态约束、控制约束、路径约束、边界约束：<br>$$\begin{aligned}<br>\boldsymbol{x}&lt;\mathbf{0} \quad &amp;\rightarrow \quad \boldsymbol{x}<em>{k}&lt;\mathbf{0} \quad \forall k\<br>\boldsymbol{u}&lt;\mathbf{0} \quad &amp;\rightarrow \quad \boldsymbol{u}</em>{k}&lt;\mathbf{0} \quad \forall k\<br>\boldsymbol{g}(t, \boldsymbol{x}, \boldsymbol{u})&lt;\mathbf{0} \quad &amp;\rightarrow \quad \boldsymbol{g}\left(t_{k}, \boldsymbol{x}<em>{k}, \boldsymbol{u}</em>{k}\right)&lt;\mathbf{0} \quad \forall k\<br>\boldsymbol{h}\left(t_{0}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{u}\left(t_{0}\right)\right)&lt;\mathbf{0} \quad &amp;\rightarrow \quad \boldsymbol{h}\left(t_{0}, \boldsymbol{x}<em>{0}, \boldsymbol{u}</em>{0}\right)&lt;\mathbf{0} \quad<br>\end{aligned}$$</p>
+<h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点*knot point *用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t_{k}$，$h_{k}=t_{k+1}-t_{k}$）：<br>$$\boldsymbol{u}(t) \approx \boldsymbol{u}<em>{k}+\frac{\tau}{h</em>{k}}\left(\boldsymbol{u}<em>{k+1}-\boldsymbol{u}</em>{k}\right)$$</p>
+<p><img src="./1587487370709.png"></p>
+<p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。<br>$$\boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}<em>{k}+\frac{\tau}{h</em>{k}}\left(\boldsymbol{f}<em>{k+1}-\boldsymbol{f}</em>{k}\right)$$<br>$$\boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}<em>{k} \tau+\frac{\tau^{2}}{2 h</em>{k}}\left(\boldsymbol{f}<em>{k+1}-\boldsymbol{f}</em>{k}\right)$$<br>$$\boldsymbol{x}(t) \approx \boldsymbol{x}<em>{k}+\boldsymbol{f}</em>{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}<em>{k+1}-\boldsymbol{f}</em>{k}\right)$$</p>
+<p><img src="./1587487392318.png"></p>
+<h2 id="实现问题"><a href="#实现问题" class="headerlink" title="实现问题"></a>实现问题</h2><p>接下来我们来讨论一些配点法实际实现时可能遇到的问题和解决方法。</p>
+<h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><p>几乎所有的轨迹优化技术都需要一个良好的初始猜测来开始优化。良好的初始化将确保求解器快速地得到全局最优解，一个糟糕的初始化会导致非线性规划求解器无法解决一个正确的优化问题。初始猜测的选择会影响优化最终收敛到哪一个局部最小值，不合适的初始值会使求解器优化到一个局部极小值，而约束的存在使情况变得更糟，优化器甚至无法找到一个可行的解决方案。</p>
+<p>轨迹优化的最佳初始化通常需要一些特定的知识，但也有一些通用的方法可以采用。通常建议尝试集中不同的初始化策略，检查他们是否都优化到同一个结果。最简单的初始方法是假设轨迹是状态空间的一条直线，当然也可以设计为可能预想到的结果。</p>
+<p>对于更复杂的轨迹优化问题，我们建议先从一个简单的问题开始优化，以优化结果作为下一个优化问题的初始猜测，然后构造一系列优化问题，逐渐接近最终的问题。举例来说，让一个双足行走机器人以3.0m/s的速度奔跑或许是一个比较复杂的优化问题，你可以先从1.0m/s的行走开始优化，逐渐增加前进速度，直至达到期望的速度，在这过程中每次优化的结果都作为下一次优化的初始估计。</p>
+<h3 id="网格细化"><a href="#网格细化" class="headerlink" title="网格细化"></a>网格细化</h3><p>直接配点法采用分段多项式样条函数来对轨迹曲线进行近似，显然离散的时间越短、多项式的阶数越高，则近似的精度越高。网格细分是在一系列不同的配置网格上求解轨迹优化问题的过程，也称为配置网格。一般情况下，初始的网格比较粗糙，配置点数量较少，并采用较低阶的配置方法，而后续的网格有更多的点和更高阶的配置方法。这种迭代策略是为了以最少的计算工作量获得最精确的解决方案：初始的粗网格位置计算量小，并能给出一个比较好的初始估计，之后通过更精细的网格配置得到更准确的结果。</p>
+<p><img src="./1587490201492.png"></p>
+<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>在所述的轨迹优化方法中存在两种形式的数值误差：转换误差和求解误差，这里我们主要关注前一种误差，即量化离散所带来的误差。衡量误差的标准有很多，这里我们用候选轨迹的动力学误差进行评价。由于在任何时刻系统都要满足动力学方程，因此有:<br>$$\dot{\boldsymbol{x}}^{<em>}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{</em>}(t), \boldsymbol{u}^{*}(t)\right)$$<br>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：<br>$$\varepsilon(t)=\dot{\boldsymbol{x}}(t)-\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))$$<br>上式在配置点处应该严格等于零，但在配置点之间一般不为零。通过误差的积分可以量化转化误差：<br>$$\boldsymbol{\eta}<em>{k}=\int</em>{t_{k}}^{t_{k+1}}|\varepsilon(\tau)| d \tau$$<br>若转化误差大于一定水平，则需要进一步进行网格细化。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" data-id="ckmh36rul000bevs8ekrjdtm1" data-title="轨迹优化与直接配点法" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          基于肌肉骨骼模型的预测仿真
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">非线性规划</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/">外骨骼</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/">阻抗研究</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenSim/" rel="tag">OpenSim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag">外骨骼系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag">控制算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag">数据处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="tag">硬件基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">硬件开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" rel="tag">肌肉骨骼模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OpenSim/" style="font-size: 10px;">OpenSim</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 20px;">优化</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 10px;">图像处理</a> <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">外骨骼系统</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" style="font-size: 10px;">控制算法</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="font-size: 10px;">数据处理</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">硬件基础</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" style="font-size: 10px;">硬件开发</a> <a href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">肌肉骨骼模型</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/">阻抗控制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">IMU无线系统设计</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/">下肢外骨骼系统简介</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">OpenSim源码安装</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 JYChen<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

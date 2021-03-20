@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>IMU原理与人体姿态检测 | 萤火</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近做了一套基于IMU的人体姿态检测系统，用来取代动作捕捉系统。一方面IMU的实时性和可开发性比动捕要好，另一方面IMU成本很低的同时精度也足以满足需求。本文介绍IMU的基本原理与基于IMU的人体姿态检测系统的设计。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IMU原理与人体姿态检测">
+<meta property="og:url" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:description" content="最近做了一套基于IMU的人体姿态检测系统，用来取代动作捕捉系统。一方面IMU的实时性和可开发性比动捕要好，另一方面IMU成本很低的同时精度也足以满足需求。本文介绍IMU的基本原理与基于IMU的人体姿态检测系统的设计。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.bmp">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/2.bmp">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/3.bmp">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/4.bmp">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/5.bmp">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/6.png">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/7.png">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/8.jpg">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/9.jpg">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/10.gif">
+<meta property="og:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/11.bmp">
+<meta property="article:published_time" content="2019-05-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-02T12:32:08.000Z">
+<meta property="article:author" content="JYChen">
+<meta property="article:tag" content="硬件基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.bmp">
+  
+    <link rel="alternate" href="/atom.xml" title="萤火" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">萤火</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有一份热，发一分光。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://jychennk.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-1.IMU的组成与原理/1.IMU的组成与原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2019-05-04T16:00:00.000Z" itemprop="datePublished">2019-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      IMU原理与人体姿态检测
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近做了一套基于IMU的人体姿态检测系统，用来取代动作捕捉系统。一方面IMU的实时性和可开发性比动捕要好，另一方面IMU成本很低的同时精度也足以满足需求。本文介绍IMU的基本原理与基于IMU的人体姿态检测系统的设计。</p>
+<span id="more"></span>
+
+<hr>
+<h4 id="1-IMU的组成与原理"><a href="#1-IMU的组成与原理" class="headerlink" title="1.IMU的组成与原理"></a>1.IMU的组成与原理</h4><p><img src="./1.bmp"></p>
+<p>IMU可根据DOF的不同来加以区分，其中6DOF的IMU和9DOF的IMU比较常见，6DOF的IMU一般由一个三轴加速度计和一个三轴陀螺仪组成。9DOF的IMU会多一个三轴磁力计。模块所能感知状态量的个数即为DOF大小，DOF越多、精度越高的IMU也就越贵。<br>这里只讨论6DOF的IMU。</p>
+<h6 id="加速度计"><a href="#加速度计" class="headerlink" title="加速度计"></a>加速度计</h6><hr>
+<p>顾名思义，三轴加速度计能感受三轴的加速度，如上图中三个矢量所示。但要注意的是，当图示模块水平放置且静止，z轴方向加速度大小为<code>-g</code>，也就是说IMU测量的加速度与物体真实加速度相差一个重力加速度。<br><img src="2.bmp"><br>加速度计的物理实现是利用牛顿第二定律，如上图所示，中间红色物体为一个质量块，两头通过具有弹簧性质的长条结构与基底相连，红色的短栅与绿色的短栅分别为电容的极板。当基底在双箭头方向有加速度<code>a</code>时，由<code> f=ma=kx</code>，质量块会沿加速度相反的方向移动，红色极板与绿色极板之间的距离会发生变化，通过测量极板电容<code>C</code>的变化就可以得到加速度的大小。在三轴加速度计中，这样的结构在三个方向各有一个，且做到了微米的尺寸，并配合相应的测量电路集成在一个芯片中（如图一所示），构成一个微机电系统（MEMS）。</p>
+<h6 id="陀螺仪"><a href="#陀螺仪" class="headerlink" title="陀螺仪"></a>陀螺仪</h6><hr>
+<p>角速度测量的原理比加速度要复杂一些，因为涉及了科里奥里力(Coriolis Force)。所以我们先来说一下Coriolis Force。科里奥里力是由坐标系的转动与物体在动坐标系中的相对运动引起的，其本质是物体的惯性。</p>
+<p><img src="3.bmp"></p>
+<p>如果图示模块置于绝对静止的坐标系中，当在x方向施加一个驱动力使质量块运动时，根据牛顿第二定律，质量块只会在x方向上运动，而在y方向上不会运动。</p>
+<p><img src="4.bmp"></p>
+<p>但如果将图示模块置于一个旋转坐标系下，由于坐标系的旋转，使得当质量块沿x方向运动时，在y方向上会受到一个力，即科里奥里力<code>F=-2mvω</code>，从而使质量块沿y方向运动。地球上的很多自然现象，如热带气旋、季风带、河道两侧冲刷程度不同，都源于科里奥里力。</p>
+<p><img src="5.bmp"></p>
+<p>陀螺仪的物理实现如上图所示，外侧的蓝色与黄色部分为驱动电极，内部的红色与蓝色为测量电极。在模块的驱动方向施加正弦驱动电压，当模块发生旋转时，质量块在垂直方向受科里奥里力影响也会产生一个正弦运动，且正弦运动的幅值与平台的角速度成正比，通过垂直方向的电极测量出此幅值，便可以得到模块角速度。与三轴加速度计一样，这样的结构在三轴陀螺仪的三个方向上各有一个，从而测量出三个方向的角速度。</p>
+<h5 id="2-IMU姿态解算"><a href="#2-IMU姿态解算" class="headerlink" title="2. IMU姿态解算"></a>2. IMU姿态解算</h5><p>现在我们能够从IMU中得到三轴的加速度和三轴的角速度，接下来就要从这些数据中解算出三个方向的角度。实际上，单独由加速度计或陀螺仪都可以解算出三轴的角度。</p>
+<h6 id="由加速度解算角度"><a href="#由加速度解算角度" class="headerlink" title="由加速度解算角度"></a>由加速度解算角度</h6><hr>
+<p><img src="6.png"></p>
+<p>由于加速度计本质是测量力，所以在传感器静止的时候，测量的结果为重力加速度。当平台运动的加速度远小于重力加速度时，可认为传感器测量的结果全部为重力加速度，因此可以根据重力加速的在三轴分量的大小来解算出角度。</p>
+<p><img src="7.png"></p>
+<p>以上图为例，传感器沿<code>y</code>方向倾斜的角度为：<br>$$<br>Angle_{Accel} = arccos\frac{ax}{-g}<br>$$</p>
+<h6 id="由陀螺仪解算角度"><a href="#由陀螺仪解算角度" class="headerlink" title="由陀螺仪解算角度"></a>由陀螺仪解算角度</h6><hr>
+<p>由角速度解算角度很容易理解，当知道陀螺仪的初始角度时，对角速度进行积分就可以得到角度值。<br>$$<br>Angle_{Gyro}=Angle_0 + \int_0^t Gyro dt<br>$$</p>
+<h6 id="数据融合"><a href="#数据融合" class="headerlink" title="数据融合"></a>数据融合</h6><hr>
+<p>现在我们可以从加速度和角速度分别解算出角度，但这两种方式都存在很大的问题。一方面由于加速度计容易受到振动的影响，噪声很大，所以解算角度的噪声也很大；另一方面虽然陀螺仪测量角速度的噪声不是很大，经过积分环节后噪声进一步被变小，但由于初始角度并不能准确得到，而且角速度存在零漂问题（即模块静止时角速度不完全为0，而是有一个偏置），经过积分后这个误差会被累积。<br>因此，两种方式解算出来的角度都无法直接使用，但我们可以采用数据融合的方法，把两种角度融合在一起，得到一个既没有累计误差、噪声又小的角度数据。</p>
+<h6 id="互补滤波"><a href="#互补滤波" class="headerlink" title="互补滤波"></a>互补滤波</h6><hr>
+<p>一阶互补滤波是最简单但却非常实用的数据融合算法，它把由加速度解算的角度和由角速度积分的角度按照一定比例加到一起，公式如下：<br>$$<br>Angle = K\cdot Angle_{accel}+(1-K)\cdot (Angle + \omega\cdot dt)<br>$$<br>其中参数<code>K</code>表示对加速度解算角度的置信程度，由于加速度的噪声很大，所以参数<code>K</code>一般很小，典型值为<code>0.05</code>，实际使用要根据效果来调整。</p>
+<p>这样的互补滤波器可以看做是一个高通滤波和一个低通滤波的叠加：公式的第一项是为低通滤波部分，目的是滤除加速度的噪声；公式的第二项为高通滤波部分，目的是滤除角速度的直流偏置（零漂）。</p>
+<h6 id="Kalman滤波"><a href="#Kalman滤波" class="headerlink" title="Kalman滤波"></a>Kalman滤波</h6><hr>
+<p>互补滤波虽然简单实用易理解，但我们还有更好的算法来进行数据融合，比如Kalman滤波。关于Kalman滤波的原理，有一些非常好的论文和博客，感兴趣的同学可以移步这些网站:</p>
+<p><a target="_blank" rel="noopener" href="http://www.cs.unc.edu/~welch/kalman/media/pdf/Kalman1960.pdf">Kalman先生1960年的论文</a><br><a target="_blank" rel="noopener" href="https://list.yinxiang.com/markdown/eef42447-db3f-48ee-827b-1bb34c03eb83.php">博客 How a Kalman filter works</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010720661/article/details/63253509">上篇博客的中文版</a><br><a target="_blank" rel="noopener" href="https://courses.engr.illinois.edu/ece420/sp2017/UnderstandingKalmanFilter.pdf">论文 Understanding Kalman Filter</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d3b1c3d307e0">上篇论文的中文版</a></p>
+<p>Kalman滤波的原理稍过复杂，这里并不打算深入讨论。但由于博客和论坛上关于用Kalman滤波融合加速度计和陀螺仪数据的建模方法介绍比较少，所以这里给出本问题状态空间方程的建立方法。</p>
+<p>和一般系统的建模方法不同，本问题中的状态变量不是角度和角速度，而是角度和角速度的偏置：<br>$$<br>State = \begin{bmatrix} Angle(k)  \ Gyro_{bias}(k) \  \end{bmatrix}<br>$$<br>状态空间模型考虑带控制量的形式，其中控制量为陀螺仪测量的角速度，观测方程中只有从加速度解算得到的角度，方程如下：<br>$$<br>\begin{bmatrix} Angle(k+1)  \ Gyro_{bias}(k+1)   \end{bmatrix} = \begin{bmatrix} 1 &amp; -dt \ 0 &amp; 1   \end{bmatrix}\begin{bmatrix} Angle(k)  \ Gyro_{bias}(k) \end{bmatrix} + \begin{bmatrix} dt \ 0  \end{bmatrix} Gyro(k) + W(k)<br>$$<br>$$<br>Angle_{accel}(k) =\begin{bmatrix} 1 &amp; 0  \end{bmatrix}  \begin{bmatrix} Angle(k) \ Gyro_{bias}(k)  \end{bmatrix} + V(k)<br>$$<br>其中矩阵<code>W</code>和<code>V</code>分别为输入噪声矩阵和观测噪声矩阵，这两个矩阵的参数需要根据情况进行调整。对于本问题矩阵<code>V</code>的参数要比<code>W</code>的参数大很多，因为由加速度计观测角度的噪声很大。</p>
+<hr>
+<h5 id="3-使用IMU来测量关节角度"><a href="#3-使用IMU来测量关节角度" class="headerlink" title="3.使用IMU来测量关节角度"></a>3.使用IMU来测量关节角度</h5><p>这里基于IMU设计了一套用来测量人体姿态的硬件，通过在身体每个肢段上放置一个IMU，测量每段肢体在空间中的姿态角，下位机使用单片机通过串口接收每个IMU模块的数据，然后通过CAN总线发送给上位机，上位机再解算出关节角度。制作的模块如下：</p>
+<p><img src="8.jpg"><img src="9.jpg"></p>
+<p>下图是测量大腿和小腿的数据，Matlab对接收的数据进行解算并实时显示出来。</p>
+<p><img src="10.gif"></p>
+<p>下图是由IMU得到的行走状态下肢三关节的角度变化。初次实验采样频率设置的有点低，只有50HZ，所以波形看起来不太平滑。</p>
+<p><img src="11.bmp"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://jychennk.github.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" data-id="ckmh36ruf0001evs82hic8zop" data-title="IMU原理与人体姿态检测" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="tag">硬件基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/20/3.PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/PyCosmed%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          PyCosmed数字识别
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/">仿真研究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC/">外骨骼</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/">工程开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/">阻抗研究</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenSim/" rel="tag">OpenSim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag">外骨骼系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag">控制算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag">数据处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="tag">硬件基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag">硬件开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" rel="tag">肌肉骨骼模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OpenSim/" style="font-size: 10px;">OpenSim</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 20px;">优化</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 10px;">图像处理</a> <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">外骨骼系统</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" style="font-size: 10px;">控制算法</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="font-size: 10px;">数据处理</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" style="font-size: 10px;">硬件基础</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" style="font-size: 10px;">硬件开发</a> <a href="/tags/%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">肌肉骨骼模型</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/02/9.ImpedanceControl/ImpedanceControl/">阻抗控制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/20/8.IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">IMU无线系统设计</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/01/10.%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/">下肢外骨骼系统简介</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/15/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/4.OpenSim%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">OpenSim源码安装</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 JYChen<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
