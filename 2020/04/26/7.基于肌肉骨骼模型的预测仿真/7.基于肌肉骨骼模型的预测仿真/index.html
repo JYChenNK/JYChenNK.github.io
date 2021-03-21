@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://jychennk.github.io/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828690595.png">
 <meta property="og:image" content="https://jychennk.github.io/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828542736.png">
 <meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-02T12:31:22.000Z">
+<meta property="article:modified_time" content="2021-03-21T10:21:51.033Z">
 <meta property="article:author" content="JYChen">
 <meta property="article:tag" content="肌肉骨骼模型">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 20:31:22" itemprop="dateModified" datetime="2020-12-02T20:31:22+08:00">2020-12-02</time>
+                <time title="修改时间：2021-03-21 18:21:51" itemprop="dateModified" datetime="2021-03-21T18:21:51+08:00">2021-03-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,7 +233,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="肌肉骨骼模型"><a href="#肌肉骨骼模型" class="headerlink" title="肌肉骨骼模型"></a>肌肉骨骼模型</h2><h3 id="骨骼的刚体动力学模型"><a href="#骨骼的刚体动力学模型" class="headerlink" title="骨骼的刚体动力学模型"></a>骨骼的刚体动力学模型</h3><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587749146996.png" alt></p>
+        <h2 id="肌肉骨骼模型"><a href="#肌肉骨骼模型" class="headerlink" title="肌肉骨骼模型"></a>肌肉骨骼模型</h2><h3 id="骨骼的刚体动力学模型"><a href="#骨骼的刚体动力学模型" class="headerlink" title="骨骼的刚体动力学模型"></a>骨骼的刚体动力学模型</h3><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587749146996.png" class>
 <span id="more"></span>
 <p>首先基于刚体动力学对于人体骨骼系统进行建模。首先确定系统的广义坐标$q$，对于图中所示的二维模型为例，广义坐标包含躯干的水平、数值方向位移和姿态角，以及每条腿三个关节角，一共$3+2*3=9$个自由度。之后通过这些广义变量和广义变量的导数，表示出系统的动能和势能，并构造拉格朗日函数：</p>
 <script type="math/tex; mode=display">L=T-V</script><p>考虑骨骼系统仅收到地反力和肌肉力的作用，通过拉格朗日方程得到系统的动力学模型：</p>
@@ -241,32 +241,43 @@
 <h3 id="肌肉动力学"><a href="#肌肉动力学" class="headerlink" title="肌肉动力学"></a>肌肉动力学</h3><h4 id="肌肉激活动力学"><a href="#肌肉激活动力学" class="headerlink" title="肌肉激活动力学"></a>肌肉激活动力学</h4><p>尽管各个文献里的描述不尽一致，但一般来说<strong>excitation</strong>用来描述神经信号，是肌肉的控制输入（整流滤波归一化的EMG信号就是这个），而<strong>activation</strong>用来表示肌肉的活跃度，是肌肉的内部状态。在静态状态下，这两者可能相等，但在动态变化中，两者一般不同，存在由excitation到activation动态过程，即肌肉激活动力学。各方学者建立了不同的激活动力学模型，一般包含一个微分方程和一些非线性变换，其中<strong>Winters</strong>开发的一种激活动力学如下：</p>
 <script type="math/tex; mode=display">
 f=0.5 \tanh (b(e-a))</script><script type="math/tex; mode=display">
-\frac{d a}{d t}=\left[\frac{1}{\tau_{a}(0.5+1.5 a)}(f+0.5)+\frac{0.5+1.5 a}{\tau_{d}}(-f+0.5)\right](e-a)</script><h4 id="肌肉收缩动力学"><a href="#肌肉收缩动力学" class="headerlink" title="肌肉收缩动力学"></a>肌肉收缩动力学</h4><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587817529399.png" alt></p>
+\frac{d a}{d t}=\left[\frac{1}{\tau_{a}(0.5+1.5 a)}(f+0.5)+\frac{0.5+1.5 a}{\tau_{d}}(-f+0.5)\right](e-a)</script><h4 id="肌肉收缩动力学"><a href="#肌肉收缩动力学" class="headerlink" title="肌肉收缩动力学"></a>肌肉收缩动力学</h4><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587817529399.png" class>
 <p>肌肉收缩的特性可以用如上的<strong>Hill肌肉模型</strong>来描述，它由肌肉收缩单元CE与被动弹性单元PE并联，并与一个肌腱弹性单元T串联，肌肉与肌腱之间还存在一个角度成为羽状角。由于根据上面的模型，肌肉实际产生的力不仅受到收缩单元CE的激活度的影响，还受到肌肉的长度、收缩速度的影响。由肌肉纤维产生的力具有如下关系：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 F^{\mathrm{mt}}(t) &=F^{\mathrm{t}} \\
 &=F^{\max }\left[a(t)f(l) f(v) +f_{\mathrm{p}}(l)\right] \cos (\phi(t))
 \end{aligned}</script><p>$F^{\max }$表示最大等长收缩力，$f(l),f(v),f(p)$分别表示力-长度、力-速度、被动力-长度的关系。这些函数由下图所示的实验曲线所描述，一般可以通过多项式函数拟合来近似表示。</p>
-<p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587721929270.png" alt></p>
+<img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587721929270.png" class>
 <p>注意到上式公式中，实际输入为激活度$a$、归一化肌肉长度$l$、和归一化收缩速度$v$，而肌肉长度与收缩速度之间存在关系，收缩动力学的状态量仅有$a$和$l$，且上述方程描述的是一个微分方程。我们将整个肌肉动力学表示为如下形式，但这种表示并不严谨，实际上每块肌肉包含着两个微分方程：</p>
-<script type="math/tex; mode=display">\mathbf{F}_{muscle} = \mathbf{F}_{muscle}(\mathbf{q},\mathbf{a} , \mathbf{\dot a},\mathbf{L}_{CE},\mathbf{\dot L}_{CE},\mathbf{e})</script><h3 id="地反力模型"><a href="#地反力模型" class="headerlink" title="地反力模型"></a>地反力模型</h3><p>OpenSim中采用<strong>Hunt-Crossley</strong>模型来表示接触力，接触力由刚度项、阻尼项和摩擦项组合而成，其表达式为：</p>
-<script type="math/tex; mode=display">\mathbf{f}_{\text {contact}}=\mathbf{f}_{\text {stiffness}}+\mathbf{f}_{\text {dissipation}}+\mathbf{f}_{\text {friction}}</script><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587819399557.png" alt></p>
+<script type="math/tex; mode=display">
+\mathbf{F}_{muscle} = \mathbf{F}_{muscle}(\mathbf{q},\mathbf{a} , \mathbf{\dot a},\mathbf{L}_{CE},\mathbf{\dot L}_{CE},\mathbf{e})</script><h3 id="地反力模型"><a href="#地反力模型" class="headerlink" title="地反力模型"></a>地反力模型</h3><p>OpenSim中采用<strong>Hunt-Crossley</strong>模型来表示接触力，接触力由刚度项、阻尼项和摩擦项组合而成，其表达式为：</p>
+<script type="math/tex; mode=display">
+\mathbf{f}_{\text {contact}}=\mathbf{f}_{\text {stiffness}}+\mathbf{f}_{\text {dissipation}}+\mathbf{f}_{\text {friction}}</script><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587819399557.png" class>
 <p>接触力模型中的第一项表示弹性力。如上图所示，我们可以用两个弹性小球来描述接触，当小球接触时会发生弹性变形，变形的程度与各自的弹性模量$E$有关，总的变形为$x$。当变形发生时，每个小球都会受到一个弹性力：</p>
-<script type="math/tex; mode=display">f_{\text {stiffness}}=f_{H z}=\left(\frac{4}{3} \sigma R^{1 / 2} E^{*}\right) x^{3 / 2}</script><p>$R$表示合成相对曲率，$E^*$表示合成弹性模量，它们都可以通过两个小球的参数计算出来；$\sigma$表示偏心系数，当$\sigma=1$的时候为圆接触，$x$为总的变形量。</p>
+<script type="math/tex; mode=display">
+f_{\text {stiffness}}=f_{H z}=\left(\frac{4}{3} \sigma R^{1 / 2} E^{*}\right) x^{3 / 2}</script><p>$R$表示合成相对曲率，$E^*$表示合成弹性模量，它们都可以通过两个小球的参数计算出来；$\sigma$表示偏心系数，当$\sigma=1$的时候为圆接触，$x$为总的变形量。</p>
 <p>接触力模型中的第二项表示损耗力，或是阻尼力。碰撞的发生往往伴随着能量的损耗，单纯的弹性力无法表示这一点，因此引入Hunt-Crossley耗散力：</p>
-<script type="math/tex; mode=display">f_{dissipation}=\frac{3}{2} f_{stiffness} c^{*} \dot{x}</script><p>$c^{*}$表示等效耗散系数，而$\dot{x}$表现出耗散力的阻尼特性。刚度力和耗散力都垂直接触面。</p>
-<script type="math/tex; mode=display">f_{\text {normal}}=f_{\text {stiffness}}+f_{\text {dissipation}}</script><p>接触力模型中的最后一项表示摩擦力，方向平行接触面：</p>
-<script type="math/tex; mode=display">f_{\text {friction}}=\mu(v) f_{\text {normal}}</script><p>$\mu(v)$表示等效摩擦因数，是关于相对运动速度的函数。</p>
+<script type="math/tex; mode=display">
+f_{dissipation}=\frac{3}{2} f_{stiffness} c^{*} \dot{x}</script><p>$c^{*}$表示等效耗散系数，而$\dot{x}$表现出耗散力的阻尼特性。刚度力和耗散力都垂直接触面。</p>
+<script type="math/tex; mode=display">
+f_{\text {normal}}=f_{\text {stiffness}}+f_{\text {dissipation}}</script><p>接触力模型中的最后一项表示摩擦力，方向平行接触面：</p>
+<script type="math/tex; mode=display">
+f_{\text {friction}}=\mu(v) f_{\text {normal}}</script><p>$\mu(v)$表示等效摩擦因数，是关于相对运动速度的函数。</p>
 <p>在使用上述的Hunt-Crossley模型来计算地反力时，地面的刚度认为无穷大，则相对弹性变形$x$可以通过接触小球圆心相对地面的距离计算得到，即：</p>
-<script type="math/tex; mode=display">\mathbf{F}_{contact} = \mathbf{F}_{contact}(\mathbf{q}, \dot{\mathbf{q}})</script><h3 id="综合模型"><a href="#综合模型" class="headerlink" title="综合模型"></a>综合模型</h3><p>综上所述，肌骨模型的动力学可以统一表示为：</p>
-<script type="math/tex; mode=display">\mathbf{M}(\mathbf{q}) \cdot \ddot{\mathbf{q}}+\mathbf{B}(\mathbf{q}, \dot{\mathbf{q}})=\mathbf{J(q)}^T \mathbf{F}_{contact}(\mathbf{q}, \dot{\mathbf{q}})+\mathbf{R(q)}\mathbf{F}_{muscle}(\mathbf{q},\mathbf{a} , \mathbf{\dot a},\mathbf{L}_{CE},\mathbf{\dot L}_{CE},\mathbf{e})</script><p>定义状态变量：</p>
-<script type="math/tex; mode=display">\mathbf{x}=\left(\mathbf{q}, \dot{\mathbf{q}}, \mathbf{L}_{C E}, \mathbf{a}\right)^{T}</script><p>在定义$u$为16块肌肉的控制量（excitations），上面的动力学方程可表示为：</p>
-<script type="math/tex; mode=display">\mathbf{f}(\mathbf{x}, \dot{\mathbf{x}}, \mathbf{u})=0</script><h2 id="肌骨模型的仿真应用"><a href="#肌骨模型的仿真应用" class="headerlink" title="肌骨模型的仿真应用"></a>肌骨模型的仿真应用</h2><h3 id="前向仿真"><a href="#前向仿真" class="headerlink" title="前向仿真"></a>前向仿真</h3><p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828690595.png" alt></p>
+<script type="math/tex; mode=display">
+\mathbf{F}_{contact} = \mathbf{F}_{contact}(\mathbf{q}, \dot{\mathbf{q}})</script><h3 id="综合模型"><a href="#综合模型" class="headerlink" title="综合模型"></a>综合模型</h3><p>综上所述，肌骨模型的动力学可以统一表示为：</p>
+<script type="math/tex; mode=display">
+\mathbf{M}(\mathbf{q}) \cdot \ddot{\mathbf{q}}+\mathbf{B}(\mathbf{q}, \dot{\mathbf{q}})=\mathbf{J(q)}^T \mathbf{F}_{contact}(\mathbf{q}, \dot{\mathbf{q}})+\mathbf{R(q)}\mathbf{F}_{muscle}(\mathbf{q},\mathbf{a} , \mathbf{\dot a},\mathbf{L}_{CE},\mathbf{\dot L}_{CE},\mathbf{e})</script><p>定义状态变量：</p>
+<script type="math/tex; mode=display">
+\mathbf{x}=\left(\mathbf{q}, \dot{\mathbf{q}}, \mathbf{L}_{C E}, \mathbf{a}\right)^{T}</script><p>在定义$u$为16块肌肉的控制量（excitations），上面的动力学方程可表示为：</p>
+<script type="math/tex; mode=display">
+\mathbf{f}(\mathbf{x}, \dot{\mathbf{x}}, \mathbf{u})=0</script><h2 id="肌骨模型的仿真应用"><a href="#肌骨模型的仿真应用" class="headerlink" title="肌骨模型的仿真应用"></a>肌骨模型的仿真应用</h2><h3 id="前向仿真"><a href="#前向仿真" class="headerlink" title="前向仿真"></a>前向仿真</h3><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828690595.png" class>
 <h3 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h3><p>逆向分析是指，在已有运动学、地反力数据后，根据实验数据推断出产生相应运动的肌肉活动，也就是OpenSim中的<strong>CMC</strong>。由于肌肉之间存在和比较严重的耦合问题，多块肌肉连接同一个关节，同一块肌肉连接着不同关节，因此逆向分析最重要的是解决肌肉冗余 - Solving the Muscle Redundancy Problem。</p>
 <p>在这个问题中，已有运动学数据$\mathbf{q}<em>k$和地反力$\mathbf{F}</em>{\mathbf{C}k}$序列，$k=1, \ldots, K$表示离散时间。我们先计算逆动力学得到关节力矩$T_{\mathbf{ID}k}$，关节力矩应当等于有肌肉收缩的等效力矩：</p>
-<script type="math/tex; mode=display">T_{\mathrm{ID} k}=\sum_{m=1}^{M} r_{m k} F_{\mathrm{T} m}+e_{\mathrm{T} k} T_{\mathrm{max}}</script><p>$m$表示肌肉序号，$r$表示肌肉对关节等效力矩。有时候关节力矩和肌肉里橘无法严格相等，因此我们添加了公式中的最后一项来表示力矩的残差，而$e_{\mathrm{T} k}$表示残差系数，在后面我们会设计优化目标是残差力尽可能的小。</p>
+<script type="math/tex; mode=display">
+T_{\mathrm{ID} k}=\sum_{m=1}^{M} r_{m k} F_{\mathrm{T} m}+e_{\mathrm{T} k} T_{\mathrm{max}}</script><p>$m$表示肌肉序号，$r$表示肌肉对关节等效力矩。有时候关节力矩和肌肉里橘无法严格相等，因此我们添加了公式中的最后一项来表示力矩的残差，而$e_{\mathrm{T} k}$表示残差系数，在后面我们会设计优化目标是残差力尽可能的小。</p>
 <p>由此建立逆向分析的优化框架：</p>
-<p><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828542736.png" alt></p>
+<img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828542736.png" class>
 
     </div>
 

@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png">
 <meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png">
 <meta property="article:published_time" content="2020-04-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-02T12:35:32.000Z">
+<meta property="article:modified_time" content="2021-03-21T10:28:34.296Z">
 <meta property="article:author" content="JYChen">
 <meta property="article:tag" content="优化">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 20:35:32" itemprop="dateModified" datetime="2020-12-02T20:35:32+08:00">2020-12-02</time>
+                <time title="修改时间：2021-03-21 18:28:34" itemprop="dateModified" datetime="2021-03-21T18:28:34+08:00">2021-03-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,83 +237,113 @@
 <span id="more"></span>
 <h2 id="轨迹优化问题"><a href="#轨迹优化问题" class="headerlink" title="轨迹优化问题"></a>轨迹优化问题</h2><h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>轨迹用来描述一个物体的运动过程，通常是关于时间的变量。轨迹优化一种用于寻找最佳轨迹选择的方法，通常是通过选择合适的系统输入或控制量，是系统完成期望的运动过程。在控制领域，轨迹优化近似于最优控制，但从更广的概念上来讲，轨迹优化更具一般性。</p>
 <p>下面我们用一个例子来进一步说明轨迹优化问题。</p>
-<p><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" alt></p>
+<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" class>
 <p>如图所示，一个滑块放置在光滑地面上，并受到一个水平方向的作用力。我们想要滑块在里的作用下，在1s的时间内从开始位置运动到指定位置，并刚好停在该处。这个问题存在着无数种可能的运动轨迹，进一步，我们希望从中确定一条最优的轨迹，如图所示。</p>
-<p><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" alt><br><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" alt></p>
+<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" class>
+<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" class>
 <p>我们可以把这个问题用数学语言形式化。系统满足如下的动力学方程：</p>
-<script type="math/tex; mode=display">\dot{x}=\nu, \quad \dot{\nu}=u</script><p>并要求满足如下的边界约束：</p>
-<script type="math/tex; mode=display">\begin{array}{ll}
+<script type="math/tex; mode=display">
+\dot{x}=\nu, \quad \dot{\nu}=u</script><p>并要求满足如下的边界约束：</p>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
 x(0)=0, & x(1)=1 \\
 \nu(0)=0, & \nu(1)=0
 \end{array}</script><p>轨迹优化关心在一定指标下的最优轨迹，这样的指标可以用如下的目标函数来描述：</p>
-<script type="math/tex; mode=display">\min _{u(t), x(t), \nu(t)} \int_{0}^{1} u^{2}(\tau) d \tau</script><h3 id="形式化描述"><a href="#形式化描述" class="headerlink" title="形式化描述"></a>形式化描述</h3><p>一般来说，轨迹优化问题通过在一定的约束条件下优化如下的目标函数来得到最优轨迹：</p>
-<script type="math/tex; mode=display">\min _{t_{0}, t_{F}, \boldsymbol{x}(t), \boldsymbol{u}(t)} \underbrace{J\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right)}_{\text {Mayer Term }}+\underbrace{\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau}_{\text {Lagrange Term }}</script><p>其中的约束条件包含如下形式：<br>系统的动力学约束：</p>
-<script type="math/tex; mode=display">\dot{\boldsymbol{x}}(t)=\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>路径约束：</p>
-<script type="math/tex; mode=display">\boldsymbol{h}(t, \boldsymbol{x}(t), \boldsymbol{u}(t)) \leq \mathbf{0}</script><p>边界约束：</p>
-<script type="math/tex; mode=display">\boldsymbol{g}\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right) \leq \mathbf{0}</script><p>和状态量与控制量边界：</p>
-<script type="math/tex; mode=display">\begin{array}{l}
+<script type="math/tex; mode=display">
+\min _{u(t), x(t), \nu(t)} \int_{0}^{1} u^{2}(\tau) d \tau</script><h3 id="形式化描述"><a href="#形式化描述" class="headerlink" title="形式化描述"></a>形式化描述</h3><p>一般来说，轨迹优化问题通过在一定的约束条件下优化如下的目标函数来得到最优轨迹：</p>
+<script type="math/tex; mode=display">
+\min _{t_{0}, t_{F}, \boldsymbol{x}(t), \boldsymbol{u}(t)} \underbrace{J\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right)}_{\text {Mayer Term }}+\underbrace{\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau}_{\text {Lagrange Term }}</script><p>其中的约束条件包含如下形式：<br>系统的动力学约束：</p>
+<script type="math/tex; mode=display">
+\dot{\boldsymbol{x}}(t)=\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>路径约束：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{h}(t, \boldsymbol{x}(t), \boldsymbol{u}(t)) \leq \mathbf{0}</script><p>边界约束：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{g}\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right) \leq \mathbf{0}</script><p>和状态量与控制量边界：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
 \boldsymbol{x}_{\mathrm{low}} \leq \boldsymbol{x}(t) \leq \boldsymbol{x}_{\mathrm{upp}} \\
 \boldsymbol{u}_{\mathrm{low}} \leq \boldsymbol{u}(t) \leq \boldsymbol{u}_{\mathrm{upp}}
 \end{array}</script><p>由于最终我们想要求得的是控制量关于时间的具体函数形式，而非一个值或一个参数，因此轨迹优化问题也可以理解为在一定约束或大量约束下的泛函问题。</p>
 <h3 id="变分法求解"><a href="#变分法求解" class="headerlink" title="变分法求解"></a>变分法求解</h3><p>（对变分法不熟悉的可以跳过本部分）<br>针对泛函问题，可以采用变分法进行求解。以滑块移动的问题为例，由于其目标函数可以表示为如下形式：</p>
-<script type="math/tex; mode=display">J=\int_{0}^{1} u^{2}(\tau) d \tau=\int_{0}^{1} \ddot{x}^{2}(\tau) d \tau</script><p>因此可以构建拉格朗日方程：</p>
-<script type="math/tex; mode=display">\mathcal{L}(t, x, \dot{x}, \ddot{x})=\mathcal{L}(\ddot{x})=\ddot{x}^{2}</script><p>对此应用推广的欧拉-拉格朗日方程：</p>
-<script type="math/tex; mode=display">\frac{\partial \mathcal{L}}{\partial x^{*}}-\frac{d}{d t} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}-\frac{d^{2}}{d t^{2}} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}=0</script><p>可得：</p>
-<script type="math/tex; mode=display">\begin{aligned}
+<script type="math/tex; mode=display">
+J=\int_{0}^{1} u^{2}(\tau) d \tau=\int_{0}^{1} \ddot{x}^{2}(\tau) d \tau</script><p>因此可以构建拉格朗日方程：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}(t, x, \dot{x}, \ddot{x})=\mathcal{L}(\ddot{x})=\ddot{x}^{2}</script><p>对此应用推广的欧拉-拉格朗日方程：</p>
+<script type="math/tex; mode=display">
+\frac{\partial \mathcal{L}}{\partial x^{*}}-\frac{d}{d t} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}-\frac{d^{2}}{d t^{2}} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}=0</script><p>可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
 (0)-(0)-\frac{d^{2}}{d t^{2}}\left(2 \ddot{x}^{*}\right) &=0 \\
 \frac{d^{4}}{d t^{4}} x^{*} &=0
 \end{aligned}</script><p>因此$x$具有三次函数的形式，将相应的边界条件代入，得到最优轨迹：</p>
-<script type="math/tex; mode=display">u^{*}(t)=6-12 t, \quad x^{*}(t)=3 t^{2}-2 t^{3}</script><h2 id="直接配点法-direct-collocation-methods"><a href="#直接配点法-direct-collocation-methods" class="headerlink" title="直接配点法-direct collocation methods"></a>直接配点法-direct collocation methods</h2><p>对于简单问题，使用变分法可以很快的求解出最优轨迹，但对于复杂的轨迹优化问题，状态变量或控制变量有可能达到几十万的维度，约束条件也会非常复杂。因此有必要研究通过数值方法求解轨迹优化问题，接下来我们介绍其中一种数值求解的思想，也就是直接配点法。对于一些其他的方法，例如shooting methods，则不在本文的讨论范围之内。接下来我们先通过滑块移动的问题来说明直接配点法的思想，之后再详细介绍梯形聚点法。</p>
+<script type="math/tex; mode=display">
+u^{*}(t)=6-12 t, \quad x^{*}(t)=3 t^{2}-2 t^{3}</script><h2 id="直接配点法-direct-collocation-methods"><a href="#直接配点法-direct-collocation-methods" class="headerlink" title="直接配点法-direct collocation methods"></a>直接配点法-direct collocation methods</h2><p>对于简单问题，使用变分法可以很快的求解出最优轨迹，但对于复杂的轨迹优化问题，状态变量或控制变量有可能达到几十万的维度，约束条件也会非常复杂。因此有必要研究通过数值方法求解轨迹优化问题，接下来我们介绍其中一种数值求解的思想，也就是直接配点法。对于一些其他的方法，例如shooting methods，则不在本文的讨论范围之内。接下来我们先通过滑块移动的问题来说明直接配点法的思想，之后再详细介绍梯形聚点法。</p>
 <p>直接配点法的核心思想是将连续时间曲线离散为有限时间序列，从而把轨迹规划问题转化大规模非线性规划问题。首先，我们对轨迹进行离散化，将状态变量$x(t)$和$v(t)$表示为一系列离散时刻上的值，也称为配置点：</p>
-<script type="math/tex; mode=display">\begin{array}{l}
+<script type="math/tex; mode=display">
+\begin{array}{l}
 t \rightarrow t_{0} \ldots t_{k} \ldots t_{N} \\
 x \rightarrow x_{0} \ldots x_{k} \ldots x_{N} \\
 \nu \rightarrow \nu_{0} \ldots \nu_{k} \ldots \nu_{N}\\
 u \rightarrow u_{0} \ldots u_{k} \ldots u_{N} \\
 \end{array}</script><p>这些配置点实际上就是最终转化的NLP问题优化变量，$N$表示离散的细化程度，N越大则离散化误差越小，但优化单独越大。接下来我们要把原始问题用这些配置点进行近似表示，其核心思想是两个配置点之间的状态变化等于系统动力学的积分：</p>
-<script type="math/tex; mode=display">\begin{aligned}
+<script type="math/tex; mode=display">
+\begin{aligned}
 \dot{x} &=\nu \\
 \int_{t_{k}}^{t_{k+1}} \dot{x} d t &=\int_{t_{k}}^{t_{k+1}} \nu d t \\
 x_{k+1}-x_{k} & \approx \frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right)
 \end{aligned}</script><p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t<em>k$积分到时刻$t</em>{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h<em>k=(t</em>{k+1}-t_k)$。</p>
 <p>我们把速度与作用力的动力学关系同样转化成上面的形式，忽略由梯形积分近似的误差，得到以下由配置点表示的约束方程：</p>
-<script type="math/tex; mode=display">\begin{array}{l}
+<script type="math/tex; mode=display">
+\begin{array}{l}
 x_{k+1}-x_{k}=\frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right) \\
 \nu_{k+1}-\nu_{k}=\frac{1}{2}\left(h_{k}\right)\left(u_{k+1}+u_{k}\right)
 \end{array}</script><p>注意到通过离散化，我们把原来连续的动力学方程，转化为N个等式约束。当然为了满足题目要求，配置点还要满足以下的约束：</p>
-<script type="math/tex; mode=display">\begin{array}{ll}
+<script type="math/tex; mode=display">
+\begin{array}{ll}
 x_{0}=0, & x_{N}=1 \\
 \nu_{0}=0, & \nu_{N}=0
 \end{array}</script><p>最后，通过采用梯形积分近似的方法，将目标函数也用配置点进行表示：</p>
-<script type="math/tex; mode=display">\min _{u(t)} \int_{t_{0}}^{t_{N}} u^{2}(\tau) d \tau \quad = \min _{u_{0} \ldots u_{N}} \sum_{k=0}^{N-1} \frac{1}{2}\left(h_{k}\right)\left(u_{k}^{2}+u_{k+1}^{2}\right)</script><p>至此，滑块移动问题被完全转化为一个3N个优化参数（配置点），2N+4个约束的非线性规划问题，采用类似内点法的非线性规划求解器（IPOPT）进行求解，就可以得到问题数值结果。</p>
+<script type="math/tex; mode=display">
+\min _{u(t)} \int_{t_{0}}^{t_{N}} u^{2}(\tau) d \tau \quad = \min _{u_{0} \ldots u_{N}} \sum_{k=0}^{N-1} \frac{1}{2}\left(h_{k}\right)\left(u_{k}^{2}+u_{k+1}^{2}\right)</script><p>至此，滑块移动问题被完全转化为一个3N个优化参数（配置点），2N+4个约束的非线性规划问题，采用类似内点法的非线性规划求解器（IPOPT）进行求解，就可以得到问题数值结果。</p>
 <h2 id="梯形配点法"><a href="#梯形配点法" class="headerlink" title="梯形配点法"></a>梯形配点法</h2><p>在上面的例子中，我们采用梯形公式来近似积分，将问题中的所用连续问题转化为离散问题，这种方法称为梯形配点法，下面对其进行详细说明。</p>
 <h3 id="积分方程的近似"><a href="#积分方程的近似" class="headerlink" title="积分方程的近似"></a>积分方程的近似</h3><p>积分方程一般出现在目标函数中，梯形配点法中采用被积函数两个时刻之间的梯形面积来近似积分：</p>
-<script type="math/tex; mode=display">\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau \quad \approx \sum_{k=0}^{N-1} \frac{1}{2} h_{k} \cdot\left(w_{k}+w_{k+1}\right)</script><h3 id="微分方程的近似"><a href="#微分方程的近似" class="headerlink" title="微分方程的近似"></a>微分方程的近似</h3><p>微分方程一般出现在动力学方程中。直接配点法的关键特征之一是，它将系统动力学表示为一组约束，称为配点约束。梯形配点法将动力学方程写成积分形式，然后用梯形求积法来近似积分：</p>
-<script type="math/tex; mode=display">\begin{aligned}
+<script type="math/tex; mode=display">
+\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau \quad \approx \sum_{k=0}^{N-1} \frac{1}{2} h_{k} \cdot\left(w_{k}+w_{k+1}\right)</script><h3 id="微分方程的近似"><a href="#微分方程的近似" class="headerlink" title="微分方程的近似"></a>微分方程的近似</h3><p>微分方程一般出现在动力学方程中。直接配点法的关键特征之一是，它将系统动力学表示为一组约束，称为配点约束。梯形配点法将动力学方程写成积分形式，然后用梯形求积法来近似积分：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
 \dot{\boldsymbol{x}} &=\boldsymbol{f} \\
 \int_{t_{k}}^{t_{k+1}} \boldsymbol{x} d t &=\int_{t_{k}}^{t_{k+1}} \boldsymbol{f} d t \\
 \boldsymbol{x}_{k+1}-\boldsymbol{x}_{k} & \approx \frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right)
 \end{aligned}</script><p>然后在每对配置点之间都建立这种近似的约束关系：</p>
-<script type="math/tex; mode=display">\boldsymbol{x}_{k+1}-\boldsymbol{x}_{k}=\frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right), \quad k \in 0, \ldots,(N-1)</script><h3 id="原始约束"><a href="#原始约束" class="headerlink" title="原始约束"></a>原始约束</h3><p>离散后的配置点，应当满足原问题的状态约束、控制约束、路径约束、边界约束：</p>
-<script type="math/tex; mode=display">\begin{aligned}
+<script type="math/tex; mode=display">
+\boldsymbol{x}_{k+1}-\boldsymbol{x}_{k}=\frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right), \quad k \in 0, \ldots,(N-1)</script><h3 id="原始约束"><a href="#原始约束" class="headerlink" title="原始约束"></a>原始约束</h3><p>离散后的配置点，应当满足原问题的状态约束、控制约束、路径约束、边界约束：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
 \boldsymbol{x}<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{x}_{k}<\mathbf{0} \quad \forall k\\
 \boldsymbol{u}<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{u}_{k}<\mathbf{0} \quad \forall k\\
 \boldsymbol{g}(t, \boldsymbol{x}, \boldsymbol{u})<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{g}\left(t_{k}, \boldsymbol{x}_{k}, \boldsymbol{u}_{k}\right)<\mathbf{0} \quad \forall k\\
 \boldsymbol{h}\left(t_{0}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{u}\left(t_{0}\right)\right)<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{h}\left(t_{0}, \boldsymbol{x}_{0}, \boldsymbol{u}_{0}\right)<\mathbf{0} \quad 
 \end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point </em>用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t<em>{k}$，$h</em>{k}=t<em>{k+1}-t</em>{k}$）：</p>
-<script type="math/tex; mode=display">\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><p><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" alt></p>
+<script type="math/tex; mode=display">
+\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class>
 <p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。</p>
-<script type="math/tex; mode=display">\boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">\boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><p><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" alt></p>
+<script type="math/tex; mode=display">
+\boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
+\boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
+\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" class>
 <h2 id="实现问题"><a href="#实现问题" class="headerlink" title="实现问题"></a>实现问题</h2><p>接下来我们来讨论一些配点法实际实现时可能遇到的问题和解决方法。</p>
 <h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><p>几乎所有的轨迹优化技术都需要一个良好的初始猜测来开始优化。良好的初始化将确保求解器快速地得到全局最优解，一个糟糕的初始化会导致非线性规划求解器无法解决一个正确的优化问题。初始猜测的选择会影响优化最终收敛到哪一个局部最小值，不合适的初始值会使求解器优化到一个局部极小值，而约束的存在使情况变得更糟，优化器甚至无法找到一个可行的解决方案。</p>
 <p>轨迹优化的最佳初始化通常需要一些特定的知识，但也有一些通用的方法可以采用。通常建议尝试集中不同的初始化策略，检查他们是否都优化到同一个结果。最简单的初始方法是假设轨迹是状态空间的一条直线，当然也可以设计为可能预想到的结果。</p>
 <p>对于更复杂的轨迹优化问题，我们建议先从一个简单的问题开始优化，以优化结果作为下一个优化问题的初始猜测，然后构造一系列优化问题，逐渐接近最终的问题。举例来说，让一个双足行走机器人以3.0m/s的速度奔跑或许是一个比较复杂的优化问题，你可以先从1.0m/s的行走开始优化，逐渐增加前进速度，直至达到期望的速度，在这过程中每次优化的结果都作为下一次优化的初始估计。</p>
 <h3 id="网格细化"><a href="#网格细化" class="headerlink" title="网格细化"></a>网格细化</h3><p>直接配点法采用分段多项式样条函数来对轨迹曲线进行近似，显然离散的时间越短、多项式的阶数越高，则近似的精度越高。网格细分是在一系列不同的配置网格上求解轨迹优化问题的过程，也称为配置网格。一般情况下，初始的网格比较粗糙，配置点数量较少，并采用较低阶的配置方法，而后续的网格有更多的点和更高阶的配置方法。这种迭代策略是为了以最少的计算工作量获得最精确的解决方案：初始的粗网格位置计算量小，并能给出一个比较好的初始估计，之后通过更精细的网格配置得到更准确的结果。</p>
-<p><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" alt></p>
+<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" class>
 <h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>在所述的轨迹优化方法中存在两种形式的数值误差：转换误差和求解误差，这里我们主要关注前一种误差，即量化离散所带来的误差。衡量误差的标准有很多，这里我们用候选轨迹的动力学误差进行评价。由于在任何时刻系统都要满足动力学方程，因此有:</p>
-<script type="math/tex; mode=display">\dot{\boldsymbol{x}}^{*}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{*}(t), \boldsymbol{u}^{*}(t)\right)</script><p>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：</p>
-<script type="math/tex; mode=display">\varepsilon(t)=\dot{\boldsymbol{x}}(t)-\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>上式在配置点处应该严格等于零，但在配置点之间一般不为零。通过误差的积分可以量化转化误差：</p>
-<script type="math/tex; mode=display">\boldsymbol{\eta}_{k}=\int_{t_{k}}^{t_{k+1}}|\varepsilon(\tau)| d \tau</script><p>若转化误差大于一定水平，则需要进一步进行网格细化。</p>
+<script type="math/tex; mode=display">
+\dot{\boldsymbol{x}}^{*}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{*}(t), \boldsymbol{u}^{*}(t)\right)</script><p>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：</p>
+<script type="math/tex; mode=display">
+\varepsilon(t)=\dot{\boldsymbol{x}}(t)-\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>上式在配置点处应该严格等于零，但在配置点之间一般不为零。通过误差的积分可以量化转化误差：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{\eta}_{k}=\int_{t_{k}}^{t_{k+1}}|\varepsilon(\tau)| d \tau</script><p>若转化误差大于一定水平，则需要进一步进行网格细化。</p>
 
     </div>
 
