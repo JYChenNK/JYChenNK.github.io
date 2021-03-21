@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/blog/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
@@ -27,18 +27,18 @@
 <meta property="og:site_name" content="萤火">
 <meta property="og:description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png">
+<meta property="og:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png">
 <meta property="article:published_time" content="2020-04-23T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-03-21T10:28:34.296Z">
 <meta property="article:author" content="JYChen">
 <meta property="article:tag" content="优化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+<meta name="twitter:image" content="https://jychennk.github.io/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
 
 <link rel="canonical" href="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/">
 
@@ -102,7 +102,7 @@
 
   <div class="site-meta">
 
-    <a href="/" class="brand" rel="start">
+    <a href="/blog/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">萤火</h1>
       <span class="logo-line-after"><i></i></span>
@@ -123,17 +123,17 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
   </ul>
@@ -167,7 +167,7 @@
     <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/blog/images/avatar.jpg">
       <meta itemprop="name" content="JYChen">
       <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
     </span>
@@ -202,12 +202,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
+                  <a href="/blog/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
                 </span>
             </span>
 
           
-            <span id="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="轨迹优化与直接配点法" title="阅读次数">
+            <span id="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="轨迹优化与直接配点法" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -222,8 +222,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" itemprop="commentCount"></span>
+    <a title="valine" href="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -242,10 +242,10 @@
 <span id="more"></span>
 <h2 id="轨迹优化问题"><a href="#轨迹优化问题" class="headerlink" title="轨迹优化问题"></a>轨迹优化问题</h2><h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>轨迹用来描述一个物体的运动过程，通常是关于时间的变量。轨迹优化一种用于寻找最佳轨迹选择的方法，通常是通过选择合适的系统输入或控制量，是系统完成期望的运动过程。在控制领域，轨迹优化近似于最优控制，但从更广的概念上来讲，轨迹优化更具一般性。</p>
 <p>下面我们用一个例子来进一步说明轨迹优化问题。</p>
-<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" class>
+<img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" class>
 <p>如图所示，一个滑块放置在光滑地面上，并受到一个水平方向的作用力。我们想要滑块在里的作用下，在1s的时间内从开始位置运动到指定位置，并刚好停在该处。这个问题存在着无数种可能的运动轨迹，进一步，我们希望从中确定一条最优的轨迹，如图所示。</p>
-<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" class>
-<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" class>
+<img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" class>
+<img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" class>
 <p>我们可以把这个问题用数学语言形式化。系统满足如下的动力学方程：</p>
 <script type="math/tex; mode=display">
 \dot{x}=\nu, \quad \dot{\nu}=u</script><p>并要求满足如下的边界约束：</p>
@@ -330,18 +330,18 @@ x_{0}=0, & x_{N}=1 \\
 \boldsymbol{h}\left(t_{0}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{u}\left(t_{0}\right)\right)<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{h}\left(t_{0}, \boldsymbol{x}_{0}, \boldsymbol{u}_{0}\right)<\mathbf{0} \quad 
 \end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point </em>用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t<em>{k}$，$h</em>{k}=t<em>{k+1}-t</em>{k}$）：</p>
 <script type="math/tex; mode=display">
-\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class>
+\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class>
 <p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。</p>
 <script type="math/tex; mode=display">
 \boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
 \boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
-\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" class>
+\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" class>
 <h2 id="实现问题"><a href="#实现问题" class="headerlink" title="实现问题"></a>实现问题</h2><p>接下来我们来讨论一些配点法实际实现时可能遇到的问题和解决方法。</p>
 <h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><p>几乎所有的轨迹优化技术都需要一个良好的初始猜测来开始优化。良好的初始化将确保求解器快速地得到全局最优解，一个糟糕的初始化会导致非线性规划求解器无法解决一个正确的优化问题。初始猜测的选择会影响优化最终收敛到哪一个局部最小值，不合适的初始值会使求解器优化到一个局部极小值，而约束的存在使情况变得更糟，优化器甚至无法找到一个可行的解决方案。</p>
 <p>轨迹优化的最佳初始化通常需要一些特定的知识，但也有一些通用的方法可以采用。通常建议尝试集中不同的初始化策略，检查他们是否都优化到同一个结果。最简单的初始方法是假设轨迹是状态空间的一条直线，当然也可以设计为可能预想到的结果。</p>
 <p>对于更复杂的轨迹优化问题，我们建议先从一个简单的问题开始优化，以优化结果作为下一个优化问题的初始猜测，然后构造一系列优化问题，逐渐接近最终的问题。举例来说，让一个双足行走机器人以3.0m/s的速度奔跑或许是一个比较复杂的优化问题，你可以先从1.0m/s的行走开始优化，逐渐增加前进速度，直至达到期望的速度，在这过程中每次优化的结果都作为下一次优化的初始估计。</p>
 <h3 id="网格细化"><a href="#网格细化" class="headerlink" title="网格细化"></a>网格细化</h3><p>直接配点法采用分段多项式样条函数来对轨迹曲线进行近似，显然离散的时间越短、多项式的阶数越高，则近似的精度越高。网格细分是在一系列不同的配置网格上求解轨迹优化问题的过程，也称为配置网格。一般情况下，初始的网格比较粗糙，配置点数量较少，并采用较低阶的配置方法，而后续的网格有更多的点和更高阶的配置方法。这种迭代策略是为了以最少的计算工作量获得最精确的解决方案：初始的粗网格位置计算量小，并能给出一个比较好的初始估计，之后通过更精细的网格配置得到更准确的结果。</p>
-<img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" class>
+<img src="/blog/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" class>
 <h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>在所述的轨迹优化方法中存在两种形式的数值误差：转换误差和求解误差，这里我们主要关注前一种误差，即量化离散所带来的误差。衡量误差的标准有很多，这里我们用候选轨迹的动力学误差进行评价。由于在任何时刻系统都要满足动力学方程，因此有:</p>
 <script type="math/tex; mode=display">
 \dot{\boldsymbol{x}}^{*}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{*}(t), \boldsymbol{u}^{*}(t)\right)</script><p>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：</p>
@@ -358,7 +358,7 @@ x_{0}=0, & x_{N}=1 \\
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a>
+              <a href="/blog/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a>
           </div>
 
         
@@ -367,11 +367,11 @@ x_{0}=0, & x_{N}=1 \\
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="prev" title="非线性规划">
+    <a href="/blog/2020/04/22/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="prev" title="非线性规划">
       <i class="fa fa-chevron-left"></i> 非线性规划
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="next" title="基于肌肉骨骼模型的预测仿真">
+    <a href="/blog/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="next" title="基于肌肉骨骼模型的预测仿真">
       基于肌肉骨骼模型的预测仿真 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -440,21 +440,21 @@ x_{0}=0, & x_{N}=1 \\
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="JYChen"
-      src="/images/avatar.jpg">
+      src="/blog/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">JYChen</p>
   <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+          <a href="/blog/archives/">
         
           <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
+            <a href="/blog/categories/">
           
         <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
@@ -516,19 +516,19 @@ x_{0}=0, & x_{N}=1 \\
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/js/utils.js"></script>
+<script src="/blog/js/utils.js"></script>
 
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
+<script src="/blog/js/motion.js"></script>
 
 
-<script src="/js/next-boot.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
 
 
 
