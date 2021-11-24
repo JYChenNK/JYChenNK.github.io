@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="本篇旨在介绍使用Simulink进行dSPACE程序设计时的中级技巧，涉及向量、矩阵的使用，以及定时器与中断；">
@@ -261,7 +261,7 @@
 <h2 id="2-通过索引使用不定长数组"><a href="#2-通过索引使用不定长数组" class="headerlink" title="2 - 通过索引使用不定长数组"></a>2 - 通过索引使用不定长数组</h2><blockquote>
 <p>点击按钮后，接下来N秒内，RGB模块每秒显示一种红绿之间的随机颜色，其中N为可调参数(1-10)，N种随机颜色在按钮触发时被完全定义；</p>
 </blockquote>
-<img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
+<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
 <p>💡 Simulink的Matlab Function不支持创建可变长度数组，可以创建固定长度数组，再通过索引调用；</p>
 <hr>
 <h2 id="3-数组越界与计算超时"><a href="#3-数组越界与计算超时" class="headerlink" title="3 - 数组越界与计算超时"></a>3 - 数组越界与计算超时</h2><ul>
@@ -269,7 +269,7 @@
 <li><p>当单个计算周期的计算耗时超过采样时间，ControlDesk会卡住；（重新开始测量）</p>
 <ul>
 <li><p>可通过Task Info → turnaroundTime 查看dSPACE的计算耗时，并改进算法效率；</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/1.png" class title="Untitled">
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/1.png" class title="Untitled">
 </li>
 </ul>
 </li>
@@ -280,19 +280,19 @@
 </blockquote>
 <ul>
 <li><p><strong>Step 1 -</strong> 使用dSPACE的Timer Interrupt作为定时中断触发，并配置定时间隔</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/2.png" class>
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/2.png" class>
 </li>
 <li><p><strong>Step 2 -</strong> 在定时执行模块中添加触发连接，并将触发配置为function call</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/3.png" class title="Untitled">
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/3.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 3</strong> 在不同执行速度的模块之间添加缓冲器，并取消勾选Ensure deterministic data transfer，以实异步通信</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/4.png" class title="Untitled">
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/4.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 4</strong> 对于含有全局变量的情况，在模型配置中将Multi data store选项设置为none</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/5.png" class title="Untitled">
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/5.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 5</strong> 配置定时器的中断优先级</p>
-  <img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/6.png" class title="Untitled">
+  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/6.png" class title="Untitled">
 </li>
 </ul>
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（3）</strong></p>
@@ -310,14 +310,14 @@
 <ul>
 <li>使用串口接收中断和模块，并搭建中断执行模块</li>
 </ul>
-<img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175203609.png" class title="image-20211124175203609">
+<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175203609.png" class title="image-20211124175203609">
 <hr>
 <h2 id="6-异步通信"><a href="#6-异步通信" class="headerlink" title="6 - 异步通信"></a>6 - 异步通信</h2><blockquote>
 <p>实现功能：在每次接受到串口数据时，RGB红灯闪烁三秒</p>
 </blockquote>
-<img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175242419.png" class title="image-20211124175242419">
+<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175242419.png" class title="image-20211124175242419">
 <p>💡在进行异步通信时，不同线程之间的缓冲器会使得信号被降采样，因此在异步通信中传递触发信号时，确保信号能够被正确传递；</p>
-<h2 id="7-中断优先级"><a href="#7-中断优先级" class="headerlink" title="7 - 中断优先级"></a>7 - 中断优先级</h2><img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175323799.png" class title="image-20211124175323799">
+<h2 id="7-中断优先级"><a href="#7-中断优先级" class="headerlink" title="7 - 中断优先级"></a>7 - 中断优先级</h2><img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175323799.png" class title="image-20211124175323799">
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（4）</strong></p>
 <blockquote>
 <p>当dSPACE运行低优先级的中断处理函数（线程）时，当有高优先级的中断触发，则dSPACE会暂停当前任务，转去处理高优先级的任务，处理玩之后在返回继续执行之前的任务</p>
@@ -326,8 +326,8 @@
 <h2 id="8-Host-Service"><a href="#8-Host-Service" class="headerlink" title="8 - Host Service"></a>8 - Host Service</h2><blockquote>
 <p>通过Host Service指定上位机数据采集、显示和记录的频率，以满足特定的需求；<br>尽量避免在一个模型中配置多个Host Service，可能会导致数据采集紊乱；</p>
 </blockquote>
-<img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/13.png" class title="Untitled">
-<img data-src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/14.png" class title="Untitled">
+<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/13.png" class title="Untitled">
+<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/14.png" class title="Untitled">
     </div>
 
     
@@ -514,7 +514,6 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 

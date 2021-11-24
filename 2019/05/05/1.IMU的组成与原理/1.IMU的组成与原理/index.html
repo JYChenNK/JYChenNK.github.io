@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="最近做了一套基于IMU的人体姿态检测系统，用来取代动作捕捉系统。一方面IMU的实时性和可开发性比动捕要好，另一方面IMU成本很低的同时精度也足以满足需求。本文介绍IMU的基本原理与基于IMU的人体姿态检测系统的设计。">
@@ -251,23 +251,23 @@
         <p>最近做了一套基于IMU的人体姿态检测系统，用来取代动作捕捉系统。一方面IMU的实时性和可开发性比动捕要好，另一方面IMU成本很低的同时精度也足以满足需求。本文介绍IMU的基本原理与基于IMU的人体姿态检测系统的设计。</p>
 <span id="more"></span>
 <hr>
-<h4 id="1-IMU的组成与原理"><a href="#1-IMU的组成与原理" class="headerlink" title="1.IMU的组成与原理"></a>1.IMU的组成与原理</h4><img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.bmp" class>
+<h4 id="1-IMU的组成与原理"><a href="#1-IMU的组成与原理" class="headerlink" title="1.IMU的组成与原理"></a>1.IMU的组成与原理</h4><img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.bmp" class>
 <p>IMU可根据DOF的不同来加以区分，其中6DOF的IMU和9DOF的IMU比较常见，6DOF的IMU一般由一个三轴加速度计和一个三轴陀螺仪组成。9DOF的IMU会多一个三轴磁力计。模块所能感知状态量的个数即为DOF大小，DOF越多、精度越高的IMU也就越贵。<br>这里只讨论6DOF的IMU。</p>
 <h6 id="加速度计"><a href="#加速度计" class="headerlink" title="加速度计"></a>加速度计</h6><hr>
-<p>顾名思义，三轴加速度计能感受三轴的加速度，如上图中三个矢量所示。但要注意的是，当图示模块水平放置且静止，z轴方向加速度大小为<code>-g</code>，也就是说IMU测量的加速度与物体真实加速度相差一个重力加速度。<br><img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/2.bmp" class><br>加速度计的物理实现是利用牛顿第二定律，如上图所示，中间红色物体为一个质量块，两头通过具有弹簧性质的长条结构与基底相连，红色的短栅与绿色的短栅分别为电容的极板。当基底在双箭头方向有加速度<code>a</code>时，由<code>f=ma=kx</code>，质量块会沿加速度相反的方向移动，红色极板与绿色极板之间的距离会发生变化，通过测量极板电容<code>C</code>的变化就可以得到加速度的大小。在三轴加速度计中，这样的结构在三个方向各有一个，且做到了微米的尺寸，并配合相应的测量电路集成在一个芯片中（如图一所示），构成一个微机电系统（MEMS）。</p>
+<p>顾名思义，三轴加速度计能感受三轴的加速度，如上图中三个矢量所示。但要注意的是，当图示模块水平放置且静止，z轴方向加速度大小为<code>-g</code>，也就是说IMU测量的加速度与物体真实加速度相差一个重力加速度。<br><img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/2.bmp" class><br>加速度计的物理实现是利用牛顿第二定律，如上图所示，中间红色物体为一个质量块，两头通过具有弹簧性质的长条结构与基底相连，红色的短栅与绿色的短栅分别为电容的极板。当基底在双箭头方向有加速度<code>a</code>时，由<code>f=ma=kx</code>，质量块会沿加速度相反的方向移动，红色极板与绿色极板之间的距离会发生变化，通过测量极板电容<code>C</code>的变化就可以得到加速度的大小。在三轴加速度计中，这样的结构在三个方向各有一个，且做到了微米的尺寸，并配合相应的测量电路集成在一个芯片中（如图一所示），构成一个微机电系统（MEMS）。</p>
 <h6 id="陀螺仪"><a href="#陀螺仪" class="headerlink" title="陀螺仪"></a>陀螺仪</h6><hr>
 <p>角速度测量的原理比加速度要复杂一些，因为涉及了科里奥里力(Coriolis Force)。所以我们先来说一下Coriolis Force。科里奥里力是由坐标系的转动与物体在动坐标系中的相对运动引起的，其本质是物体的惯性。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/3.bmp" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/3.bmp" class>
 <p>如果图示模块置于绝对静止的坐标系中，当在x方向施加一个驱动力使质量块运动时，根据牛顿第二定律，质量块只会在x方向上运动，而在y方向上不会运动。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/4.bmp" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/4.bmp" class>
 <p>但如果将图示模块置于一个旋转坐标系下，由于坐标系的旋转，使得当质量块沿x方向运动时，在y方向上会受到一个力，即科里奥里力<code>F=-2mvω</code>，从而使质量块沿y方向运动。地球上的很多自然现象，如热带气旋、季风带、河道两侧冲刷程度不同，都源于科里奥里力。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/5.bmp" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/5.bmp" class>
 <p>陀螺仪的物理实现如上图所示，外侧的蓝色与黄色部分为驱动电极，内部的红色与蓝色为测量电极。在模块的驱动方向施加正弦驱动电压，当模块发生旋转时，质量块在垂直方向受科里奥里力影响也会产生一个正弦运动，且正弦运动的幅值与平台的角速度成正比，通过垂直方向的电极测量出此幅值，便可以得到模块角速度。与三轴加速度计一样，这样的结构在三轴陀螺仪的三个方向上各有一个，从而测量出三个方向的角速度。</p>
 <h5 id="2-IMU姿态解算"><a href="#2-IMU姿态解算" class="headerlink" title="2. IMU姿态解算"></a>2. IMU姿态解算</h5><p>现在我们能够从IMU中得到三轴的加速度和三轴的角速度，接下来就要从这些数据中解算出三个方向的角度。实际上，单独由加速度计或陀螺仪都可以解算出三轴的角度。</p>
 <h6 id="由加速度解算角度"><a href="#由加速度解算角度" class="headerlink" title="由加速度解算角度"></a>由加速度解算角度</h6><hr>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/6.png" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/6.png" class>
 <p>由于加速度计本质是测量力，所以在传感器静止的时候，测量的结果为重力加速度。当平台运动的加速度远小于重力加速度时，可认为传感器测量的结果全部为重力加速度，因此可以根据重力加速的在三轴分量的大小来解算出角度。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/7.png" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/7.png" class>
 <p>以上图为例，传感器沿<code>y</code>方向倾斜的角度为：</p>
 <script type="math/tex; mode=display">
 Angle_{Accel} = arccos\frac{ax}{-g}</script><h6 id="由陀螺仪解算角度"><a href="#由陀螺仪解算角度" class="headerlink" title="由陀螺仪解算角度"></a>由陀螺仪解算角度</h6><hr>
@@ -292,11 +292,11 @@ State = \begin{bmatrix} Angle(k)  \\ Gyro_{bias}(k) \\  \end{bmatrix}</script><p
 Angle_{accel}(k) =\begin{bmatrix} 1 & 0  \end{bmatrix}  \begin{bmatrix} Angle(k) \\ Gyro_{bias}(k)  \end{bmatrix} + V(k)</script><p>其中矩阵<code>W</code>和<code>V</code>分别为输入噪声矩阵和观测噪声矩阵，这两个矩阵的参数需要根据情况进行调整。对于本问题矩阵<code>V</code>的参数要比<code>W</code>的参数大很多，因为由加速度计观测角度的噪声很大。</p>
 <hr>
 <h5 id="3-使用IMU来测量关节角度"><a href="#3-使用IMU来测量关节角度" class="headerlink" title="3.使用IMU来测量关节角度"></a>3.使用IMU来测量关节角度</h5><p>这里基于IMU设计了一套用来测量人体姿态的硬件，通过在身体每个肢段上放置一个IMU，测量每段肢体在空间中的姿态角，下位机使用单片机通过串口接收每个IMU模块的数据，然后通过CAN总线发送给上位机，上位机再解算出关节角度。制作的模块如下：</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/8.jpg" class><img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/9.jpg" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/8.jpg" class><img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/9.jpg" class>
 <p>下图是测量大腿和小腿的数据，Matlab对接收的数据进行解算并实时显示出来。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/10.gif" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/10.gif" class>
 <p>下图是由IMU得到的行走状态下肢三关节的角度变化。初次实验采样频率设置的有点低，只有50HZ，所以波形看起来不太平滑。</p>
-<img data-src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/11.bmp" class>
+<img src="/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/11.bmp" class>
     </div>
 
     
@@ -480,7 +480,6 @@ Angle_{accel}(k) =\begin{bmatrix} 1 & 0  \end{bmatrix}  \begin{bmatrix} Angle(k)
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 

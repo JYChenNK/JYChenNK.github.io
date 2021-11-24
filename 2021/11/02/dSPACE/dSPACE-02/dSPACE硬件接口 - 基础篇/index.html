@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。">
@@ -255,7 +255,7 @@
       
         <p>dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。</p>
 <span id="more"></span>
-<h3 id="数字量输出"><a href="#数字量输出" class="headerlink" title="数字量输出"></a>数字量输出</h3><img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png" class title="Untitled">
+<h3 id="数字量输出"><a href="#数字量输出" class="headerlink" title="数字量输出"></a>数字量输出</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>管脚配置：<ul>
@@ -275,9 +275,9 @@
 <li>使用convert模块转换数据类型</li>
 </ul>
 </blockquote>
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png" class title="Untitled">
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png" class title="Untitled">
-<h3 id="数字量输入"><a href="#数字量输入" class="headerlink" title="数字量输入"></a>数字量输入</h3><img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png" class title="Untitled">
+<h3 id="数字量输入"><a href="#数字量输入" class="headerlink" title="数字量输入"></a>数字量输入</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>管脚配置：dSPACE的所有数字量引脚均可设置为输入或输出模式，和输出一样可以配置为按组输</li>
@@ -288,9 +288,9 @@
 <h3 id="数字量信号的管脚映射"><a href="#数字量信号的管脚映射" class="headerlink" title="数字量信号的管脚映射"></a>数字量信号的管脚映射</h3><blockquote>
 <p>ch1 - ch48  →  DB50 → 拓展板</p>
 </blockquote>
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png" class title="image-20211102025047013">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png" class title="image-20211102025047013">
 <hr>
-<h3 id="模拟量输出和输入"><a href="#模拟量输出和输入" class="headerlink" title="模拟量输出和输入"></a>模拟量输出和输入</h3><img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg" class title="2221635676258_.pic.jpg">
+<h3 id="模拟量输出和输入"><a href="#模拟量输出和输入" class="headerlink" title="模拟量输出和输入"></a>模拟量输出和输入</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg" class title="2221635676258_.pic.jpg">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>dSPACE有一组模拟量输出通道AO1，和两组模拟量输入通道AI1和AI2，AO1有16个通道，AI1包含24个通道，AI2有8个通道（32个输入，16个输出）；</li>
@@ -300,20 +300,20 @@
 </ul>
 </li>
 </ul>
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png" class title="Untitled">
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png" class title="Untitled">
 <hr>
 <h3 id="PWM输出和输入"><a href="#PWM输出和输入" class="headerlink" title="PWM输出和输入"></a>PWM输出和输入</h3><blockquote>
 <p><strong>dPSACE所有DIO1管脚（48个通道）都支持配置为PWM输入和输出模式</strong></p>
 </blockquote>
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>输出指定周期、指定占空比的PWM信号，周期单位为秒，占空比范围0-1，1代表100%占空比（一条直线），二者都可以在线修改</li>
 </ul>
 </li>
 </ul>
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png" class title="Untitled">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png" class title="Untitled">
 <ul>
 <li>Tips<ul>
 <li>dSPACE中包含两种PWM输入模块，一种返回脉冲宽度时间（单位s），另一种返回PWM频率（Hz）和占空比（0-1）</li>
@@ -321,8 +321,8 @@
 </li>
 </ul>
 <hr>
-<h3 id="Power-Supply"><a href="#Power-Supply" class="headerlink" title="Power Supply"></a>Power Supply</h3><img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg" class title="WechatIMG223.jpeg">
-<img data-src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png" class title="Untitled">
+<h3 id="Power-Supply"><a href="#Power-Supply" class="headerlink" title="Power Supply"></a>Power Supply</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg" class title="WechatIMG223.jpeg">
+<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png" class title="Untitled">
 <ul>
 <li>Tips<ul>
 <li>dSPACE中包含两组电源输出，A组输出固定12V电压，不可被编程，上电即工作；B组为可调电压输出（2-20V），但输出功率较小；</li>
@@ -518,7 +518,6 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 

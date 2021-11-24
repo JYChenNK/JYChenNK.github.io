@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="本篇主要介绍dSPACE的复杂硬件输入接口，包括正交编码器、串口、CAN总线、UDP。">
@@ -259,8 +259,8 @@
         <p>本篇主要介绍dSPACE的复杂硬件输入接口，包括正交编码器、串口、CAN总线、UDP。</p>
 <span id="more"></span>
 <h3 id="正交编码器输入"><a href="#正交编码器输入" class="headerlink" title="正交编码器输入"></a>正交编码器输入</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350368518">编码器计数原理与电机测速原理—多图解析</a></p>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-01_23-24-15.png" class title="Snipaste_2021-11-01_23-24-15.png">
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170638327.png" class title="image-20211124170638327">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-01_23-24-15.png" class title="Snipaste_2021-11-01_23-24-15.png">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170638327.png" class title="image-20211124170638327">
 <p>💡 Tips</p>
 <ul>
 <li>dSPACE内用于接受正交编码器信号的解码器仅有6个，即最多能同时采集6路正交编码器信号；</li>
@@ -271,41 +271,41 @@
 <hr>
 <h2 id="RS-232-485串口"><a href="#RS-232-485串口" class="headerlink" title="RS-232/485串口"></a>RS-232/485串口</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/96506127">USART-串口通信</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25893717">UART、RS232、TTL关系浅析</a></p>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170823354.png" class title="image-20211124170823354">
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-03_11-05-09.png" class title="Snipaste_2021-11-03_11-05-09.png">
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170935214.png" class title="image-20211124170935214">
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170949481.png" class title="image-20211124170949481">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170823354.png" class title="image-20211124170823354">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-03_11-05-09.png" class title="Snipaste_2021-11-03_11-05-09.png">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170935214.png" class title="image-20211124170935214">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170949481.png" class title="image-20211124170949481">
 <blockquote>
 <p>使用时请注意接口的线序</p>
 </blockquote>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171028615.png" class title="image-20211124171028615">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171028615.png" class title="image-20211124171028615">
 <hr>
 <h3 id="CAN总线通信"><a href="#CAN总线通信" class="headerlink" title="CAN总线通信"></a>CAN总线通信</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/162708070#:~:text=CAN%E6%80%BB%E7%BA%BF%E6%98%AF%E4%B8%80%E7%A7%8D%E7%94%A8%E4%BA%8E%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%9A%84ECU%EF%BC%88%E7%94%B5%E5%AD%90%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%EF%BC%89%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E7%9A%84%E7%BA%BF%EF%BC%8CCAN%E6%80%BB%E7%BA%BF%E5%8D%8F%E8%AE%AE%E6%98%AF%E4%B8%80%E7%A7%8DISO%20%E5%9B%BD%E9%99%85%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%EF%BC%8C%E6%9C%89,ISO-11898%20%E5%92%8C%20ISO-11519%E4%B8%A4%E4%B8%AA%E7%B3%BB%E5%88%97%E3%80%82">一篇易懂的CAN通讯协议指南1</a></p>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171133316.png" class title="image-20211124171133316">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171133316.png" class title="image-20211124171133316">
 <p><strong>以DJI的M3508的电调C620为例，介绍如何使用dSPACE进行CAN总线数据通信</strong></p>
 <ul>
 <li>阅读文档，获取设备CAN总线通信的相关信息，包括：CAN总线通信速度、设备标志符(ID)、帧类型、帧格式、发送/接受报文格式和数据含义</li>
 </ul>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171225993.png" class title="image-20211124171225993">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171225993.png" class title="image-20211124171225993">
 <ul>
 <li>使用dSPACE的CAN总线模块</li>
 </ul>
 
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171256939.png" class title="image-20211124171256939">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171256939.png" class title="image-20211124171256939">
 <hr>
 <h2 id="Ethernet-UDP通信"><a href="#Ethernet-UDP通信" class="headerlink" title="Ethernet UDP通信"></a>Ethernet UDP通信</h2><ul>
 <li>基础概念 - IP地址，端口</li>
 </ul>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171426517.png" class title="image-20211124171426517">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171426517.png" class title="image-20211124171426517">
 <ul>
 <li>配置通信参数</li>
 </ul>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_10-21-58.png" class title="Snipaste_2021-11-04_10-21-58.png">
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171742608.png" class title="image-20211124171742608">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_10-21-58.png" class title="Snipaste_2021-11-04_10-21-58.png">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171742608.png" class title="image-20211124171742608">
 <ul>
 <li>按通信协议对发送数据进行打包、对接受数据进行解码</li>
 </ul>
-<img data-src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_12-13-20.png" class title="Snipaste_2021-11-04_12-13-20.png">
+<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_12-13-20.png" class title="Snipaste_2021-11-04_12-13-20.png">
 
 <p>💡 使用帮助文档<br>对于dSAPCE提供的Simulink模块，右键Help打开dSPACE Help界面，可查看该模块的具体使用方法；</p>
 
@@ -496,7 +496,6 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 

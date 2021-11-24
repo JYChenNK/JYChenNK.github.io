@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="本篇为无线传感系统的第二篇，主要记录无线足底压力鞋垫的设计和制作。">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="本篇为无线传感系统的第二篇，主要记录无线足底压力鞋垫的设计和制作。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI无线足底压力鞋垫系统设计/鞋垫连线图.jpeg">
+<meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/鞋垫连线图.jpeg">
 <meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_6.png">
 <meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png">
 <meta property="og:image" content="https://jychennk.github.io/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_7.png">
@@ -253,37 +253,37 @@
 
       
         <p>本篇为无线传感系统的第二篇，主要记录无线足底压力鞋垫的设计和制作。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
 <span id="more"></span>
 <h2 id="压力鞋垫的测量原理"><a href="#压力鞋垫的测量原理" class="headerlink" title="压力鞋垫的测量原理"></a>压力鞋垫的测量原理</h2><p>压力鞋垫非自制，购买柔希科技的16P版本的压力鞋垫，鞋垫的压力传感器分布大致如下：</p>
-<p><img data-src="FPI无线足底压力鞋垫系统设计/鞋垫连线图.jpeg" width="100%"></p>
+<p><img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/鞋垫连线图.jpeg" width="100%"></p>
 <p>一般来说电阻式薄膜压力传感器的构成一般分为五层结构：顶层和底层为绝缘保护层；之后是两个导电层，用来连接传感器传输信号，并且多数情况下导线会成矩阵式排列，以减少导线数量、增加传感器密度；最中间的是一层或两层的压力敏感材料。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_6.png" class title="截屏2021-06-09 下午9.21.55">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_6.png" class title="截屏2021-06-09 下午9.21.55">
 <p>压力传感器是利用电阻的压敏特性对压力进行测量，当压力作用在压敏材料上时，材料的电阻值会发生显著变化。多数压敏材料的电导率与压力成线性关系，因而电阻与压力之间成倒数关系，如上右图所示。</p>
-<h2 id="压力鞋垫的数据采集"><a href="#压力鞋垫的数据采集" class="headerlink" title="压力鞋垫的数据采集"></a>压力鞋垫的数据采集</h2><img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
+<h2 id="压力鞋垫的数据采集"><a href="#压力鞋垫的数据采集" class="headerlink" title="压力鞋垫的数据采集"></a>压力鞋垫的数据采集</h2><img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
 <p>上面已经已到，压力鞋垫为了提高压力测量点的密度，减少导线数量，降低对采集芯片的引脚需求，一般采用矩阵式的排线方法，也就是同一根导线会连接多个传感器。一般来说，压力鞋垫上所有的传感器都按排和列进行划分，每一排或每一列都连接相同一根导线，任意选定一行和一列都可以唯一确定一个压力测量点。如上所示，柔细科技的16P压力鞋垫就将16个传感器分为4行6列，这样就可以将16根信号线降低为10根信号线，进一步若将列通道作为选通信号，则只有4根行信号线需要连接到模拟量采集端口。但这样矩阵式的布线方式也会给数据采集带来一些困难。</p>
 <p>在多数论文里，为了进一步减少压力鞋垫需要的采集引脚数目，会选择采用多路选通器来进行行扫描，典型的有8路模拟多路选通器CD4051。这种芯片能够通过三个控制线以2进制编码的形式控制8个通道与公共端的连接，而当某一通道与公共端连通时，其余各通道均处于悬空状态。我们将鞋垫的列信号线接到CD4051的其中6路选通引脚上，然后用单片机接CD4051的A B C引脚控制选通信号，就可以用3个引脚控制压力鞋垫的6路列信号选通线。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_7.png" class title="截屏2021-06-10 下午4.29.32">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_7.png" class title="截屏2021-06-10 下午4.29.32">
 <p>当CD4051的公共端连接VCC时，采集电路如下所示，以col6被选通为例，col6与公共端连通故电压为VCC，行信号连接一个分压电阻Rf后连接到GND。由于当col6选通时，col1-col5均为悬空状态，其余压力测量点的合成电阻对该采样电路没有影响，因此通过测量row1上的电压vol1，以及已知的分压电阻Rf，就可以得到压力测量点电阻R6的大小。在前期测试中压力电阻阻值范围为20M-50K，分压电阻Rf可以取10K-500K之间，分压电阻太小会导致测量精度下降，在前期实验中，Rf选择为200K。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_2.png" class title="截屏2021-06-10 下午3.55.05">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_2.png" class title="截屏2021-06-10 下午3.55.05">
 <p>但在后续实验中发现，CD4051在通道切换的时候存在比较明显的响应过程。下图展示的是col6通道选通后，间隔100us连续采样14次，vol1的电压变化，曲线非常符合一阶指数响应过程，同时也显示该响应过程有较大的时间常数，T约为1/1411=700us，到达稳态需要3T时间也就是2.1ms，这样6个列通道全部采样一次就需要12.6ms，鞋垫压力的采样频率会小于100Hz，这是无法接受的。想要实现200Hz以上的采样频率，通道切换的过渡时间需要小于280us。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-07_09-43-03.png" class title="Snipaste_2021-06-07_09-43-03">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-07_09-43-03.png" class title="Snipaste_2021-06-07_09-43-03">
 <p>进一步我们采用示波器观测通道切换时，vol1的电压变化曲线。单片机控制CD4051每间隔1ms在col6和col5之间进行一次切换，并且在通道6的压力采样点上有一个稳定持续的压力，通道5上没有压力，因此下图所示的波形会在高低电平之间不断切换，切换间隔为1ms。可以看出波形有明显的响应过程，并且在切换到通道5时，响应的时间常数更大一些。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_10-55-36.png" class title="Snipaste_2021-06-08_10-55-36">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_10-55-36.png" class title="Snipaste_2021-06-08_10-55-36">
 <p>当CD4051从通道6切换到通道5时，除了col5上所施加的电压VCC外，由于上一时刻在作用在col6上的电压在通道关断后不会立刻消失，依靠电容效应随着放电过程电压逐渐降低，由叠加定义可知其仍然对vol1的电压产生影响，因此我们看到切换到通道5之后vol1的电压缓慢下降。而在从通道5切换到通道6时，由于col5上原来的电压较低，因此对col6的vol1影响较小，但还是可以看到一点缓慢下降的趋势。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_3.png" class title="截屏2021-06-10 下午7.28.34">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_3.png" class title="截屏2021-06-10 下午7.28.34">
 <p>调研了解现有的足底压力系统有可以实现200Hz的采样频率，推测本实验中较大的过渡时间是由于CD4051芯片本身的特性造成的。因此后面尝试去除CD4051，直接使用单片机本身的引脚连接压力鞋垫的列选通信号线。连接col的单片机引脚设置为数字量输出模式，当信号选通时，将该引脚设置为高电平，并将其余引脚设置为低电平。实验中单片机每间隔300us切换一次选通信号，通道6的传感器上依然有一个持续施加的作用力。下图所示的为Rf分别为200K、100K、50K时的vol1波形：</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-03-51_200k.png" class title="Snipaste_2021-06-08_17-03-51_200k">
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-08_100k.png" class title="Snipaste_2021-06-08_17-05-08_100k">
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-53_50k.png" class title="Snipaste_2021-06-08_17-05-53_50k">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-03-51_200k.png" class title="Snipaste_2021-06-08_17-03-51_200k">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-08_100k.png" class title="Snipaste_2021-06-08_17-05-08_100k">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-53_50k.png" class title="Snipaste_2021-06-08_17-05-53_50k">
 <p>随着Rf的下降，电路时间常数1/RC降低，通道切换的响应时间变短，同时由于分压下降，col6采集的稳态电压也逐渐下降。当Rf选择为50K时，过渡时间小于250us，基本可以满足500Hz采样的需要。</p>
 <p>但这种将列选通信号直接连接到单片机引脚上的方法存在一个比较严重的问题：同一行的传感器之间会相互影响：</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF.gif" class title="GIF">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF.gif" class title="GIF">
 <p>上图所示的依然是对row1的6个传感器进行扫描，其中col6上作用一个稳定持续的压力不随时间发生改变，col5和col4上作用一个时变的压力。可以看出，在col5或col4压力变化时，col6的电压也会跟随发生改变。具体来说，当同一行的其他传感器的压力增大时，col6的电电压会减小。</p>
 <p>下图为当前系统的电路连接示意图。由于所有的列选通信号都是连接单片机的数字量输出引脚，在非选通时引脚置为低电平，实际上也就是与GND直接相连，而非处于悬空状态。此时测量电路的实际分压电阻$ Rf^r $将是Rf与R15的并联，当其余电阻因受到压力而阻值下降时，$ Rf^r $会随之下降，vol1上的分压也因此降低。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_4.png" class title="截屏2021-06-10 下午8.50.39">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_4.png" class title="截屏2021-06-10 下午8.50.39">
 <p>所以为了消除通道之间的耦合影响，需要将非选通的col通道设置为悬空状态，而不能连接到GND。程序上可以通过将引脚改变为输入模式来实现，因为在输入模式下引脚处于高阻状态近似于悬空（但不能设置为上拉输入或下拉输入）。下面为调整的后扫描曲线，在col5和col4压力变化时col1基本不受影响。</p>
-<img data-src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF2.gif" class title="GIF2">
+<img src="/2021/06/09/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF2.gif" class title="GIF2">
 <h2 id="无线压力鞋垫系统PCB设计"><a href="#无线压力鞋垫系统PCB设计" class="headerlink" title="无线压力鞋垫系统PCB设计"></a>无线压力鞋垫系统PCB设计</h2>
     </div>
 
@@ -471,7 +471,6 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 

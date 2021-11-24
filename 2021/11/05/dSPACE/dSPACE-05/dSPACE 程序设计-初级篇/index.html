@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":true,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="本部分旨在介绍使用dSPACE进行程序设计的一些基本方法、思维与技巧。">
@@ -262,7 +262,7 @@
 <li>当踝关节角度小于-25deg或大于25deg，RGB模块红灯闪烁；</li>
 </ul>
 </blockquote>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
 <hr>
 <h2 id="1-使用局部寄存变量"><a href="#1-使用局部寄存变量" class="headerlink" title="1 - 使用局部寄存变量"></a>1 - 使用局部寄存变量</h2><blockquote>
 <p>实现功能：通过点击按钮，对磁编码器测量到的踝关节角度进行校准；</p>
@@ -273,11 +273,11 @@
 <h3 id="实现变量寄存的两种方式"><a href="#实现变量寄存的两种方式" class="headerlink" title="实现变量寄存的两种方式"></a>实现变量寄存的两种方式</h3><ul>
 <li><strong>1 - 寄存器（延时模块）</strong></li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173611883.png" class title="image-20211124173611883">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173611883.png" class title="image-20211124173611883">
 <ul>
 <li><strong>2- 局部寄存变量（persistent &amp; 初始化）</strong></li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173637760.png" class title="image-20211124173637760">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173637760.png" class title="image-20211124173637760">
 <hr>
 <h2 id="2-模块化与参数化"><a href="#2-模块化与参数化" class="headerlink" title="2 - 模块化与参数化"></a>2 - 模块化与参数化</h2><ul>
 <li><strong>低耦合，高内聚</strong> - 将复杂函数功能模块化、功能化</li>
@@ -290,7 +290,7 @@
 <ul>
 <li>使用<strong>Mask</strong>对模块参数进行封装</li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173716755.png" class title="image-20211124173716755">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173716755.png" class title="image-20211124173716755">
 
 <p>💡 <strong><em>参数的作用域</em></strong></p>
 <ul>
@@ -298,7 +298,7 @@
 <li>在Simulink的Model Properties → Callbacks → InitFcn*下定义的参数可在全局调用；</li>
 <li>参数可以在子系统中按名称进行传递；</li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173742558.png" class title="image-20211124173742558">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173742558.png" class title="image-20211124173742558">
 <hr>
 <h2 id="3-状态机"><a href="#3-状态机" class="headerlink" title="3 - 状态机"></a>3 - 状态机</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47434856">什么是状态机？</a></p>
 <p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">有限状态机 - 维基百科，自由的百科全书</a></p>
@@ -308,7 +308,7 @@
 <ul>
 <li><code>if-else</code> → <strong>系统状态</strong>、<strong>状态转移条件</strong>、<strong>状态执行动作</strong></li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173837024.png" class title="image-20211124173837024">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173837024.png" class title="image-20211124173837024">
 <ul>
 <li><strong>外骨骼的控制系统需要在静止、校准以及不同辅助模式下切换，都需要通过状态机来实现</strong></li>
 </ul>
@@ -319,24 +319,24 @@
 <li>错误形式</li>
 </ul>
 </blockquote>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled15.png" class>
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled15.png" class>
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（2）</strong></p>
 <p>在每隔控制周期，dSPACE按照<strong>信号流向</strong>，从首至尾<strong>顺序执行；禁止存在环路信号</strong></p>
 <ul>
 <li><strong>方法 1 - 使用单位延迟</strong></li>
 </ul>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled16.png" class title="Untitled">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled16.png" class title="Untitled">
 <ul>
 <li><p><strong>方法 2 - 使用全局寄存变量</strong></p>
 <ul>
 <li><p><strong>Step 1 创建 -</strong> 创建并设置全局变量，设置变量的维度和初值</p>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled17.png" class title="Untitled">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled17.png" class title="Untitled">
 </li>
 <li><p><strong>Step 2 调用 -</strong>  在Matlab Function中通过<code>global</code>调用全局变量，并在<strong>Port and Data Manger</strong>中进行声明</p>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled18.png" class title="Untitled">
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled18.png" class title="Untitled">
 </li>
 <li><p><strong>Step 3 检查 -</strong>  正确调用后，寄存器模块内会列出所有调用该变量的模块</p>
-<img data-src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled19.png" class title="Untitled"></li>
+<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled19.png" class title="Untitled"></li>
 </ul>
 </li>
 </ul>
@@ -527,7 +527,6 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 
 <script src="/js/utils.js"></script>
 
