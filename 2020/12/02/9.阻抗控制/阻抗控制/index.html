@@ -1,320 +1,12 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。 根据个人浅显的理解，对论文进行一点总结。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="阻抗控制">
-<meta property="og:url" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/index.html">
-<meta property="og:site_name" content="萤火">
-<meta property="og:description" content="Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。 根据个人浅显的理解，对论文进行一点总结。">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Impedance_Example.jpg">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606305246402.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606306619679.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606308814888.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Muscle.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/fig4.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness2.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606907817857.png">
-<meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606908189253.png">
-<meta property="article:published_time" content="2020-12-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-21T10:32:26.963Z">
-<meta property="article:author" content="Jayren Chen">
-<meta property="article:tag" content="控制算法">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png">
-
-<link rel="canonical" href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>阻抗控制 | 萤火</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">萤火</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-tutorials">
-
-    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
-
-  </li>
-        <li class="menu-item menu-item-develop">
-
-    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
-
-  </li>
-        <li class="menu-item menu-item-exoskeleton">
-
-    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jayren Chen">
-      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="萤火">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          阻抗控制
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-02T00:00:00+08:00">2020-12-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-21 18:32:26" itemprop="dateModified" datetime="2021-03-21T18:32:26+08:00">2021-03-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">阻抗研究</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="阻抗控制" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。</p>
-<p>根据个人浅显的理解，对论文进行一点总结。</p>
-<img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png" class>
-<span id="more"></span>
-<hr>
-<h2 id="Part-I-Theory"><a href="#Part-I-Theory" class="headerlink" title="Part I Theory"></a>Part I Theory</h2><p>当我们谈到interaction的时候，我们主要关注交互过程的运动和力，以及两者的乘积-交互过程的能量流动。在一些情况下，交互过程能量流动可以被近似忽略，而交互控制也因此可以被简化。例如在交互力很小的情况下（例如喷涂），可以采用纯位置控制；在作用力方向上没有位移的情况下（例如焊接），可以采用力位混合控制。在余下大部分的情况下，交互过程往往都伴随着能量的转移，这时候单一的控制量（位置、速度、交互力）就不足以控制交互过程能量流动。</p>
-<p>这个问题的一个解决方法是，控制操纵器的动态行为。如果将环境视作为操纵器的扰动，通过调节操纵器对扰动的响应则可实现对于动态行为的控制。这种调节不是通过动态调整控制器的参数（如改变pid的参数），而是通过探索物理交互的本质特性来实现的。</p>
-<p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Impedance_Example.jpg" width="60%"></p>
-<p>借用<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/43633361/answer/124417009">知乎邵天兰</a>关于机械臂开门的例子来做一个形象的解释。假定让机械臂去完成开门这个动作，由于门框的轴对门板产生了一定的运动学约束，门板的末端只能按照固定的轨迹进行运动。当采用完全的位置控制时，由于机械的规划轨迹和门的轨迹不可能做到完全一致（定位误差、传感器精度等诸多限制），这些偏差会使得门板和机械臂之间产生巨大的交互力；而若采用完全的力控，门板正常转动时的交互力又很小，很难实现较为准确的开门角度；因此必须要同时考虑位置和力的共同影响，才能较好的实现开门这个动作。实际上这样一个简单又复杂的问题，可以通过在机械臂末端添加一个弹簧来解决，机械臂采用位置控制时，弹簧的柔顺性使得即便存在一定的位置误差也不会产生很大的交互力。而阻抗控制，就是通过控制算法使机械臂表现出这样的弹簧行为。</p>
-<h3 id="物理等效性"><a href="#物理等效性" class="headerlink" title="物理等效性"></a>物理等效性</h3><p>操纵器是是物理硬件（机械结构、传感器、驱动器）和软件算法（控制程序）集合而成。一个统一的框架应当将硬件和软件一同纳入其中。在Hogan的观点中，硬件和软件共同作用下的操纵器，在与环境的交互中应当表现正常物理系统应当具有的特性，也就是说，<strong>软件部分所代表的控制器，也应当具有适当的物理特性</strong>：</p>
-<blockquote>
-<p><strong>It is impossible to devise a controller which will cause a physical system to present an apparent behavior to its environment which is distinguishable from that of a purely physical system. </strong></p>
-</blockquote>
-<p>这就是阻抗控制最核心的思想，控制器不再是一个完全虚拟的概念，而是可以等效为一定物理模型，具有一定的物理特性。从另一角度来说，控制器不再是任意设计的，而受到一定的物理特性的约束。在此基础上，Hogan进一步对交互过程的两种方式，impedance和admittance，进行进一步阐述。</p>
-<h3 id="因果关系"><a href="#因果关系" class="headerlink" title="因果关系"></a>因果关系</h3><p>在任意一个运动的自由度上，瞬时功率都由两项相乘而得：effort（例如力、电压）和flow（例如速度、电流）。任何一个物理系统在任意一个时刻都只能控制着两者中的一个，而不能控制两者全部（Hogan在这里更主要的是强调单自由度-单输入单输出的情况，最优控制问题也并未与此矛盾）。</p>
-<p>因此从交互的能量视角出发，物理系统可以看做只存在两种类型：admittance和impedacne，其中admittance接受effort而产生flow，而impedance接受flow而产生effort，这两者有点类似于电学系统中的电阻和电导。但不同于电学系统，admittance和impedance一般是不能互换的，例如是因为速度而产生的摩擦力，而不能说是因为摩擦力而产生了速度。这种非相互转化的特性是因果关系的体现，对于一个确定的物理关系而言，例如$F=ma$，尽管从数学上可以从右到左去表达，但实际物理系统只能从左到右与产生。这种因果关系表明，对于任意一个物理系统，它只能被描述为admittance或impedance中确定的一种特性（这种确定应当是相对的）。</p>
-<blockquote>
-<p><strong>The most important consequence of dynamic interaction between two physical systems is that one must physically complement the other: Along any degree of freedom, if one is an impedance, the other must be an admittance and vice versa.</strong></p>
-</blockquote>
-<p>在交互过程中我们希望交互过程可以表现的比较柔顺“compliance”，交互力的变化比较平滑。为实现柔顺交互，进行交互的两个物理系统必须是物理互补的，即其中一个若表现出admittance，另一个则必须为impedance。在非互补的两种情况下，可能会导致非柔顺的交互过程（admittance-admittance），或者物理不可实现（impedance-impedance）。</p>
-<p>对于大部分的操纵任务而言，其环境多少会包含惯性约束或运动学限制，这样的环境接收力的输入，然后产生运动响应（当然也可能没有运动），这样的物理特性只能看做是admittance。因此，与这样的环境进行交互时，操纵器必须表现出impedance，才能实现柔顺交互。</p>
-<p>接下来进一步讨论如何将impedance和admittance用物理模型和数学方法进行表示。由于Hogan的论文中较多的是文字描述，公式较少，且采用的bond graphs也不为控制领域所熟悉，因此下一部分将主要参考Unified Impedance and Admittance Control以及Modern Robotics - Mechanics, Planning, and Control中的内容进行介绍。</p>
-<h2 id="Part-II-Algorithm-and-Implementation"><a href="#Part-II-Algorithm-and-Implementation" class="headerlink" title="Part II Algorithm and Implementation"></a>Part II Algorithm and Implementation</h2><h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>考虑一个非常简单的单自由度惯性系统，系统的动力学方程可以表示为如下形式：</p>
-<script type="math/tex; mode=display">
-m\ddot{x} = F+ F_\mathrm{ext} \quad\quad(1)</script><p>$F_\mathrm{ext}$表示环境提供的交互力，注意这个公式是对于真实系统的建模，对于复杂的交互系统可以建立更加复杂的模型。</p>
-<p>无论是impedance control还是admittance control，其控制算法的设计目的都是通过控制操纵器的输出力$F$，使得外部力$F_\mathrm{ext}$与期望位置偏差$e=x-x_0$能够满足一定的关系，或者说外部力在与操纵器进行交互的时候具有一定的物理特性，如下图所示。区别于上面的动力学方程，这种物理特性是虚拟出来的，没有实际物理存在。一般来说，较多的采用二阶模型：</p>
-<img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png" class>
-<script type="math/tex; mode=display">
-M_d \ddot{e}+D_d \dot{e}+K_de=F_{\mathrm{ext}} \quad\quad(1)</script><p>式中$M_d$，$D_d$，$K_d$分别表示期望惯性、阻尼、刚度。在这样的关系下，外部力在与操纵器交互的时候，就像是在推动一个有阻尼、弹簧连接的质量块一样。由于这样一个关系是完全虚拟出来的，因此式中的三个参数可以任意调整。其中，刚度参数$K_d$是最重要的，也是最主要调节的参数，它反映操纵器的刚度大小，直接决定操纵器在与环境接触吋是呈现刚性还是柔性。一般来说，减小$K_d$会使机械手与环境的接触力变小，增大则会使机械臂与环境的接触力变大。阻尼参数$D_d$的增大或减小一般不会使接触力的稳定值变化，但可以调节操纵臂与环境交互的动态过程。一般来说，增大$D_d$会使力响应的超调减小，交互力的峰值显著下降，但过大的阻尼会使力响应过程变慢。惯性参数$M_d$一般不需要进行调节，但需要根据任务适当的进行选取。当这三个参数有任意一个的值较大时，我们其称为high impedance；若三个参数都很小时，称为low impedance。</p>
-<p>进一步，可以对上式进行Laplace变换：</p>
-<script type="math/tex; mode=display">
-(M_ds^2+D_ds+K_d)E(s)=F_\mathrm{ext}(s)</script><p>由此可以通过位置扰动到外部力的传递函数来定义impedance：$Z(s)=F_\mathrm{ext}(s)/E(s)$，这样impedance就是一个与频率相关的概念，低频时的响应主要由弹性项决定，而高频时的响应主要由惯性项决定；而admittance就可以定义为impedance的逆：$Y(s)=z^{-1}(s)=X(s)/F(s)$。</p>
-<p>一个好的位置控制器应当是high impedanc - low admittance，由于$E(s)=Y(s)F_\mathrm{ext}(s)$，来自外部力的扰动才能较小的影响位置；同理好的力控制应当是low impedance - high admittance，外部位置的扰动对力的影响才会比较小。从这一点来说，无论是位置控制还是力控制，都可以看做是阻抗控制的特例，是阻抗为无穷大和无穷小下的具体实现。</p>
-<h3 id="Impedance-Control"><a href="#Impedance-Control" class="headerlink" title="Impedance Control"></a>Impedance Control</h3><p>由于impedance的性质是接受flow而产生effort，因此一个impedance controller应当是以位置信息作为输入，以力的信息（关节力矩）为输出。考虑公式（1）与公式（2），得到如下的impedance控制系统：</p>
-<script type="math/tex; mode=display">
-F=m\ddot x - \left( M_d \ddot{e}+D_d \dot{e}+K_d e \right) \quad\quad(3)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606305246402.png" class>
-<p>有时候公式（3）中的加速度，包括$\ddot x$和$\ddot e$，比较难测量，可以通过测量$F_{ext}$来进行简化：</p>
-<script type="math/tex; mode=display">
-F=\left(\frac{m}{M_d}-1\right) F_{\mathrm{ext}}+m \ddot{x}_{0}-\frac{m}{M_d}\left(D_d \dot{e}+K_d e\right) \quad\quad(4)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606306619679.png" class>
-<h3 id="Admittance-Control"><a href="#Admittance-Control" class="headerlink" title="Admittance Control"></a>Admittance Control</h3><p>admittance接受effort而产生flow，因此admittance controller应当是以测量的交互力作为输入，以位置指令作为输出。一种简单的实现方法可以通过计算期望的加速度来得到：</p>
-<script type="math/tex; mode=display">
-M_d \ddot{e}_d+D_d \dot{e}+K_de=F_{\mathrm{ext}}</script><script type="math/tex; mode=display">
-\ddot{x}_d =  \ddot{x}_\mathrm{0} +\frac{1}{M_d}(F_{\mathrm{ext}}-D_d \dot{e}-K_d e ) \quad\quad(5)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606308814888.png" class>
-<hr>
-<p>这两种控制方式各有利弊，可以看出impedence control方法可以不用测量交互力的数据，但需要知道系统的动力学模型，这种方法在与环境交互的时候稳定性（柔顺性）比较好的，但无接触时实际上为开环系统，位置控制精度受制于建模精度；admittance control方法不需要进行系统动力学建模，在伺服任务中有较高位置精度，但与同样是admittance的环境交互时柔顺性较差，系统容易不稳定。</p>
-<p>在实际的使用中，impedance/admittance control的实现方式远不止上面几种，根据系统的硬件结构、测量数据、反馈信号、工作空间的不同，可以设计各种形式的impedance controller。以机械臂为例，我们可以将机械末端笛卡尔坐标系下的阻抗模型通过雅克比矩阵转化到关节空间下进行实现：</p>
-<script type="math/tex; mode=display">
-\tau=J^{\mathrm{T}}(\theta)\left(\underbrace{\tilde{\Lambda}(\theta) \ddot{x}+\tilde{\eta}(\theta, \dot{x})}_{\text {arm dynamics compensation }}-\underbrace{(M \ddot{x}+B \dot{x}+K x)}_{f_{\text {ext }}}\right)</script><p>以上就是Impedance Control在控制领域的具体实现。实际上Impedance的概念可以应用到诸多领域，下面一部分将主要介绍Impedance与人体运动。</p>
-<h2 id="Part-III-Impedance-and-Human-Movement"><a href="#Part-III-Impedance-and-Human-Movement" class="headerlink" title="Part III - Impedance and Human Movement"></a>Part III - Impedance and Human Movement</h2><p>人体的运动系统是这世界上最神奇的事物之一。在神经肌肉骨骼的共同作用下，人类得以实现无比丰富而复杂的动作，得以使用和制作各种工具，从而由古猿进化为智人，进化为这颗星球上最具智慧的生命。人体的运动千变万化，既有舞蹈那般的优雅流畅，又有雕刻那样准确精细；既有举重那般爆发力量，又可如武术那样灵巧迅捷。千百年来，人们试图去理解人体运动的本质，理解神经系统运动控制的机制，从而实现更加拟人的机器人运动与人类相协同，从而设计更智能的假肢帮助残疾人恢复运动功能。Impedance就是这样一种理解人体运动的方式。</p>
-<img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Muscle.png" class>
-<p>人体的运动系统由神经-肌肉-骨骼共同构成，神经信号刺激肌肉收缩，肌肉收缩带动骨骼运动。尽管人体的肌肉并不是能量保守的，但却具有很明显的阻抗特性，Hill肌肉模型就是将肌肉表示为收缩单元与串联弹簧与并联弹簧的组合，人体的驱动器-肌肉本身就类似于SEA；而用来表示肌肉收缩动力学的力-长度与力-速度关系，则可以看作是阻抗控制中的刚度参数和阻尼参数。</p>
-<p>由于肌肉只能单向驱动一个关节，因此为了实现关节层次的阻抗调节，需要相对立的两块肌肉共同收缩，这在生理学上称为<strong>Cocontraction of antagonistic muscle groups</strong>。想象着你从空中跳跃而下，在接触地面之时你需要保持腿部各关节的肌肉收缩来实现关节刚度的增加，以避免不必要的伤害；再考虑球场上你面对传来的篮球，下意识增加手腕处对立肌肉的收缩，从而能稳稳地接住它。<strong>通过调节关节阻抗来对抗环境的不稳定，是人体生理神经系统的基本准则；而通过学习利用自身或环境的动力学、减少不必要的阻抗和肌肉消耗，是我们适应这个世界基本方式。</strong></p>
-<p>当从阻抗的角度去理解人体运动时，能够得到比直观想象更是深刻一些的思考。人体肌肉系统一个特点是具有高度冗余，连接一个关节两侧骨骼的肌肉远远多于驱动该关节所必须的肌肉，甚至存在很多跨越多个关节的肌肉，例如上肢中最简单的肘关节就是由肱肌、肱桡肌、二头肌短头和二头肌长头共同作用。<strong>这种肌肉系统的冗余与复杂性对于阻抗控制来说起到什么作用？</strong></p>
-<h3 id="Muscle-Redundancies"><a href="#Muscle-Redundancies" class="headerlink" title="Muscle Redundancies"></a>Muscle Redundancies</h3><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/fig4.png" class>
-<p>考虑由大臂、小臂和躯干组成的二连杆模型在平面进行运动的情况，如图(a)所示。将手部视为刚体并忽略腕关节的自由度。为简化分析，将肌肉用弹簧进行描述，弹簧的刚度系数可以由神经信号进行调整。首先研究只有单关节肌肉的情况，图(b)所示。记相对关节角度为$\rho_1$,$\rho_2$，肩关节和肘关节的刚度系数分别为$K_s$,$K_e$，则关节力矩可以表示为如下形式：</p>
-<script type="math/tex; mode=display">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!0},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!1,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。 根据个人浅显的理解，对论文进行一点总结。"><meta property="og:type" content="article"><meta property="og:title" content="阻抗控制"><meta property="og:url" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/index.html"><meta property="og:site_name" content="萤火"><meta property="og:description" content="Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。 根据个人浅显的理解，对论文进行一点总结。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Impedance_Example.jpg"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606305246402.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606306619679.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606308814888.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Muscle.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/fig4.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness2.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606907817857.png"><meta property="og:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606908189253.png"><meta property="article:published_time" content="2020-12-01T16:00:00.000Z"><meta property="article:modified_time" content="2021-03-21T10:32:26.963Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="控制算法"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png"><link rel="canonical" href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>阻抗控制 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 阻抗控制</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2020-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-02T00:00:00+08:00">2020-12-02</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2021-03-21 18:32:26" itemprop="dateModified" datetime="2021-03-21T18:32:26+08:00">2021-03-21</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E9%98%BB%E6%8A%97%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">阻抗研究</span></a></span></span><span id="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="阻抗控制" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>Hogan的三篇阻抗控制论文算是阻抗领域的经典之作，其最大贡献在于突破了原有的位控、力控的单一性，将位置、力的动态关系作为控制目标，非常适合需要与环境进行交互的控制。</p><p>根据个人浅显的理解，对论文进行一点总结。</p> <img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png" class><span id="more"></span><hr><h2 id="Part-I-Theory"><a href="#Part-I-Theory" class="headerlink" title="Part I Theory"></a>Part I Theory</h2><p>当我们谈到interaction的时候，我们主要关注交互过程的运动和力，以及两者的乘积-交互过程的能量流动。在一些情况下，交互过程能量流动可以被近似忽略，而交互控制也因此可以被简化。例如在交互力很小的情况下（例如喷涂），可以采用纯位置控制；在作用力方向上没有位移的情况下（例如焊接），可以采用力位混合控制。在余下大部分的情况下，交互过程往往都伴随着能量的转移，这时候单一的控制量（位置、速度、交互力）就不足以控制交互过程能量流动。</p><p>这个问题的一个解决方法是，控制操纵器的动态行为。如果将环境视作为操纵器的扰动，通过调节操纵器对扰动的响应则可实现对于动态行为的控制。这种调节不是通过动态调整控制器的参数（如改变pid的参数），而是通过探索物理交互的本质特性来实现的。</p><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Impedance_Example.jpg" width="60%"></p><p>借用<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/43633361/answer/124417009">知乎邵天兰</a>关于机械臂开门的例子来做一个形象的解释。假定让机械臂去完成开门这个动作，由于门框的轴对门板产生了一定的运动学约束，门板的末端只能按照固定的轨迹进行运动。当采用完全的位置控制时，由于机械的规划轨迹和门的轨迹不可能做到完全一致（定位误差、传感器精度等诸多限制），这些偏差会使得门板和机械臂之间产生巨大的交互力；而若采用完全的力控，门板正常转动时的交互力又很小，很难实现较为准确的开门角度；因此必须要同时考虑位置和力的共同影响，才能较好的实现开门这个动作。实际上这样一个简单又复杂的问题，可以通过在机械臂末端添加一个弹簧来解决，机械臂采用位置控制时，弹簧的柔顺性使得即便存在一定的位置误差也不会产生很大的交互力。而阻抗控制，就是通过控制算法使机械臂表现出这样的弹簧行为。</p><h3 id="物理等效性"><a href="#物理等效性" class="headerlink" title="物理等效性"></a>物理等效性</h3><p>操纵器是是物理硬件（机械结构、传感器、驱动器）和软件算法（控制程序）集合而成。一个统一的框架应当将硬件和软件一同纳入其中。在Hogan的观点中，硬件和软件共同作用下的操纵器，在与环境的交互中应当表现正常物理系统应当具有的特性，也就是说，<strong>软件部分所代表的控制器，也应当具有适当的物理特性</strong>：</p><blockquote><p><strong>It is impossible to devise a controller which will cause a physical system to present an apparent behavior to its environment which is distinguishable from that of a purely physical system.</strong></p></blockquote><p>这就是阻抗控制最核心的思想，控制器不再是一个完全虚拟的概念，而是可以等效为一定物理模型，具有一定的物理特性。从另一角度来说，控制器不再是任意设计的，而受到一定的物理特性的约束。在此基础上，Hogan进一步对交互过程的两种方式，impedance和admittance，进行进一步阐述。</p><h3 id="因果关系"><a href="#因果关系" class="headerlink" title="因果关系"></a>因果关系</h3><p>在任意一个运动的自由度上，瞬时功率都由两项相乘而得：effort（例如力、电压）和flow（例如速度、电流）。任何一个物理系统在任意一个时刻都只能控制着两者中的一个，而不能控制两者全部（Hogan在这里更主要的是强调单自由度-单输入单输出的情况，最优控制问题也并未与此矛盾）。</p><p>因此从交互的能量视角出发，物理系统可以看做只存在两种类型：admittance和impedacne，其中admittance接受effort而产生flow，而impedance接受flow而产生effort，这两者有点类似于电学系统中的电阻和电导。但不同于电学系统，admittance和impedance一般是不能互换的，例如是因为速度而产生的摩擦力，而不能说是因为摩擦力而产生了速度。这种非相互转化的特性是因果关系的体现，对于一个确定的物理关系而言，例如$F=ma$，尽管从数学上可以从右到左去表达，但实际物理系统只能从左到右与产生。这种因果关系表明，对于任意一个物理系统，它只能被描述为admittance或impedance中确定的一种特性（这种确定应当是相对的）。</p><blockquote><p><strong>The most important consequence of dynamic interaction between two physical systems is that one must physically complement the other: Along any degree of freedom, if one is an impedance, the other must be an admittance and vice versa.</strong></p></blockquote><p>在交互过程中我们希望交互过程可以表现的比较柔顺“compliance”，交互力的变化比较平滑。为实现柔顺交互，进行交互的两个物理系统必须是物理互补的，即其中一个若表现出admittance，另一个则必须为impedance。在非互补的两种情况下，可能会导致非柔顺的交互过程（admittance-admittance），或者物理不可实现（impedance-impedance）。</p><p>对于大部分的操纵任务而言，其环境多少会包含惯性约束或运动学限制，这样的环境接收力的输入，然后产生运动响应（当然也可能没有运动），这样的物理特性只能看做是admittance。因此，与这样的环境进行交互时，操纵器必须表现出impedance，才能实现柔顺交互。</p><p>接下来进一步讨论如何将impedance和admittance用物理模型和数学方法进行表示。由于Hogan的论文中较多的是文字描述，公式较少，且采用的bond graphs也不为控制领域所熟悉，因此下一部分将主要参考Unified Impedance and Admittance Control以及Modern Robotics - Mechanics, Planning, and Control中的内容进行介绍。</p><h2 id="Part-II-Algorithm-and-Implementation"><a href="#Part-II-Algorithm-and-Implementation" class="headerlink" title="Part II Algorithm and Implementation"></a>Part II Algorithm and Implementation</h2><h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>考虑一个非常简单的单自由度惯性系统，系统的动力学方程可以表示为如下形式：</p><script type="math/tex;mode=display">
+m\ddot{x} = F+ F_\mathrm{ext} \quad\quad(1)</script><p>$F_\mathrm{ext}$表示环境提供的交互力，注意这个公式是对于真实系统的建模，对于复杂的交互系统可以建立更加复杂的模型。</p><p>无论是impedance control还是admittance control，其控制算法的设计目的都是通过控制操纵器的输出力$F$，使得外部力$F_\mathrm{ext}$与期望位置偏差$e=x-x_0$能够满足一定的关系，或者说外部力在与操纵器进行交互的时候具有一定的物理特性，如下图所示。区别于上面的动力学方程，这种物理特性是虚拟出来的，没有实际物理存在。一般来说，较多的采用二阶模型：</p> <img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Interaction.png" class><script type="math/tex;mode=display">
+M_d \ddot{e}+D_d \dot{e}+K_de=F_{\mathrm{ext}} \quad\quad(1)</script><p>式中$M_d$，$D_d$，$K_d$分别表示期望惯性、阻尼、刚度。在这样的关系下，外部力在与操纵器交互的时候，就像是在推动一个有阻尼、弹簧连接的质量块一样。由于这样一个关系是完全虚拟出来的，因此式中的三个参数可以任意调整。其中，刚度参数$K_d$是最重要的，也是最主要调节的参数，它反映操纵器的刚度大小，直接决定操纵器在与环境接触吋是呈现刚性还是柔性。一般来说，减小$K_d$会使机械手与环境的接触力变小，增大则会使机械臂与环境的接触力变大。阻尼参数$D_d$的增大或减小一般不会使接触力的稳定值变化，但可以调节操纵臂与环境交互的动态过程。一般来说，增大$D_d$会使力响应的超调减小，交互力的峰值显著下降，但过大的阻尼会使力响应过程变慢。惯性参数$M_d$一般不需要进行调节，但需要根据任务适当的进行选取。当这三个参数有任意一个的值较大时，我们其称为high impedance；若三个参数都很小时，称为low impedance。</p><p>进一步，可以对上式进行Laplace变换：</p><script type="math/tex;mode=display">
+(M_ds^2+D_ds+K_d)E(s)=F_\mathrm{ext}(s)</script><p>由此可以通过位置扰动到外部力的传递函数来定义impedance：$Z(s)=F_\mathrm{ext}(s)/E(s)$，这样impedance就是一个与频率相关的概念，低频时的响应主要由弹性项决定，而高频时的响应主要由惯性项决定；而admittance就可以定义为impedance的逆：$Y(s)=z^{-1}(s)=X(s)/F(s)$。</p><p>一个好的位置控制器应当是high impedanc - low admittance，由于$E(s)=Y(s)F_\mathrm{ext}(s)$，来自外部力的扰动才能较小的影响位置；同理好的力控制应当是low impedance - high admittance，外部位置的扰动对力的影响才会比较小。从这一点来说，无论是位置控制还是力控制，都可以看做是阻抗控制的特例，是阻抗为无穷大和无穷小下的具体实现。</p><h3 id="Impedance-Control"><a href="#Impedance-Control" class="headerlink" title="Impedance Control"></a>Impedance Control</h3><p>由于impedance的性质是接受flow而产生effort，因此一个impedance controller应当是以位置信息作为输入，以力的信息（关节力矩）为输出。考虑公式（1）与公式（2），得到如下的impedance控制系统：</p><script type="math/tex;mode=display">
+F=m\ddot x - \left( M_d \ddot{e}+D_d \dot{e}+K_d e \right) \quad\quad(3)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606305246402.png" class><p>有时候公式（3）中的加速度，包括$\ddot x$和$\ddot e$，比较难测量，可以通过测量$F_{ext}$来进行简化：</p><script type="math/tex;mode=display">
+F=\left(\frac{m}{M_d}-1\right) F_{\mathrm{ext}}+m \ddot{x}_{0}-\frac{m}{M_d}\left(D_d \dot{e}+K_d e\right) \quad\quad(4)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606306619679.png" class><h3 id="Admittance-Control"><a href="#Admittance-Control" class="headerlink" title="Admittance Control"></a>Admittance Control</h3><p>admittance接受effort而产生flow，因此admittance controller应当是以测量的交互力作为输入，以位置指令作为输出。一种简单的实现方法可以通过计算期望的加速度来得到：</p><script type="math/tex;mode=display">
+M_d \ddot{e}_d+D_d \dot{e}+K_de=F_{\mathrm{ext}}</script><script type="math/tex;mode=display">
+\ddot{x}_d =  \ddot{x}_\mathrm{0} +\frac{1}{M_d}(F_{\mathrm{ext}}-D_d \dot{e}-K_d e ) \quad\quad(5)</script><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606308814888.png" class><hr><p>这两种控制方式各有利弊，可以看出impedence control方法可以不用测量交互力的数据，但需要知道系统的动力学模型，这种方法在与环境交互的时候稳定性（柔顺性）比较好的，但无接触时实际上为开环系统，位置控制精度受制于建模精度；admittance control方法不需要进行系统动力学建模，在伺服任务中有较高位置精度，但与同样是admittance的环境交互时柔顺性较差，系统容易不稳定。</p><p>在实际的使用中，impedance/admittance control的实现方式远不止上面几种，根据系统的硬件结构、测量数据、反馈信号、工作空间的不同，可以设计各种形式的impedance controller。以机械臂为例，我们可以将机械末端笛卡尔坐标系下的阻抗模型通过雅克比矩阵转化到关节空间下进行实现：</p><script type="math/tex;mode=display">
+\tau=J^{\mathrm{T}}(\theta)\left(\underbrace{\tilde{\Lambda}(\theta) \ddot{x}+\tilde{\eta}(\theta, \dot{x})}_{\text {arm dynamics compensation }}-\underbrace{(M \ddot{x}+B \dot{x}+K x)}_{f_{\text {ext }}}\right)</script><p>以上就是Impedance Control在控制领域的具体实现。实际上Impedance的概念可以应用到诸多领域，下面一部分将主要介绍Impedance与人体运动。</p><h2 id="Part-III-Impedance-and-Human-Movement"><a href="#Part-III-Impedance-and-Human-Movement" class="headerlink" title="Part III - Impedance and Human Movement"></a>Part III - Impedance and Human Movement</h2><p>人体的运动系统是这世界上最神奇的事物之一。在神经肌肉骨骼的共同作用下，人类得以实现无比丰富而复杂的动作，得以使用和制作各种工具，从而由古猿进化为智人，进化为这颗星球上最具智慧的生命。人体的运动千变万化，既有舞蹈那般的优雅流畅，又有雕刻那样准确精细；既有举重那般爆发力量，又可如武术那样灵巧迅捷。千百年来，人们试图去理解人体运动的本质，理解神经系统运动控制的机制，从而实现更加拟人的机器人运动与人类相协同，从而设计更智能的假肢帮助残疾人恢复运动功能。Impedance就是这样一种理解人体运动的方式。</p> <img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Muscle.png" class><p>人体的运动系统由神经-肌肉-骨骼共同构成，神经信号刺激肌肉收缩，肌肉收缩带动骨骼运动。尽管人体的肌肉并不是能量保守的，但却具有很明显的阻抗特性，Hill肌肉模型就是将肌肉表示为收缩单元与串联弹簧与并联弹簧的组合，人体的驱动器-肌肉本身就类似于SEA；而用来表示肌肉收缩动力学的力-长度与力-速度关系，则可以看作是阻抗控制中的刚度参数和阻尼参数。</p><p>由于肌肉只能单向驱动一个关节，因此为了实现关节层次的阻抗调节，需要相对立的两块肌肉共同收缩，这在生理学上称为<strong>Cocontraction of antagonistic muscle groups</strong>。想象着你从空中跳跃而下，在接触地面之时你需要保持腿部各关节的肌肉收缩来实现关节刚度的增加，以避免不必要的伤害；再考虑球场上你面对传来的篮球，下意识增加手腕处对立肌肉的收缩，从而能稳稳地接住它。<strong>通过调节关节阻抗来对抗环境的不稳定，是人体生理神经系统的基本准则；而通过学习利用自身或环境的动力学、减少不必要的阻抗和肌肉消耗，是我们适应这个世界基本方式。</strong></p><p>当从阻抗的角度去理解人体运动时，能够得到比直观想象更是深刻一些的思考。人体肌肉系统一个特点是具有高度冗余，连接一个关节两侧骨骼的肌肉远远多于驱动该关节所必须的肌肉，甚至存在很多跨越多个关节的肌肉，例如上肢中最简单的肘关节就是由肱肌、肱桡肌、二头肌短头和二头肌长头共同作用。<strong>这种肌肉系统的冗余与复杂性对于阻抗控制来说起到什么作用？</strong></p><h3 id="Muscle-Redundancies"><a href="#Muscle-Redundancies" class="headerlink" title="Muscle Redundancies"></a>Muscle Redundancies</h3><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/fig4.png" class><p>考虑由大臂、小臂和躯干组成的二连杆模型在平面进行运动的情况，如图(a)所示。将手部视为刚体并忽略腕关节的自由度。为简化分析，将肌肉用弹簧进行描述，弹簧的刚度系数可以由神经信号进行调整。首先研究只有单关节肌肉的情况，图(b)所示。记相对关节角度为$\rho_1$,$\rho_2$，肩关节和肘关节的刚度系数分别为$K_s$,$K_e$，则关节力矩可以表示为如下形式：</p><script type="math/tex;mode=display">
 \left[\begin{array}{c}
 T_{1} \\
 T_{2}
@@ -324,8 +16,7 @@ K_s & 0 \\
 \end{array}\right]\left[\begin{array}{l}
 \rho_{1} \\
 \rho_{2}
-\end{array}\right]</script><p>式中的矩阵称为刚度矩阵，反应关节阻抗特性。由于我们更关心末端执行器-手部，与环境交互时的阻抗特性，因此进一步将上面的阻抗关系变化到笛卡尔坐标下。考虑相对关节角度与绝对关节角度之间的变化关系：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>式中的矩阵称为刚度矩阵，反应关节阻抗特性。由于我们更关心末端执行器-手部，与环境交互时的阻抗特性，因此进一步将上面的阻抗关系变化到笛卡尔坐标下。考虑相对关节角度与绝对关节角度之间的变化关系：</p><script type="math/tex;mode=display">
 \left[\begin{array}{c}
 \rho_{1} \\
 \rho_{2}
@@ -338,8 +29,7 @@ K_s & 0 \\
 \end{array}\right] = T\left[\begin{array}{l}
 \theta_{1} \\
 \theta_{2}
-\end{array}\right]=K_\theta \theta</script><p>绝对关节角坐标系下的阻抗关系为：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]=K_\theta \theta</script><p>绝对关节角坐标系下的阻抗关系为：</p><script type="math/tex;mode=display">
 \left[\begin{array}{c}
 T_{1} \\
 T_{2}
@@ -356,15 +46,12 @@ K_s+K_e & -K_e \\
 \end{array}\right]\left[\begin{array}{l}
 \theta_{1} \\
 \theta_{2}
-\end{array}\right]</script><p>末端位置到关节角度的雅克比矩阵为：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>末端位置到关节角度的雅克比矩阵为：</p><script type="math/tex;mode=display">
 J=\left[\begin{array}{cc}
 -L_{1} \sin \theta_{1} & -L_{2} \sin \theta_{2} \\
 L_{1} \cos \theta_{1} & L_{2} \cos \theta_{2}
-\end{array}\right]</script><p>关节阻抗到末端阻抗的变换关系为：</p>
-<script type="math/tex; mode=display">
-\tau=J^TF \Rightarrow  K_\theta d\theta = J^TK_x dx \Rightarrow K_\theta  = J^TK_x J \Rightarrow K_x  = (J^T)^{-1}K_\theta J^{-1}</script><p>假定$L_1=L_2=1$，并令$\Lambda=C_1S_2-S_1C_2$，则有：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>关节阻抗到末端阻抗的变换关系为：</p><script type="math/tex;mode=display">
+\tau=J^TF \Rightarrow  K_\theta d\theta = J^TK_x dx \Rightarrow K_\theta  = J^TK_x J \Rightarrow K_x  = (J^T)^{-1}K_\theta J^{-1}</script><p>假定$L_1=L_2=1$，并令$\Lambda=C_1S_2-S_1C_2$，则有：</p><script type="math/tex;mode=display">
 K_x = \frac{K_s}{\Lambda^2} \left[\begin{array}{cc}
 C_2^2 & S_2C_2\\
 S_2C_2 & S_2^2
@@ -372,8 +59,7 @@ S_2C_2 & S_2^2
  \frac{K_e}{\Lambda^2} \left[\begin{array}{cc}
 (C_1+C_2)^2 & (S_1+S_2)(C_1+C_2)\\
 (S_1+S_2)(C_1+C_2) & (S_1+S_2)^2
-\end{array}\right]</script><p>虽然在相对关节角度坐标系下刚度矩阵是对角的，但在末端笛卡尔坐标系下刚度矩阵一般不再具有对角性。通过调节关节刚度$K_s$和$K_e$，可以实现对末端笛卡尔坐标系下的阻抗调节，且肌肉的冗余度越高，则对于阻抗的调节就越灵活。但由于刚度矩阵有三个自由变量（对称性），因此调节$K_s$和$K_e$无法实现任意形式阻抗模式。考虑当$\theta_1=0, \theta_2=90^{\circ} $时，$\Lambda=1$，$K_x$可以表示为如下形式：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>虽然在相对关节角度坐标系下刚度矩阵是对角的，但在末端笛卡尔坐标系下刚度矩阵一般不再具有对角性。通过调节关节刚度$K_s$和$K_e$，可以实现对末端笛卡尔坐标系下的阻抗调节，且肌肉的冗余度越高，则对于阻抗的调节就越灵活。但由于刚度矩阵有三个自由变量（对称性），因此调节$K_s$和$K_e$无法实现任意形式阻抗模式。考虑当$\theta_1=0, \theta_2=90^{\circ} $时，$\Lambda=1$，$K_x$可以表示为如下形式：</p><script type="math/tex;mode=display">
 K_x = {K_s} \left[\begin{array}{cc}
 0 & 0\\
 0 & 1
@@ -381,10 +67,7 @@ K_x = {K_s} \left[\begin{array}{cc}
 {K_e}\left[\begin{array}{cc}
 1 & 1\\
 1 & 1
-\end{array}\right]</script><p>上式表明无论人体如何调整关节的刚度系数或是肌肉的收缩程度，都不可能使末端笛卡尔坐标下的刚度矩阵等于单位矩阵。若进一步用刚度椭圆来表示表示刚度矩阵（长轴和短轴分别代表刚度矩阵的两个特征值，长轴和短轴的方向分别为特征向量的方向），可以看出随着关节刚度的调节，末端笛卡尔坐标系下刚度椭圆的长轴只能够在如下深蓝和深红两条虚线内变化。在这样的阻抗特性下，手臂末端更容易对抗平行于蓝色虚线的扰动，而容易收到垂直于蓝色虚线的扰动的影响；也就是说在这样的阻抗特性下，你会很容易写出丿，却很难写出㇏。</p>
-<p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness.png" width="60%"></p>
-<p>现在向这个二连杆机构引入双关节肌肉，在双关节肌肉和单关节肌肉的共同作用下，相对关节角度坐标系下的阻抗特性如下：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>上式表明无论人体如何调整关节的刚度系数或是肌肉的收缩程度，都不可能使末端笛卡尔坐标下的刚度矩阵等于单位矩阵。若进一步用刚度椭圆来表示表示刚度矩阵（长轴和短轴分别代表刚度矩阵的两个特征值，长轴和短轴的方向分别为特征向量的方向），可以看出随着关节刚度的调节，末端笛卡尔坐标系下刚度椭圆的长轴只能够在如下深蓝和深红两条虚线内变化。在这样的阻抗特性下，手臂末端更容易对抗平行于蓝色虚线的扰动，而容易收到垂直于蓝色虚线的扰动的影响；也就是说在这样的阻抗特性下，你会很容易写出丿，却很难写出㇏。</p><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness.png" width="60%"></p><p>现在向这个二连杆机构引入双关节肌肉，在双关节肌肉和单关节肌肉的共同作用下，相对关节角度坐标系下的阻抗特性如下：</p><script type="math/tex;mode=display">
 \left[\begin{array}{c}
 T_{1} \\
 T_{2}
@@ -394,8 +77,7 @@ K t & K e+K t
 \end{array}\right]\left[\begin{array}{l}
 \rho_{1} \\
 \rho_{2}
-\end{array}\right]</script><p>将其变换到末端笛卡尔坐标系下，可得：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>将其变换到末端笛卡尔坐标系下，可得：</p><script type="math/tex;mode=display">
 K_x = \frac{K_s}{\Lambda^2} \left[\begin{array}{cc}
 C_2^2 & S_2C_2\\
 S_2C_2 & S_2^2
@@ -407,8 +89,7 @@ S_2C_2 & S_2^2
 \frac{K_t}{\Lambda^2} \left[\begin{array}{cc}
 C_1^2 & S_1C_1\\
 S_1C_1 & S_1^2
-\end{array}\right]</script><p>第三个参数$K_t$增加了刚度矩阵的可调节范围，甚至在一定工作空间内可以实现任意形式的阻抗特性。依然考虑$\theta_1=0, \theta_2=90^{\circ} $的情况：</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>第三个参数$K_t$增加了刚度矩阵的可调节范围，甚至在一定工作空间内可以实现任意形式的阻抗特性。依然考虑$\theta_1=0, \theta_2=90^{\circ} $的情况：</p><script type="math/tex;mode=display">
 K_x = {K_s} \left[\begin{array}{cc}
 0 & 0\\
 0 & 1
@@ -420,88 +101,14 @@ K_x = {K_s} \left[\begin{array}{cc}
 {K_t}\left[\begin{array}{cc}
 1 & 0\\
 0 & 0
-\end{array}\right]</script><p>可以看出只要取$K_s=1, K_e=0, K_t=1$就可以使$K_x$为单位矩阵，甚至当前位姿下，通过调节$K_s, K_e, K_t$几乎可以实现任意形式的刚度矩阵，末端笛卡尔坐标系下可以表现出任意形式的阻抗特性，正如下图所展示的那样。</p>
-<p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness2.png" width="60%"></p>
-<p><strong>由此，人体肌肉系统的冗余与复杂是有明确意义的，这经过亿万年进化而来的肌肉系统，增加了人体阻抗-尤其是末端阻抗的可调范围，使人类尽可能少的受到自身能力的限制，能够根据需要任意调整与环境交互时的阻抗特性，灵巧的使用各种工具来拓宽其生存边界与层次。</strong></p>
-<h3 id="Impedance-Learning"><a href="#Impedance-Learning" class="headerlink" title="Impedance Learning"></a>Impedance Learning</h3><p>而人体的运动控制，可以很自然的看做是对于阻抗特性的学习。还是以手臂二自由度平面运动为例，在2001年的一篇Nature论文The central nervous system stabilizes unstable dynamics by learning optimal impedance中，研究人员通过与交互的机械臂在运动区域内构建了一个扩散力场（如下图所示）：当手臂末端运动偏离预定轨迹时会在$x$方向上受到干扰作用力，且随着偏差加大，作用力也越大，因此具有不稳定的特性。</p>
-<script type="math/tex; mode=display">
+\end{array}\right]</script><p>可以看出只要取$K_s=1, K_e=0, K_t=1$就可以使$K_x$为单位矩阵，甚至当前位姿下，通过调节$K_s, K_e, K_t$几乎可以实现任意形式的刚度矩阵，末端笛卡尔坐标系下可以表现出任意形式的阻抗特性，正如下图所展示的那样。</p><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/Stiffness2.png" width="60%"></p><p><strong>由此，人体肌肉系统的冗余与复杂是有明确意义的，这经过亿万年进化而来的肌肉系统，增加了人体阻抗-尤其是末端阻抗的可调范围，使人类尽可能少的受到自身能力的限制，能够根据需要任意调整与环境交互时的阻抗特性，灵巧的使用各种工具来拓宽其生存边界与层次。</strong></p><h3 id="Impedance-Learning"><a href="#Impedance-Learning" class="headerlink" title="Impedance Learning"></a>Impedance Learning</h3><p>而人体的运动控制，可以很自然的看做是对于阻抗特性的学习。还是以手臂二自由度平面运动为例，在2001年的一篇Nature论文The central nervous system stabilizes unstable dynamics by learning optimal impedance中，研究人员通过与交互的机械臂在运动区域内构建了一个扩散力场（如下图所示）：当手臂末端运动偏离预定轨迹时会在$x$方向上受到干扰作用力，且随着偏差加大，作用力也越大，因此具有不稳定的特性。</p><script type="math/tex;mode=display">
 \left[\begin{array}{l}
 F_{x} \\
 F_{y}
 \end{array}\right]=\left[\begin{array}{l}
 \beta x \\
 0
-\end{array}\right]</script><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606907817857.png" width="60%"></p>
-<p>研究人员令受试者分别在无力场、有扩散力场的条件下，分别控制手臂末端沿y方向进行运动。在没有力场的作用下，受试者能够实现良好的运动轨迹；在刚施加扩散力场后，受试者的运动变得不稳定，而经过一段时间的学习后，受试者恢复了良好的运动轨迹。研究人员测量了不同受试者在力场作用前后的末端阻抗特性，刚度椭圆无一例外的增加了x方向上的长度，也就是增加了x方向上的刚度系数，使得能够对抗来自x方向上扩散力场的扰动。</p>
-<p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606908189253.png" width="60%"></p>
-<p>在扩散力场的作用下，人体的神经系统学会了新的阻抗特性来适应环境。类似的例子还有很多，当你骑自行车时，你用双手控制车把使车把表现出阻抗特性，使受到扰动后能恢复车把与前进方向平行；当你使用螺丝刀时，你控制螺丝刀在非法向方向上保持较高的阻抗，使得螺丝刀不会因为扰动而滑落。对于一切稳定和不稳定的环境，人体学习调整自身的肌肉表现适当的阻抗形式使交互过程保持稳定，再学习利用环境和自身的动力学特性使交互的动态过程更有效率。</p>
-<p><strong>因此，人体运动控制本质是对阻抗特性的控制，学习环境（外部条件）、位姿（内部状态）与阻抗之间的映射关系，学习刚（admittance）柔（impedance）之间的相互转化，学习鲁棒与最优之间的动态平衡；而最终，促成了人类丰富多彩的世界。</strong></p>
-<hr>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
-<li>Hogan N. Impedance control: An approach to manipulation: Part I—Theory[J]. 1985.</li>
-<li>Hogan N. Impedance control: An approach to manipulation: Part II—Implementation[J]. 1985.</li>
-<li>Ott C, Mukherjee R, Nakamura Y. Unified impedance and admittance control[C]//2010 IEEE International Conference on Robotics and Automation. IEEE, 2010: 554-561.</li>
-<li>Kevin M.. Lynch, Park F C. Modern Robotics: Mechanics, Planning, and Control[M]. Cambridge University Press, 2017.</li>
-<li>Milner T E. Adaptation to destabilizing dynamics by means of muscle cocontraction[J]. Experimental brain research, 2002, 143(4): 406-416.</li>
-<li>Burdet E, Osu R, Franklin D W, et al. The central nervous system stabilizes unstable dynamics by learning optimal impedance[J]. Nature, 2001, 414(6862): 446-449.</li>
-</ol>
-
-    </div>
-
-    
-    
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Jayren Chen
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" title="阻抗控制">https://jychennk.github.io/2020/12/02/9.阻抗控制/阻抗控制/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag"># 控制算法</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="prev" title="基于肌肉骨骼模型的预测仿真">
-      <i class="fa fa-chevron-left"></i> 基于肌肉骨骼模型的预测仿真
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/02/28/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" rel="next" title="IMU原理与人体姿态检测">
-      IMU原理与人体姿态检测 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
+\end{array}\right]</script><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606907817857.png" width="60%"></p><p>研究人员令受试者分别在无力场、有扩散力场的条件下，分别控制手臂末端沿y方向进行运动。在没有力场的作用下，受试者能够实现良好的运动轨迹；在刚施加扩散力场后，受试者的运动变得不稳定，而经过一段时间的学习后，受试者恢复了良好的运动轨迹。研究人员测量了不同受试者在力场作用前后的末端阻抗特性，刚度椭圆无一例外的增加了x方向上的长度，也就是增加了x方向上的刚度系数，使得能够对抗来自x方向上扩散力场的扰动。</p><p><img src="/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/1606908189253.png" width="60%"></p><p>在扩散力场的作用下，人体的神经系统学会了新的阻抗特性来适应环境。类似的例子还有很多，当你骑自行车时，你用双手控制车把使车把表现出阻抗特性，使受到扰动后能恢复车把与前进方向平行；当你使用螺丝刀时，你控制螺丝刀在非法向方向上保持较高的阻抗，使得螺丝刀不会因为扰动而滑落。对于一切稳定和不稳定的环境，人体学习调整自身的肌肉表现适当的阻抗形式使交互过程保持稳定，再学习利用环境和自身的动力学特性使交互的动态过程更有效率。</p><p><strong>因此，人体运动控制本质是对阻抗特性的控制，学习环境（外部条件）、位姿（内部状态）与阻抗之间的映射关系，学习刚（admittance）柔（impedance）之间的相互转化，学习鲁棒与最优之间的动态平衡；而最终，促成了人类丰富多彩的世界。</strong></p><hr><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol><li>Hogan N. Impedance control: An approach to manipulation: Part I—Theory[J]. 1985.</li><li>Hogan N. Impedance control: An approach to manipulation: Part II—Implementation[J]. 1985.</li><li>Ott C, Mukherjee R, Nakamura Y. Unified impedance and admittance control[C]//2010 IEEE International Conference on Robotics and Automation. IEEE, 2010: 554-561.</li><li>Kevin M.. Lynch, Park F C. Modern Robotics: Mechanics, Planning, and Control[M]. Cambridge University Press, 2017.</li><li>Milner T E. Adaptation to destabilizing dynamics by means of muscle cocontraction[J]. Experimental brain research, 2002, 143(4): 406-416.</li><li>Burdet E, Osu R, Franklin D W, et al. The central nervous system stabilizes unstable dynamics by learning optimal impedance[J]. Nature, 2001, 414(6862): 446-449.</li></ol></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2020/12/02/9.%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/%E9%98%BB%E6%8A%97%E6%8E%A7%E5%88%B6/" title="阻抗控制">https://jychennk.github.io/2020/12/02/9.阻抗控制/阻抗控制/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/" rel="tag"># 控制算法</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="prev" title="基于肌肉骨骼模型的预测仿真"><i class="fa fa-chevron-left"></i> 基于肌肉骨骼模型的预测仿真</a></div><div class="post-nav-item"> <a href="/2021/02/28/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/" rel="next" title="IMU原理与人体姿态检测">IMU原理与人体姿态检测<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -521,152 +128,7 @@ F_{y}
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I-Theory"><span class="nav-number">1.</span> <span class="nav-text">Part I Theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E7%AD%89%E6%95%88%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">物理等效性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.</span> <span class="nav-text">因果关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II-Algorithm-and-Implementation"><span class="nav-number">2.</span> <span class="nav-text">Part II Algorithm and Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Impedance-Control"><span class="nav-number">2.2.</span> <span class="nav-text">Impedance Control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Admittance-Control"><span class="nav-number">2.3.</span> <span class="nav-text">Admittance Control</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-III-Impedance-and-Human-Movement"><span class="nav-number">3.</span> <span class="nav-text">Part III - Impedance and Human Movement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Muscle-Redundancies"><span class="nav-number">3.1.</span> <span class="nav-text">Muscle Redundancies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Impedance-Learning"><span class="nav-number">3.2.</span> <span class="nav-text">Impedance Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Jayren Chen</p>
-  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">23</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2019 – 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
-</div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-  <script defer src="/lib/three/three.min.js"></script>
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
+</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I-Theory"><span class="nav-number">1.</span> <span class="nav-text">Part I Theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E7%AD%89%E6%95%88%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">物理等效性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.</span> <span class="nav-text">因果关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II-Algorithm-and-Implementation"><span class="nav-number">2.</span> <span class="nav-text">Part II Algorithm and Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Impedance-Control"><span class="nav-number">2.2.</span> <span class="nav-text">Impedance Control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Admittance-Control"><span class="nav-number">2.3.</span> <span class="nav-text">Admittance Control</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-III-Impedance-and-Human-Movement"><span class="nav-number">3.</span> <span class="nav-text">Part III - Impedance and Human Movement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Muscle-Redundancies"><span class="nav-number">3.1.</span> <span class="nav-text">Muscle Redundancies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Impedance-Learning"><span class="nav-number">3.2.</span> <span class="nav-text">Impedance Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">24</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">16</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2021</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script defer="defer" src="/lib/three/three.min.js"></script><script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -716,14 +178,7 @@ F_{y}
     MathJax.texReset();
     MathJax.typeset();
   }
-</script>
-
-    
-
-  
-
-
-<script>
+</script><script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -749,11 +204,4 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script>
-
-  
-
-  <script async src="/js/cursor/fireworks.js"></script>
-
-</body>
-</html>
+</script><script async src="/js/cursor/fireworks.js"></script></body></html>
