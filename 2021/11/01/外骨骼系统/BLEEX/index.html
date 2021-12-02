@@ -1,21 +1,466 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!0},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!1,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。"><meta property="og:type" content="article"><meta property="og:title" content="伯克利下肢外骨骼系统-结构与控制"><meta property="og:url" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/index.html"><meta property="og:site_name" content="萤火"><meta property="og:description" content="BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png"><meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png"><meta property="article:published_time" content="2021-10-31T16:00:00.000Z"><meta property="article:modified_time" content="2021-12-02T13:35:00.884Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="外骨骼系统"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg"><link rel="canonical" href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>伯克利下肢外骨骼系统-结构与控制 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 伯克利下肢外骨骼系统-结构与控制</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2021-11-01 00:00:00" itemprop="dateCreated datePublished" datetime="2021-11-01T00:00:00+08:00">2021-11-01</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2021-12-02 21:35:00" itemprop="dateModified" datetime="2021-12-02T21:35:00+08:00">2021-12-02</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/exoskeleton/" itemprop="url" rel="index"><span itemprop="name">exoskeleton</span></a></span></span><span id="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" class="post-meta-item leancloud_visitors" data-flag-title="伯克利下肢外骨骼系统-结构与控制" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。</p> <img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class><span id="more"></span><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在一般情况家，重物通常用轮式交通工具进行运输，而在复杂地形环境下常常会遇到阻碍，因此用腿式运动的方式进行物资运输具有很大的前景。BLEEX是第一个实现这种功能的机器人系统，它为穿戴者提供各种地形下搬运负载的能力。BLEEX由两条拟人化动力腿、一个电源供应器和一个累背包框架组成，其通过跟随穿戴者的运动或运动意图来实现负载的搬运与移动，好像为穿戴者佩戴上假肢一样。BLEEX通过借助机器人的驱动“力量”和人的导航“智慧”来实现非结构化、不确定地形上的重物搬运，作为一个多功能的运输平台，能够为士兵、救灾人员、消防员提供紧急物资的搬运能力。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png" style="zoom:80%"></p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><blockquote><p>在20世纪60年代早期，美国国防部表示有兴趣开发一种“人体放大器” - 一种增强士兵起重和携带能力的动力装甲。1962年，美国空军让康奈尔航空实验室(Cornell Aeronautical Laboratory)研究使用机器人系统实现人体放大器的可行性。在后来的研究中，康奈尔实验室设计了一种拟人形结构的机器人，并可以完成大多数想要完成的任务(Mizen 1965)，并将其命名为外骨骼。1960年到1971年，通用电气开发并测试了一个人体放大器的原型，称为哈迪曼(Hardiman)。哈迪曼是一套由人类操作员穿戴的外骨骼，外骨骼能够跟随人类操作员的运动。但这些研究发现，使用主从系统<strong>复制</strong>和<strong>放大</strong>人类的全部动作和是不现实的，人类感知的困难和系统的复杂性使它无法行走。</p><p>上世纪六七十年代，贝尔格莱德大学(University of Belgrade)开发了几套外骨骼系统，用以帮助截瘫患者。虽然这些早期的设备仅限于预定义的动作，并且取得了有限的成功，但所开发的平衡算法仍在许多双足机器人中使用。<strong>RoboKnee</strong>是一种动力膝关节外骨骼，它与使用者的膝关节平行工作，并将载荷传递到使用者的脚踝(Pratt et al. 2004)。<strong>HAL</strong>是一种连接大腿和小腿的矫形器，它根据佩戴者发出的肌电信号移动病人的下肢(Kawamoto,Sankai 2002)。</p><p>在伯克利的研究工作中，我们将增强人类能力相关的技术分为下肢外骨骼和上肢外骨骼。原因有两方面;首先，我们可以预见在不久的将来，无论是单独的下肢外骨骼还是上肢外骨骼都会有大量的应用。其次，我们认为外骨骼还处于早期阶段，在尝试整合它们之前，还需要进一步的研究来确保上肢外骨骼和下肢外骨骼能够独立工作。考虑到这一点，我们分别进行了下肢和上肢外骨骼的设计，而暂时不考虑整体外骨骼的开发。下面我们将首先对伯克利分校的上肢外骨骼的工作进行总结，然后继续介绍BLEEX项目。</p><p>在20世纪80年代中期，我们启动了几个关于上肢外骨骼系统的研究项目，称之为人体扩展器(Kazerooni 1990)。上肢外骨骼的主要功能是增强人的力量来操作一些重的物体。施加在穿戴者绳上的力通常比操纵负载所需的力小得多。当一个工人使用上肢外骨骼来移动一个负载时，该设备自己承担大部分的重量，同时将负载的实际重量作为一个自然的反馈传递给用户。例如，一个物体每40磅的重量，工人自身可能只能支撑4磅，而设备支撑剩下的36磅。在这种情况下，工作人员仍然可以感觉到负载的重量，并据此判断自己的动作。又例如，假设一个工人使用这个设备来操作一个动力扭矩扳手，该装置可以减少从扳手传递到工人手臂上的力，并过滤那些高频的机械振动，这样工人就能更轻松更稳定的操纵扳手。</p><p>与上肢外骨骼不同，伯克利下肢外骨骼(BLEEX)不是矫形器或支架，它被设计成将负载重量传递到地面(而不是传递给佩戴者)，从而提高穿戴者承载重物的能力。BLEEX推出了四个新功能。(a) 开发了一种新的<strong>控制结构</strong>，通过测量外骨骼本身来控制外骨骼(Kazerooni et al. 2005)。这消除了由于直接测量交互力而导致的不稳定性(Kazerooni et al. 2005)。(b) 开发了一系列的<strong>高功率、高能量的电源</strong>，这些电源足够小，使BLEEX成为一个真正的现场操作系统(McGee, Raade, and Kazerooni 2004)。(c) 开发了具有特殊通信协议和硬件的<strong>主体局域网</strong>(Local Area Network)，以简化和减少外骨骼控制所需的所有传感器和执行器的布线任务(Kim, Anwar, and Kazerooni 2004)。(d) 设计了<strong>灵活和通用的机械结构</strong>来降低复杂性和功耗(Chu, Kazerooni, and Zoss 2005)。</p></blockquote><h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><h3 id="伪拟人化外骨骼整体结构"><a href="#伪拟人化外骨骼整体结构" class="headerlink" title="伪拟人化外骨骼整体结构"></a>伪拟人化外骨骼整体结构</h3><p>在外骨骼的结构设计中，通常会采用拟人化的设计思路，即将外骨骼与人体的<strong>自由度</strong>和肢<strong>体长度</strong>相匹配，使外骨骼的腿位置、关节轴线与人体完全一致。这种设计方案想法简单、自然，简化类似机械干涉的问题，但人体的关节运动(包含旋转和平移)无法通过简单技术来实现，且结构尺寸需和人体完全一致，可调节性差。而一些非拟人化的设计取得了很好的成功，例如自行车。非拟人化结构为外骨骼腿的设计带来更多的可能，但比较困难设计出与人腿功能类似的结构，同时安全性和机械干涉等问题也进一步增加了非拟人化结构的难度。</p><p>为了最大化安全性同时最小化环境干涉，BLEEX采用一种接近接近拟人化(Pseudo-anthropomorphic)的结构，BLEEX的腿在运动学上与人类的腿相似，但又不包括人类腿的所有自由度。BLEEX的所有关节均为纯旋转关节，同时由于外骨骼与人体的运动学不完全一致，因此人体与外骨骼只有两处刚性接触（足和躯干），其他任何地方的刚性接触都会产生很大的力。伪拟人化使得BLEEX能够轻松适应不同的穿戴者。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png" style="zoom:67%"></p><h3 id="BLEEX外骨骼的自由度与关节设计"><a href="#BLEEX外骨骼的自由度与关节设计" class="headerlink" title="BLEEX外骨骼的自由度与关节设计"></a>BLEEX外骨骼的自由度与关节设计</h3><p>BLEEX的每条腿具有7个自由度：</p><ul><li>髋关节3自由度</li><li>膝关节1自由度（矢状面上的纯转动）</li><li>踝关节3自由度</li></ul><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png" style="zoom:67%"></div><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png" style="zoom:67%"></div></div></div></div><p>人的髋关节是一个球窝关节，具有三个自由度。因此一个很自然的想法是设计一个三轴轴线通过人体髋关节球窝的外骨骼。但通过一些前期的样机和实验发现，这种结构存在奇异性（欧拉角）和运动角度限制的问题，因此最终BLEEX的髋关节设计成上图所示形式：两条腿的旋转轴合并为后侧一个单轴，并在每条外骨骼的腿上增加一个不通过人体髋关节球窝的附加旋转轴；外骨骼的外展/内收轴（hip abduction/adduction）和伸展/弯曲轴（flexion/extension）的轴线都通过人体髋关节。</p><p>人体的膝关节是一个复合旋转和平移的复杂关节，BLEEX膝关节选择一个纯旋转关节使得设计简化并增加鲁棒性，同时方便动态建模。</p><p>对于踝关节，为了简化设计，BLEXX的踝关节只有伸展/弯曲轴通过人体的踝关节。同时BLEEX为前脚掌增加了一个自由度（柔性），使得外骨骼与人体的脚掌更加贴合。</p><h3 id="关节的运动范围"><a href="#关节的运动范围" class="headerlink" title="关节的运动范围"></a>关节的运动范围</h3><p>BLEEX的运动学接近于人体的运动学，因此BLEEX的关节活动范围由人体关节活动范围所决定。BLEEX的关节运动范围应当大略大于人体正常行走时的关节运动范围，同时安全性又要求BLEEX的关节运动范围应小于人体关节的最大活动角度，如表1所示。</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png" style="zoom:100%"></div><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png" style="zoom:40%"></div></div></div></div><h3 id="辅助关节与驱动方式"><a href="#辅助关节与驱动方式" class="headerlink" title="辅助关节与驱动方式"></a>辅助关节与驱动方式</h3><p>出于控制和效率的考虑，只有部分关节是被驱动的，而其余的关节为顺从（被动）关节。驱动关节的选择是从功率角度进行考虑：踝关节和髋关节的弯曲/伸展运动在步态运动中做比较多的正功；膝关节虽然在步态运动中更多的起到能量吸收的作用，但在上下楼梯时是做最主要的做功关节；除此之外，髋关节的外展/内收运动提供主要的侧向平衡力，因此也作为驱动关节之一。最终BLEEX的每条腿具有四个驱动关节，如上右图所示。</p><p>BLEEX采用液压驱动，具有体积小、重量轻、驱动力大等优点，但设计非常复杂。BLEEX的液压系统能够支持在75Kg的负载（包含外骨骼）下以1.3m/s的速度前进，相应的驱动功率为2.27KW。</p><h3 id="模块化结构部件设计"><a href="#模块化结构部件设计" class="headerlink" title="模块化结构部件设计"></a>模块化结构部件设计</h3><p>整体模型如图9所示：</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png" style="zoom:67%"></p><h4 id="关节设计"><a href="#关节设计" class="headerlink" title="关节设计"></a>关节设计</h4><p>BLEEX所有的关节具有统一的结构，但每个关节的驱动位置不同，类模块化的设计方便加工和装配。</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png" style="zoom:45%"></div><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png" style="zoom:100%"></div></div></div></div><h4 id="足部设计"><a href="#足部设计" class="headerlink" title="足部设计"></a>足部设计</h4><p>BLEEX的足部是一个非常重要的部分（也是出液压驱动外设计最复杂的部分），因其所包含的诸多功能：</p><ul><li>它将外骨骼和负载的重量传递到地面上，因此要保证结构完整性和长寿命</li><li>它是人体和外骨骼的两处刚性接触之一，因此要保证足够的舒适性</li><li>它测量足底压力中心的位置，用来识别脚在地面上的状态</li><li>它测量人体负载的分布，从而进行控制</li></ul><p>如图11所示，BLEEX足部的主要结构由刚性的脚跟和柔性的前脚掌组成，具有三层结构。刚性脚跟用来传递力与载荷，柔性脚掌使穿戴者更舒适。顶层结构用来固定穿戴者的鞋子，底层结构含有足底开关用来检测脚与地面接触的状态，中层含有压力传感器用来测量人体与地面之间的压力（不包含外骨骼的作用力）。这些测量数据用于外骨骼的实时控制。</p><h4 id="大腿和小腿设计"><a href="#大腿和小腿设计" class="headerlink" title="大腿和小腿设计"></a>大腿和小腿设计</h4><p>BLEEX的大腿和小腿主要用来连接和结构支撑，这两者都被设计为可调节的结构，以方便适应不同的穿戴者。为了使液压回路最小化，设计了在阀门、执行机构、供应和回油管路之间的流体回路。</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:33.333333333333336%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png" style="zoom:67%"></div><div class="group-picture-column" style="width:33.333333333333336%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png" style="zoom:67%"></div><div class="group-picture-column" style="width:33.333333333333336%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png" style="zoom:67%"></div></div></div></div><h4 id="躯干设计"><a href="#躯干设计" class="headerlink" title="躯干设计"></a>躯干设计</h4><p>躯干的前侧装有操作员佩戴的安全带，这是与穿戴者的第二个刚性附着点。一般来说，绑带是由一个弯曲的，刚性的后板连接到躯干。它还包括舒适的背包状背带，可以抓住操作员，并将任何力量分配到操作员的躯干、胸部、肩膀和上背部。与大多数活动的背带不同，外骨骼背带必须在任何方向上分配力和力矩。理论上在完美的控制下在操作员和机器之间只需要转移平衡负载，但是在控制器开发期间绑带需要承受任何可能的负载。</p><h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class><hr><h2 id="控制策略"><a href="#控制策略" class="headerlink" title="控制策略"></a>控制策略</h2><p>BLEEX下肢外骨骼的有效性来自于穿戴者提供的人类智能和外骨骼提供的力量优势。换句话说，人类为外骨骼提供了一个智能控制系统，而外骨骼执行器提供了行走所需的大部分力量。控制算法确保外骨骼与穿戴者之间的协调运动，使两者之间的相互作用力最小。控制器不需要直接测量人机之间的交互力；相反，控制器只根据外骨骼自身的测量数据来估计如何移动才能让穿戴者感受到很小的力量。该控制方案之前从未应用于任何机器人系统，是在穿戴者与外骨骼的接触位置未知且不可预测的情况下产生运动的有效方法。该控制方法不同于应用于上肢外骨骼和触觉系统的柔顺控制方法，因为它不需要穿戴者与外骨骼之间的力传感器。</p><p>BLEEX控制的基本原理是：<strong>外骨骼需要快速且无延迟地跟踪穿戴者的自主和非自主运动</strong>。这需要对外骨骼上的力和力矩进行高灵敏性的响应，尤其是那些由穿戴者作用在外骨骼上的力。在闭环反馈系统的设计中，这一需求与控制科学中最小化系统灵敏度的目标发生冲突。如果外骨骼的灵敏度较低，它就无法与佩戴者协调运动；而提高系统对外部力和力矩的灵敏度，则会导致系统鲁棒性的损失。</p><p>考虑到这个新方法，我们的目标是开发一个高灵敏度的BLEEX控制系统，在这过程中面临两个现实的问题。第一问题是，外骨骼对外部力和扭矩的高灵敏度会对穿戴者以外的力做出反应。例如，如果有人推一个具有高灵敏度的外骨骼，外骨骼就会像它在穿戴者的控制下一样移动。尽管这种对于外力不稳定的行为听起来像一个严重的问题，当其发生时，穿戴者可以通过主动的控制来抵抗这些非期望的运动。稳定外骨骼并的关键在于穿戴者自身的快速移动，为自己和外骨骼创造一个稳定的环境。因此需要设计一个非常宽的控制带宽，这样外骨骼才能即使响应穿戴者的自愿和非自愿运动（对扰动的反应）。第二个问题是，对外力和扭矩的高灵敏度的系统对变化不具有鲁棒性，因此系统性能的精度将取决于外骨骼动态模型的精度。这是一个严重的缺点，但我们认为是不可避免的。尽管如此，我们实验室的各种实验已经证明了该控制方法在跟踪穿戴者运动方面的有效性。</p><h3 id="灵敏度放大控制"><a href="#灵敏度放大控制" class="headerlink" title="灵敏度放大控制"></a>灵敏度放大控制</h3><h4 id="单自由度情况"><a href="#单自由度情况" class="headerlink" title="单自由度情况"></a>单自由度情况</h4><p>接下将从单自由度情况对控制算法进行分析。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png" style="zoom:80%"></p><p>图2所示为人腿与一自由度外骨骼的连接情况，其中外骨骼腿为一个围绕关节旋转的刚性连接，并由一个驱动器驱动，能够在A点产生一个力矩。穿戴者除了脚与外骨骼相连外，身体的其他地方也可以与外骨骼相连接，这些连接的位置和作用力的方向可以未知的。穿戴者作用在外骨骼上的等效力矩用 $d$ 表示。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png" style="zoom:80%"></p><p>图三表示在不考虑重力作用下，外骨骼的动力学特性：</p><script type="math/tex;mode=display">
-v=Gr+Sd</script><p>$v$为外骨骼的角速度，$r$为驱动器输入（力矩），$G$为$r$到$v$的传递函数。$S$表示等效交互力矩$d$到外骨骼速度$v$之间的传递函数，也称为灵敏度函数。<strong>灵敏度函数表示等效交互力矩$d$与外骨骼速度$v$之间的映射关系，灵敏度函数的幅值越大则交互力越容易改变外骨骼的速度；当灵敏度函数非常大时，很小的交互力就可以产生很大的速度，换而言之人机之间的交互力会很小</strong>。如果执行机构已经有某种主要的稳定控制器，那么人机之间的交互力矩对稳定控制器而言是外界扰动，交互力矩对外骨骼的影响将会变小，新系统下灵敏度函数的幅值也会减小。</p><p>注意到等效交互力矩$d$并不是一个外部输入，它是关于外骨骼穿戴者生物力学和动力学的函数。控制器设计的目标是尽可能的减少等效交互力矩。一种直接的思路是对d进行测量，然后设计相应的控制器，但在我们的前期试验中发现，现有传感器技术无法做到力矩的准确测量，同时也会给系统的设计和成本带来很多问题。因此我们想通过非直接测量的方式来实现我们的控制目标。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png" style="zoom:80%"></p><p>考虑为外骨骼设计一个负反馈控制器$C$，如图4所示。则在反馈回路下，新的灵敏度函数为：</p><script type="math/tex;mode=display">
-S_{N E W}=\frac{v}{d}=\frac{S}{1+G C}</script><p>可以看出在负反馈控制下，$1+G C&gt;1$，因而总是有$S_{N E W} \leq S$。</p><p>实际上，在经典控制和现代控制理论中，人们尽一切努力使系统对外部力和力矩的灵敏度函数最小化。但是对于外骨骼控制，我们需要一个完全相反的目标：最大化闭环系统对力和力矩的敏感性。为了实现这个目标，我们利用外骨骼的逆动力学模型，并通过正反馈进行控制：</p><script type="math/tex;mode=display">
-S_{N E W}=\frac{v}{d}=\frac{S}{1-G C}</script><p>如果选择$C=0.9 G^{-1}$，则$S_{N F W}=10 S$，也就是在正反馈控制下外骨骼的灵敏度函数变为原来的10倍。因此我们设计的外骨骼控制器的一般形式为：</p><script type="math/tex;mode=display">
-C=\left(1-\alpha^{-1}\right) G^{-1}</script><p>其中$\alpha$为大于1的方法系数。另外需要注意的是，在实际实现时控制器$C$中还需要加入对高频噪声的滤波器。</p><h4 id="参数变化的鲁棒性"><a href="#参数变化的鲁棒性" class="headerlink" title="参数变化的鲁棒性"></a>参数变化的鲁棒性</h4><p>看出这种控制器严重依赖模型，当模型不准确时，控制器的性能较差。当模型存在10%的不确定时，灵敏度函数的不确定性达到90%。因此要想要使这种方法有比较好的效果，就必须对外骨骼的动力学模型有深刻的理解。这种方法可以看做是传感与控制之间一种tradeoff：若想不依赖交互力的信息，则必须要有准确的模型。这种方法本身不具备稳定性，系统的稳定是由穿戴者自身的控制来实现，接下来我们将进一步说明。</p><h4 id="人体动力学"><a href="#人体动力学" class="headerlink" title="人体动力学"></a>人体动力学</h4><p>在所涉及的控制方案中，不需要考虑穿戴者肢体模型的内部组成：神经传导、肌肉收缩以及中枢神经系统的详细动态过程，这些在构建飞行员肢体的动态模型时被隐式地考虑。假设穿戴者与外骨的人机交互力是关于穿戴者人体的动力学$H$和运动学的函数，这里认为$H$是一个非线性函数并表示穿戴者的运动学与交互阻抗之间的关系：</p><script type="math/tex;mode=display">
-d=-H(v)</script><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png" style="zoom:80%"></p><p>考虑人体动力学之后，人机系统就可以看过是一个双闭环的系统，如上图所示。上层反馈环路展示穿戴者的交互力对外骨骼的影响，底层环路展示反馈控制器对外骨骼的作用。尽管下面环路中的控制器是一个不稳定的正反馈，但上面环路中穿戴者的操控可以使整个系统得以稳定。也就是说，系统的稳定性取决于人体的平衡能力，人的平衡能力越强，那就可以设计更加不稳定的控制器，使人承受更多的重量，为此，作者Kazerooni改用尼采的名言来描述这种方法：</p><blockquote><p><strong>That which does not stabilize, will only make us stronger.</strong></p></blockquote><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg" style="zoom:50%"></p><h3 id="控制算法的实现"><a href="#控制算法的实现" class="headerlink" title="控制算法的实现"></a>控制算法的实现</h3><p>在一般的步态分析中，步态周期通常被划分为7个阶段。在本文的方法中，出于简单考虑我们将其分为具有不同动力学模型的3个阶段：单支撑阶段、双支撑阶段和有冗余的双支撑阶段，最后一个是指后侧脚后跟抬起的状态，如图8所示：</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png" style="zoom:90%"></p><p>在控制器设计的初期，我们将髋关节外展/内收的控制与其他的控制进行了解耦。髋关节的外展/内收运动相对缓慢，与矢状面运动相比，外展-内收运动可视为准静态运动，对系统其余部分的动态影响较小；这也表明外骨骼矢状面上的动力学只受髋关节外展/内收角影响，而与其速度、加速度无关。</p><h4 id="单支撑阶段"><a href="#单支撑阶段" class="headerlink" title="单支撑阶段"></a>单支撑阶段</h4><p>在单支撑阶段，我们将BLEEX建模为矢状面上7自由度的连杆机构，如图10所示。动力学模型可以表示为：</p><script type="math/tex;mode=display">
-M(\theta) \ddot{\theta}+C(\theta, \dot{\theta}) \dot{\theta}+P(\theta)=T+d</script><p>其中$\theta=\left[\begin{array}{lll}{\theta_{1}} &amp; {\theta_{2}} &amp; {\cdots} &amp; {\theta_{7}}\end{array}\right]^{T}$，$T=\left[\begin{array}{lll}{0} &amp; {T_{1}} &amp; {T_{2}} &amp; {\dots} &amp; {T_{6}} \end{array}\right]^{T}$，$M$ 为质量矩阵，$C$ 为离心力与科氏力矩阵，$P$ 为重力向量，$T$ 为驱动器力矩向量，$d$ 为等效人机交互力矩向量。</p><p>则控制器的控制可表示为：</p><script type="math/tex;mode=display">
-T=\hat{P}(\theta)+\left(1-\alpha^{-1}\right)[\hat{M}(\theta) \ddot{\theta}+\hat{C}(\theta, \dot{\theta}) \dot{\theta}]</script><p>其中第一项可以理解为对重力作用的补偿，后面一项为正反馈项。在理想情况下，放大系数较大时，交互力矩近似接近于零；每当人机之间存在交互力时，控制器控制电机迅速产生驱动作用补偿由模型估计的交互力，使得交互力维持在一个很小的水平。</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png" style="zoom:67%"></p><h4 id="双支撑阶段"><a href="#双支撑阶段" class="headerlink" title="双支撑阶段"></a>双支撑阶段</h4><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png" style="zoom:67%"></p><p>在双支撑阶段，BLEEX的两条腿与地面均有接触与力的作用。外骨骼被建模为两个三自由度平面连杆并在顶轴相连接，如图11所示。动力学模型表示为如下形式：</p><script type="math/tex;mode=display">
-M_{L}\left(m_{T L}, \theta_{L}\right) \ddot{\theta}_{L}+C_{L}\left(m_{T L}, \dot{\theta}_{L}, \theta_{L}\right) \dot{\theta}_{L}+P_{L}\left(m_{T L}, \theta_{L}\right)=T_{L}+d_{L}</script><script type="math/tex;mode=display">
-M_{R}\left(m_{T R}, \theta_{R}\right) \ddot{\theta}_{R}+C_{R}\left(m_{T R}, \dot{\theta}_{R}, \theta_{R}\right) \dot{\theta}_{R}+P_{R}\left(m_{T R}, \theta_{R}\right)=T_{R}+d_{R}</script><p>其中$ \theta_{L}=\left[\begin{array}{lll}{\theta_{L I}} &amp; {\theta_{L 2}} &amp; {\theta_{L 3}}\end{array}\right]^{T}$， $\theta_{R}=\left[\begin{array}{lll}{\theta_{R l}} &amp; {\theta_{R 2}} &amp; {\theta_{R 3}}\end{array}\right]^{T}$，$m_{T R}$和$m_{T L}$表示每条腿所支撑的躯干质量，并进一步用躯干质心相对踝关节的水平距离进行简化计算（只在准静态条件下适用）：</p><script type="math/tex;mode=display">
-\frac{m_{T R}}{m_{T L}}=\frac{x_{T L}}{x_{T R}}</script><p>在双支撑阶段，控制器的控制率可表示为：</p><script type="math/tex;mode=display">
-T_{L}=\hat{P}_{L}\left(m_{T L}, \theta_{L}\right)+\left(1-\alpha^{-1}\right)\left[\hat{M}_{L}\left(m_{T L}, \theta_{L}\right) \ddot{\theta}_{L}+\hat{C}_{L}\left(m_{T L}, \theta_{L}, \dot{\theta}_{L}\right) \dot{\theta}_{L}\right]</script><script type="math/tex;mode=display">
-T_{R}=\hat{P}_{R}\left(m_{T R}, \theta_{R}\right)+\left(1-\alpha^{-1}\right)\left[\hat{M}_{R}\left(m_{T R}, \theta_{R}\right) \ddot{\theta}_{R}+\hat{C}_{R}\left(m_{T R}, \theta_{R}, \dot{\theta}_{R}\right) \dot{\theta}_{R}\right]</script><h4 id="冗余双支撑阶段"><a href="#冗余双支撑阶段" class="headerlink" title="冗余双支撑阶段"></a>冗余双支撑阶段</h4><p>在冗余双支撑阶段，外骨骼的站立腿建模为平面三连杆，而另一条腿建模为平面四连杆，如图11所示。动力学模型与双支撑阶段形式相同，其中</p><script type="math/tex;mode=display">
-\theta_{L}=\left[\begin{array}{llll}{\theta_{L 1}} & {\theta_{L 2}} & {\theta_{L 3}} & {\theta_{L 4}}\end{array}\right]^{T}</script><script type="math/tex;mode=display">
-\theta_{R}=\left[\begin{array}{lll}{\theta_{R I}} & {\theta_{R 2}} & {\theta_{R 3}}\end{array}\right]^{T}</script><script type="math/tex;mode=display">
-T_{L}=\left[\begin{array}{llll}{0} & {T_{L 1}} & {T_{L 2}} & {T_{L 3}}\end{array}\right]^{T}</script><script type="math/tex;mode=display">
-T_{R}=\left[\begin{array}{lll}{T_{R 1}} & {T_{R 2}} & {T_{R 3}}\end{array}\right]^{T}</script><h3 id="混合控制"><a href="#混合控制" class="headerlink" title="混合控制"></a>混合控制</h3><p>灵敏度放大控制能够快速跟随穿戴者的运动，但这种方法依赖系统的精确模型，当模型、负载变化时会严重影响控制性能。之后BLEEX的研究人员采用混合控制策略：支撑阶段采用位置控制，摆动阶段采用灵敏度放大控制。这种控制能够降低对精确模型的依赖程度，从而提高系统的鲁棒性和稳定性。</p><p>在步态运动的过程中，摆动腿运动范围大但只需要支撑自己的重量，支撑腿的运动范围小但却需要支撑整个躯干和负载的重力；反应到控制中，摆动腿需要相对小的力矩和相对高的带宽，而支撑腿需要相对大的力矩和相对低的带宽。基于这个观点，我们在BLEEX中采用混合控制：支撑阶段采用位置控制，而摆动阶段采用灵敏度放大控制。因此，鲁棒稳定性（支撑阶段的位置控制）和对穿戴者人机交互力的高灵敏性（摆动阶段的灵敏度放大控制）能够在BLEEX上同时得以实现。</p><h4 id="摆动阶段：灵敏度放大控制"><a href="#摆动阶段：灵敏度放大控制" class="headerlink" title="摆动阶段：灵敏度放大控制"></a>摆动阶段：灵敏度放大控制</h4><p>在摆动阶段采用灵敏度放大控制，正如如上所述，其中只采用摆动阶段的建模与控制。</p><h4 id="支撑阶段：位置控制"><a href="#支撑阶段：位置控制" class="headerlink" title="支撑阶段：位置控制"></a>支撑阶段：位置控制</h4><p>在支撑阶段，控制器使外骨骼的关节角度跟踪穿戴者的关节角度，控制结构图如下：</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png" style="zoom:80%"></p><p>理想情况下，当角度误差为零时，人机之间的交互力矩也近似为零。控制器的实现采用比例控制：</p><script type="math/tex;mode=display">
-T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关节，采用独立的控制器进行控制：</p><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png" style="zoom:80%"></p><p>在单关节（膝关节）情况下的控制效果如下所示（采样周期25ms），在低频时有不错的跟踪效果：</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png" class></div><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png" class></div></div></div></div><p>在进行位置控制时，有两点需要注意。第一个问题是外骨骼与人体之间必须为柔顺连接，如图6所示。当人体想要进行运动时，其必须要很容易就能移动，也就是人机之间的阻抗应当很小，这样才能够产生位置误差，进而使外骨骼跟随；当人机之间为图11所示刚性连接时，穿戴者需要同时移动自己和外骨骼，此时人机之间的关节角误差将始终为零，同时交互力矩也将会很大。</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png" class></div><div class="group-picture-column" style="width:50%"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png" class></div></div></div></div><p>另外一个问题是外骨骼关节角与人体关节角之间的差异，由于BLEEX是拟人化设计，角度差异所导致的影响比较小，因此就没有专门进行处理。</p><blockquote><p>在研究的前期阶段，研究人员有尝试在步态的整个过程都使用位置控制，但很快发现这种方法在摆动阶段并不合适。穿戴者需要主动移动躯干才能使外骨骼前进，因此外骨骼的行走过程非常不自然，同时穿戴者感觉也非常不舒服。</p></blockquote><h4 id="控制器的过渡问题"><a href="#控制器的过渡问题" class="headerlink" title="控制器的过渡问题"></a>控制器的过渡问题</h4><p>由于在步态过程中采用两种不同的控制方案，为了避免控制器切换时的突变，需要设置控制器的过渡策略。研究采用渐变增益的方法，其中由灵敏度放大控制切换到位置控制的过渡时间为1s，由位置控制切换到灵敏度放大控制的过渡时间为0.4s。</p><hr><h2 id="小结与思考"><a href="#小结与思考" class="headerlink" title="小结与思考"></a>小结与思考</h2><p>从设计初衷来说，BLEEX的operator的思想使其更像是“机甲”，穿戴者是一个“装甲”的操作者而不是一个被强化的“Superman”。作为旧世代最出名的外骨骼，BLEEX的结构设计有诸多精妙之处。BLEEX将外骨骼结构设计向伪拟人化和非拟人化方向拓展，非拟人化架构只在躯干和足部进行刚性固定，而中间没有刚性固定；人和外骨骼具有各自的运动链，可看做并联结构，没有关节轴对齐问题；结构上的Actuator Mount、Foot Attachment、Length Adjustment、Pressure Sensor都值得借鉴，模块化设计也是很好的尝试。</p><p>本研究所提出的灵敏度放大方法本质上是一种正反馈控制，通过放大扰动来实现对穿戴者的运动跟随。控制器本身不具有稳定性，但可以由穿戴者稳定住整个系统。灵敏度放大不直接测量交互力，控制带宽高、响应快，但对模型参数不具有鲁棒性，无法对抗外界扰动，以至于作者自身都不得不考虑使用混合控制来减少不稳定的影响。虽算法本身在真实系统上实现时会遇到各种问题，但其所反映的思想却清晰直观：外骨骼控制的目的是放大，放大人体力量，并同时降低人体所承受的作用。这为外骨骼领域的研究拓展了思路，在很多系统中依然可以看到这个思想的影子。</p><hr><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="/download/2005_BLEEX_mechanical_design.pdf">On the Mechanical Design of the Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p><p><a href="/download/2005_BLEEX_Control.pdf">On the Control of the Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p><p><a href="/download/2006_BLEEX_Hybird_Control.pdf">Hybrid Control of the Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" title="伯克利下肢外骨骼系统-结构与控制">https://jychennk.github.io/2021/11/01/外骨骼系统/BLEEX/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag"># 外骨骼系统</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2021/10/08/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/Matlab%20Signal%20Analyzer/" rel="prev" title="Matlab Signal Analyzer 信号分析"><i class="fa fa-chevron-left"></i> Matlab Signal Analyzer 信号分析</a></div><div class="post-nav-item"> <a href="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/" rel="next" title="Stanford下肢外骨骼系统设计控制与优化">Stanford下肢外骨骼系统设计控制与优化<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伯克利下肢外骨骼系统-结构与控制">
+<meta property="og:url" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:description" content="BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png">
+<meta property="article:published_time" content="2021-10-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-02T13:39:37.250Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="外骨骼系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg">
+
+<link rel="canonical" href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>伯克利下肢外骨骼系统-结构与控制 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          伯克利下肢外骨骼系统-结构与控制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-01 00:00:00" itemprop="dateCreated datePublished" datetime="2021-11-01T00:00:00+08:00">2021-11-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-02 21:39:37" itemprop="dateModified" datetime="2021-12-02T21:39:37+08:00">2021-12-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exoskeleton/" itemprop="url" rel="index"><span itemprop="name">exoskeleton</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" class="post-meta-item leancloud_visitors" data-flag-title="伯克利下肢外骨骼系统-结构与控制" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。</p>
+<img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
+<span id="more"></span>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在平地上重物通常用轮式交通工具进行运输，而在复杂地形环境下常常会遇到阻碍，因此用腿式运动的方式进行物资运输具有很大的前景。BLEEX是第一个实现这种功能的机器人系统，它为穿戴者提供各种地形下搬运负载的能力。BLEEX由两条拟人化动力腿、一个电源供应器和一个累背包框架组成，其通过跟随穿戴者的运动或运动意图来实现负载的搬运与移动，好像为穿戴者佩戴上假肢一样。BLEEX通过借助机器人的驱动“力量”和人的导航“智慧”来实现非结构化、不确定地形上的重物搬运，作为一个多功能的运输平台，能够为士兵、救灾人员、消防员提供紧急物资的搬运能力。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png" style="zoom:80%;"></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><blockquote>
+<p>在20世纪60年代早期，美国国防部表示有兴趣开发一种“人体放大器” - 一种增强士兵起重和携带能力的动力装甲。1962年，美国空军让康奈尔航空实验室(Cornell Aeronautical Laboratory)研究使用机器人系统实现人体放大器的可行性。在后来的研究中，康奈尔实验室设计了一种拟人形结构的机器人，并可以完成大多数想要完成的任务(Mizen 1965)，并将其命名为外骨骼。1960年到1971年，通用电气开发并测试了一个人体放大器的原型，称为哈迪曼(Hardiman)。哈迪曼是一套由人类操作员穿戴的外骨骼，外骨骼能够跟随人类操作员的运动。但这些研究发现，使用主从系统<strong>复制</strong>和<strong>放大</strong>人类的全部动作和是不现实的，人类感知的困难和系统的复杂性使它无法行走。</p>
+<p>上世纪六七十年代，贝尔格莱德大学(University of Belgrade)开发了几套外骨骼系统，用以帮助截瘫患者。虽然这些早期的设备仅限于预定义的动作，并且取得了有限的成功，但所开发的平衡算法仍在许多双足机器人中使用。<strong>RoboKnee</strong>是一种动力膝关节外骨骼，它与使用者的膝关节平行工作，并将载荷传递到使用者的脚踝(Pratt et al. 2004)。<strong>HAL</strong>是一种连接大腿和小腿的矫形器，它根据佩戴者发出的肌电信号移动病人的下肢(Kawamoto,Sankai 2002)。</p>
+<p>在伯克利的研究工作中，我们将增强人类能力相关的技术分为下肢外骨骼和上肢外骨骼。原因有两方面;首先，我们可以预见在不久的将来，无论是单独的下肢外骨骼还是上肢外骨骼都会有大量的应用。其次，我们认为外骨骼还处于早期阶段，在尝试整合它们之前，还需要进一步的研究来确保上肢外骨骼和下肢外骨骼能够独立工作。考虑到这一点，我们分别进行了下肢和上肢外骨骼的设计，而暂时不考虑整体外骨骼的开发。下面我们将首先对伯克利分校的上肢外骨骼的工作进行总结，然后继续介绍BLEEX项目。</p>
+<p>在20世纪80年代中期，我们启动了几个关于上肢外骨骼系统的研究项目，称之为人体扩展器(Kazerooni 1990)。上肢外骨骼的主要功能是增强人的力量来操作一些重的物体。施加在穿戴者绳上的力通常比操纵负载所需的力小得多。当一个工人使用上肢外骨骼来移动一个负载时，该设备自己承担大部分的重量，同时将负载的实际重量作为一个自然的反馈传递给用户。例如，一个物体每40磅的重量，工人自身可能只能支撑4磅，而设备支撑剩下的36磅。在这种情况下，工作人员仍然可以感觉到负载的重量，并据此判断自己的动作。又例如，假设一个工人使用这个设备来操作一个动力扭矩扳手，该装置可以减少从扳手传递到工人手臂上的力，并过滤那些高频的机械振动，这样工人就能更轻松更稳定的操纵扳手。</p>
+<p>与上肢外骨骼不同，伯克利下肢外骨骼(BLEEX)不是矫形器或支架，它被设计成将负载重量传递到地面(而不是传递给佩戴者)，从而提高穿戴者承载重物的能力。BLEEX推出了四个新功能。(a) 开发了一种新的<strong>控制结构</strong>，通过测量外骨骼本身来控制外骨骼(Kazerooni et al. 2005)。这消除了由于直接测量交互力而导致的不稳定性(Kazerooni et al. 2005)。(b) 开发了一系列的<strong>高功率、高能量的电源</strong>，这些电源足够小，使BLEEX成为一个真正的现场操作系统(McGee, Raade, and Kazerooni 2004)。(c) 开发了具有特殊通信协议和硬件的<strong>主体局域网</strong>(Local Area Network)，以简化和减少外骨骼控制所需的所有传感器和执行器的布线任务(Kim, Anwar, and Kazerooni 2004)。(d) 设计了<strong>灵活和通用的机械结构</strong>来降低复杂性和功耗(Chu, Kazerooni, and Zoss 2005)。</p>
+</blockquote>
+<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><h3 id="伪拟人化外骨骼整体结构"><a href="#伪拟人化外骨骼整体结构" class="headerlink" title="伪拟人化外骨骼整体结构"></a>伪拟人化外骨骼整体结构</h3><p>在外骨骼的结构设计中，通常会采用拟人化的设计思路，即将外骨骼与人体的<strong>自由度</strong>和肢<strong>体长度</strong>相匹配，使外骨骼的腿位置、关节轴线与人体完全一致。这种设计方案想法简单、自然，简化类似机械干涉的问题，但人体的关节运动(包含旋转和平移)无法通过简单技术来实现，且结构尺寸需和人体完全一致，可调节性差。而一些非拟人化的设计取得了很好的成功，例如自行车。非拟人化结构为外骨骼腿的设计带来更多的可能，但比较困难设计出与人腿功能类似的结构，同时安全性和机械干涉等问题也进一步增加了非拟人化结构的难度。</p>
+<p>为了最大化安全性同时最小化环境干涉，BLEEX采用一种接近接近拟人化(Pseudo-anthropomorphic)的结构，BLEEX的腿在运动学上与人类的腿相似，但又不包括人类腿的所有自由度。BLEEX的所有关节均为纯旋转关节，同时由于外骨骼与人体的运动学不完全一致，因此人体与外骨骼只有两处刚性接触（足和躯干），其他任何地方的刚性接触都会产生很大的力。伪拟人化使得BLEEX能够轻松适应不同的穿戴者。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png" style="zoom: 67%;"></p>
+<h3 id="BLEEX外骨骼的自由度与关节设计"><a href="#BLEEX外骨骼的自由度与关节设计" class="headerlink" title="BLEEX外骨骼的自由度与关节设计"></a>BLEEX外骨骼的自由度与关节设计</h3><p>BLEEX的每条腿具有7个自由度：</p>
+<ul>
+<li>髋关节3自由度</li>
+<li>膝关节1自由度（矢状面上的纯转动）</li>
+<li>踝关节3自由度</li>
+</ul>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png" style="zoom: 67%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png" style="zoom:67%;"></div></div></div></div>
+<p>人的髋关节是一个球窝关节，具有三个自由度。因此一个很自然的想法是设计一个三轴轴线通过人体髋关节球窝的外骨骼。但通过一些前期的样机和实验发现，这种结构存在奇异性（欧拉角）和运动角度限制的问题，因此最终BLEEX的髋关节设计成上图所示形式：两条腿的旋转轴合并为后侧一个单轴，并在每条外骨骼的腿上增加一个不通过人体髋关节球窝的附加旋转轴；外骨骼的外展/内收轴（hip abduction/adduction）和伸展/弯曲轴（flexion/extension）的轴线都通过人体髋关节。</p>
+<p>人体的膝关节是一个复合旋转和平移的复杂关节，BLEEX膝关节选择一个纯旋转关节使得设计简化并增加鲁棒性，同时方便动态建模。</p>
+<p>对于踝关节，为了简化设计，BLEXX的踝关节只有伸展/弯曲轴通过人体的踝关节。同时BLEEX为前脚掌增加了一个自由度（柔性），使得外骨骼与人体的脚掌更加贴合。</p>
+<h3 id="关节的运动范围"><a href="#关节的运动范围" class="headerlink" title="关节的运动范围"></a>关节的运动范围</h3><p>BLEEX的运动学接近于人体的运动学，因此BLEEX的关节活动范围由人体关节活动范围所决定。BLEEX的关节运动范围应当大略大于人体正常行走时的关节运动范围，同时安全性又要求BLEEX的关节运动范围应小于人体关节的最大活动角度，如表1所示。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png" style="zoom:100%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png" style="zoom:40%;"></div></div></div></div>
+<h3 id="辅助关节与驱动方式"><a href="#辅助关节与驱动方式" class="headerlink" title="辅助关节与驱动方式"></a>辅助关节与驱动方式</h3><p>出于控制和效率的考虑，只有部分关节是被驱动的，而其余的关节为顺从（被动）关节。驱动关节的选择是从功率角度进行考虑：踝关节和髋关节的弯曲/伸展运动在步态运动中做比较多的正功；膝关节虽然在步态运动中更多的起到能量吸收的作用，但在上下楼梯时是做最主要的做功关节；除此之外，髋关节的外展/内收运动提供主要的侧向平衡力，因此也作为驱动关节之一。最终BLEEX的每条腿具有四个驱动关节，如上右图所示。</p>
+<p>BLEEX采用液压驱动，具有体积小、重量轻、驱动力大等优点，但设计非常复杂。BLEEX的液压系统能够支持在75Kg的负载（包含外骨骼）下以1.3m/s的速度前进，相应的驱动功率为2.27KW。</p>
+<h3 id="模块化结构部件设计"><a href="#模块化结构部件设计" class="headerlink" title="模块化结构部件设计"></a>模块化结构部件设计</h3><p>整体模型如图9所示：</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png" style="zoom:67%;"></p>
+<h4 id="关节设计"><a href="#关节设计" class="headerlink" title="关节设计"></a>关节设计</h4><p>BLEEX所有的关节具有统一的结构，但每个关节的驱动位置不同，类模块化的设计方便加工和装配。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png" style="zoom:45%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png" style="zoom:100%;"></div></div></div></div>
+<h4 id="足部设计"><a href="#足部设计" class="headerlink" title="足部设计"></a>足部设计</h4><p>BLEEX的足部是一个非常重要的部分（也是出液压驱动外设计最复杂的部分），因其所包含的诸多功能：</p>
+<ul>
+<li>它将外骨骼和负载的重量传递到地面上，因此要保证结构完整性和长寿命</li>
+<li>它是人体和外骨骼的两处刚性接触之一，因此要保证足够的舒适性</li>
+<li>它测量足底压力中心的位置，用来识别脚在地面上的状态</li>
+<li>它测量人体负载的分布，从而进行控制</li>
+</ul>
+<p>如图11所示，BLEEX足部的主要结构由刚性的脚跟和柔性的前脚掌组成，具有三层结构。刚性脚跟用来传递力与载荷，柔性脚掌使穿戴者更舒适。顶层结构用来固定穿戴者的鞋子，底层结构含有足底开关用来检测脚与地面接触的状态，中层含有压力传感器用来测量人体与地面之间的压力（不包含外骨骼的作用力）。这些测量数据用于外骨骼的实时控制。</p>
+<h4 id="大腿和小腿设计"><a href="#大腿和小腿设计" class="headerlink" title="大腿和小腿设计"></a>大腿和小腿设计</h4><p>BLEEX的大腿和小腿主要用来连接和结构支撑，这两者都被设计为可调节的结构，以方便适应不同的穿戴者。为了使液压回路最小化，设计了在阀门、执行机构、供应和回油管路之间的流体回路。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png" style="zoom: 67%;"></div></div></div></div>
+<h4 id="躯干设计"><a href="#躯干设计" class="headerlink" title="躯干设计"></a>躯干设计</h4><p>躯干的前侧装有操作员佩戴的安全带，这是与穿戴者的第二个刚性附着点。一般来说，绑带是由一个弯曲的，刚性的后板连接到躯干。它还包括舒适的背包状背带，可以抓住操作员，并将任何力量分配到操作员的躯干、胸部、肩膀和上背部。与大多数活动的背带不同，外骨骼背带必须在任何方向上分配力和力矩。理论上在完美的控制下在操作员和机器之间只需要转移平衡负载，但是在控制器开发期间绑带需要承受任何可能的负载。</p>
+<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
+<hr>
+<h2 id="控制策略"><a href="#控制策略" class="headerlink" title="控制策略"></a>控制策略</h2><p>BLEEX下肢外骨骼的有效性来自于穿戴者提供的人类智能和外骨骼提供的力量优势。换句话说，人类为外骨骼提供了一个智能控制系统，而外骨骼执行器提供了行走所需的大部分力量。控制算法确保外骨骼与穿戴者之间的协调运动，使两者之间的相互作用力最小。控制器不需要直接测量人机之间的交互力；相反，控制器只根据外骨骼自身的测量数据来估计如何移动才能让穿戴者感受到很小的力量。该控制方案之前从未应用于任何机器人系统，是在穿戴者与外骨骼的接触位置未知且不可预测的情况下产生运动的有效方法。该控制方法不同于应用于上肢外骨骼和触觉系统的柔顺控制方法，因为它不需要穿戴者与外骨骼之间的力传感器。</p>
+<p>BLEEX控制的基本原理是：<strong>外骨骼需要快速且无延迟地跟踪穿戴者的自主和非自主运动</strong>。这需要对外骨骼上的力和力矩进行高灵敏性的响应，尤其是那些由穿戴者作用在外骨骼上的力。在闭环反馈系统的设计中，这一需求与控制科学中最小化系统灵敏度的目标发生冲突。如果外骨骼的灵敏度较低，它就无法与佩戴者协调运动；而提高系统对外部力和力矩的灵敏度，则会导致系统鲁棒性的损失。</p>
+<p>考虑到这个新方法，我们的目标是开发一个高灵敏度的BLEEX控制系统，在这过程中面临两个现实的问题。第一问题是，外骨骼对外部力和扭矩的高灵敏度会对穿戴者以外的力做出反应。例如，如果有人推一个具有高灵敏度的外骨骼，外骨骼就会像它在穿戴者的控制下一样移动。尽管这种对于外力不稳定的行为听起来像一个严重的问题，当其发生时，穿戴者可以通过主动的控制来抵抗这些非期望的运动。稳定外骨骼并的关键在于穿戴者自身的快速移动，为自己和外骨骼创造一个稳定的环境。因此需要设计一个非常宽的控制带宽，这样外骨骼才能即使响应穿戴者的自愿和非自愿运动（对扰动的反应）。第二个问题是，对外力和扭矩的高灵敏度的系统对变化不具有鲁棒性，因此系统性能的精度将取决于外骨骼动态模型的精度。这是一个严重的缺点，但我们认为是不可避免的。尽管如此，我们实验室的各种实验已经证明了该控制方法在跟踪穿戴者运动方面的有效性。</p>
+<h3 id="灵敏度放大控制"><a href="#灵敏度放大控制" class="headerlink" title="灵敏度放大控制"></a>灵敏度放大控制</h3><h4 id="单自由度情况"><a href="#单自由度情况" class="headerlink" title="单自由度情况"></a>单自由度情况</h4><p>接下将从单自由度情况对控制算法进行分析。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png" style="zoom: 80%;"></p>
+<p>图2所示为人腿与一自由度外骨骼的连接情况，其中外骨骼腿为一个围绕关节旋转的刚性连接，并由一个驱动器驱动，能够在A点产生一个力矩。穿戴者除了脚与外骨骼相连外，身体的其他地方也可以与外骨骼相连接，这些连接的位置和作用力的方向可以未知的。穿戴者作用在外骨骼上的等效力矩用 $d$ 表示。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png" style="zoom:80%;"></p>
+<p>图三表示在不考虑重力作用下，外骨骼的动力学特性：</p>
+<script type="math/tex; mode=display">
+v=Gr+Sd</script><p>$v$为外骨骼的角速度，$r$为驱动器输入（力矩），$G$为$r$到$v$的传递函数。$S$表示等效交互力矩$d$到外骨骼速度$v$之间的传递函数，也称为灵敏度函数。<strong>灵敏度函数表示等效交互力矩$d$与外骨骼速度$v$之间的映射关系，灵敏度函数的幅值越大则交互力越容易改变外骨骼的速度；当灵敏度函数非常大时，很小的交互力就可以产生很大的速度，换而言之人机之间的交互力会很小</strong>。如果执行机构已经有某种主要的稳定控制器，那么人机之间的交互力矩对稳定控制器而言是外界扰动，交互力矩对外骨骼的影响将会变小，新系统下灵敏度函数的幅值也会减小。</p>
+<p>注意到等效交互力矩$d$并不是一个外部输入，它是关于外骨骼穿戴者生物力学和动力学的函数。控制器设计的目标是尽可能的减少等效交互力矩。一种直接的思路是对d进行测量，然后设计相应的控制器，但在我们的前期试验中发现，现有传感器技术无法做到力矩的准确测量，同时也会给系统的设计和成本带来很多问题。因此我们想通过非直接测量的方式来实现我们的控制目标。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png" style="zoom:80%;"></p>
+<p>考虑为外骨骼设计一个负反馈控制器$C$，如图4所示。则在反馈回路下，新的灵敏度函数为：</p>
+<script type="math/tex; mode=display">
+S_{N E W}=\frac{v}{d}=\frac{S}{1+G C}</script><p>可以看出在负反馈控制下，$1+G C&gt;1$，因而总是有$S_{N E W} \leq S$。</p>
+<p>实际上，在经典控制和现代控制理论中，人们尽一切努力使系统对外部力和力矩的灵敏度函数最小化。但是对于外骨骼控制，我们需要一个完全相反的目标：最大化闭环系统对力和力矩的敏感性。为了实现这个目标，我们利用外骨骼的逆动力学模型，并通过正反馈进行控制：</p>
+<script type="math/tex; mode=display">
+S_{N E W}=\frac{v}{d}=\frac{S}{1-G C}</script><p>如果选择$C=0.9 G^{-1}$，则$S_{N F W}=10 S$，也就是在正反馈控制下外骨骼的灵敏度函数变为原来的10倍。因此我们设计的外骨骼控制器的一般形式为：</p>
+<script type="math/tex; mode=display">
+C=\left(1-\alpha^{-1}\right) G^{-1}</script><p>其中$\alpha$为大于1的方法系数。另外需要注意的是，在实际实现时控制器$C$中还需要加入对高频噪声的滤波器。</p>
+<h4 id="参数变化的鲁棒性"><a href="#参数变化的鲁棒性" class="headerlink" title="参数变化的鲁棒性"></a>参数变化的鲁棒性</h4><p>看出这种控制器严重依赖模型，当模型不准确时，控制器的性能较差。当模型存在10%的不确定时，灵敏度函数的不确定性达到90%。因此要想要使这种方法有比较好的效果，就必须对外骨骼的动力学模型有深刻的理解。这种方法可以看做是传感与控制之间一种tradeoff：若想不依赖交互力的信息，则必须要有准确的模型。这种方法本身不具备稳定性，系统的稳定是由穿戴者自身的控制来实现，接下来我们将进一步说明。</p>
+<h4 id="人体动力学"><a href="#人体动力学" class="headerlink" title="人体动力学"></a>人体动力学</h4><p>在所涉及的控制方案中，不需要考虑穿戴者肢体模型的内部组成：神经传导、肌肉收缩以及中枢神经系统的详细动态过程，这些在构建飞行员肢体的动态模型时被隐式地考虑。假设穿戴者与外骨的人机交互力是关于穿戴者人体的动力学$H$和运动学的函数，这里认为$H$是一个非线性函数并表示穿戴者的运动学与交互阻抗之间的关系：</p>
+<script type="math/tex; mode=display">
+d=-H(v)</script><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png" style="zoom:80%;"></p>
+<p>考虑人体动力学之后，人机系统就可以看过是一个双闭环的系统，如上图所示。上层反馈环路展示穿戴者的交互力对外骨骼的影响，底层环路展示反馈控制器对外骨骼的作用。尽管下面环路中的控制器是一个不稳定的正反馈，但上面环路中穿戴者的操控可以使整个系统得以稳定。也就是说，系统的稳定性取决于人体的平衡能力，人的平衡能力越强，那就可以设计更加不稳定的控制器，使人承受更多的重量，为此，作者Kazerooni改用尼采的名言来描述这种方法：</p>
+<blockquote>
+<p><strong>That which does not stabilize, will only make us stronger.</strong></p>
+</blockquote>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg" style="zoom:50%;"></p>
+<h3 id="控制算法的实现"><a href="#控制算法的实现" class="headerlink" title="控制算法的实现"></a>控制算法的实现</h3><p>在一般的步态分析中，步态周期通常被划分为7个阶段。在本文的方法中，出于简单考虑我们将其分为具有不同动力学模型的3个阶段：单支撑阶段、双支撑阶段和有冗余的双支撑阶段，最后一个是指后侧脚后跟抬起的状态，如图8所示：</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png" style="zoom:90%;"></p>
+<p>在控制器设计的初期，我们将髋关节外展/内收的控制与其他的控制进行了解耦。髋关节的外展/内收运动相对缓慢，与矢状面运动相比，外展-内收运动可视为准静态运动，对系统其余部分的动态影响较小；这也表明外骨骼矢状面上的动力学只受髋关节外展/内收角影响，而与其速度、加速度无关。</p>
+<h4 id="单支撑阶段"><a href="#单支撑阶段" class="headerlink" title="单支撑阶段"></a>单支撑阶段</h4><p>在单支撑阶段，我们将BLEEX建模为矢状面上7自由度的连杆机构，如图10所示。动力学模型可以表示为：</p>
+<script type="math/tex; mode=display">
+M(\theta) \ddot{\theta}+C(\theta, \dot{\theta}) \dot{\theta}+P(\theta)=T+d</script><p>其中$\theta=\left[\begin{array}{lll}{\theta_{1}} &amp; {\theta_{2}} &amp; {\cdots} &amp; {\theta_{7}}\end{array}\right]^{T}$，$T=\left[\begin{array}{lll}{0} &amp; {T_{1}} &amp; {T_{2}} &amp; {\dots} &amp;  {T_{6}} \end{array}\right]^{T}$，$M$ 为质量矩阵，$C$ 为离心力与科氏力矩阵，$P$ 为重力向量，$T$ 为驱动器力矩向量，$d$ 为等效人机交互力矩向量。</p>
+<p>则控制器的控制可表示为：</p>
+<script type="math/tex; mode=display">
+T=\hat{P}(\theta)+\left(1-\alpha^{-1}\right)[\hat{M}(\theta) \ddot{\theta}+\hat{C}(\theta, \dot{\theta}) \dot{\theta}]</script><p>其中第一项可以理解为对重力作用的补偿，后面一项为正反馈项。在理想情况下，放大系数较大时，交互力矩近似接近于零；每当人机之间存在交互力时，控制器控制电机迅速产生驱动作用补偿由模型估计的交互力，使得交互力维持在一个很小的水平。</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png" style="zoom:67%;"></p>
+<h4 id="双支撑阶段"><a href="#双支撑阶段" class="headerlink" title="双支撑阶段"></a>双支撑阶段</h4><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png" style="zoom:67%;"></p>
+<p>在双支撑阶段，BLEEX的两条腿与地面均有接触与力的作用。外骨骼被建模为两个三自由度平面连杆并在顶轴相连接，如图11所示。动力学模型表示为如下形式：</p>
+<script type="math/tex; mode=display">
+M_{L}\left(m_{T L}, \theta_{L}\right) \ddot{\theta}_{L}+C_{L}\left(m_{T L}, \dot{\theta}_{L}, \theta_{L}\right) \dot{\theta}_{L}+P_{L}\left(m_{T L}, \theta_{L}\right)=T_{L}+d_{L}</script><script type="math/tex; mode=display">
+M_{R}\left(m_{T R}, \theta_{R}\right) \ddot{\theta}_{R}+C_{R}\left(m_{T R}, \dot{\theta}_{R}, \theta_{R}\right) \dot{\theta}_{R}+P_{R}\left(m_{T R}, \theta_{R}\right)=T_{R}+d_{R}</script><p>其中$ \theta_{L}=\left[\begin{array}{lll}{\theta_{L I}} &amp; {\theta_{L 2}} &amp; {\theta_{L 3}}\end{array}\right]^{T}$， $\theta_{R}=\left[\begin{array}{lll}{\theta_{R l}} &amp; {\theta_{R 2}} &amp; {\theta_{R 3}}\end{array}\right]^{T}$，$m_{T R}$和$m_{T L}$表示每条腿所支撑的躯干质量，并进一步用躯干质心相对踝关节的水平距离进行简化计算（只在准静态条件下适用）：</p>
+<script type="math/tex; mode=display">
+\frac{m_{T R}}{m_{T L}}=\frac{x_{T L}}{x_{T R}}</script><p>在双支撑阶段，控制器的控制率可表示为：</p>
+<script type="math/tex; mode=display">
+T_{L}=\hat{P}_{L}\left(m_{T L}, \theta_{L}\right)+\left(1-\alpha^{-1}\right)\left[\hat{M}_{L}\left(m_{T L}, \theta_{L}\right) \ddot{\theta}_{L}+\hat{C}_{L}\left(m_{T L}, \theta_{L}, \dot{\theta}_{L}\right) \dot{\theta}_{L}\right]</script><script type="math/tex; mode=display">
+T_{R}=\hat{P}_{R}\left(m_{T R}, \theta_{R}\right)+\left(1-\alpha^{-1}\right)\left[\hat{M}_{R}\left(m_{T R}, \theta_{R}\right) \ddot{\theta}_{R}+\hat{C}_{R}\left(m_{T R}, \theta_{R}, \dot{\theta}_{R}\right) \dot{\theta}_{R}\right]</script><h4 id="冗余双支撑阶段"><a href="#冗余双支撑阶段" class="headerlink" title="冗余双支撑阶段"></a>冗余双支撑阶段</h4><p>在冗余双支撑阶段，外骨骼的站立腿建模为平面三连杆，而另一条腿建模为平面四连杆，如图11所示。动力学模型与双支撑阶段形式相同，其中</p>
+<script type="math/tex; mode=display">
+\theta_{L}=\left[\begin{array}{llll}{\theta_{L 1}} & {\theta_{L 2}} & {\theta_{L 3}} & {\theta_{L 4}}\end{array}\right]^{T}</script><script type="math/tex; mode=display">
+\theta_{R}=\left[\begin{array}{lll}{\theta_{R I}} & {\theta_{R 2}} & {\theta_{R 3}}\end{array}\right]^{T}</script><script type="math/tex; mode=display">
+T_{L}=\left[\begin{array}{llll}{0} & {T_{L 1}} & {T_{L 2}} & {T_{L 3}}\end{array}\right]^{T}</script><script type="math/tex; mode=display">
+T_{R}=\left[\begin{array}{lll}{T_{R 1}} & {T_{R 2}} & {T_{R 3}}\end{array}\right]^{T}</script><h3 id="混合控制"><a href="#混合控制" class="headerlink" title="混合控制"></a>混合控制</h3><p>灵敏度放大控制能够快速跟随穿戴者的运动，但这种方法依赖系统的精确模型，当模型、负载变化时会严重影响控制性能。之后BLEEX的研究人员采用混合控制策略：支撑阶段采用位置控制，摆动阶段采用灵敏度放大控制。这种控制能够降低对精确模型的依赖程度，从而提高系统的鲁棒性和稳定性。</p>
+<p>在步态运动的过程中，摆动腿运动范围大但只需要支撑自己的重量，支撑腿的运动范围小但却需要支撑整个躯干和负载的重力；反应到控制中，摆动腿需要相对小的力矩和相对高的带宽，而支撑腿需要相对大的力矩和相对低的带宽。基于这个观点，我们在BLEEX中采用混合控制：支撑阶段采用位置控制，而摆动阶段采用灵敏度放大控制。因此，鲁棒稳定性（支撑阶段的位置控制）和对穿戴者人机交互力的高灵敏性（摆动阶段的灵敏度放大控制）能够在BLEEX上同时得以实现。</p>
+<h4 id="摆动阶段：灵敏度放大控制"><a href="#摆动阶段：灵敏度放大控制" class="headerlink" title="摆动阶段：灵敏度放大控制"></a>摆动阶段：灵敏度放大控制</h4><p>在摆动阶段采用灵敏度放大控制，正如如上所述，其中只采用摆动阶段的建模与控制。</p>
+<h4 id="支撑阶段：位置控制"><a href="#支撑阶段：位置控制" class="headerlink" title="支撑阶段：位置控制"></a>支撑阶段：位置控制</h4><p>在支撑阶段，控制器使外骨骼的关节角度跟踪穿戴者的关节角度，控制结构图如下：</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png" style="zoom:80%;"></p>
+<p>理想情况下，当角度误差为零时，人机之间的交互力矩也近似为零。控制器的实现采用比例控制：</p>
+<script type="math/tex; mode=display">
+T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关节，采用独立的控制器进行控制：</p>
+<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png" style="zoom:80%;"></p>
+<p>在单关节（膝关节）情况下的控制效果如下所示（采样周期25ms），在低频时有不错的跟踪效果：</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png" class></div></div></div></div>
+<p>在进行位置控制时，有两点需要注意。第一个问题是外骨骼与人体之间必须为柔顺连接，如图6所示。当人体想要进行运动时，其必须要很容易就能移动，也就是人机之间的阻抗应当很小，这样才能够产生位置误差，进而使外骨骼跟随；当人机之间为图11所示刚性连接时，穿戴者需要同时移动自己和外骨骼，此时人机之间的关节角误差将始终为零，同时交互力矩也将会很大。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png" class></div></div></div></div>
+<p>另外一个问题是外骨骼关节角与人体关节角之间的差异，由于BLEEX是拟人化设计，角度差异所导致的影响比较小，因此就没有专门进行处理。</p>
+<blockquote>
+<p>在研究的前期阶段，研究人员有尝试在步态的整个过程都使用位置控制，但很快发现这种方法在摆动阶段并不合适。穿戴者需要主动移动躯干才能使外骨骼前进，因此外骨骼的行走过程非常不自然，同时穿戴者感觉也非常不舒服。</p>
+</blockquote>
+<h4 id="控制器的过渡问题"><a href="#控制器的过渡问题" class="headerlink" title="控制器的过渡问题"></a>控制器的过渡问题</h4><p>由于在步态过程中采用两种不同的控制方案，为了避免控制器切换时的突变，需要设置控制器的过渡策略。研究采用渐变增益的方法，其中由灵敏度放大控制切换到位置控制的过渡时间为1s，由位置控制切换到灵敏度放大控制的过渡时间为0.4s。</p>
+<hr>
+<h2 id="小结与思考"><a href="#小结与思考" class="headerlink" title="小结与思考"></a>小结与思考</h2><p>从设计初衷来说，BLEEX的operator的思想使其更像是“机甲”，穿戴者是一个“装甲”的操作者而不是一个被强化的“Superman”。作为旧世代最出名的外骨骼，BLEEX的结构设计有诸多精妙之处。BLEEX将外骨骼结构设计向伪拟人化和非拟人化方向拓展，非拟人化架构只在躯干和足部进行刚性固定，而中间没有刚性固定；人和外骨骼具有各自的运动链，可看做并联结构，没有关节轴对齐问题；结构上的Actuator Mount、Foot Attachment、Length Adjustment、Pressure Sensor都值得借鉴，模块化设计也是很好的尝试。</p>
+<p>本研究所提出的灵敏度放大方法本质上是一种正反馈控制，通过放大扰动来实现对穿戴者的运动跟随。控制器本身不具有稳定性，但可以由穿戴者稳定住整个系统。灵敏度放大不直接测量交互力，控制带宽高、响应快，但对模型参数不具有鲁棒性，无法对抗外界扰动，以至于作者自身都不得不考虑使用混合控制来减少不稳定的影响。虽算法本身在真实系统上实现时会遇到各种问题，但其所反映的思想却清晰直观：外骨骼控制的目的是放大，放大人体力量，并同时降低人体所承受的作用。这为外骨骼领域的研究拓展了思路，在很多系统中依然可以看到这个思想的影子。</p>
+<hr>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="/download/2005_BLEEX_mechanical_design.pdf">On the Mechanical Design of the  Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p>
+<p><a href="/download/2005_BLEEX_Control.pdf">On the Control of the  Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p>
+<p><a href="/download/2006_BLEEX_Hybird_Control.pdf">Hybrid Control of the Berkeley Lower Extremity Exoskeleton (BLEEX)</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/" title="伯克利下肢外骨骼系统-结构与控制">https://jychennk.github.io/2021/11/01/外骨骼系统/BLEEX/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/" rel="tag"># 外骨骼系统</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/08/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/Matlab%20Signal%20Analyzer/" rel="prev" title="Matlab Signal Analyzer 信号分析">
+      <i class="fa fa-chevron-left"></i> Matlab Signal Analyzer 信号分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/" rel="next" title="Stanford下肢外骨骼系统设计控制与优化">
+      Stanford下肢外骨骼系统设计控制与优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -35,7 +480,152 @@ T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关�
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">结构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%AA%E6%8B%9F%E4%BA%BA%E5%8C%96%E5%A4%96%E9%AA%A8%E9%AA%BC%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">伪拟人化外骨骼整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLEEX%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%9A%84%E8%87%AA%E7%94%B1%E5%BA%A6%E4%B8%8E%E5%85%B3%E8%8A%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.2.</span> <span class="nav-text">BLEEX外骨骼的自由度与关节设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%8A%82%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4"><span class="nav-number">3.3.</span> <span class="nav-text">关节的运动范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%85%E5%8A%A9%E5%85%B3%E8%8A%82%E4%B8%8E%E9%A9%B1%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">3.4.</span> <span class="nav-text">辅助关节与驱动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BB%93%E6%9E%84%E9%83%A8%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.</span> <span class="nav-text">模块化结构部件设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E8%8A%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.1.</span> <span class="nav-text">关节设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%B3%E9%83%A8%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.2.</span> <span class="nav-text">足部设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E8%85%BF%E5%92%8C%E5%B0%8F%E8%85%BF%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.3.</span> <span class="nav-text">大腿和小腿设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BA%AF%E5%B9%B2%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.4.</span> <span class="nav-text">躯干设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.6.</span> <span class="nav-text">整体结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%AD%96%E7%95%A5"><span class="nav-number">4.</span> <span class="nav-text">控制策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%B5%E6%95%8F%E5%BA%A6%E6%94%BE%E5%A4%A7%E6%8E%A7%E5%88%B6"><span class="nav-number">4.1.</span> <span class="nav-text">灵敏度放大控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%87%AA%E7%94%B1%E5%BA%A6%E6%83%85%E5%86%B5"><span class="nav-number">4.1.1.</span> <span class="nav-text">单自由度情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%8F%98%E5%8C%96%E7%9A%84%E9%B2%81%E6%A3%92%E6%80%A7"><span class="nav-number">4.1.2.</span> <span class="nav-text">参数变化的鲁棒性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E4%BD%93%E5%8A%A8%E5%8A%9B%E5%AD%A6"><span class="nav-number">4.1.3.</span> <span class="nav-text">人体动力学</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">控制算法的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.1.</span> <span class="nav-text">单支撑阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.2.</span> <span class="nav-text">双支撑阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E5%8F%8C%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.3.</span> <span class="nav-text">冗余双支撑阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.</span> <span class="nav-text">混合控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%86%E5%8A%A8%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%81%B5%E6%95%8F%E5%BA%A6%E6%94%BE%E5%A4%A7%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.1.</span> <span class="nav-text">摆动阶段：灵敏度放大控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5%EF%BC%9A%E4%BD%8D%E7%BD%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.2.</span> <span class="nav-text">支撑阶段：位置控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E8%BF%87%E6%B8%A1%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.3.</span> <span class="nav-text">控制器的过渡问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93%E4%B8%8E%E6%80%9D%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">小结与思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">25</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">16</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2021</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script defer="defer" src="/lib/three/three.min.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">结构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%AA%E6%8B%9F%E4%BA%BA%E5%8C%96%E5%A4%96%E9%AA%A8%E9%AA%BC%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">伪拟人化外骨骼整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLEEX%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%9A%84%E8%87%AA%E7%94%B1%E5%BA%A6%E4%B8%8E%E5%85%B3%E8%8A%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.2.</span> <span class="nav-text">BLEEX外骨骼的自由度与关节设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%8A%82%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4"><span class="nav-number">3.3.</span> <span class="nav-text">关节的运动范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%85%E5%8A%A9%E5%85%B3%E8%8A%82%E4%B8%8E%E9%A9%B1%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">3.4.</span> <span class="nav-text">辅助关节与驱动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BB%93%E6%9E%84%E9%83%A8%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.</span> <span class="nav-text">模块化结构部件设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E8%8A%82%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.1.</span> <span class="nav-text">关节设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%B3%E9%83%A8%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.2.</span> <span class="nav-text">足部设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E8%85%BF%E5%92%8C%E5%B0%8F%E8%85%BF%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.3.</span> <span class="nav-text">大腿和小腿设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BA%AF%E5%B9%B2%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.5.4.</span> <span class="nav-text">躯干设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.6.</span> <span class="nav-text">整体结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%AD%96%E7%95%A5"><span class="nav-number">4.</span> <span class="nav-text">控制策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%B5%E6%95%8F%E5%BA%A6%E6%94%BE%E5%A4%A7%E6%8E%A7%E5%88%B6"><span class="nav-number">4.1.</span> <span class="nav-text">灵敏度放大控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%87%AA%E7%94%B1%E5%BA%A6%E6%83%85%E5%86%B5"><span class="nav-number">4.1.1.</span> <span class="nav-text">单自由度情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%8F%98%E5%8C%96%E7%9A%84%E9%B2%81%E6%A3%92%E6%80%A7"><span class="nav-number">4.1.2.</span> <span class="nav-text">参数变化的鲁棒性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E4%BD%93%E5%8A%A8%E5%8A%9B%E5%AD%A6"><span class="nav-number">4.1.3.</span> <span class="nav-text">人体动力学</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">控制算法的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.1.</span> <span class="nav-text">单支撑阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.2.</span> <span class="nav-text">双支撑阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E5%8F%8C%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5"><span class="nav-number">4.2.3.</span> <span class="nav-text">冗余双支撑阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.</span> <span class="nav-text">混合控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%86%E5%8A%A8%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%81%B5%E6%95%8F%E5%BA%A6%E6%94%BE%E5%A4%A7%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.1.</span> <span class="nav-text">摆动阶段：灵敏度放大控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%AF%E6%92%91%E9%98%B6%E6%AE%B5%EF%BC%9A%E4%BD%8D%E7%BD%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.2.</span> <span class="nav-text">支撑阶段：位置控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E8%BF%87%E6%B8%A1%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.3.</span> <span class="nav-text">控制器的过渡问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93%E4%B8%8E%E6%80%9D%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">小结与思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -85,7 +675,14 @@ T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关�
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -111,4 +708,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>
