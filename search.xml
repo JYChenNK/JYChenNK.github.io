@@ -132,8 +132,8 @@
   </entry>
   <entry>
     <title>102Lab数据处理软件AIOS</title>
-    <url>/2021/10/01/2.AIOS/AIOS/</url>
-    <content><![CDATA[<img src="/2021/10/01/2.AIOS/AIOS/fig1.png" class>
+    <url>/2021/10/04/2.AIOS/AIOS/</url>
+    <content><![CDATA[<img src="/2021/10/04/2.AIOS/AIOS/fig1.png" class>
 <h2 id="最新版本-v6-13"><a href="#最新版本-v6-13" class="headerlink" title="最新版本 v6.13"></a>最新版本 v6.13</h2><span id="more"></span>
 <p><a href="https://github.com/JYChenNK/102DAS/releases">下载链接(GitHub)</a>，拖动到Matlab命令行窗口中即可安装</p>
 <h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><h3 id="v6-10"><a href="#v6-10" class="headerlink" title="v6.10"></a>v6.10</h3><ul>
@@ -142,7 +142,7 @@
 <li>新增数据处理模式（速度/精度）</li>
 <li>新增绘图敞口大小设置</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/%E5%9B%BE%E7%89%871.png" class>
+<img src="/2021/10/04/2.AIOS/AIOS/%E5%9B%BE%E7%89%871.png" class>
 <h3 id="v6-8"><a href="#v6-8" class="headerlink" title="v6.8"></a>v6.8</h3><ul>
 <li>增加Std特征用于分析稳定性</li>
 <li>增加绘制足底压力曲线</li>
@@ -165,8 +165,8 @@
 
 <h3 id="v5-6"><a href="#v5-6" class="headerlink" title="v5.6"></a>v5.6</h3><ul>
 <li>支持一维、二维特征插值与拟合</li>
-<li>支持4种显著性分析（T-test、Anova、Mann-Whhitney-Wilcoxon、Kruskal-Wallis）<img src="/2021/10/01/2.AIOS/AIOS/fig1.png" class>
-<img src="/2021/10/01/2.AIOS/AIOS/fig2.png" class>
+<li>支持4种显著性分析（T-test、Anova、Mann-Whhitney-Wilcoxon、Kruskal-Wallis）<img src="/2021/10/04/2.AIOS/AIOS/fig1.png" class>
+<img src="/2021/10/04/2.AIOS/AIOS/fig2.png" class>
 </li>
 </ul>
 <h3 id="v5-1"><a href="#v5-1" class="headerlink" title="v5.1"></a>v5.1</h3><ul>
@@ -175,13 +175,13 @@
 <li>增加更多曲线线型设置</li>
 <li>优化色彩排序</li>
 <li><p>修复单组柱状图绘制BUG</p>
-<img src="/2021/10/01/2.AIOS/AIOS/demo2.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/demo2.gif" class>
 </li>
 </ul>
 <h3 id="v4-12"><a href="#v4-12" class="headerlink" title="v4.12"></a>v4.12</h3><ul>
 <li>支持绘制SubPlot：选择子图数目，点击<code>NEW SubPlot</code>创建子图；选择子图行、列序号，点击<code>SELECT Sub</code>选中子图进行绘制</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/demo1.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/demo1.gif" class>
 <h3 id="v4-10"><a href="#v4-10" class="headerlink" title="v4.10"></a>v4.10</h3><ul>
 <li>增加对双侧外骨骼的实验数据支持。确保数据中包含变量”state_r”和”state_l”；所有变量名中包含”_r”/“_R”的变量将作为右侧数据进行步态分割；所有变量名中包含”_l”/“_L”的变量将作为右侧数据进行步态分割；其他数据作为右侧数据进行步态分割。</li>
 </ul>
@@ -210,41 +210,41 @@
 <li>支持导入OpenSim数据（需配和步态分割信号进行数据处理）</li>
 </ul>
 <h3 id="V1-0"><a href="#V1-0" class="headerlink" title="V1.0"></a>V1.0</h3><p>基于Matlab App Designer设计了一款实验室数据分析软件AIOS</p>
-<img src="/2021/10/01/2.AIOS/AIOS/1.png" class title="主界面">
-<img src="/2021/10/01/2.AIOS/AIOS/2.png" class title="数据加载界面">
-<img src="/2021/10/01/2.AIOS/AIOS/3.png" class title="绘图界面">
+<img src="/2021/10/04/2.AIOS/AIOS/1.png" class title="主界面">
+<img src="/2021/10/04/2.AIOS/AIOS/2.png" class title="数据加载界面">
+<img src="/2021/10/04/2.AIOS/AIOS/3.png" class title="绘图界面">
 <hr>
 <hr>
 <h4 id="软件使用介绍"><a href="#软件使用介绍" class="headerlink" title="软件使用介绍"></a>软件使用介绍</h4><h5 id="打开软件"><a href="#打开软件" class="headerlink" title="打开软件"></a>打开软件</h5><p>有两种方式打开AIOS，第一种通过Matlab APP打开，启动速度较快；第二种通过exe文件直接打开，无需依赖。</p>
-<p>通过Matlab APP打开：<br><img src="/2021/10/01/2.AIOS/AIOS/4.gif" class><br>通过exe文件打开：<br><img src="/2021/10/01/2.AIOS/AIOS/5.gif" class></p>
+<p>通过Matlab APP打开：<br><img src="/2021/10/04/2.AIOS/AIOS/4.gif" class><br>通过exe文件打开：<br><img src="/2021/10/04/2.AIOS/AIOS/5.gif" class></p>
 <h4 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h4><h5 id="导入实验文件"><a href="#导入实验文件" class="headerlink" title="导入实验文件"></a>导入实验文件</h5><p>软件可导入由dSPACE ControlDesk采集得到的数据，并支持多个数据文件的导入与分析：</p>
-<img src="/2021/10/01/2.AIOS/AIOS/6.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/6.gif" class>
 <h5 id="提取数据变量并处理"><a href="#提取数据变量并处理" class="headerlink" title="提取数据变量并处理"></a>提取数据变量并处理</h5><p>从原始数据中提取有用数据变量进行分析</p>
 <ul>
 <li>支持变量重命名</li>
 <li>支持数据一键处理（处理详情待补充），需先提取state变量</li>
 <li>支持数据保存</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/7.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/7.gif" class>
 <h4 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h4><h5 id="绘制时间序列曲线"><a href="#绘制时间序列曲线" class="headerlink" title="绘制时间序列曲线"></a>绘制时间序列曲线</h5><ul>
 <li>在新建Figure窗口中绘图，方便图像缩放、保存和进一步处理</li>
 <li>支持多曲线绘制与窗口清空</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/8.gif" class>
-<img src="/2021/10/01/2.AIOS/AIOS/9.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/8.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/9.gif" class>
 <h5 id="绘制步态周期曲线"><a href="#绘制步态周期曲线" class="headerlink" title="绘制步态周期曲线"></a>绘制步态周期曲线</h5><ul>
 <li>支持步态周期逐条曲线、平均曲线、方差区域的绘制</li>
 <li>支持多曲线绘制与颜色设置</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/10.gif" class>
-<img src="/2021/10/01/2.AIOS/AIOS/11.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/10.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/11.gif" class>
 <h5 id="绘制步态特征柱状图"><a href="#绘制步态特征柱状图" class="headerlink" title="绘制步态特征柱状图"></a>绘制步态特征柱状图</h5><ul>
 <li>支持柱状图数据导入与删除</li>
 <li>支持步态特征选择（rms、mean、max、min）</li>
 <li>支持bar与error bar切换</li>
 <li>支持colormap设置</li>
 </ul>
-<img src="/2021/10/01/2.AIOS/AIOS/12.gif" class>
+<img src="/2021/10/04/2.AIOS/AIOS/12.gif" class>
 <hr>
 <h2 id="历史版本"><a href="#历史版本" class="headerlink" title="历史版本"></a>历史版本</h2><ul>
 <li><a href="/download/AIOS_v1.0.mlappinstall">v1.0版本</a></li>
@@ -327,39 +327,39 @@ T_{\mathrm{ID} k}=\sum_{m=1}^{M} r_{m k} F_{\mathrm{T} m}+e_{\mathrm{T} k} T_{\m
   </entry>
   <entry>
     <title>FPI无线足底压力鞋垫系统设计</title>
-    <url>/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
+    <url>/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
     <content><![CDATA[<p>本篇为无线传感系统的第二篇，主要记录无线足底压力鞋垫的设计和制作。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_Rendering.gif" class title="FPI_Rendering">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_Rendering.gif" class title="FPI_Rendering">
 <span id="more"></span>
 <h2 id="压力鞋垫的测量原理"><a href="#压力鞋垫的测量原理" class="headerlink" title="压力鞋垫的测量原理"></a>压力鞋垫的测量原理</h2><p>压力鞋垫非自制，购买柔希科技的16P版本的压力鞋垫，鞋垫的压力传感器分布大致如下：</p>
-<p><img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/鞋垫连线图.jpeg" width="100%"></p>
+<p><img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/鞋垫连线图.jpeg" width="100%"></p>
 <p>一般来说电阻式薄膜压力传感器的构成一般分为五层结构：顶层和底层为绝缘保护层；之后是两个导电层，用来连接传感器传输信号，并且多数情况下导线会成矩阵式排列，以减少导线数量、增加传感器密度；最中间的是一层或两层的压力敏感材料。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_6.png" class title="截屏2021-06-09 下午9.21.55">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_6.png" class title="截屏2021-06-09 下午9.21.55">
 <p>压力传感器是利用电阻的压敏特性对压力进行测量，当压力作用在压敏材料上时，材料的电阻值会发生显著变化。多数压敏材料的电导率与压力成线性关系，因而电阻与压力之间成倒数关系，如上右图所示。</p>
-<h2 id="压力鞋垫的数据采集"><a href="#压力鞋垫的数据采集" class="headerlink" title="压力鞋垫的数据采集"></a>压力鞋垫的数据采集</h2><img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
+<h2 id="压力鞋垫的数据采集"><a href="#压力鞋垫的数据采集" class="headerlink" title="压力鞋垫的数据采集"></a>压力鞋垫的数据采集</h2><img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_1.png" class title="FPI_1">
 <p>上面已经已到，压力鞋垫为了提高压力测量点的密度，减少导线数量，降低对采集芯片的引脚需求，一般采用矩阵式的排线方法，也就是同一根导线会连接多个传感器。一般来说，压力鞋垫上所有的传感器都按排和列进行划分，每一排或每一列都连接相同一根导线，任意选定一行和一列都可以唯一确定一个压力测量点。如上所示，柔细科技的16P压力鞋垫就将16个传感器分为4行6列，这样就可以将16根信号线降低为10根信号线，进一步若将列通道作为选通信号，则只有4根行信号线需要连接到模拟量采集端口。但这样矩阵式的布线方式也会给数据采集带来一些困难。</p>
 <p>在多数论文里，为了进一步减少压力鞋垫需要的采集引脚数目，会选择采用多路选通器来进行行扫描，典型的有8路模拟多路选通器CD4051。这种芯片能够通过三个控制线以2进制编码的形式控制8个通道与公共端的连接，而当某一通道与公共端连通时，其余各通道均处于悬空状态。我们将鞋垫的列信号线接到CD4051的其中6路选通引脚上，然后用单片机接CD4051的A B C引脚控制选通信号，就可以用3个引脚控制压力鞋垫的6路列信号选通线。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_7.png" class title="截屏2021-06-10 下午4.29.32">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_7.png" class title="截屏2021-06-10 下午4.29.32">
 <p>当CD4051的公共端连接VCC时，采集电路如下所示，以col6被选通为例，col6与公共端连通故电压为VCC，行信号连接一个分压电阻Rf后连接到GND。由于当col6选通时，col1-col5均为悬空状态，其余压力测量点的合成电阻对该采样电路没有影响，因此通过测量row1上的电压vol1，以及已知的分压电阻Rf，就可以得到压力测量点电阻R6的大小。在前期测试中压力电阻阻值范围为20M-50K，分压电阻Rf可以取10K-500K之间，分压电阻太小会导致测量精度下降，在前期实验中，Rf选择为200K。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_2.png" class title="截屏2021-06-10 下午3.55.05">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_2.png" class title="截屏2021-06-10 下午3.55.05">
 <p>但在后续实验中发现，CD4051在通道切换的时候存在比较明显的响应过程。下图展示的是col6通道选通后，间隔100us连续采样14次，vol1的电压变化，曲线非常符合一阶指数响应过程，同时也显示该响应过程有较大的时间常数，T约为1/1411=700us，到达稳态需要3T时间也就是2.1ms，这样6个列通道全部采样一次就需要12.6ms，鞋垫压力的采样频率会小于100Hz，这是无法接受的。想要实现200Hz以上的采样频率，通道切换的过渡时间需要小于280us。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-07_09-43-03.png" class title="Snipaste_2021-06-07_09-43-03">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-07_09-43-03.png" class title="Snipaste_2021-06-07_09-43-03">
 <p>进一步我们采用示波器观测通道切换时，vol1的电压变化曲线。单片机控制CD4051每间隔1ms在col6和col5之间进行一次切换，并且在通道6的压力采样点上有一个稳定持续的压力，通道5上没有压力，因此下图所示的波形会在高低电平之间不断切换，切换间隔为1ms。可以看出波形有明显的响应过程，并且在切换到通道5时，响应的时间常数更大一些。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_10-55-36.png" class title="Snipaste_2021-06-08_10-55-36">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_10-55-36.png" class title="Snipaste_2021-06-08_10-55-36">
 <p>当CD4051从通道6切换到通道5时，除了col5上所施加的电压VCC外，由于上一时刻在作用在col6上的电压在通道关断后不会立刻消失，依靠电容效应随着放电过程电压逐渐降低，由叠加定义可知其仍然对vol1的电压产生影响，因此我们看到切换到通道5之后vol1的电压缓慢下降。而在从通道5切换到通道6时，由于col5上原来的电压较低，因此对col6的vol1影响较小，但还是可以看到一点缓慢下降的趋势。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_3.png" class title="截屏2021-06-10 下午7.28.34">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_3.png" class title="截屏2021-06-10 下午7.28.34">
 <p>调研了解现有的足底压力系统有可以实现200Hz的采样频率，推测本实验中较大的过渡时间是由于CD4051芯片本身的特性造成的。因此后面尝试去除CD4051，直接使用单片机本身的引脚连接压力鞋垫的列选通信号线。连接col的单片机引脚设置为数字量输出模式，当信号选通时，将该引脚设置为高电平，并将其余引脚设置为低电平。实验中单片机每间隔300us切换一次选通信号，通道6的传感器上依然有一个持续施加的作用力。下图所示的为Rf分别为200K、100K、50K时的vol1波形：</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-03-51_200k.png" class title="Snipaste_2021-06-08_17-03-51_200k">
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-08_100k.png" class title="Snipaste_2021-06-08_17-05-08_100k">
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-53_50k.png" class title="Snipaste_2021-06-08_17-05-53_50k">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-03-51_200k.png" class title="Snipaste_2021-06-08_17-03-51_200k">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-08_100k.png" class title="Snipaste_2021-06-08_17-05-08_100k">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2021-06-08_17-05-53_50k.png" class title="Snipaste_2021-06-08_17-05-53_50k">
 <p>随着Rf的下降，电路时间常数1/RC降低，通道切换的响应时间变短，同时由于分压下降，col6采集的稳态电压也逐渐下降。当Rf选择为50K时，过渡时间小于250us，基本可以满足500Hz采样的需要。</p>
 <p>但这种将列选通信号直接连接到单片机引脚上的方法存在一个比较严重的问题：同一行的传感器之间会相互影响：</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF.gif" class title="GIF">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF.gif" class title="GIF">
 <p>上图所示的依然是对row1的6个传感器进行扫描，其中col6上作用一个稳定持续的压力不随时间发生改变，col5和col4上作用一个时变的压力。可以看出，在col5或col4压力变化时，col6的电压也会跟随发生改变。具体来说，当同一行的其他传感器的压力增大时，col6的电电压会减小。</p>
 <p>下图为当前系统的电路连接示意图。由于所有的列选通信号都是连接单片机的数字量输出引脚，在非选通时引脚置为低电平，实际上也就是与GND直接相连，而非处于悬空状态。此时测量电路的实际分压电阻$ Rf^r $将是Rf与R15的并联，当其余电阻因受到压力而阻值下降时，$ Rf^r $会随之下降，vol1上的分压也因此降低。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_4.png" class title="截屏2021-06-10 下午8.50.39">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/FPI_4.png" class title="截屏2021-06-10 下午8.50.39">
 <p>所以为了消除通道之间的耦合影响，需要将非选通的col通道设置为悬空状态，而不能连接到GND。程序上可以通过将引脚改变为输入模式来实现，因为在输入模式下引脚处于高阻状态近似于悬空（但不能设置为上拉输入或下拉输入）。下面为调整的后扫描曲线，在col5和col4压力变化时col1基本不受影响。</p>
-<img src="/2021/03/04/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF2.gif" class title="GIF2">
+<img src="/2021/10/02/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/FPI%E6%97%A0%E7%BA%BF%E8%B6%B3%E5%BA%95%E5%8E%8B%E5%8A%9B%E9%9E%8B%E5%9E%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/GIF2.gif" class title="GIF2">
 <h2 id="无线压力鞋垫系统PCB设计"><a href="#无线压力鞋垫系统PCB设计" class="headerlink" title="无线压力鞋垫系统PCB设计"></a>无线压力鞋垫系统PCB设计</h2>]]></content>
       <categories>
         <category>develop</category>
@@ -617,46 +617,46 @@ c_{I}(x)-s
   </entry>
   <entry>
     <title>IMU无线系统设计</title>
-    <url>/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<p>在之前的<a href="https://jychen102.gitee.io/2019/05/05/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/1.IMU%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E5%8E%9F%E7%90%86/">博客</a>中，已经对IMU的工作原理以及姿态结算方法进行了具体介绍，当时也设计了一个简单的有限姿态采集系统。在后来使用中发现，通过有线连接的IMU姿态采集系统，在运动过程中线缆连接处不可避免的会出现接触不良的情况，导致经常出现连接中断与数据丢失。因此在之前的基础上，设计了一套无线姿态传感系统，本文将主要介绍硬件设计的基本方案。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/13.png" class>
+    <url>/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<p>在之前的博客中，已经对IMU的工作原理以及姿态结算方法进行了具体介绍，当时也设计了一个简单的有限姿态采集系统。在后来使用中发现，通过有线连接的IMU姿态采集系统，在运动过程中线缆连接处不可避免的会出现接触不良的情况，导致经常出现连接中断与数据丢失。因此在之前的基础上，设计了一套无线姿态传感系统，本文将主要介绍硬件设计的基本方案。</p>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/13.png" class>
 <span id="more"></span>
 <h2 id="无线IMU硬件设计"><a href="#无线IMU硬件设计" class="headerlink" title="无线IMU硬件设计"></a>无线IMU硬件设计</h2><p>无线IMU姿态测量模块主要有五部分组成：锂电池、锂电池充电管理模块、锂电池输出稳压模块、维特智能的JY901以及汇承的HC-12无线通信模块，系统结构框图如上所示。为了方便佩戴，该传感器计划设计成较小的尺寸体积，长宽初步定为20*30mm。</p>
 <h3 id="IMU模块"><a href="#IMU模块" class="headerlink" title="IMU模块"></a>IMU模块</h3><p>这里采用维特智能研发的<a href="https://item.taobao.com/item.htm?spm=a1z09.2.0.0.e1362e8d1hfpCq&amp;id=43511899945&amp;_u=j2e2b4db30d7">九轴姿态传感器</a>，内部集成Kalman滤波，输出频率可达200Hz，支持串口和IIC接口，同时价格较低。同时基于WT931的无线IMU模块在后续计划中，其采样频率可达500Hz。由于模块支持串口数据输出，因此将其串口直接连接无线模块接受端，并将数据发送至上位机。</p>
 <blockquote>
 <p>由于无线模块不支持发送AT指令，因此不同通过无线传输的方式对IMU的基本参数进行设置，只能实现基本的数据传输。</p>
 </blockquote>
-<p><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790727566.png" width="60%"></p>
+<p><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790727566.png" width="60%"></p>
 <h3 id="无线通信模块"><a href="#无线通信模块" class="headerlink" title="无线通信模块"></a>无线通信模块</h3><p>无线通信模块采用汇承的<a href="https://item.taobao.com/item.htm?spm=a1z09.2.0.0.e1362e8d1hfpCq&amp;id=20265137304&amp;_u=j2e2b4db5c9c">HC-12</a>433M透传模块。在前期测试中发现，蓝牙通信在多机情况下不稳定，且通信距离较短；Wifi通信的通信延时不稳定。因此最终悬选择这款433M的无线透传模块，并且支持设置不同工作模式（低功耗、全速、远距）、不同的通信频道（0-999）。</p>
 <blockquote>
 <p>实际使用时需合理选择天线，同时通信频道最好间隔设置，即将通道设置为1,3,5,7,9…</p>
 </blockquote>
-<p><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605791843906.png" width="60%"></p>
+<p><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605791843906.png" width="60%"></p>
 <h3 id="锂电池型号选择"><a href="#锂电池型号选择" class="headerlink" title="锂电池型号选择"></a>锂电池型号选择</h3><p>所采用的锂电池为为市面上常见的<a href="https://detail.tmall.com/item.htm?id=43641125910&amp;spm=a1z09.2.0.0.e1362e8d1hfpCq&amp;_u=j2e2b4dbbd93">3.7V聚合物锂电池</a>，电池内部自带过充保护板。考虑了体积的限制，最终选择容量为260mAh。</p>
-<p><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605786805794.png" width="60%"></p>
+<p><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605786805794.png" width="60%"></p>
 <h3 id="锂电池充电模块设计"><a href="#锂电池充电模块设计" class="headerlink" title="锂电池充电模块设计"></a>锂电池充电模块设计</h3><p>接下来为锂电池设计配套的充电模块。为方便充电，采用TypeC接头，充电芯片采用较为常用的<a href="https://atta.szlcsc.com/upload/public/pdf/watermark/20190926/C84051_A3C1A17BA2C9FBF3AD637A80C4632639.pdf">TP4056</a>，其主要参数如下：</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605787978387.png" class>
-<p>管脚功能说明如下：<br><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605788045912.png" class><br><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605788079933.png" class></p>
-<p>参考数据手册中的典型应用电路，设计如下的充电电路：<br><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605789032628.png" class><br>其中R4电阻需要根据电池容量来确定。锂电池的充电电流一般为电池容量的0.1~1.5倍，常规的充电电流为0.5倍电池容量。项目中由于需要对电池快速充电的需要，因此设计为接近1倍电池容量，充电电流与电阻R4的关系可由数据手册得到：</p>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605787978387.png" class>
+<p>管脚功能说明如下：<br><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605788045912.png" class><br><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605788079933.png" class></p>
+<p>参考数据手册中的典型应用电路，设计如下的充电电路：<br><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605789032628.png" class><br>其中R4电阻需要根据电池容量来确定。锂电池的充电电流一般为电池容量的0.1~1.5倍，常规的充电电流为0.5倍电池容量。项目中由于需要对电池快速充电的需要，因此设计为接近1倍电池容量，充电电流与电阻R4的关系可由数据手册得到：</p>
 <script type="math/tex; mode=display">
-I_{BAT}=\frac{1200}{R_4}</script><h3 id="锂电池稳压模块设计"><a href="#锂电池稳压模块设计" class="headerlink" title="锂电池稳压模块设计"></a>锂电池稳压模块设计</h3><p>锂电池输出的电压会随电量的减少从4.2V降低到3.7V，在为传感器供电之前需要进行稳压。采用mini封装的<a href="https://atta.szlcsc.com/upload/public/pdf/source/20130730/1457706628575.pdf">RT9193</a>，将输出电压稳定在3.3<br><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790101539.png" class></p>
-<p><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790250999.png" width="60%"></p>
+I_{BAT}=\frac{1200}{R_4}</script><h3 id="锂电池稳压模块设计"><a href="#锂电池稳压模块设计" class="headerlink" title="锂电池稳压模块设计"></a>锂电池稳压模块设计</h3><p>锂电池输出的电压会随电量的减少从4.2V降低到3.7V，在为传感器供电之前需要进行稳压。采用mini封装的<a href="https://atta.szlcsc.com/upload/public/pdf/source/20130730/1457706628575.pdf">RT9193</a>，将输出电压稳定在3.3<br><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790101539.png" class></p>
+<p><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605790250999.png" width="60%"></p>
 <h3 id="原理图与PCB设计"><a href="#原理图与PCB设计" class="headerlink" title="原理图与PCB设计"></a>原理图与PCB设计</h3><p>将上面的几个部分结合在一起，同时增加一个开关，和一个用来调节JY901与HC-12连通的拨码开关，构成如下的原理图，并在此基础上设计了PCB电路。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792242432.png" class>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792890624.png" class>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605794866241.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792242432.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792890624.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605794866241.png" class>
 <h3 id="传感器外壳设计"><a href="#传感器外壳设计" class="headerlink" title="传感器外壳设计"></a>传感器外壳设计</h3><p>为了方便传感器的安装和穿戴，同时为传感器提供必要的保护，设计了无线IMU的3D保护外壳。外壳由两部分组成，并借助PCB上的定位孔对PCB进行固定；对部分位置进行镂空，方便充电\LED显示\开关调节。突起圆柱体部分为无线模块的外置天线。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605796190829.png" class>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2020-11-14_18-41-28.png" class>
-<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792625091.jpg" class>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605878803930.jpg" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605796190829.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/Snipaste_2020-11-14_18-41-28.png" class>
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605792625091.jpg" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1605878803930.jpg" class>
 <hr>
 <h2 id="无线IMU硬件测试"><a href="#无线IMU硬件测试" class="headerlink" title="无线IMU硬件测试"></a>无线IMU硬件测试</h2><p>对于所搭建的无线IMU系统，进行了一系列的硬件测试，包括充电测试、稳压测试、通信测试、续航测试等，其中通信测试过程中遇到的玄学问题较多，也有可能是源自我对通信方面的了解不是很多，因此这里单独进行分析。注意该无线IMU系统还配有另外制作的数据接收机，由HC-12和一个单片机构成，比较简单，因此本文不进行介绍。</p>
 <h3 id="通信稳定性测试"><a href="#通信稳定性测试" class="headerlink" title="通信稳定性测试"></a>通信稳定性测试</h3><p>所采用的HC-12为433M频段的无线通信模块，在串口波特率为9600bps时通信距离可达600m。但所使用的JY901姿态传感器在9600波特率时采样频率较低，因此必须提高传输波特率。经测试，通过HC-12将JY901数据发送至上位机时，采样频率与串口波特率的关系如下：BuadRate为57600时，SampleRate最大为100Hz；BaudRate为115200时，SampleRate最大为200Hz；对于100Hz以下的采样率，无法满足基本的实验需要，因此不进行考虑。然而实际通信的过程中，有可能因为通信距离以及各种干扰使采样率达不到最大水平。我基本为零的通信知识告诉我，波特率越高，通信会越不稳定，因此需要在更高的采样率与更好的稳定性之间进行折中，因此对57600和115200两种波特率进行通信稳定性的对比测试。</p>
 <p>通信测试采用一组三个IMU，分别在57600和115200波特率下，将传感器环绕实验室一周（实验室环境较为复杂，有较多金属箱体会对通信产生干扰），记录整个过程接收数据频率的变化，结果如下图所示，左图为57600，右图为115200。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU_Test_B57600_F100_M3_Freq.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU_Test_B57600_F100_M3_Freq.png" class>
 <p>可以看出在115200波特率下，通信的确更不稳定，接收数据的频率最低达到110Hz，接收频率波动为45%；而57600波特率下最低接收频率为89Hz，接收频率波动为10%。因此若需要更稳定的数据通信，应选择波特率为57600，而考虑到115200波特率通信在实验环境下的最低接收频率也高于100Hz，因此最终还是讲通信波特率定为115200Hz。该配置下三个传感器的俯仰角数据接收情况如下图所示，数据较为平稳。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU_Test_B115200_F200_M3_Curve.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/IMU_Test_B115200_F200_M3_Curve.png" class>
 <h3 id="无线IMU系统性能参数"><a href="#无线IMU系统性能参数" class="headerlink" title="无线IMU系统性能参数"></a>无线IMU系统性能参数</h3><blockquote>
 <ul>
 <li>重量：145g</li>
@@ -668,8 +668,8 @@ I_{BAT}=\frac{1200}{R_4}</script><h3 id="锂电池稳压模块设计"><a href="#
 </ul>
 </blockquote>
 <h2 id="无线IMU数据导入OpenSim"><a href="#无线IMU数据导入OpenSim" class="headerlink" title="无线IMU数据导入OpenSim"></a>无线IMU数据导入OpenSim</h2><p>在OpenSim最新的4.1版本中，新增了OpenSense模块提供对IMU数据的支持，但官方例程仅提供对Xsens支持。在所制作的无线IMU系统之上，进一步将采集的数据转化为OpenSim所支持的形式，并进行逆运动分析。所设计的无线IMU系统包含7个IMU，分别安装在盆骨和两侧的大腿、小腿、足上，上位机接收7个IMU的加速度、角速度和欧拉角数据，但只有欧拉角数据在本部分会被使用。由于OpenSense提供的是对四元数数据的支持，所以需要做一些必要的转换。数据处理与转化的基本流程如下，基于Matlab的示例程序见<a href="./OpenSenceDemo.zip">附件</a>。</p>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1607072414292.png" class>
-<img src="/2021/03/03/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/120201204_162212.gif" class>]]></content>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/1607072414292.png" class>
+<img src="/2021/10/01/8.%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/IMU%E6%97%A0%E7%BA%BF%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/120201204_162212.gif" class>]]></content>
       <categories>
         <category>develop</category>
       </categories>
@@ -864,74 +864,74 @@ u_{\mathrm{L}}(i, n+1)=\beta \cdot u_{\mathrm{L}}(i, n)+K_{\mathrm{L}} \cdot e(i
   </entry>
   <entry>
     <title>PCB-3D模型渲染全流程</title>
-    <url>/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/</url>
+    <url>/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/</url>
     <content><![CDATA[<blockquote>
 <p>以LCEDA为PCB设计软件，将3D模型完美导出至SW并渲染</p>
 </blockquote>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/IMU_Rendering.gif" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/IMU_Rendering.gif" class>
 <span id="more"></span>
-<h2 id="Step-1-LCEDA导出PCB文件至AD"><a href="#Step-1-LCEDA导出PCB文件至AD" class="headerlink" title="Step 1:  LCEDA导出PCB文件至AD"></a>Step 1:  LCEDA导出PCB文件至AD</h2><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.41.35.png" class>
+<h2 id="Step-1-LCEDA导出PCB文件至AD"><a href="#Step-1-LCEDA导出PCB文件至AD" class="headerlink" title="Step 1:  LCEDA导出PCB文件至AD"></a>Step 1:  LCEDA导出PCB文件至AD</h2><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.41.35.png" class>
 <ul>
 <li>截取顶/底层预览图（配置好板子颜色）</li>
 </ul>
-<p><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.47.png" style="zoom: 45%;"><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.54.png" style="zoom: 45%;"></p>
-<h2 id="Step-2-AD导入PCB文件"><a href="#Step-2-AD导入PCB文件" class="headerlink" title="Step 2:  AD导入PCB文件"></a>Step 2:  AD导入PCB文件</h2><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.54.39.png" class>
+<p><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.47.png" style="zoom: 45%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.54.png" style="zoom: 45%;"></p>
+<h2 id="Step-2-AD导入PCB文件"><a href="#Step-2-AD导入PCB文件" class="headerlink" title="Step 2:  AD导入PCB文件"></a>Step 2:  AD导入PCB文件</h2><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.54.39.png" class>
 <ul>
 <li>选中外边框，设置为PCB板的外形</li>
 </ul>
-<p><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.56.08.png" style="zoom:200%;"></p>
+<p><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.56.08.png" style="zoom:200%;"></p>
 <ul>
 <li>生成PCB库</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.57.14.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.57.14.png" class>
 <ul>
 <li>进入PCB library(左下角)，为元件添加3D模型</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.08.19.png" class>
-<p><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.06.55.png" style="zoom:19%;"><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.30.png" style="zoom: 19%;"><img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.39.png" style="zoom:19%;"></p>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.08.19.png" class>
+<p><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.06.55.png" style="zoom:19%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.30.png" style="zoom: 19%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.39.png" style="zoom:19%;"></p>
 <blockquote>
 <p>推荐两个优秀的模型下载网站：<br><a href="https://grabcad.com/">https://grabcad.com/</a> (科学)<br><a href="https://www.3dcontentcentral.cn/">https://www.3dcontentcentral.cn/</a></p>
 </blockquote>
 <ul>
 <li>更新PCB</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.08.59.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.08.59.png" class>
 <ul>
 <li>设置PCB板厚度</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.11.46.png" class>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%888.16.35.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.11.46.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%888.16.35.png" class>
 <h2 id="Step-3-导出AD文件至SW"><a href="#Step-3-导出AD文件至SW" class="headerlink" title="Step 3:  导出AD文件至SW"></a>Step 3:  导出AD文件至SW</h2><ul>
 <li>AD导出<code>.x_t</code>格式文件，导出设置中选择不导出铜皮</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.12.44.png" class>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/Untitled.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.12.44.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/Untitled.png" class>
 <ul>
 <li>SW打开<code>.x_t</code>格式文件，并保存为装配体</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.18.08.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.18.08.png" class>
 <ul>
 <li>将PCB板设置为灰色</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.22.32.png" class>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.23.24.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.22.32.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.23.24.png" class>
 <ul>
 <li>为PCB的顶面和底面添加纹理（贴图）</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.24.05.png" class>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.25.06.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.24.05.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.25.06.png" class>
 <ul>
 <li>编辑纹理属性</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.26.00.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.26.00.png" class>
 <ul>
 <li>在属性中选择高级模式，并选择之前保存的图像</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.26.58.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.26.58.png" class>
 <ul>
 <li>在映射中将图片大小改为PCB的实际尺寸</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.28.17.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.28.17.png" class>
 <ul>
 <li>其中一面贴图还需要设置为水平镜像</li>
 </ul>
@@ -939,23 +939,23 @@ u_{\mathrm{L}}(i, n+1)=\beta \cdot u_{\mathrm{L}}(i, n)+K_{\mathrm{L}} \cdot e(i
 <h2 id="Step-4-SolidWorks-Visualize渲染"><a href="#Step-4-SolidWorks-Visualize渲染" class="headerlink" title="Step 4:  SolidWorks Visualize渲染"></a>Step 4:  SolidWorks Visualize渲染</h2><ul>
 <li>在Visualize中新建项目并导入模型（由<code>.x_t</code>生成的为装配体模型）</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.47.16.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.47.16.png" class>
 <ul>
 <li>根据需求调整材质颜色与属性</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.49.06.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.49.06.png" class>
 <ul>
 <li>根据需求调整环境与背板</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.50.51.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.50.51.png" class>
 <ul>
 <li>根据需求相机位置与姿态</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.55.01.png" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.55.01.png" class>
 <ul>
 <li>进行渲染</li>
 </ul>
-<img src="/2021/10/01/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/EB_MotorCOM.jpg" class>
+<img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/EB_MotorCOM.jpg" class>
 <blockquote>
 <p>Reference：</p>
 <ol>
@@ -1172,8 +1172,7 @@ F_{y}
   <entry>
     <title>Matlab Signal Analyzer 信号分析</title>
     <url>/2021/10/08/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/Matlab%20Signal%20Analyzer/</url>
-    <content><![CDATA[<h1 id="Signal-Analyzer"><a href="#Signal-Analyzer" class="headerlink" title="Signal Analyzer"></a>Signal Analyzer</h1><p>以跑台地反力为案列，介绍Matlab信号分析工具箱Signal Analyzer的基本使用</p>
-<img src="/2021/10/08/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/Matlab%20Signal%20Analyzer/6.png" class title="Untitled">
+    <content><![CDATA[<p>以跑台地反力为案列，介绍Matlab信号分析工具箱Signal Analyzer的基本使用<br><img src="/2021/10/08/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90/Matlab%20Signal%20Analyzer/6.png" class title="Untitled"></p>
 <span id="more"></span>
 <blockquote>
 <p>参考资料：</p>
@@ -1303,31 +1302,31 @@ F_{y}
   </entry>
   <entry>
     <title>MicroLabBox教程 1 - Basic Info &amp; Quick Start</title>
-    <url>/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&amp;%20Quick%20Start/</url>
+    <url>/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&amp;%20Quick%20Start/</url>
     <content><![CDATA[<p>本篇简要介绍dSPACE - MicroLabBox的背景知识，演示使用Simulink快速开发dSPACE的基本流程。</p>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/0.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/0.png" class title="Untitled">
 <span id="more"></span>
 <h2 id="MicroLabBox"><a href="#MicroLabBox" class="headerlink" title="MicroLabBox"></a><strong>MicroLabBox</strong></h2><ul>
 <li><strong><a href="https://www.dspace.com/zh/zho/home/products.cfm">MicroLabBox</a></strong>是由德国dSPACE公司开发的一套基于MATLAB/Simulink的控制系统开发及半实物仿真的软硬件系统，<strong>用于实验室的一体化开发，在汽车行业的原型机开发中有非常广泛的应用；</strong></li>
 <li>dSPACE的实时系统拥有<strong>实时性强</strong>、<strong>可靠性高</strong>、扩充性好等优点，处理器具有高速的计算能力，并配备了丰富的I/O支持，用户可以根据需要进行组合；软件环境的功能强大且使用方便，包括实现代码自动生成/下载和试验/调试的整套工具，是<strong>快速控制原型验证</strong>和<strong>半实物仿真（硬件在环仿真）</strong>的首选实时平台；</li>
 </ul>
-<h2 id="MicroLabBox的开发流程"><a href="#MicroLabBox的开发流程" class="headerlink" title="MicroLabBox的开发流程"></a><strong>MicroLabBox的开发流程</strong></h2><img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/01.png" class title="image-20211102013716732">
+<h2 id="MicroLabBox的开发流程"><a href="#MicroLabBox的开发流程" class="headerlink" title="MicroLabBox的开发流程"></a><strong>MicroLabBox的开发流程</strong></h2><img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/01.png" class title="image-20211102013716732">
 <hr>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/02.png" class title="未标题-1.png">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/02.png" class title="未标题-1.png">
 <h2 id="First-Routine"><a href="#First-Routine" class="headerlink" title="First Routine"></a>First Routine</h2><h3 id="Step-1-创建Simulink文件并编写程序"><a href="#Step-1-创建Simulink文件并编写程序" class="headerlink" title="Step-1 创建Simulink文件并编写程序"></a>Step-1 创建Simulink文件并编写程序</h3><ul>
 <li>新建Simulink Model并<strong>选择RTI1202模版</strong></li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/3.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/4.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/3.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/4.png" class title="Untitled">
 <ul>
 <li>从Simulink Library中拖拽需要的<strong>dSPACE功能包（IO接口）</strong>，并完成完整的程序</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/5.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/6.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/5.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/6.png" class title="Untitled">
 <ul>
 <li>编译程序，生成<code>.sdf</code>文件</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/7.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/7.png" class title="Untitled">
 <p><strong>Tips</strong></p>
 <ul>
 <li>编译前，确保dSPACE已经上电，并通过网线连接到电脑，否则报错</li>
@@ -1336,17 +1335,17 @@ F_{y}
 <h3 id="Step-2-创建ControlDesk工程并设计交互界面"><a href="#Step-2-创建ControlDesk工程并设计交互界面" class="headerlink" title="Step-2 创建ControlDesk工程并设计交互界面"></a>Step-2 创建ControlDesk工程并设计交互界面</h3><ul>
 <li>打开dSPACE，新建工程，设置项目地址、项目名称、实验名称</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/8.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/9.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/8.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/9.png" class title="Untitled">
 <ul>
 <li>选择硬件平台（默认，无需操作），设置该实验的<code>sdf</code>文件</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/10.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/11.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/10.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/11.png" class title="Untitled">
 <ul>
 <li>ControlDesk交互界面</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/12.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/12.png" class title="Untitled">
 <ul>
 <li>根据需要设计交互界面</li>
 </ul>
@@ -1358,17 +1357,17 @@ F_{y}
 <li>编辑控件属性使之匹配变量的需要</li>
 </ul>
 </blockquote>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/13.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/14.png" class title="Untitled">
-<h3 id="Step-3-下载并运行程序"><a href="#Step-3-下载并运行程序" class="headerlink" title="Step-3 下载并运行程序"></a>Step-3 下载并运行程序</h3><img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/15.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/16.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/13.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/14.png" class title="Untitled">
+<h3 id="Step-3-下载并运行程序"><a href="#Step-3-下载并运行程序" class="headerlink" title="Step-3 下载并运行程序"></a>Step-3 下载并运行程序</h3><img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/15.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/16.png" class title="Untitled">
 <blockquote>
 <p>在Ch1和Ch4引脚之间连接LED，通过点击按钮控制LED的亮灭</p>
 </blockquote>
 <h2 id="Step-4-修改程序并重新烧录"><a href="#Step-4-修改程序并重新烧录" class="headerlink" title="Step-4 修改程序并重新烧录"></a>Step-4 修改程序并重新烧录</h2><ul>
 <li>和step 2中相同的方法创建另外2个数字量输出，新增一个数字量输入接口，重新烧录程序</li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/17.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/17.png" class title="Untitled">
 <blockquote>
 <p><strong>Tips</strong></p>
 <ul>
@@ -1377,9 +1376,9 @@ F_{y}
 <li>在ControlDesk中重新加载程序（Go Online）</li>
 </ul>
 </blockquote>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/18.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/19.png" class title="Untitled">
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/20.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/18.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/19.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/20.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>如果正确的编译得到了新的程序（sdf文件），在Go Online时需要点击2/3次确认按钮</li>
@@ -1387,7 +1386,7 @@ F_{y}
 </ul>
 </li>
 </ul>
-<img src="/2021/11/01/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/21.png" class title="Untitled">
+<img src="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/21.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>对于含有曲线的控件，需要点击Start Measuring以开启测量</li>
@@ -1453,10 +1452,10 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 2 - dSPACE硬件接口 基础篇</title>
-    <url>/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/</url>
+    <url>/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/</url>
     <content><![CDATA[<p>本篇介绍dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。</p>
 <span id="more"></span>
-<h3 id="数字量输出"><a href="#数字量输出" class="headerlink" title="数字量输出"></a>数字量输出</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png" class title="Untitled">
+<h3 id="数字量输出"><a href="#数字量输出" class="headerlink" title="数字量输出"></a>数字量输出</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>管脚配置：<ul>
@@ -1476,9 +1475,9 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li>使用convert模块转换数据类型</li>
 </ul>
 </blockquote>
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png" class title="Untitled">
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png" class title="Untitled">
-<h3 id="数字量输入"><a href="#数字量输入" class="headerlink" title="数字量输入"></a>数字量输入</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png" class title="Untitled">
+<h3 id="数字量输入"><a href="#数字量输入" class="headerlink" title="数字量输入"></a>数字量输入</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>管脚配置：dSPACE的所有数字量引脚均可设置为输入或输出模式，和输出一样可以配置为按组输</li>
@@ -1489,9 +1488,9 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <h3 id="数字量信号的管脚映射"><a href="#数字量信号的管脚映射" class="headerlink" title="数字量信号的管脚映射"></a>数字量信号的管脚映射</h3><blockquote>
 <p>ch1 - ch48  →  DB50 → 拓展板</p>
 </blockquote>
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png" class title="image-20211102025047013">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png" class title="image-20211102025047013">
 <hr>
-<h3 id="模拟量输出和输入"><a href="#模拟量输出和输入" class="headerlink" title="模拟量输出和输入"></a>模拟量输出和输入</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg" class title="2221635676258_.pic.jpg">
+<h3 id="模拟量输出和输入"><a href="#模拟量输出和输入" class="headerlink" title="模拟量输出和输入"></a>模拟量输出和输入</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg" class title="2221635676258_.pic.jpg">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>dSPACE有一组模拟量输出通道AO1，和两组模拟量输入通道AI1和AI2，AO1有16个通道，AI1包含24个通道，AI2有8个通道（32个输入，16个输出）；</li>
@@ -1501,20 +1500,20 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 </ul>
 </li>
 </ul>
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png" class title="Untitled">
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png" class title="Untitled">
 <hr>
 <h3 id="PWM输出和输入"><a href="#PWM输出和输入" class="headerlink" title="PWM输出和输入"></a>PWM输出和输入</h3><blockquote>
 <p><strong>dPSACE所有DIO1管脚（48个通道）都支持配置为PWM输入和输出模式</strong></p>
 </blockquote>
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png" class title="Untitled">
 <ul>
 <li><strong>Tips</strong><ul>
 <li>输出指定周期、指定占空比的PWM信号，周期单位为秒，占空比范围0-1，1代表100%占空比（一条直线），二者都可以在线修改</li>
 </ul>
 </li>
 </ul>
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png" class title="Untitled">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png" class title="Untitled">
 <ul>
 <li>Tips<ul>
 <li>dSPACE中包含两种PWM输入模块，一种返回脉冲宽度时间（单位s），另一种返回PWM频率（Hz）和占空比（0-1）</li>
@@ -1522,8 +1521,8 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 </li>
 </ul>
 <hr>
-<h3 id="Power-Supply"><a href="#Power-Supply" class="headerlink" title="Power Supply"></a>Power Supply</h3><img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg" class title="WechatIMG223.jpeg">
-<img src="/2021/11/02/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png" class title="Untitled">
+<h3 id="Power-Supply"><a href="#Power-Supply" class="headerlink" title="Power Supply"></a>Power Supply</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg" class title="WechatIMG223.jpeg">
+<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png" class title="Untitled">
 <ul>
 <li>Tips<ul>
 <li>dSPACE中包含两组电源输出，A组输出固定12V电压，不可被编程，上电即工作；B组为可调电压输出（2-20V），但输出功率较小；</li>
@@ -1543,12 +1542,12 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 3 - dSPACE硬件接口 中级篇</title>
-    <url>/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/</url>
+    <url>/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/</url>
     <content><![CDATA[<p>本篇主要介绍dSPACE的复杂硬件输入接口，包括正交编码器、串口、CAN总线、UDP。</p>
 <span id="more"></span>
 <h3 id="正交编码器输入"><a href="#正交编码器输入" class="headerlink" title="正交编码器输入"></a>正交编码器输入</h3><p><a href="https://zhuanlan.zhihu.com/p/350368518">编码器计数原理与电机测速原理—多图解析</a></p>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-01_23-24-15.png" class title="Snipaste_2021-11-01_23-24-15.png">
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170638327.png" class title="image-20211124170638327">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-01_23-24-15.png" class title="Snipaste_2021-11-01_23-24-15.png">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170638327.png" class title="image-20211124170638327">
 <p>💡 Tips</p>
 <ul>
 <li>dSPACE内用于接受正交编码器信号的解码器仅有6个，即最多能同时采集6路正交编码器信号；</li>
@@ -1559,41 +1558,41 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <hr>
 <h2 id="RS-232-485串口"><a href="#RS-232-485串口" class="headerlink" title="RS-232/485串口"></a>RS-232/485串口</h2><p><a href="https://zhuanlan.zhihu.com/p/96506127">USART-串口通信</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/25893717">UART、RS232、TTL关系浅析</a></p>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170823354.png" class title="image-20211124170823354">
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-03_11-05-09.png" class title="Snipaste_2021-11-03_11-05-09.png">
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170935214.png" class title="image-20211124170935214">
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170949481.png" class title="image-20211124170949481">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170823354.png" class title="image-20211124170823354">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-03_11-05-09.png" class title="Snipaste_2021-11-03_11-05-09.png">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170935214.png" class title="image-20211124170935214">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124170949481.png" class title="image-20211124170949481">
 <blockquote>
 <p>使用时请注意接口的线序</p>
 </blockquote>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171028615.png" class title="image-20211124171028615">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171028615.png" class title="image-20211124171028615">
 <hr>
 <h3 id="CAN总线通信"><a href="#CAN总线通信" class="headerlink" title="CAN总线通信"></a>CAN总线通信</h3><p><a href="https://zhuanlan.zhihu.com/p/162708070#:~:text=CAN%E6%80%BB%E7%BA%BF%E6%98%AF%E4%B8%80%E7%A7%8D%E7%94%A8%E4%BA%8E%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%9A%84ECU%EF%BC%88%E7%94%B5%E5%AD%90%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%EF%BC%89%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E7%9A%84%E7%BA%BF%EF%BC%8CCAN%E6%80%BB%E7%BA%BF%E5%8D%8F%E8%AE%AE%E6%98%AF%E4%B8%80%E7%A7%8DISO%20%E5%9B%BD%E9%99%85%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%EF%BC%8C%E6%9C%89,ISO-11898%20%E5%92%8C%20ISO-11519%E4%B8%A4%E4%B8%AA%E7%B3%BB%E5%88%97%E3%80%82">一篇易懂的CAN通讯协议指南1</a></p>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171133316.png" class title="image-20211124171133316">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171133316.png" class title="image-20211124171133316">
 <p><strong>以DJI的M3508的电调C620为例，介绍如何使用dSPACE进行CAN总线数据通信</strong></p>
 <ul>
 <li>阅读文档，获取设备CAN总线通信的相关信息，包括：CAN总线通信速度、设备标志符(ID)、帧类型、帧格式、发送/接受报文格式和数据含义</li>
 </ul>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171225993.png" class title="image-20211124171225993">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171225993.png" class title="image-20211124171225993">
 <ul>
 <li>使用dSPACE的CAN总线模块</li>
 </ul>
 
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171256939.png" class title="image-20211124171256939">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171256939.png" class title="image-20211124171256939">
 <hr>
 <h2 id="Ethernet-UDP通信"><a href="#Ethernet-UDP通信" class="headerlink" title="Ethernet UDP通信"></a>Ethernet UDP通信</h2><ul>
 <li>基础概念 - IP地址，端口</li>
 </ul>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171426517.png" class title="image-20211124171426517">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171426517.png" class title="image-20211124171426517">
 <ul>
 <li>配置通信参数</li>
 </ul>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_10-21-58.png" class title="Snipaste_2021-11-04_10-21-58.png">
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171742608.png" class title="image-20211124171742608">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_10-21-58.png" class title="Snipaste_2021-11-04_10-21-58.png">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124171742608.png" class title="image-20211124171742608">
 <ul>
 <li>按通信协议对发送数据进行打包、对接受数据进行解码</li>
 </ul>
-<img src="/2021/11/03/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_12-13-20.png" class title="Snipaste_2021-11-04_12-13-20.png">
+<img src="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/Snipaste_2021-11-04_12-13-20.png" class title="Snipaste_2021-11-04_12-13-20.png">
 
 <p>💡 使用帮助文档<br>对于dSAPCE提供的Simulink模块，右键Help打开dSPACE Help界面，可查看该模块的具体使用方法；</p>
 ]]></content>
@@ -1607,7 +1606,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 5 - dSPACE程序设计 初级篇</title>
-    <url>/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/</url>
+    <url>/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/</url>
     <content><![CDATA[<p>本篇介绍dSPACE程序设计的一些基本方法、思维与技巧。<br><span id="more"></span></p>
 <p>本部分在<code>Task1 - 关节角度指示器</code>的基础上进行讲解。<br><strong>Task 1 - 关节角度指示器</strong></p>
 <blockquote>
@@ -1618,7 +1617,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li>当踝关节角度小于-25deg或大于25deg，RGB模块红灯闪烁；</li>
 </ul>
 </blockquote>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
 <hr>
 <h2 id="1-使用局部寄存变量"><a href="#1-使用局部寄存变量" class="headerlink" title="1 - 使用局部寄存变量"></a>1 - 使用局部寄存变量</h2><blockquote>
 <p>实现功能：通过点击按钮，对磁编码器测量到的踝关节角度进行校准；</p>
@@ -1629,11 +1628,11 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <h3 id="实现变量寄存的两种方式"><a href="#实现变量寄存的两种方式" class="headerlink" title="实现变量寄存的两种方式"></a>实现变量寄存的两种方式</h3><ul>
 <li><strong>1 - 寄存器（延时模块）</strong></li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173611883.png" class title="image-20211124173611883">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173611883.png" class title="image-20211124173611883">
 <ul>
 <li><strong>2- 局部寄存变量（persistent &amp; 初始化）</strong></li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173637760.png" class title="image-20211124173637760">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173637760.png" class title="image-20211124173637760">
 <hr>
 <h2 id="2-模块化与参数化"><a href="#2-模块化与参数化" class="headerlink" title="2 - 模块化与参数化"></a>2 - 模块化与参数化</h2><ul>
 <li><strong>低耦合，高内聚</strong> - 将复杂函数功能模块化、功能化</li>
@@ -1646,7 +1645,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <ul>
 <li>使用<strong>Mask</strong>对模块参数进行封装</li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173716755.png" class title="image-20211124173716755">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173716755.png" class title="image-20211124173716755">
 
 <p>💡 <strong><em>参数的作用域</em></strong></p>
 <ul>
@@ -1654,7 +1653,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li>在Simulink的Model Properties → Callbacks → InitFcn*下定义的参数可在全局调用；</li>
 <li>参数可以在子系统中按名称进行传递；</li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173742558.png" class title="image-20211124173742558">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173742558.png" class title="image-20211124173742558">
 <hr>
 <h2 id="3-状态机"><a href="#3-状态机" class="headerlink" title="3 - 状态机"></a>3 - 状态机</h2><p><a href="https://zhuanlan.zhihu.com/p/47434856">什么是状态机？</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">有限状态机 - 维基百科，自由的百科全书</a></p>
@@ -1664,7 +1663,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <ul>
 <li><code>if-else</code> → <strong>系统状态</strong>、<strong>状态转移条件</strong>、<strong>状态执行动作</strong></li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173837024.png" class title="image-20211124173837024">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/image-20211124173837024.png" class title="image-20211124173837024">
 <ul>
 <li><strong>外骨骼的控制系统需要在静止、校准以及不同辅助模式下切换，都需要通过状态机来实现</strong></li>
 </ul>
@@ -1675,24 +1674,24 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li>错误形式</li>
 </ul>
 </blockquote>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled15.png" class>
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled15.png" class>
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（2）</strong></p>
 <p>在每隔控制周期，dSPACE按照<strong>信号流向</strong>，从首至尾<strong>顺序执行；禁止存在环路信号</strong></p>
 <ul>
 <li><strong>方法 1 - 使用单位延迟</strong></li>
 </ul>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled16.png" class title="Untitled">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled16.png" class title="Untitled">
 <ul>
 <li><p><strong>方法 2 - 使用全局寄存变量</strong></p>
 <ul>
 <li><p><strong>Step 1 创建 -</strong> 创建并设置全局变量，设置变量的维度和初值</p>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled17.png" class title="Untitled">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled17.png" class title="Untitled">
 </li>
 <li><p><strong>Step 2 调用 -</strong>  在Matlab Function中通过<code>global</code>调用全局变量，并在<strong>Port and Data Manger</strong>中进行声明</p>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled18.png" class title="Untitled">
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled18.png" class title="Untitled">
 </li>
 <li><p><strong>Step 3 检查 -</strong>  正确调用后，寄存器模块内会列出所有调用该变量的模块</p>
-<img src="/2021/11/05/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled19.png" class title="Untitled"></li>
+<img src="/2021/06/15/dSPACE/dSPACE-05/dSPACE%20%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%88%9D%E7%BA%A7%E7%AF%87/Untitled19.png" class title="Untitled"></li>
 </ul>
 </li>
 </ul>
@@ -1707,7 +1706,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 6 - dSPACE程序设计 中级篇</title>
-    <url>/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/</url>
+    <url>/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/</url>
     <content><![CDATA[<p>本篇介绍使用Simulink进行dSPACE程序设计的技巧，涉及向量、矩阵的使用，以及定时器与中断；</p>
 <span id="more"></span>
 <h2 id="1-MUX"><a href="#1-MUX" class="headerlink" title="1 - MUX"></a>1 - MUX</h2><ul>
@@ -1717,7 +1716,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <h2 id="2-通过索引使用不定长数组"><a href="#2-通过索引使用不定长数组" class="headerlink" title="2 - 通过索引使用不定长数组"></a>2 - 通过索引使用不定长数组</h2><blockquote>
 <p>点击按钮后，接下来N秒内，RGB模块每秒显示一种红绿之间的随机颜色，其中N为可调参数(1-10)，N种随机颜色在按钮触发时被完全定义；</p>
 </blockquote>
-<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
+<img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
 <p>💡 Simulink的Matlab Function不支持创建可变长度数组，可以创建固定长度数组，再通过索引调用；</p>
 <hr>
 <h2 id="3-数组越界与计算超时"><a href="#3-数组越界与计算超时" class="headerlink" title="3 - 数组越界与计算超时"></a>3 - 数组越界与计算超时</h2><ul>
@@ -1725,7 +1724,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li><p>当单个计算周期的计算耗时超过采样时间，ControlDesk会卡住；（重新开始测量）</p>
 <ul>
 <li><p>可通过Task Info → turnaroundTime 查看dSPACE的计算耗时，并改进算法效率；</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/1.png" class title="Untitled">
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/1.png" class title="Untitled">
 </li>
 </ul>
 </li>
@@ -1736,19 +1735,19 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 </blockquote>
 <ul>
 <li><p><strong>Step 1 -</strong> 使用dSPACE的Timer Interrupt作为定时中断触发，并配置定时间隔</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/2.png" class>
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/2.png" class>
 </li>
 <li><p><strong>Step 2 -</strong> 在定时执行模块中添加触发连接，并将触发配置为function call</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/3.png" class title="Untitled">
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/3.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 3</strong> 在不同执行速度的模块之间添加缓冲器，并取消勾选Ensure deterministic data transfer，以实异步通信</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/4.png" class title="Untitled">
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/4.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 4</strong> 对于含有全局变量的情况，在模型配置中将Multi data store选项设置为none</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/5.png" class title="Untitled">
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/5.png" class title="Untitled">
 </li>
 <li><p><strong>Step - 5</strong> 配置定时器的中断优先级</p>
-  <img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/6.png" class title="Untitled">
+  <img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/6.png" class title="Untitled">
 </li>
 </ul>
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（3）</strong></p>
@@ -1766,14 +1765,14 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <ul>
 <li>使用串口接收中断和模块，并搭建中断执行模块</li>
 </ul>
-<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175203609.png" class title="image-20211124175203609">
+<img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175203609.png" class title="image-20211124175203609">
 <hr>
 <h2 id="6-异步通信"><a href="#6-异步通信" class="headerlink" title="6 - 异步通信"></a>6 - 异步通信</h2><blockquote>
 <p>实现功能：在每次接受到串口数据时，RGB红灯闪烁三秒</p>
 </blockquote>
-<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175242419.png" class title="image-20211124175242419">
+<img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175242419.png" class title="image-20211124175242419">
 <p>💡在进行异步通信时，不同线程之间的缓冲器会使得信号被降采样，因此在异步通信中传递触发信号时，确保信号能够被正确传递；</p>
-<h2 id="7-中断优先级"><a href="#7-中断优先级" class="headerlink" title="7 - 中断优先级"></a>7 - 中断优先级</h2><img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175323799.png" class title="image-20211124175323799">
+<h2 id="7-中断优先级"><a href="#7-中断优先级" class="headerlink" title="7 - 中断优先级"></a>7 - 中断优先级</h2><img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/image-20211124175323799.png" class title="image-20211124175323799">
 <p>⭐ <strong>dSPACE中Simulink模型的执行过程（4）</strong></p>
 <blockquote>
 <p>当dSPACE运行低优先级的中断处理函数（线程）时，当有高优先级的中断触发，则dSPACE会暂停当前任务，转去处理高优先级的任务，处理玩之后在返回继续执行之前的任务</p>
@@ -1782,8 +1781,8 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <h2 id="8-Host-Service"><a href="#8-Host-Service" class="headerlink" title="8 - Host Service"></a>8 - Host Service</h2><blockquote>
 <p>通过Host Service指定上位机数据采集、显示和记录的频率，以满足特定的需求；<br>尽量避免在一个模型中配置多个Host Service，可能会导致数据采集紊乱；</p>
 </blockquote>
-<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/13.png" class title="Untitled">
-<img src="/2021/11/06/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/14.png" class title="Untitled">]]></content>
+<img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/13.png" class title="Untitled">
+<img src="/2021/06/16/dSPACE/dSPACE-06/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E4%B8%AD%E7%BA%A7%E7%AF%87/14.png" class title="Untitled">]]></content>
       <categories>
         <category>tutorials</category>
         <category>dSPACE</category>
@@ -1794,16 +1793,16 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 4 - dSPACE硬件接口 高级篇</title>
-    <url>/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/</url>
+    <url>/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/</url>
     <content><![CDATA[<p>本篇简单介绍如何将不支持的设备连接至dSPACE。</p>
 <span id="more"></span>
-<h2 id="Demo-1-dSPCAE控制跑台"><a href="#Demo-1-dSPCAE控制跑台" class="headerlink" title="Demo 1 - dSPCAE控制跑台"></a>Demo 1 - dSPCAE控制跑台</h2><img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
-<img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_1.png" class title="Untitled">
-<img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_2.png" class title="Untitled">
+<h2 id="Demo-1-dSPCAE控制跑台"><a href="#Demo-1-dSPCAE控制跑台" class="headerlink" title="Demo 1 - dSPCAE控制跑台"></a>Demo 1 - dSPCAE控制跑台</h2><img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled.png" class title="Untitled">
+<img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_1.png" class title="Untitled">
+<img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_2.png" class title="Untitled">
 <hr>
-<h2 id="Demo-2-dSPACE实时采集呼吸代谢数据"><a href="#Demo-2-dSPACE实时采集呼吸代谢数据" class="headerlink" title="Demo 2 - dSPACE实时采集呼吸代谢数据"></a>Demo 2 - dSPACE实时采集呼吸代谢数据</h2><img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_3.png" class title="Untitled">
-<img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124172814323.png" class title="image-20211124172814323">
-<img src="/2021/11/04/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_7.png" class title="Untitled">]]></content>
+<h2 id="Demo-2-dSPACE实时采集呼吸代谢数据"><a href="#Demo-2-dSPACE实时采集呼吸代谢数据" class="headerlink" title="Demo 2 - dSPACE实时采集呼吸代谢数据"></a>Demo 2 - dSPACE实时采集呼吸代谢数据</h2><img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_3.png" class title="Untitled">
+<img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124172814323.png" class title="image-20211124172814323">
+<img src="/2021/06/14/dSPACE/dSPACE-04/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_7.png" class title="Untitled">]]></content>
       <categories>
         <category>tutorials</category>
         <category>dSPACE</category>
@@ -1814,40 +1813,40 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>MicroLabBox教程 7 - dSPACE程序设计 高级篇</title>
-    <url>/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/</url>
+    <url>/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/</url>
     <content><![CDATA[<p>本篇以NKAEX-MINI为例，介绍控制系统程序设计的基本方法</p>
 <span id="more"></span>
 <h2 id="程序整体框架"><a href="#程序整体框架" class="headerlink" title="程序整体框架"></a>程序整体框架</h2><p><strong>整体结构</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-29-52.png" class title="Snipaste_2021-11-11_22-29-52.png">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-29-52.png" class title="Snipaste_2021-11-11_22-29-52.png">
 <p><strong>传感器模组</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-30-16.png" class title="Snipaste_2021-11-11_22-30-16.png">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-30-16.png" class title="Snipaste_2021-11-11_22-30-16.png">
 <p><strong>控制器结构: 状态机 - 高层控制器 - 底层控制器 - 驱动器输出</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-31-18.png" class title="Snipaste_2021-11-11_22-31-18.png">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-31-18.png" class title="Snipaste_2021-11-11_22-31-18.png">
 <hr>
-<h2 id="传感器模块与电机输出"><a href="#传感器模块与电机输出" class="headerlink" title="传感器模块与电机输出"></a>传感器模块与电机输出</h2><img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-30-16.png" class title="Snipaste_2021-11-11_22-30-16.png">
-<h3 id="拉力传感器与惠斯通电桥"><a href="#拉力传感器与惠斯通电桥" class="headerlink" title="拉力传感器与惠斯通电桥"></a>拉力传感器与惠斯通电桥</h3><img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181203343.png" class title="image-20211124181203343">
+<h2 id="传感器模块与电机输出"><a href="#传感器模块与电机输出" class="headerlink" title="传感器模块与电机输出"></a>传感器模块与电机输出</h2><img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-11_22-30-16.png" class title="Snipaste_2021-11-11_22-30-16.png">
+<h3 id="拉力传感器与惠斯通电桥"><a href="#拉力传感器与惠斯通电桥" class="headerlink" title="拉力传感器与惠斯通电桥"></a>拉力传感器与惠斯通电桥</h3><img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181203343.png" class title="image-20211124181203343">
 <h3 id="电机控制信号与电机控制软件"><a href="#电机控制信号与电机控制软件" class="headerlink" title="电机控制信号与电机控制软件"></a>电机控制信号与电机控制软件</h3><ul>
 <li>控制模式每次需要配置为模拟量，启动控制前需要监控输入的模拟量是否在安全范围内</li>
 </ul>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-12_14-01-29.png" class title="Snipaste_2021-11-12_14-01-29.png">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Snipaste_2021-11-12_14-01-29.png" class title="Snipaste_2021-11-12_14-01-29.png">
 <ul>
 <li>配置操作模式，设置速度模式、模拟量控制，配置最大速度（仅需配置一次）</li>
 </ul>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124183228134.png" class title="image-20211124183228134">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124183228134.png" class title="image-20211124183228134">
 <ul>
 <li>调节模拟量增益（仅一次），和偏置（每次上电均需校准）；整定电机参数（每个月校准一次）</li>
 </ul>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124183335223.png" class title="image-20211124183335223">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124183335223.png" class title="image-20211124183335223">
 <blockquote>
 <p>在每次实验之前，需要对模拟量信号的偏移进行调整<br>若需要进行参数整定，确保电机没有负载</p>
 </blockquote>
-<h3 id="肌电传感器的信号滤波"><a href="#肌电传感器的信号滤波" class="headerlink" title="肌电传感器的信号滤波"></a>肌电传感器的信号滤波</h3><img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_9.png" class title="Untitled">
+<h3 id="肌电传感器的信号滤波"><a href="#肌电传感器的信号滤波" class="headerlink" title="肌电传感器的信号滤波"></a>肌电传感器的信号滤波</h3><img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_9.png" class title="Untitled">
 <p><strong>传感器连线</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181607135.png" class title="image-20211124181607135">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181607135.png" class title="image-20211124181607135">
 <p><strong>外骨骼传感信号转接板</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181708169.png" class title="image-20211124181708169">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/image-20211124181708169.png" class title="image-20211124181708169">
 <p><strong>电机编码器信号转接板</strong></p>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_12.png" class title="Untitled">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_12.png" class title="Untitled">
 <hr>
 <h2 id="步态状态机"><a href="#步态状态机" class="headerlink" title="步态状态机"></a>步态状态机</h2><blockquote>
 <p>指定系统的工作状态，划分步态支撑相与摆动相，进行异常监测</p>
@@ -1856,16 +1855,16 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <li>State  → 步态支撑/摆动相状态</li>
 </ul>
 </blockquote>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_13.png" class title="Untitled">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_13.png" class title="Untitled">
 <hr>
 <h2 id="High-Level-Controller"><a href="#High-Level-Controller" class="headerlink" title="High Level Controller"></a>High Level Controller</h2><blockquote>
 <p>根据系统状态规划电机的工作模式，生成期望力矩曲线，并向输出Low Lever控制器发送期望速度、期望位置或期望力矩；</p>
 </blockquote>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_14.png" class title="Untitled">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_14.png" class title="Untitled">
 <ul>
 <li>期望力矩曲线</li>
 </ul>
-<img src="/2021/11/07/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_15.png" class title="Untitled">
+<img src="/2021/06/17/dSPACE/dSPACE-07/dSPACE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20-%20%E9%AB%98%E7%BA%A7%E7%AF%87/Untitled_15.png" class title="Untitled">
 <ul>
 <li>期望关节角度</li>
 </ul>
