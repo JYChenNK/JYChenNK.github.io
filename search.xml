@@ -872,9 +872,9 @@ u_{\mathrm{L}}(i, n+1)=\beta \cdot u_{\mathrm{L}}(i, n)+K_{\mathrm{L}} \cdot e(i
 <span id="more"></span>
 <h2 id="Step-1-LCEDA导出PCB文件至AD"><a href="#Step-1-LCEDA导出PCB文件至AD" class="headerlink" title="Step 1:  LCEDA导出PCB文件至AD"></a>Step 1:  LCEDA导出PCB文件至AD</h2><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.41.35.png" class>
 <ul>
-<li>截取顶/底层预览图（配置好板子颜色）</li>
+<li>截取顶/底层预览图（配置好板子颜色）<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.47.png" style="zoom: 45%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.54.png" style="zoom: 45%;"></div></div></div></div>
+</li>
 </ul>
-<p><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.47.png" style="zoom: 45%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午3.44.54.png" style="zoom: 45%;"></p>
 <h2 id="Step-2-AD导入PCB文件"><a href="#Step-2-AD导入PCB文件" class="headerlink" title="Step 2:  AD导入PCB文件"></a>Step 2:  AD导入PCB文件</h2><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%883.54.39.png" class>
 <ul>
 <li>选中外边框，设置为PCB板的外形</li>
@@ -888,7 +888,7 @@ u_{\mathrm{L}}(i, n+1)=\beta \cdot u_{\mathrm{L}}(i, n)+K_{\mathrm{L}} \cdot e(i
 <li>进入PCB library(左下角)，为元件添加3D模型</li>
 </ul>
 <img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/%E6%88%AA%E5%B1%8F2021-10-10_%E4%B8%8B%E5%8D%886.08.19.png" class>
-<p><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.06.55.png" style="zoom:19%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.30.png" style="zoom: 19%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.39.png" style="zoom:19%;"></p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.06.55.png" style="zoom:19%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.30.png" style="zoom: 19%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/10/03/%E5%B7%A5%E7%A8%8B%E5%BC%80%E5%8F%91/%E7%AB%8B%E5%88%9BEDA%E7%9A%843D%E6%B8%B2%E6%9F%93/截屏2021-10-10_下午6.07.39.png" style="zoom:19%;"></div></div></div></div>
 <blockquote>
 <p>推荐两个优秀的模型下载网站：<br><a href="https://grabcad.com/">https://grabcad.com/</a> (科学)<br><a href="https://www.3dcontentcentral.cn/">https://www.3dcontentcentral.cn/</a></p>
 </blockquote>
