@@ -1883,7 +1883,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
     <content><![CDATA[<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png" class title="image-20211202160304804">
 <span id="more"></span>
 <h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1 - 基本概念"></a>1 - 基本概念</h2><blockquote>
-<p>“Electromyography (EMG) is an experimental technique concerned with the development, recording and analysis of myoelectric signals. Myoelectric signals are formed by physiological variations in the state of muscle fiber membranes.” (Basmajian, J.V. &amp; De Luca, C.J., 1985).</p>
+<p>Electromyography (EMG) is an experimental technique concerned with the development, recording and analysis of myoelectric signals. Myoelectric signals are formed by physiological variations in the state of muscle fiber membranes. (Basmajian, J.V. &amp; De Luca, C.J., 1985).</p>
 </blockquote>
 <p>肌电信号(Electromyography, EMG)，是指测量引发肌肉收缩的电信号，并反应肌肉的收缩程度，在医疗、康复、运动科学等诸多应用科学领域中广泛使用。在外骨骼领域中，肌电信号是评估外骨骼辅助有效性的重要指标之一。一般来说，我们可以从肌电信号中获得如下信息：</p>
 <ul>
@@ -1899,7 +1899,7 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
 <p>一般情况下，多个运动单元会被同时激活，动作电位同时在多个肌纤维上传递，而电极测量的信号是由多个肌纤维上的动作电位合成的结果。一个典型的电极测量的原始肌电信号如下图蓝色波形所示，其由大量的动作电平合成而得；信号的幅值越高说明同一时叠加的动作电位越多，激活的肌纤维数量也越多；由于每一个动作电位产生的电压信号积分为零，因此合成的肌电信号平均值(一段时间的积分)也基本为零。表面肌电信号非常微弱，幅值在µV到低mV范围内，因此一般会使用1000到10000倍的放大器放大测量信号。根据相关文献，肌电图信号的能量分布基本上在0 ~ 500 Hz的频率范围内，主要成分在50 ~ 150 Hz的范围内。</p>
 <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160503752.png" class title="image-20211202160503752">
 <hr>
-<h2 id="3-表面肌电信号的干扰与降噪"><a href="#3-表面肌电信号的干扰与降噪" class="headerlink" title="3 - 表面肌电信号的干扰与降噪"></a>3 - 表面肌电信号的干扰与降噪</h2><p>表面电极有诸多优点，但也非常容易收到各种噪声的干扰，和相邻肌肉的串扰。下面讨论一些常见的干扰，以及可以采用的预防和降噪方法。</p>
+<h2 id="3-表面肌电信号的干扰与降噪"><a href="#3-表面肌电信号的干扰与降噪" class="headerlink" title="3 - 表面肌电信号的干扰与降噪"></a>3 - 表面肌电信号的干扰与降噪</h2><p>表面电极有诸多优点，但也非常容易收到各种噪声的干扰。下面讨论一些常见的干扰类型，以及可以采用的预防和降噪方法。</p>
 <h3 id="a-生理噪声-physiological-noise"><a href="#a-生理噪声-physiological-noise" class="headerlink" title="a-生理噪声(physiological noise)"></a>a-生理噪声(physiological noise)</h3><p>生理噪音是指由身体内部生理活动所产生的，并可被表面电极接收到的电信号，例如<strong>心电信号</strong>和<strong>呼吸肌的收缩信号</strong>。对于这类干扰，可以将传感器放置远离干扰噪声源的地方并使用滤波方法来减少，但避免使用陷波滤波器。</p>
 <h3 id="b-环境噪声-Ambient-Noise"><a href="#b-环境噪声-Ambient-Noise" class="headerlink" title="b-环境噪声(Ambient Noise)"></a>b-环境噪声(Ambient Noise)</h3><p>环境噪声包括<strong>电气工频干扰</strong>70-60Hz)和<strong>电缆伪影</strong>(cable artifacts，由线缆移动而导致的信号失真)。</p>
 <p>电磁辐射在环境中几乎无处不在，但可以采用<strong>差动电极</strong>来减少这些干扰。表面肌电信号传感器由两个电极组成，它们沿着肌肉纤维以一定距离(通常为10mm)附着在皮肤上。两个电极都记录了基本噪声，也记录了具有延时的MUAPs(延时是因为电位沿着肌纤维扩散，从而首先到达第一个电极，然后到达第二个电极)。通过简单的差分计算消除环境噪声：</p>
