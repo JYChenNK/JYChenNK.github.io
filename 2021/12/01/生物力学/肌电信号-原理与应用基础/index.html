@@ -1,4 +1,445 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!0},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!1,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta property="og:type" content="article"><meta property="og:title" content="肌电信号-原理与应用基础"><meta property="og:url" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/index.html"><meta property="og:site_name" content="萤火"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/action-potential-crash-course.gif"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/肌电信号-原理与应用基础/action-potential-crash-course.gif"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/肌电信号-原理与应用基础/Untitled.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160503752.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled1.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled2.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Snipaste_2021-12-01_18-03-40.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled3.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled4.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled5.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled6.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled7.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled8.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled9.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled10.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled11.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled12.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202161648751.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled13.png"><meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled14.png"><meta property="article:published_time" content="2021-11-30T16:00:00.000Z"><meta property="article:modified_time" content="2021-12-04T02:54:30.560Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="生物力学"><meta property="article:tag" content="肌电信号"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png"><link rel="canonical" href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>肌电信号-原理与应用基础 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 肌电信号-原理与应用基础</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2021-12-01 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-01T00:00:00+08:00">2021-12-01</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2021-12-04 10:54:30" itemprop="dateModified" datetime="2021-12-04T10:54:30+08:00">2021-12-04</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/biomechanics/" itemprop="url" rel="index"><span itemprop="name">biomechanics</span></a></span></span><span id="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" class="post-meta-item leancloud_visitors" data-flag-title="肌电信号-原理与应用基础" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png" class title="image-20211202160304804"><span id="more"></span><h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1 - 基本概念"></a>1 - 基本概念</h2><blockquote><p>Electromyography (EMG) is an experimental technique concerned with the development, recording and analysis of myoelectric signals. Myoelectric signals are formed by physiological variations in the state of muscle fiber membranes. (Basmajian, J.V. &amp; De Luca, C.J., 1985).</p></blockquote><p>肌电信号(Electromyography, EMG)，是指测量引发肌肉收缩的电信号，并反应肌肉的收缩程度，在医疗、康复、运动科学等诸多应用科学领域中广泛使用。在外骨骼领域中，肌电信号是评估外骨骼辅助有效性的重要指标之一。一般来说，我们可以从肌电信号中获得如下信息：</p><ul><li><strong>时机</strong> - 肌肉何时被激活</li><li><strong>力量</strong> - 肌肉收缩有多强烈</li><li><strong>疲劳</strong> - 肌肉能否调动它的全部力量</li></ul><p>在<strong>生物力学</strong>中，表面肌电信号应用更为广泛。其采用非侵入式的测量方式，电信号通过粘贴在皮肤上的电极进行获取。与之相对的侵入式肌电信号，需要将一根探针直接插入相应的肌肉。表面肌电信号非侵入、不会限制受试者的运动，但其信号质量一般低于侵入式测量。</p><hr><h2 id="2-测量原理"><a href="#2-测量原理" class="headerlink" title="2 - 测量原理"></a>2 - 测量原理</h2><p>如上所述，表面肌电传感器通过测量<strong>皮肤表面的电位变化</strong>来感知肌肉收缩，这种电位变化被称为动作电位(<a target="_blank" rel="noopener" href="https://www.biomechanist.net/muscle-contraction/">action potential</a>，AP)。来自神经细胞的肌肉激励信号，通过运动终板传导至肌肉的退极化区(resulting depolarization zone, 约为1-3mm²)。在初始激励之后，运动单元的动作电位(MUAP)会沿肌纤维以2-6米/秒的速度传递，动作电位的传递过程类似于带有负电荷的离子沿肌纤维的方向移动(如下动图所示)。如果现在将一对电极沿平行肌纤维的方向放置于待测肌肉上方(如下右图)，则动作电位先后经过AB两个电极时，电极会测量到一个完整周期的类正弦信号。</p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width:50%"><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/action-potential-crash-course.gif" alt="action-potential-crash-course.gif" style="zoom:50%"></div><div class="group-picture-column" style="width:50%"><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled.png" alt="Untitled" style="zoom:100%"></div></div></div></div><p>一般情况下，多个运动单元会被同时激活，动作电位同时在多个肌纤维上传递，而电极测量的信号是由多个肌纤维上的动作电位合成的结果。一个典型的电极测量的原始肌电信号如下图蓝色波形所示，其由大量的动作电平合成而得；信号的幅值越高说明同一时叠加的动作电位越多，激活的肌纤维数量也越多；由于每一个动作电位产生的电压信号积分为零，因此合成的肌电信号平均值(一段时间的积分)也基本为零。表面肌电信号非常微弱，幅值在µV到低mV范围内，因此一般会使用1000到10000倍的放大器放大测量信号。根据相关文献，肌电图信号的能量分布基本上在0 ~ 500 Hz的频率范围内，主要成分在50 ~ 150 Hz的范围内。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160503752.png" class title="image-20211202160503752"><hr><h2 id="3-表面肌电信号的干扰与降噪"><a href="#3-表面肌电信号的干扰与降噪" class="headerlink" title="3 - 表面肌电信号的干扰与降噪"></a>3 - 表面肌电信号的干扰与降噪</h2><p>表面电极有诸多优点，但也非常容易收到各种噪声的干扰。下面讨论一些常见的干扰类型，以及可以采用的预防和降噪方法。</p><h3 id="a-生理噪声-physiological-noise"><a href="#a-生理噪声-physiological-noise" class="headerlink" title="a-生理噪声(physiological noise)"></a>a-生理噪声(physiological noise)</h3><p>生理噪音是指由身体内部生理活动所产生的，并可被表面电极接收到的电信号，例如<strong>心电信号</strong>和<strong>呼吸肌的收缩信号</strong>。对于这类干扰，可以将传感器放置远离干扰噪声源的地方并使用滤波方法来减少，但避免使用陷波滤波器。</p><h3 id="b-环境噪声-Ambient-Noise"><a href="#b-环境噪声-Ambient-Noise" class="headerlink" title="b-环境噪声(Ambient Noise)"></a>b-环境噪声(Ambient Noise)</h3><p>环境噪声包括<strong>电气工频干扰</strong>70-60Hz)和<strong>电缆伪影</strong>(cable artifacts，由线缆移动而导致的信号失真)。</p><p>电磁辐射在环境中几乎无处不在，但可以采用<strong>差动电极</strong>来减少这些干扰。表面肌电信号传感器由两个电极组成，它们沿着肌肉纤维以一定距离(通常为10mm)附着在皮肤上。两个电极都记录了基本噪声，也记录了具有延时的MUAPs(延时是因为电位沿着肌纤维扩散，从而首先到达第一个电极，然后到达第二个电极)。通过简单的差分计算消除环境噪声：</p><script type="math/tex;mode=display">V_{res}=(V_B+N_{env})-(V_A+N_{env})=V_B-V_A</script><p>对于电缆伪影，多数表面肌电传感器都会在测量电极后紧跟第一级放大器，从而传感器电缆的移动而产生的电缆伪迹减少到最小。</p><h3 id="c-基线噪声-Baseline-Noise"><a href="#c-基线噪声-Baseline-Noise" class="headerlink" title="c-基线噪声(Baseline Noise)"></a>c-基线噪声(Baseline Noise)</h3><p>基线噪声是肌电信号中最常见的噪声之一。它属于电化学噪声，由电极和皮肤中盐的离子交换所产生，当肌肉完全放松时所测量的信号主要就是基线噪声(以及生理噪声和环境噪声)。由于噪声发生在放大电路之前，所以基本无法被消除。基线噪声的大小与电极电阻的平方根成正比，因此可以通过增加电极的表面积来减少噪声，以及在使用肌电传感器前做好电极和皮肤的清洁工作。</p><h3 id="d-运动伪影-Movement-Artifacts"><a href="#d-运动伪影-Movement-Artifacts" class="headerlink" title="d-运动伪影(Movement Artifacts)"></a>d-运动伪影(Movement Artifacts)</h3><p>运动伪影也来自电极与皮肤之间的界面。一般来说，产生运动伪影的原因有两个：</p><ol><li>当肌肉收缩和放松时，肌肉的长度和横截面发生变化。这导致覆盖皮肤的拉伸和放松，进而导致皮肤电极界面的电化学平衡发生变化。</li><li>当肌肉产生一个力脉冲或从外部施加到身体上的力脉冲(例如脚跟撞击)，脉冲也会被转移到电极上。</li></ol><p>这两种情况都不可能完全消除干扰，只能通过对皮肤/电极进行良好的预处理和使用良好的过滤方法来缓解。</p><h3 id="4-肌肉串扰-Crosstalk-from-Other-Muscles"><a href="#4-肌肉串扰-Crosstalk-from-Other-Muscles" class="headerlink" title="4-肌肉串扰(Crosstalk from Other Muscles)"></a>4-肌肉串扰(<strong>Crosstalk from Other Muscles</strong>)</h3><p>当我们记录了表面肌电信号后，我们需要注意这个信号是否会收到其他肌肉的影响。如果需要确定某一个特定肌肉的激活情况，相对独立的肌肉能够被较为准确的测量(如胫骨前肌)，而位于肌群中的肌肉很难被准确测量(如位于股四头肌群中的股直肌)。即使小心翼翼地将电极放置在相应的肌肉上，信号仍然会被附近肌肉影响。通过选择两个差分电极之间相对较小的距离可以防止串扰，根据经验，两个电极之间的距离应不超过10mm。更多关于防止串扰的方法可以在其他文献中找到。</p><h3 id="f-脂肪组织-Fatty-Tissue"><a href="#f-脂肪组织-Fatty-Tissue" class="headerlink" title="f-脂肪组织(Fatty Tissue)"></a>f-脂肪组织(Fatty Tissue)</h3><p>一般来说，人体具有良好的导电性，但不同组织之间存在着很大的差异。其中脂肪组织起着决定性的作用，它类似于一个低通滤波器，过滤掉信号的高频部分。肌肉和电极之间的脂肪组织越多，过滤的作用就越强，当<strong>脂肪厚度大于40mm</strong>，肌电信号基本无法被检测到。这种特性也使得在不同受试者之间进行直接对比肌电信号的电压幅值比较非常困难，所以一般会根据肌肉的最大自主收缩(MVC)的对肌电信号进行归一化。</p><h3 id="g-皮肤和肌肉之间的相对运动-Relative-Movement-Between-Skin-and-Muscle"><a href="#g-皮肤和肌肉之间的相对运动-Relative-Movement-Between-Skin-and-Muscle" class="headerlink" title="g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)"></a>g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)</h3><p>当肌肉收缩时，它会在皮肤下面移动，贴在皮肤上的表面肌电传感器的测量区域也会发生变化。一方面，肌肉的动态收缩会导致信号来源(肌肉膜)和传感器之间的脂肪组织过滤器发生变化，从而影响信号的振幅和频谱；另一方面，它可能导致所测量的肌肉从传感器的视野中消失，而另一块不感兴趣的肌肉则成为了测量对象，进一步加重肌肉串扰的影响。</p><p>可以通过分析等距收缩(即没有长度变化的收缩)来避免运动带来的影响，这也是为什么等距收缩是研究最多的收缩类型。但在应用科学中，等距收缩对于肌肉运动的基本理解并不是那么重要，也很少发生在自然运动中。如何处理动态记录的数据以及这对数据解释的其他影响将在数据分析一节中解释。</p><p>肌电信号的质量取决于传感器的类型、放大器的质量、传感器的放置以及电极-皮肤的接触特性。如果您的实验室没有足够的预算来购买最新的表面肌电信号和放大器，您仍然可以改善后两点个方面。这些在准备阶段中发挥着核心作用，并对数据质量有巨大的影响。</p><hr><h2 id="4-肌电信号采集的准备工作"><a href="#4-肌电信号采集的准备工作" class="headerlink" title="4 - 肌电信号采集的准备工作"></a>4 - 肌电信号采集的准备工作</h2><h3 id="如何在皮肤上粘贴肌电传感器"><a href="#如何在皮肤上粘贴肌电传感器" class="headerlink" title="如何在皮肤上粘贴肌电传感器"></a>如何在皮肤上粘贴肌电传感器</h3><p>肌电电极应该尽可能的被<strong>粘贴在肌腹的中间</strong>。肌腹的信号幅值最大，信噪比更高，且更少的受到周围肌肉的串扰影响。每个肌电传感器应至少使用两个电极，通过差动电极将环境噪声影响降低到最小。电极应该<strong>沿着肌纤维的方向排列</strong>，使得动作电位先到达一个电极，再到达另一个电极。需要特别要注意肌肉纤维的排列和<strong>羽状角</strong>。表面肌电信号的幅值与电极间距离成正比，带宽与电极间距离成反比，因此两个电极之间的距离应该尽可能保持恒定以方便数据分析(如果不是由传感器给出的话)。</p><h3 id="如何清理皮肤"><a href="#如何清理皮肤" class="headerlink" title="如何清理皮肤"></a>如何清理皮肤</h3><p>表面肌电信号的质量很大程度上取决于皮肤和传感器之间的接触条件。清理皮肤的目的是尽可能减少皮肤的电阻，使表面肌电信号能够被准确地捕捉到(现代放大器通常设计为皮肤阻抗水平在5到50欧姆之间)。一般来说，在准备皮肤时要考虑两点：</p><ol><li><strong>剃除毛发</strong>。特别是受试者有大量出汗或需要分析高度动态的运动时，剃除毛发可以防止电极松动。出于卫生原因，请使用一次性剃须刀，使用后应立即丢弃。</li><li><strong>清洁皮肤</strong>。去除具有高抵抗力的死皮细胞，清洗皮肤上的污垢和汗水。大多数情况下，用浸过纯酒精的布轻轻擦拭皮肤就足够了。如果有更高的需求，可以用细砂纸去除表层的死皮细胞。可以通过万用表测量电极之间的电阻来检查皮肤清洁是否到位，下表可以作为一个粗略评估:</li></ol> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled1.png" class title="Untitled"><p>为了进一步了解肌电信号的质量，建议计算和检查信噪比(signal-to-noise ratio, SNR)：</p><script type="math/tex;mode=display">SNR=\frac{sEMG\ Amplitude}{Baseline \ Noise\ Amplitude}</script><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled2.png" class title="Untitled"><p>如果信噪比不理想，尝试检查传感器的粘贴或进一步清理皮肤；如果没问题，那就开始测量数据吧！</p><hr><h2 id="5-肌电信号的后处理"><a href="#5-肌电信号的后处理" class="headerlink" title="5 - 肌电信号的后处理"></a>5 - 肌电信号的后处理</h2><p>这里我们使用Matlab的信号分析工具箱Signal Analyzer，介绍肌电信号的后处理方法。实验数据是通过Delesys的无线肌电系统Trigo，并通过模拟量接口由dSPACE以5kHz的频率进行采集，测量了单个男性受试者以1.25m/s的速度在跑步机上行走时比目鱼肌、腓肠肌、胫骨前肌、股直肌、腘绳肌等8块的肌电信号，你可以在这里下载该实验的原始数据。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Snipaste_2021-12-01_18-03-40.png" class title="Snipaste_2021-12-01_18-03-40.png"><p>上图展示将数据加载进Signal Analyzer并进行显示，右侧为29s至30s(约一步)的比目鱼肌肌电信号。根据上面对于噪声干扰的分析，红色方框内的为基线噪声，绿色方框内的为运动伪影(因为这部分信号的频率和后面紫色框内的频率有显著差异)，紫色方框内为肌电的收缩信号。为了得到更有效的分析数据，挖掘肌电信号的信息，一般需要对原始肌电信号的后处理，主要涉及如下步骤：</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled3.png" class title="Untitled"><h3 id="高通滤波-High-Pass-Filter"><a href="#高通滤波-High-Pass-Filter" class="headerlink" title="高通滤波(High Pass Filter)"></a>高通滤波(High Pass Filter)</h3><p>对于大部分实验室而言，会使用数据采集卡或实时处理器，采集肌电系统的信号并和其他设备进行同步，并且大多数情况下会是模拟信号。不同设备间的电平基准可能存在不同，因此可能导致信号包含一定的直流偏置。如上所示的实验数据，其直流偏置约为<code>-0.003</code>。这部分的误差是由采集设备所造成的，因此并没有被归到上面的信号干扰中。直流偏置可以根据信号的平均值进行消除，也可以通过高通滤波器进行消除。这里采用Signal Analyzer的滤波功能，对原始数据先进行截止频率为20Hz的高通滤波。关于截止频率的选择，后面有更详细的解释。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled4.png" class title="Untitled"><h3 id="整流矫正-Rectification"><a href="#整流矫正-Rectification" class="headerlink" title="整流矫正(Rectification)"></a>整流矫正(Rectification)</h3><p>由于肌电信号包含大量的噪声，所以在分析之前我们一般需要对数据进行平滑。但如上所述，原始肌电信号是双极性的，正负电压值的对称分布，若直接进行滑动均值滤波，会得到一条近乎直线的信号。所以为了提取有效信息，一般会对信号进行整流校正，也就是对每个数据点取绝对值。Signal Analyzer没有内置的信号整流功能，但可以通过Add Custom Function来添加，经过整流后的肌电信号如下图紫色曲线所示。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled5.png" class title="Untitled"><h3 id="低通滤波-Low-Pass-Filter"><a href="#低通滤波-Low-Pass-Filter" class="headerlink" title="低通滤波(Low Pass Filter)"></a>低通滤波(Low Pass Filter)</h3><p>之后可以采用低通滤波对信号进行平滑，以提取信号的轮廓。在dSPACE中我们一般使用Butterworth低通滤波器，而这种形式滤波器在Signal Analyzer中没有集成，也需要自行定义(Signal Analyzer自带的低通滤波器非Butterworth滤波器)。论文中常用的低通截止频率有6Hz、10Hz、15Hz，阶数常为2阶或4阶。下面右图展示了3种截止频率下的滤波效果。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled6.png" class title="Untitled"><h3 id="平滑-Smoothing"><a href="#平滑-Smoothing" class="headerlink" title="平滑(Smoothing)"></a>平滑(Smoothing)</h3><p>采用低通滤波会不可避免的向信号引入延迟，从而有可能导致对肌肉活跃度有错误的解读。比如上图中6Hz滤波的红色曲线，延时已经非常显著了。在后处理阶段，我们可以采用smooth(特指matlab函数)方法来平滑数据，而不进入延迟，但要注意这些方法无法在实时采集中使用。肌电信号常用的平滑方法是滑动均方根滤波：</p><script type="math/tex;mode=display">f_{r m s}=\sqrt{\frac{1}{T_{2}-T 1} \int_{T_{1}}^{T_{2}}[f(t)]^{2} \triangle t}</script><p>$T_2 - T_1$表示平滑的时间窗口大小，在运动科学研究中大约是20ms(快速运动)到500ms(缓慢或静态运动)。时间窗口越大，数据越平滑，但也越有可能误解肌电信号变化趋势。下图对比了均方根平滑和低通滤波的效果，可以看出均方根平滑能更准确反应肌电轮廓信息。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled7.png" class title="Untitled"><p>上面所使用的均方根平滑也是一个自定义的函数，但Signal Analyzer也提供了多种其他的平滑方法，比如均值平滑、中值平滑、高斯平滑等，多数也有较好的平滑效果，例如窗口为0.1s的高斯平滑(如下所示)。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled8.png" class title="Untitled"><hr><h2 id="6-功率谱分析"><a href="#6-功率谱分析" class="headerlink" title="6 - 功率谱分析"></a>6 - 功率谱分析</h2><p>在采集和处理数据时，我们需要时刻关注，信号是否反应真实的肌电。上面进行数据处理的过程中，我们基本采用经验和参考来进行滤波，而没有去关注信号的频率特性。本文第三部分部分讨论了诸多的干扰形式，我们也可以根据肌电信号和噪声的特性设计更合适的滤波器来处理数据，得到更真实的肌肉活动信息。</p><blockquote><p>除了用来设计滤波器外，频谱/功率谱分析还可以评估肌肉的疲劳程度，这将在下一部分予以介绍。</p></blockquote> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled9.png" class title="Untitled"><p>上图展示高通滤波后(去除直流偏置对于频谱的影响)肌电信号的功率谱，主要信号的频率分布在0-600Hz的范围内，这其中包含了肌电以及所有的噪声。频谱在20-250Hz频段内信号最为集中；在200-500Hz频段内有一个较宽的突起，反应一种稳定分布的信号(这很有可能来自肌电信号)；超过600Hz后分布一个比较稳定的白噪声，并带有几个小尖峰。</p><p>为了进一步确定肌电信号和频段，分离肌电信号和各种噪声，可以提取出步态摆动阶段到支撑前期的肌电信号，这段时间我们所研究的肌肉-比目鱼肌-基本处于完全放松状态，所测量的信号完全由各种噪声组成。下图展示了这些噪声的功率谱，其主要分布在低频段，在0-100Hz之间有较大的幅值，并随频率逐渐减少，同时也可以看出高频段的几个尖峰也都来自噪声。两个曲线所夹便是真实肌电信号的部分，分布在50Hz到600Hz之间。</p><blockquote><p>在这篇博客的<a target="_blank" rel="noopener" href="https://www.biomechanist.net/electromyography-basics-of-practical-application/">参考博客</a>中，作者通过肌电传感器上内置惯性传感器的加速度数据来分析来自运动伪影噪声的频谱，其频段主要分布在20Hz到50Hz之间，和我们的结果相类似。</p></blockquote> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled10.png" class title="Untitled"><p>在频谱分析的基础上，我们可以设计带通滤波器对信号进行滤波，以去除噪声的影响。但注意到噪声和肌电信号在很大频率范围内的频谱是相互叠加的，因此基本不可能将两者完全分开，但我们也有理由相信滤除一些低频和高频的成分是有意义的。一些文献使用低频20Hz、高频500Hz的带通滤波，而且多数肌电传感中已经内置了这样的带通滤波电路(比如我们的Delesys)，但也有一些文献质疑这样会滤除太多的肌电成分。</p><p>为了增加对肌电信号和噪声特性的理解，让我们尝试更激进的滤波参数。但注意这一部分的内容并没有更多的文献支撑，仅作为一个开放性的讨论。下图展示使用低通150Hz、高通600Hz的带通滤波后的数据(绿色)，可以发现在肌肉放松阶段的噪声(基线噪声、运动伪影)有了显著的减少，而收缩阶段的肌电信号没有本质改变。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled11.png" class title="Untitled"><p>对带通滤波后的信号进一步进行整流和平滑处理，可得到噪声更小、放松阶段信号更平稳的肌电数据，如下右图所示；但同样可以观察到收缩阶段信号峰值有明显衰减，表明一部分有效的肌电信号也被滤波器所滤除。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled12.png" class title="Untitled"><hr><h2 id="7-数据分析"><a href="#7-数据分析" class="headerlink" title="7 - 数据分析"></a>7 - 数据分析</h2><p>正如本文开始所述，通过肌电信号可以得到关于肌肉的<strong>时机</strong>、<strong>力量</strong>和<strong>疲劳</strong>三种信息，它们分别对应肌电信号的时间(相位)、幅值和中值频率。</p><h3 id="肌肉的激活时间"><a href="#肌肉的激活时间" class="headerlink" title="肌肉的激活时间"></a>肌肉的激活时间</h3><p>一般来说，在分析肌肉的激活时间时，一般不关心肌肉的收缩类型(同心\偏心\等距)和收缩程度，而仅关注肌肉合适收缩和放松(开和关)。为了以一种标准化的方式确定肌肉何时被激活，会先采集一组肌肉放松状态时的信号，并确定背景噪声的的均值和方差；当肌电信号超过噪声均值两倍标准差(95%置信度)，并持续一定的时间(通常是10 - 50ms)，认为肌肉激活。这种方法也被称为双阈值方法，因为必须同时超过振幅阈值和时间阈值。</p><p>由于人体任何形式的运动都具有协调性变异性，即使在非常标准的运动中，不同周期的表面肌电信号也有非常显著的差异。因此，一般会通过多次重复来描述某一运动模式。为此每个周期被划分为固定数量的段(例如100)，每个段的数据点被平均。之后我们就可以检查肌肉在运动周期的百分之几被激活，以及何时完全放松。</p><p><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202161648751.png" alt="image-20211202161648751" style="zoom:50%"></p><h3 id="肌肉的收缩力"><a href="#肌肉的收缩力" class="headerlink" title="肌肉的收缩力"></a>肌肉的收缩力</h3><p>可以明确的是，表面肌电信号和肌肉产生的力之间有关系，但，这个关系非常复杂，很难通过简单的变换关系的得到。它涉及从神经肌肉的收缩动力学、肌肉骨骼模型、人体关节的运动特性的共同影响，与最大肌肉力、肌肉收缩速度、肌肉长度、羽状角、肌肉肌腱刚度都有关。我们可以推测，当肌电信号的幅值增加时，肌肉中产生的力量或收缩速度也会增加，但这种定性的分析有时可能无法满足定量评估的需求。</p><p>多年来这个复杂问题始终没有得到很好的解决，这也是为什么绝大多数的肌肉研究都集中在等距收缩，这种收缩下肌肉力和肌电信号的关系会尽可能小的受到肌肉移动、运动伪影、肌肉串扰的因素的影响。在等距收缩时，表面肌电信号和肌肉力基本成线性关系，线性度因肌肉而异。然而在人体的自然运动中基本不存在等距收缩的过程，毕竟等距收缩不会产生任何形式的运动。如果想由表面肌电信号分析非等距运动的肌肉力特性，必须将分析限制在运动接近等距收缩的时间内。例如选择关节角速度等于零时的左右一小段时间(1%周期)，并评估平均肌肉活跃度。</p><p>在不同的实验中，由于受试者肌肉特性、脂肪特性、皮肤特性、电极粘贴位置的不同，基本无法做到测量信号有相同的幅值等级。因此在进行幅度分析时，需要对信号进行归一化，以保证幅值是可以对比的。在实践中经常使用最大主动收缩(maximum voluntary contraction, MVC)的峰值作为归一化标准，肌电信号也就表示为MVC的百分比。但可能存在某些肌肉的MVC非常高，但在特定运动下收缩程度较小，从而使信号整体数值较低。对此也可以采用其他合适的归一化策略，但要确保归一化是有效的。</p><h3 id="肌肉疲劳"><a href="#肌肉疲劳" class="headerlink" title="肌肉疲劳"></a>肌肉疲劳</h3><p>个体肌肉疲劳是生物力学分析中的一个重要因素。在没有测量肌电信号时，当肌肉不能保持一定的收缩时，才会被归类为疲劳(这个时间点也被称为疲劳点，point of failure)。然而，肌肉疲劳是一个渐进的过程，我们可以通过肌电信号频率特性来获取肌肉的疲劳信息。</p><p><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled13.png" alt="Untitled" style="zoom:25%"></p><p>表面肌电信号的功率谱分布曲线如上所示，这个图仅是一个示意，实际频谱不会如此光滑；另外这个频谱采用的是正常坐标，而上一小节我们绘制的功率谱则是半对数坐标。一般情况下，我们会采用4种特征来刻画肌电信号的功率谱特性：<strong>总功率</strong>、<strong>峰值功率</strong>(频谱的最大值)、<strong>均值频率</strong>(mean frequency,以功率幅值为系数的频率加权平均)，以及<strong>中值频率</strong>(median frequency, 将区域分成两等份的频率)。</p><p>当受试者持续执行适当强度、高频的肌肉收缩时，这些频率参数会随时间推移而发生变化。其中均值频率和中值频率会随时间的增加而降低，反应动作电位在肌纤维中的传导速度的下降。下图展示的23分钟行走过程胫骨前肌的肌电信号，并分别对开始和结束2分钟的信号进行功率谱分析。由于该部分实验数据的采集频率仅有500Hz， 我们仅能得到0-250Hz范围内的频谱特性，但依然可以从中得到一些现象。可以看出，后两分钟肌电信号的整体能量有明显的下降，反应在是时域上信号的幅值有明显的降低；尽管并不是非常明显，我们依然可以看出最后两分钟信号的功率分布有向低频方向移动的趋势，通过计算，它们的中值频率分别为177.5Hz和164.9Hz，下降了12.6Hz。</p> <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled14.png" class title="Untitled"><p>肌肉疲劳研究有两方面应用。首先是识别肌无力问题，以及因此所导致的运动功能障碍和疾病。二是进行力量训练的监测，因训练引起的短期疲劳是肌肉生长的基本要求。</p><hr><p><strong>Reference</strong></p><p><a target="_blank" rel="noopener" href="https://www.biomechanist.net/electromyography-basics-of-practical-application/">Electromyography - Basics of Practical Application</a></p><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=J7_LEoYuqww">EMG II Electromyography II Muscle electrical activity</a></p><p><a target="_blank" rel="noopener" href="https://isek.org/resources/">Resources - International Society of Electrophysiology and Kinesiology (ISEK)</a></p><p><a target="_blank" rel="noopener" href="http://www.seniam.org/">Welcome to SENIAM</a></p><p><a target="_blank" rel="noopener" href="https://www.noraxon.com/wp-content/uploads/2014/12/ABC-EMG-ISBN.pdf">Konrad, P., 2006. The ABC of EMG: a practical introduction to kinesiological electromyography. Noraxon USA, Inc.</a></p><p><a target="_blank" rel="noopener" href="https://www.delucafoundation.org/download/bibliography/de-luca/078.pdf">Luca, C.J. de, 1997. The Use of Surface Electromyography in Biomechanics. Journal of Applied Biomechanics 13, 135–163.</a></p><p><a target="_blank" rel="noopener" href="https://www.delsys.com/downloads/TUTORIAL/a-practicum-on-the-use-of-semg-signals-in-movement-sciences.pdf">Luca, C.J. de, 2008. A Practicum on the Use of sEMG Signals in Movement Sciences. Delsys Inc.</a></p><p><a target="_blank" rel="noopener" href="https://pdfs.semanticscholar.org/c348/f06416aa03154c40bb82d5b26cef40e5840d.pdf">Wang, J., Tang, L., E Bronlund, J., 2013. Surface EMG Signal Amplification and Filtering. International Journal of Computer Applications 82, 15–22.</a></p></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" title="肌电信号-原理与应用基础">https://jychennk.github.io/2021/12/01/生物力学/肌电信号-原理与应用基础/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/" rel="tag"># 生物力学</a> <a href="/tags/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7/" rel="tag"># 肌电信号</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/" rel="prev" title="下肢外骨骼系统简介"><i class="fa fa-chevron-left"></i> 下肢外骨骼系统简介</a></div><div class="post-nav-item"></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="肌电信号-原理与应用基础">
+<meta property="og:url" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/action-potential-crash-course.gif">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/肌电信号-原理与应用基础/action-potential-crash-course.gif">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/肌电信号-原理与应用基础/Untitled.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160503752.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled1.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled2.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Snipaste_2021-12-01_18-03-40.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled3.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled4.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled5.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled6.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled7.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled8.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled9.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled10.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled11.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled12.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202161648751.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled13.png">
+<meta property="og:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled14.png">
+<meta property="article:published_time" content="2021-11-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-04T02:54:30.560Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="生物力学">
+<meta property="article:tag" content="肌电信号">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png">
+
+<link rel="canonical" href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>肌电信号-原理与应用基础 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+        <li class="menu-item menu-item-control">
+
+    <a href="/categories/control/" rel="section"><i class="fa fa-bookmark fa-fw"></i>控制理论</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          肌电信号-原理与应用基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-01 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-01T00:00:00+08:00">2021-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-04 10:54:30" itemprop="dateModified" datetime="2021-12-04T10:54:30+08:00">2021-12-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/biomechanics/" itemprop="url" rel="index"><span itemprop="name">biomechanics</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" class="post-meta-item leancloud_visitors" data-flag-title="肌电信号-原理与应用基础" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160304804.png" class title="image-20211202160304804">
+<span id="more"></span>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1 - 基本概念"></a>1 - 基本概念</h2><blockquote>
+<p>Electromyography (EMG) is an experimental technique concerned with the development, recording and analysis of myoelectric signals. Myoelectric signals are formed by physiological variations in the state of muscle fiber membranes. (Basmajian, J.V. &amp; De Luca, C.J., 1985).</p>
+</blockquote>
+<p>肌电信号(Electromyography, EMG)，是指测量引发肌肉收缩的电信号，并反应肌肉的收缩程度，在医疗、康复、运动科学等诸多应用科学领域中广泛使用。在外骨骼领域中，肌电信号是评估外骨骼辅助有效性的重要指标之一。一般来说，我们可以从肌电信号中获得如下信息：</p>
+<ul>
+<li><strong>时机</strong> - 肌肉何时被激活</li>
+<li><strong>力量</strong> - 肌肉收缩有多强烈</li>
+<li><strong>疲劳</strong> - 肌肉能否调动它的全部力量</li>
+</ul>
+<p>在<strong>生物力学</strong>中，表面肌电信号应用更为广泛。其采用非侵入式的测量方式，电信号通过粘贴在皮肤上的电极进行获取。与之相对的侵入式肌电信号，需要将一根探针直接插入相应的肌肉。表面肌电信号非侵入、不会限制受试者的运动，但其信号质量一般低于侵入式测量。</p>
+<hr>
+<h2 id="2-测量原理"><a href="#2-测量原理" class="headerlink" title="2 - 测量原理"></a>2 - 测量原理</h2><p>如上所述，表面肌电传感器通过测量<strong>皮肤表面的电位变化</strong>来感知肌肉收缩，这种电位变化被称为动作电位(<a target="_blank" rel="noopener" href="https://www.biomechanist.net/muscle-contraction/">action potential</a>，AP)。来自神经细胞的肌肉激励信号，通过运动终板传导至肌肉的退极化区(resulting depolarization zone, 约为1-3mm²)。在初始激励之后，运动单元的动作电位(MUAP)会沿肌纤维以2-6米/秒的速度传递，动作电位的传递过程类似于带有负电荷的离子沿肌纤维的方向移动(如下动图所示)。如果现在将一对电极沿平行肌纤维的方向放置于待测肌肉上方(如下右图)，则动作电位先后经过AB两个电极时，电极会测量到一个完整周期的类正弦信号。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/action-potential-crash-course.gif" alt="action-potential-crash-course.gif" style="zoom:50%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled.png" alt="Untitled" style="zoom: 100%;"></div></div></div></div>
+<!-- <img src="肌电信号-原理与应用基础/action-potential-crash-course.gif" alt="action-potential-crash-course.gif" style="zoom: 88%;" /><img src="肌电信号-原理与应用基础/Untitled.png" alt="Untitled" style="zoom: 31%;" /> -->
+<p>一般情况下，多个运动单元会被同时激活，动作电位同时在多个肌纤维上传递，而电极测量的信号是由多个肌纤维上的动作电位合成的结果。一个典型的电极测量的原始肌电信号如下图蓝色波形所示，其由大量的动作电平合成而得；信号的幅值越高说明同一时叠加的动作电位越多，激活的肌纤维数量也越多；由于每一个动作电位产生的电压信号积分为零，因此合成的肌电信号平均值(一段时间的积分)也基本为零。表面肌电信号非常微弱，幅值在µV到低mV范围内，因此一般会使用1000到10000倍的放大器放大测量信号。根据相关文献，肌电图信号的能量分布基本上在0 ~ 500 Hz的频率范围内，主要成分在50 ~ 150 Hz的范围内。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202160503752.png" class title="image-20211202160503752">
+<hr>
+<h2 id="3-表面肌电信号的干扰与降噪"><a href="#3-表面肌电信号的干扰与降噪" class="headerlink" title="3 - 表面肌电信号的干扰与降噪"></a>3 - 表面肌电信号的干扰与降噪</h2><p>表面电极有诸多优点，但也非常容易收到各种噪声的干扰。下面讨论一些常见的干扰类型，以及可以采用的预防和降噪方法。</p>
+<h3 id="a-生理噪声-physiological-noise"><a href="#a-生理噪声-physiological-noise" class="headerlink" title="a-生理噪声(physiological noise)"></a>a-生理噪声(physiological noise)</h3><p>生理噪音是指由身体内部生理活动所产生的，并可被表面电极接收到的电信号，例如<strong>心电信号</strong>和<strong>呼吸肌的收缩信号</strong>。对于这类干扰，可以将传感器放置远离干扰噪声源的地方并使用滤波方法来减少，但避免使用陷波滤波器。</p>
+<h3 id="b-环境噪声-Ambient-Noise"><a href="#b-环境噪声-Ambient-Noise" class="headerlink" title="b-环境噪声(Ambient Noise)"></a>b-环境噪声(Ambient Noise)</h3><p>环境噪声包括<strong>电气工频干扰</strong>70-60Hz)和<strong>电缆伪影</strong>(cable artifacts，由线缆移动而导致的信号失真)。</p>
+<p>电磁辐射在环境中几乎无处不在，但可以采用<strong>差动电极</strong>来减少这些干扰。表面肌电信号传感器由两个电极组成，它们沿着肌肉纤维以一定距离(通常为10mm)附着在皮肤上。两个电极都记录了基本噪声，也记录了具有延时的MUAPs(延时是因为电位沿着肌纤维扩散，从而首先到达第一个电极，然后到达第二个电极)。通过简单的差分计算消除环境噪声：</p>
+<script type="math/tex; mode=display">V_{res}=(V_B+N_{env})-(V_A+N_{env})=V_B-V_A</script><p>对于电缆伪影，多数表面肌电传感器都会在测量电极后紧跟第一级放大器，从而传感器电缆的移动而产生的电缆伪迹减少到最小。</p>
+<h3 id="c-基线噪声-Baseline-Noise"><a href="#c-基线噪声-Baseline-Noise" class="headerlink" title="c-基线噪声(Baseline Noise)"></a>c-基线噪声(Baseline Noise)</h3><p>基线噪声是肌电信号中最常见的噪声之一。它属于电化学噪声，由电极和皮肤中盐的离子交换所产生，当肌肉完全放松时所测量的信号主要就是基线噪声(以及生理噪声和环境噪声)。由于噪声发生在放大电路之前，所以基本无法被消除。基线噪声的大小与电极电阻的平方根成正比，因此可以通过增加电极的表面积来减少噪声，以及在使用肌电传感器前做好电极和皮肤的清洁工作。</p>
+<h3 id="d-运动伪影-Movement-Artifacts"><a href="#d-运动伪影-Movement-Artifacts" class="headerlink" title="d-运动伪影(Movement Artifacts)"></a>d-运动伪影(Movement Artifacts)</h3><p>运动伪影也来自电极与皮肤之间的界面。一般来说，产生运动伪影的原因有两个：</p>
+<ol>
+<li>当肌肉收缩和放松时，肌肉的长度和横截面发生变化。这导致覆盖皮肤的拉伸和放松，进而导致皮肤电极界面的电化学平衡发生变化。</li>
+<li>当肌肉产生一个力脉冲或从外部施加到身体上的力脉冲(例如脚跟撞击)，脉冲也会被转移到电极上。</li>
+</ol>
+<p>这两种情况都不可能完全消除干扰，只能通过对皮肤/电极进行良好的预处理和使用良好的过滤方法来缓解。</p>
+<h3 id="4-肌肉串扰-Crosstalk-from-Other-Muscles"><a href="#4-肌肉串扰-Crosstalk-from-Other-Muscles" class="headerlink" title="4-肌肉串扰(Crosstalk from Other Muscles)"></a>4-肌肉串扰(<strong>Crosstalk from Other Muscles</strong>)</h3><p>当我们记录了表面肌电信号后，我们需要注意这个信号是否会收到其他肌肉的影响。如果需要确定某一个特定肌肉的激活情况，相对独立的肌肉能够被较为准确的测量(如胫骨前肌)，而位于肌群中的肌肉很难被准确测量(如位于股四头肌群中的股直肌)。即使小心翼翼地将电极放置在相应的肌肉上，信号仍然会被附近肌肉影响。通过选择两个差分电极之间相对较小的距离可以防止串扰，根据经验，两个电极之间的距离应不超过10mm。更多关于防止串扰的方法可以在其他文献中找到。</p>
+<h3 id="f-脂肪组织-Fatty-Tissue"><a href="#f-脂肪组织-Fatty-Tissue" class="headerlink" title="f-脂肪组织(Fatty Tissue)"></a>f-脂肪组织(Fatty Tissue)</h3><p>一般来说，人体具有良好的导电性，但不同组织之间存在着很大的差异。其中脂肪组织起着决定性的作用，它类似于一个低通滤波器，过滤掉信号的高频部分。肌肉和电极之间的脂肪组织越多，过滤的作用就越强，当<strong>脂肪厚度大于40mm</strong>，肌电信号基本无法被检测到。这种特性也使得在不同受试者之间进行直接对比肌电信号的电压幅值比较非常困难，所以一般会根据肌肉的最大自主收缩(MVC)的对肌电信号进行归一化。</p>
+<h3 id="g-皮肤和肌肉之间的相对运动-Relative-Movement-Between-Skin-and-Muscle"><a href="#g-皮肤和肌肉之间的相对运动-Relative-Movement-Between-Skin-and-Muscle" class="headerlink" title="g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)"></a>g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)</h3><p>当肌肉收缩时，它会在皮肤下面移动，贴在皮肤上的表面肌电传感器的测量区域也会发生变化。一方面，肌肉的动态收缩会导致信号来源(肌肉膜)和传感器之间的脂肪组织过滤器发生变化，从而影响信号的振幅和频谱；另一方面，它可能导致所测量的肌肉从传感器的视野中消失，而另一块不感兴趣的肌肉则成为了测量对象，进一步加重肌肉串扰的影响。</p>
+<p>可以通过分析等距收缩(即没有长度变化的收缩)来避免运动带来的影响，这也是为什么等距收缩是研究最多的收缩类型。但在应用科学中，等距收缩对于肌肉运动的基本理解并不是那么重要，也很少发生在自然运动中。如何处理动态记录的数据以及这对数据解释的其他影响将在数据分析一节中解释。</p>
+<p>肌电信号的质量取决于传感器的类型、放大器的质量、传感器的放置以及电极-皮肤的接触特性。如果您的实验室没有足够的预算来购买最新的表面肌电信号和放大器，您仍然可以改善后两点个方面。这些在准备阶段中发挥着核心作用，并对数据质量有巨大的影响。</p>
+<hr>
+<h2 id="4-肌电信号采集的准备工作"><a href="#4-肌电信号采集的准备工作" class="headerlink" title="4 - 肌电信号采集的准备工作"></a>4 - 肌电信号采集的准备工作</h2><h3 id="如何在皮肤上粘贴肌电传感器"><a href="#如何在皮肤上粘贴肌电传感器" class="headerlink" title="如何在皮肤上粘贴肌电传感器"></a>如何在皮肤上粘贴肌电传感器</h3><p>肌电电极应该尽可能的被<strong>粘贴在肌腹的中间</strong>。肌腹的信号幅值最大，信噪比更高，且更少的受到周围肌肉的串扰影响。每个肌电传感器应至少使用两个电极，通过差动电极将环境噪声影响降低到最小。电极应该<strong>沿着肌纤维的方向排列</strong>，使得动作电位先到达一个电极，再到达另一个电极。需要特别要注意肌肉纤维的排列和<strong>羽状角</strong>。表面肌电信号的幅值与电极间距离成正比，带宽与电极间距离成反比，因此两个电极之间的距离应该尽可能保持恒定以方便数据分析(如果不是由传感器给出的话)。</p>
+<h3 id="如何清理皮肤"><a href="#如何清理皮肤" class="headerlink" title="如何清理皮肤"></a>如何清理皮肤</h3><p>表面肌电信号的质量很大程度上取决于皮肤和传感器之间的接触条件。清理皮肤的目的是尽可能减少皮肤的电阻，使表面肌电信号能够被准确地捕捉到(现代放大器通常设计为皮肤阻抗水平在5到50欧姆之间)。一般来说，在准备皮肤时要考虑两点：</p>
+<ol>
+<li><strong>剃除毛发</strong>。特别是受试者有大量出汗或需要分析高度动态的运动时，剃除毛发可以防止电极松动。出于卫生原因，请使用一次性剃须刀，使用后应立即丢弃。</li>
+<li><strong>清洁皮肤</strong>。去除具有高抵抗力的死皮细胞，清洗皮肤上的污垢和汗水。大多数情况下，用浸过纯酒精的布轻轻擦拭皮肤就足够了。如果有更高的需求，可以用细砂纸去除表层的死皮细胞。可以通过万用表测量电极之间的电阻来检查皮肤清洁是否到位，下表可以作为一个粗略评估:</li>
+</ol>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled1.png" class title="Untitled">
+<p>为了进一步了解肌电信号的质量，建议计算和检查信噪比(signal-to-noise ratio, SNR)：</p>
+<script type="math/tex; mode=display">SNR=\frac{sEMG\ Amplitude}{Baseline \ Noise\ Amplitude}</script><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled2.png" class title="Untitled">
+<p>如果信噪比不理想，尝试检查传感器的粘贴或进一步清理皮肤；如果没问题，那就开始测量数据吧！</p>
+<hr>
+<h2 id="5-肌电信号的后处理"><a href="#5-肌电信号的后处理" class="headerlink" title="5 - 肌电信号的后处理"></a>5 - 肌电信号的后处理</h2><p>这里我们使用Matlab的信号分析工具箱Signal Analyzer，介绍肌电信号的后处理方法。实验数据是通过Delesys的无线肌电系统Trigo，并通过模拟量接口由dSPACE以5kHz的频率进行采集，测量了单个男性受试者以1.25m/s的速度在跑步机上行走时比目鱼肌、腓肠肌、胫骨前肌、股直肌、腘绳肌等8块的肌电信号，你可以在这里下载该实验的原始数据。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Snipaste_2021-12-01_18-03-40.png" class title="Snipaste_2021-12-01_18-03-40.png">
+<p>上图展示将数据加载进Signal Analyzer并进行显示，右侧为29s至30s(约一步)的比目鱼肌肌电信号。根据上面对于噪声干扰的分析，红色方框内的为基线噪声，绿色方框内的为运动伪影(因为这部分信号的频率和后面紫色框内的频率有显著差异)，紫色方框内为肌电的收缩信号。为了得到更有效的分析数据，挖掘肌电信号的信息，一般需要对原始肌电信号的后处理，主要涉及如下步骤：</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled3.png" class title="Untitled">
+<h3 id="高通滤波-High-Pass-Filter"><a href="#高通滤波-High-Pass-Filter" class="headerlink" title="高通滤波(High Pass Filter)"></a>高通滤波(High Pass Filter)</h3><p>对于大部分实验室而言，会使用数据采集卡或实时处理器，采集肌电系统的信号并和其他设备进行同步，并且大多数情况下会是模拟信号。不同设备间的电平基准可能存在不同，因此可能导致信号包含一定的直流偏置。如上所示的实验数据，其直流偏置约为<code>-0.003</code>。这部分的误差是由采集设备所造成的，因此并没有被归到上面的信号干扰中。直流偏置可以根据信号的平均值进行消除，也可以通过高通滤波器进行消除。这里采用Signal Analyzer的滤波功能，对原始数据先进行截止频率为20Hz的高通滤波。关于截止频率的选择，后面有更详细的解释。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled4.png" class title="Untitled">
+<h3 id="整流矫正-Rectification"><a href="#整流矫正-Rectification" class="headerlink" title="整流矫正(Rectification)"></a>整流矫正(Rectification)</h3><p>由于肌电信号包含大量的噪声，所以在分析之前我们一般需要对数据进行平滑。但如上所述，原始肌电信号是双极性的，正负电压值的对称分布，若直接进行滑动均值滤波，会得到一条近乎直线的信号。所以为了提取有效信息，一般会对信号进行整流校正，也就是对每个数据点取绝对值。Signal Analyzer没有内置的信号整流功能，但可以通过Add Custom Function来添加，经过整流后的肌电信号如下图紫色曲线所示。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled5.png" class title="Untitled">
+<h3 id="低通滤波-Low-Pass-Filter"><a href="#低通滤波-Low-Pass-Filter" class="headerlink" title="低通滤波(Low Pass Filter)"></a>低通滤波(Low Pass Filter)</h3><p>之后可以采用低通滤波对信号进行平滑，以提取信号的轮廓。在dSPACE中我们一般使用Butterworth低通滤波器，而这种形式滤波器在Signal Analyzer中没有集成，也需要自行定义(Signal Analyzer自带的低通滤波器非Butterworth滤波器)。论文中常用的低通截止频率有6Hz、10Hz、15Hz，阶数常为2阶或4阶。下面右图展示了3种截止频率下的滤波效果。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled6.png" class title="Untitled">
+<h3 id="平滑-Smoothing"><a href="#平滑-Smoothing" class="headerlink" title="平滑(Smoothing)"></a>平滑(Smoothing)</h3><p>采用低通滤波会不可避免的向信号引入延迟，从而有可能导致对肌肉活跃度有错误的解读。比如上图中6Hz滤波的红色曲线，延时已经非常显著了。在后处理阶段，我们可以采用smooth(特指matlab函数)方法来平滑数据，而不进入延迟，但要注意这些方法无法在实时采集中使用。肌电信号常用的平滑方法是滑动均方根滤波：</p>
+<script type="math/tex; mode=display">f_{r m s}=\sqrt{\frac{1}{T_{2}-T 1} \int_{T_{1}}^{T_{2}}[f(t)]^{2} \triangle t}</script><p>$T_2 - T_1$表示平滑的时间窗口大小，在运动科学研究中大约是20ms(快速运动)到500ms(缓慢或静态运动)。时间窗口越大，数据越平滑，但也越有可能误解肌电信号变化趋势。下图对比了均方根平滑和低通滤波的效果，可以看出均方根平滑能更准确反应肌电轮廓信息。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled7.png" class title="Untitled">
+<p>上面所使用的均方根平滑也是一个自定义的函数，但Signal Analyzer也提供了多种其他的平滑方法，比如均值平滑、中值平滑、高斯平滑等，多数也有较好的平滑效果，例如窗口为0.1s的高斯平滑(如下所示)。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled8.png" class title="Untitled">
+<hr>
+<h2 id="6-功率谱分析"><a href="#6-功率谱分析" class="headerlink" title="6 - 功率谱分析"></a>6 - 功率谱分析</h2><p>在采集和处理数据时，我们需要时刻关注，信号是否反应真实的肌电。上面进行数据处理的过程中，我们基本采用经验和参考来进行滤波，而没有去关注信号的频率特性。本文第三部分部分讨论了诸多的干扰形式，我们也可以根据肌电信号和噪声的特性设计更合适的滤波器来处理数据，得到更真实的肌肉活动信息。</p>
+<blockquote>
+<p>除了用来设计滤波器外，频谱/功率谱分析还可以评估肌肉的疲劳程度，这将在下一部分予以介绍。</p>
+</blockquote>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled9.png" class title="Untitled">
+<p>上图展示高通滤波后(去除直流偏置对于频谱的影响)肌电信号的功率谱，主要信号的频率分布在0-600Hz的范围内，这其中包含了肌电以及所有的噪声。频谱在20-250Hz频段内信号最为集中；在200-500Hz频段内有一个较宽的突起，反应一种稳定分布的信号(这很有可能来自肌电信号)；超过600Hz后分布一个比较稳定的白噪声，并带有几个小尖峰。</p>
+<p>为了进一步确定肌电信号和频段，分离肌电信号和各种噪声，可以提取出步态摆动阶段到支撑前期的肌电信号，这段时间我们所研究的肌肉-比目鱼肌-基本处于完全放松状态，所测量的信号完全由各种噪声组成。下图展示了这些噪声的功率谱，其主要分布在低频段，在0-100Hz之间有较大的幅值，并随频率逐渐减少，同时也可以看出高频段的几个尖峰也都来自噪声。两个曲线所夹便是真实肌电信号的部分，分布在50Hz到600Hz之间。</p>
+<blockquote>
+<p>在这篇博客的<a target="_blank" rel="noopener" href="https://www.biomechanist.net/electromyography-basics-of-practical-application/">参考博客</a>中，作者通过肌电传感器上内置惯性传感器的加速度数据来分析来自运动伪影噪声的频谱，其频段主要分布在20Hz到50Hz之间，和我们的结果相类似。</p>
+</blockquote>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled10.png" class title="Untitled">
+<p>在频谱分析的基础上，我们可以设计带通滤波器对信号进行滤波，以去除噪声的影响。但注意到噪声和肌电信号在很大频率范围内的频谱是相互叠加的，因此基本不可能将两者完全分开，但我们也有理由相信滤除一些低频和高频的成分是有意义的。一些文献使用低频20Hz、高频500Hz的带通滤波，而且多数肌电传感中已经内置了这样的带通滤波电路(比如我们的Delesys)，但也有一些文献质疑这样会滤除太多的肌电成分。</p>
+<p>为了增加对肌电信号和噪声特性的理解，让我们尝试更激进的滤波参数。但注意这一部分的内容并没有更多的文献支撑，仅作为一个开放性的讨论。下图展示使用低通150Hz、高通600Hz的带通滤波后的数据(绿色)，可以发现在肌肉放松阶段的噪声(基线噪声、运动伪影)有了显著的减少，而收缩阶段的肌电信号没有本质改变。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled11.png" class title="Untitled">
+<p>对带通滤波后的信号进一步进行整流和平滑处理，可得到噪声更小、放松阶段信号更平稳的肌电数据，如下右图所示；但同样可以观察到收缩阶段信号峰值有明显衰减，表明一部分有效的肌电信号也被滤波器所滤除。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled12.png" class title="Untitled">
+<hr>
+<h2 id="7-数据分析"><a href="#7-数据分析" class="headerlink" title="7 - 数据分析"></a>7 - 数据分析</h2><p>正如本文开始所述，通过肌电信号可以得到关于肌肉的<strong>时机</strong>、<strong>力量</strong>和<strong>疲劳</strong>三种信息，它们分别对应肌电信号的时间(相位)、幅值和中值频率。</p>
+<h3 id="肌肉的激活时间"><a href="#肌肉的激活时间" class="headerlink" title="肌肉的激活时间"></a>肌肉的激活时间</h3><p>一般来说，在分析肌肉的激活时间时，一般不关心肌肉的收缩类型(同心\偏心\等距)和收缩程度，而仅关注肌肉合适收缩和放松(开和关)。为了以一种标准化的方式确定肌肉何时被激活，会先采集一组肌肉放松状态时的信号，并确定背景噪声的的均值和方差；当肌电信号超过噪声均值两倍标准差(95%置信度)，并持续一定的时间(通常是10 - 50ms)，认为肌肉激活。这种方法也被称为双阈值方法，因为必须同时超过振幅阈值和时间阈值。</p>
+<p>由于人体任何形式的运动都具有协调性变异性，即使在非常标准的运动中，不同周期的表面肌电信号也有非常显著的差异。因此，一般会通过多次重复来描述某一运动模式。为此每个周期被划分为固定数量的段(例如100)，每个段的数据点被平均。之后我们就可以检查肌肉在运动周期的百分之几被激活，以及何时完全放松。</p>
+<p><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/image-20211202161648751.png" alt="image-20211202161648751" style="zoom: 50%;"></p>
+<h3 id="肌肉的收缩力"><a href="#肌肉的收缩力" class="headerlink" title="肌肉的收缩力"></a>肌肉的收缩力</h3><p>可以明确的是，表面肌电信号和肌肉产生的力之间有关系，但，这个关系非常复杂，很难通过简单的变换关系的得到。它涉及从神经肌肉的收缩动力学、肌肉骨骼模型、人体关节的运动特性的共同影响，与最大肌肉力、肌肉收缩速度、肌肉长度、羽状角、肌肉肌腱刚度都有关。我们可以推测，当肌电信号的幅值增加时，肌肉中产生的力量或收缩速度也会增加，但这种定性的分析有时可能无法满足定量评估的需求。</p>
+<p>多年来这个复杂问题始终没有得到很好的解决，这也是为什么绝大多数的肌肉研究都集中在等距收缩，这种收缩下肌肉力和肌电信号的关系会尽可能小的受到肌肉移动、运动伪影、肌肉串扰的因素的影响。在等距收缩时，表面肌电信号和肌肉力基本成线性关系，线性度因肌肉而异。然而在人体的自然运动中基本不存在等距收缩的过程，毕竟等距收缩不会产生任何形式的运动。如果想由表面肌电信号分析非等距运动的肌肉力特性，必须将分析限制在运动接近等距收缩的时间内。例如选择关节角速度等于零时的左右一小段时间(1%周期)，并评估平均肌肉活跃度。</p>
+<p>在不同的实验中，由于受试者肌肉特性、脂肪特性、皮肤特性、电极粘贴位置的不同，基本无法做到测量信号有相同的幅值等级。因此在进行幅度分析时，需要对信号进行归一化，以保证幅值是可以对比的。在实践中经常使用最大主动收缩(maximum voluntary contraction, MVC)的峰值作为归一化标准，肌电信号也就表示为MVC的百分比。但可能存在某些肌肉的MVC非常高，但在特定运动下收缩程度较小，从而使信号整体数值较低。对此也可以采用其他合适的归一化策略，但要确保归一化是有效的。</p>
+<h3 id="肌肉疲劳"><a href="#肌肉疲劳" class="headerlink" title="肌肉疲劳"></a>肌肉疲劳</h3><p>个体肌肉疲劳是生物力学分析中的一个重要因素。在没有测量肌电信号时，当肌肉不能保持一定的收缩时，才会被归类为疲劳(这个时间点也被称为疲劳点，point of failure)。然而，肌肉疲劳是一个渐进的过程，我们可以通过肌电信号频率特性来获取肌肉的疲劳信息。</p>
+<p><img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled13.png" alt="Untitled" style="zoom: 25%;"></p>
+<p>表面肌电信号的功率谱分布曲线如上所示，这个图仅是一个示意，实际频谱不会如此光滑；另外这个频谱采用的是正常坐标，而上一小节我们绘制的功率谱则是半对数坐标。一般情况下，我们会采用4种特征来刻画肌电信号的功率谱特性：<strong>总功率</strong>、<strong>峰值功率</strong>(频谱的最大值)、<strong>均值频率</strong>(mean frequency,以功率幅值为系数的频率加权平均)，以及<strong>中值频率</strong>(median frequency, 将区域分成两等份的频率)。</p>
+<p>当受试者持续执行适当强度、高频的肌肉收缩时，这些频率参数会随时间推移而发生变化。其中均值频率和中值频率会随时间的增加而降低，反应动作电位在肌纤维中的传导速度的下降。下图展示的23分钟行走过程胫骨前肌的肌电信号，并分别对开始和结束2分钟的信号进行功率谱分析。由于该部分实验数据的采集频率仅有500Hz， 我们仅能得到0-250Hz范围内的频谱特性，但依然可以从中得到一些现象。可以看出，后两分钟肌电信号的整体能量有明显的下降，反应在是时域上信号的幅值有明显的降低；尽管并不是非常明显，我们依然可以看出最后两分钟信号的功率分布有向低频方向移动的趋势，通过计算，它们的中值频率分别为177.5Hz和164.9Hz，下降了12.6Hz。</p>
+<img src="/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/Untitled14.png" class title="Untitled">
+<p>肌肉疲劳研究有两方面应用。首先是识别肌无力问题，以及因此所导致的运动功能障碍和疾病。二是进行力量训练的监测，因训练引起的短期疲劳是肌肉生长的基本要求。</p>
+<hr>
+<p><strong>Reference</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.biomechanist.net/electromyography-basics-of-practical-application/">Electromyography - Basics of Practical Application</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=J7_LEoYuqww">EMG II Electromyography II Muscle electrical activity</a></p>
+<p><a target="_blank" rel="noopener" href="https://isek.org/resources/">Resources - International Society of Electrophysiology and Kinesiology (ISEK)</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.seniam.org/">Welcome to SENIAM</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.noraxon.com/wp-content/uploads/2014/12/ABC-EMG-ISBN.pdf">Konrad, P., 2006. The ABC of EMG: a practical introduction to kinesiological electromyography. Noraxon USA, Inc.</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.delucafoundation.org/download/bibliography/de-luca/078.pdf">Luca, C.J. de, 1997. The Use of Surface Electromyography in Biomechanics. Journal of Applied Biomechanics 13, 135–163.</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.delsys.com/downloads/TUTORIAL/a-practicum-on-the-use-of-semg-signals-in-movement-sciences.pdf">Luca, C.J. de, 2008. A Practicum on the Use of sEMG Signals in Movement Sciences. Delsys Inc. </a></p>
+<p><a target="_blank" rel="noopener" href="https://pdfs.semanticscholar.org/c348/f06416aa03154c40bb82d5b26cef40e5840d.pdf">Wang, J., Tang, L., E Bronlund, J., 2013. Surface EMG Signal Amplification and Filtering. International Journal of Computer Applications 82, 15–22. </a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2021/12/01/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" title="肌电信号-原理与应用基础">https://jychennk.github.io/2021/12/01/生物力学/肌电信号-原理与应用基础/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/" rel="tag"># 生物力学</a>
+              <a href="/tags/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7/" rel="tag"># 肌电信号</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/" rel="prev" title="下肢外骨骼系统简介">
+      <i class="fa fa-chevron-left"></i> 下肢外骨骼系统简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/01/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6/Chapter%202%20-%20%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80/" rel="next" title="鲁棒控制 Chapter 2 - 线性代数基础">
+      鲁棒控制 Chapter 2 - 线性代数基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -18,7 +459,152 @@
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1 - 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B5%8B%E9%87%8F%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2 - 测量原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%B9%B2%E6%89%B0%E4%B8%8E%E9%99%8D%E5%99%AA"><span class="nav-number">3.</span> <span class="nav-text">3 - 表面肌电信号的干扰与降噪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-%E7%94%9F%E7%90%86%E5%99%AA%E5%A3%B0-physiological-noise"><span class="nav-number">3.1.</span> <span class="nav-text">a-生理噪声(physiological noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-%E7%8E%AF%E5%A2%83%E5%99%AA%E5%A3%B0-Ambient-Noise"><span class="nav-number">3.2.</span> <span class="nav-text">b-环境噪声(Ambient Noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E5%9F%BA%E7%BA%BF%E5%99%AA%E5%A3%B0-Baseline-Noise"><span class="nav-number">3.3.</span> <span class="nav-text">c-基线噪声(Baseline Noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-%E8%BF%90%E5%8A%A8%E4%BC%AA%E5%BD%B1-Movement-Artifacts"><span class="nav-number">3.4.</span> <span class="nav-text">d-运动伪影(Movement Artifacts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%82%8C%E8%82%89%E4%B8%B2%E6%89%B0-Crosstalk-from-Other-Muscles"><span class="nav-number">3.5.</span> <span class="nav-text">4-肌肉串扰(Crosstalk from Other Muscles)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f-%E8%84%82%E8%82%AA%E7%BB%84%E7%BB%87-Fatty-Tissue"><span class="nav-number">3.6.</span> <span class="nav-text">f-脂肪组织(Fatty Tissue)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g-%E7%9A%AE%E8%82%A4%E5%92%8C%E8%82%8C%E8%82%89%E4%B9%8B%E9%97%B4%E7%9A%84%E7%9B%B8%E5%AF%B9%E8%BF%90%E5%8A%A8-Relative-Movement-Between-Skin-and-Muscle"><span class="nav-number">3.7.</span> <span class="nav-text">g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E9%87%87%E9%9B%86%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">4 - 肌电信号采集的准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E7%9A%AE%E8%82%A4%E4%B8%8A%E7%B2%98%E8%B4%B4%E8%82%8C%E7%94%B5%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">如何在皮肤上粘贴肌电传感器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B8%85%E7%90%86%E7%9A%AE%E8%82%A4"><span class="nav-number">4.2.</span> <span class="nav-text">如何清理皮肤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%90%8E%E5%A4%84%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">5 - 肌电信号的后处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2-High-Pass-Filter"><span class="nav-number">5.1.</span> <span class="nav-text">高通滤波(High Pass Filter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%B5%81%E7%9F%AB%E6%AD%A3-Rectification"><span class="nav-number">5.2.</span> <span class="nav-text">整流矫正(Rectification)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2-Low-Pass-Filter"><span class="nav-number">5.3.</span> <span class="nav-text">低通滤波(Low Pass Filter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91-Smoothing"><span class="nav-number">5.4.</span> <span class="nav-text">平滑(Smoothing)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">6 - 功率谱分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-number">7.</span> <span class="nav-text">7 - 数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%9A%84%E6%BF%80%E6%B4%BB%E6%97%B6%E9%97%B4"><span class="nav-number">7.1.</span> <span class="nav-text">肌肉的激活时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%9A%84%E6%94%B6%E7%BC%A9%E5%8A%9B"><span class="nav-number">7.2.</span> <span class="nav-text">肌肉的收缩力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%96%B2%E5%8A%B3"><span class="nav-number">7.3.</span> <span class="nav-text">肌肉疲劳</span></a></li></ol></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">25</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">16</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2021</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script defer="defer" src="/lib/three/three.min.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1 - 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B5%8B%E9%87%8F%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2 - 测量原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%B9%B2%E6%89%B0%E4%B8%8E%E9%99%8D%E5%99%AA"><span class="nav-number">3.</span> <span class="nav-text">3 - 表面肌电信号的干扰与降噪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-%E7%94%9F%E7%90%86%E5%99%AA%E5%A3%B0-physiological-noise"><span class="nav-number">3.1.</span> <span class="nav-text">a-生理噪声(physiological noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-%E7%8E%AF%E5%A2%83%E5%99%AA%E5%A3%B0-Ambient-Noise"><span class="nav-number">3.2.</span> <span class="nav-text">b-环境噪声(Ambient Noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E5%9F%BA%E7%BA%BF%E5%99%AA%E5%A3%B0-Baseline-Noise"><span class="nav-number">3.3.</span> <span class="nav-text">c-基线噪声(Baseline Noise)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-%E8%BF%90%E5%8A%A8%E4%BC%AA%E5%BD%B1-Movement-Artifacts"><span class="nav-number">3.4.</span> <span class="nav-text">d-运动伪影(Movement Artifacts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%82%8C%E8%82%89%E4%B8%B2%E6%89%B0-Crosstalk-from-Other-Muscles"><span class="nav-number">3.5.</span> <span class="nav-text">4-肌肉串扰(Crosstalk from Other Muscles)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f-%E8%84%82%E8%82%AA%E7%BB%84%E7%BB%87-Fatty-Tissue"><span class="nav-number">3.6.</span> <span class="nav-text">f-脂肪组织(Fatty Tissue)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g-%E7%9A%AE%E8%82%A4%E5%92%8C%E8%82%8C%E8%82%89%E4%B9%8B%E9%97%B4%E7%9A%84%E7%9B%B8%E5%AF%B9%E8%BF%90%E5%8A%A8-Relative-Movement-Between-Skin-and-Muscle"><span class="nav-number">3.7.</span> <span class="nav-text">g-皮肤和肌肉之间的相对运动(Relative Movement Between Skin and Muscle)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E9%87%87%E9%9B%86%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">4 - 肌电信号采集的准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E7%9A%AE%E8%82%A4%E4%B8%8A%E7%B2%98%E8%B4%B4%E8%82%8C%E7%94%B5%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">如何在皮肤上粘贴肌电传感器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B8%85%E7%90%86%E7%9A%AE%E8%82%A4"><span class="nav-number">4.2.</span> <span class="nav-text">如何清理皮肤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%90%8E%E5%A4%84%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">5 - 肌电信号的后处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2-High-Pass-Filter"><span class="nav-number">5.1.</span> <span class="nav-text">高通滤波(High Pass Filter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%B5%81%E7%9F%AB%E6%AD%A3-Rectification"><span class="nav-number">5.2.</span> <span class="nav-text">整流矫正(Rectification)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2-Low-Pass-Filter"><span class="nav-number">5.3.</span> <span class="nav-text">低通滤波(Low Pass Filter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91-Smoothing"><span class="nav-number">5.4.</span> <span class="nav-text">平滑(Smoothing)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">6 - 功率谱分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-number">7.</span> <span class="nav-text">7 - 数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%9A%84%E6%BF%80%E6%B4%BB%E6%97%B6%E9%97%B4"><span class="nav-number">7.1.</span> <span class="nav-text">肌肉的激活时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%9A%84%E6%94%B6%E7%BC%A9%E5%8A%9B"><span class="nav-number">7.2.</span> <span class="nav-text">肌肉的收缩力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%82%8C%E8%82%89%E7%96%B2%E5%8A%B3"><span class="nav-number">7.3.</span> <span class="nav-text">肌肉疲劳</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -68,7 +654,14 @@
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -94,4 +687,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>
