@@ -20,33 +20,23 @@
     var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="本篇介绍dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。">
+  <meta name="description" content="骨学总论骨是人体重要的器官之一，骨组织主要由骨细胞、胶原纤维和基质等构成，具有一定的形态，外被骨膜，内容骨髓，含有丰富的血管、淋巴管及神经；具有一定的功能，能不断进行新陈代谢和生长发育，并有修复、再生和重塑的能力。经常锻炼可促进骨的良好发育，长期废用则出现骨质疏松。骨基质中沉积有大量钙盐和磷酸盐，是人体钙、磷的储存库，参与体内钙、磷代谢。骨髓有造血功能。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MicroLabBox教程 2 - dSPACE硬件接口 基础篇">
-<meta property="og:url" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
+<meta property="og:title" content="人体解剖学-骨学基础">
+<meta property="og:url" content="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/index.html">
 <meta property="og:site_name" content="萤火">
-<meta property="og:description" content="本篇介绍dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。">
+<meta property="og:description" content="骨学总论骨是人体重要的器官之一，骨组织主要由骨细胞、胶原纤维和基质等构成，具有一定的形态，外被骨膜，内容骨髓，含有丰富的血管、淋巴管及神经；具有一定的功能，能不断进行新陈代谢和生长发育，并有修复、再生和重塑的能力。经常锻炼可促进骨的良好发育，长期废用则出现骨质疏松。骨基质中沉积有大量钙盐和磷酸盐，是人体钙、磷的储存库，参与体内钙、磷代谢。骨髓有造血功能。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg">
-<meta property="og:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png">
-<meta property="article:published_time" content="2021-06-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-12-02T09:33:35.334Z">
+<meta property="og:image" content="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/01.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/02.png">
+<meta property="article:published_time" content="2022-02-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-21T15:59:08.782Z">
 <meta property="article:author" content="Jayren Chen">
-<meta property="article:tag" content="dSPACE">
+<meta property="article:tag" content="人体解剖学">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png">
+<meta name="twitter:image" content="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/01.png">
 
-<link rel="canonical" href="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/">
+<link rel="canonical" href="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/">
 
 
 <script id="page-configurations">
@@ -59,7 +49,7 @@
   };
 </script>
 
-  <title>MicroLabBox教程 2 - dSPACE硬件接口 基础篇 | 萤火</title>
+  <title>人体解剖学-骨学基础 | 萤火</title>
   
 
 
@@ -195,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -208,7 +198,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MicroLabBox教程 2 - dSPACE硬件接口 基础篇
+          人体解剖学-骨学基础
         </h1>
 
         <div class="post-meta">
@@ -218,14 +208,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-12 00:00:00" itemprop="dateCreated datePublished" datetime="2021-06-12T00:00:00+08:00">2021-06-12</time>
+              <time title="创建时间：2022-02-02 00:00:00" itemprop="dateCreated datePublished" datetime="2022-02-02T00:00:00+08:00">2022-02-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-02 17:33:35" itemprop="dateModified" datetime="2021-12-02T17:33:35+08:00">2021-12-02</time>
+                <time title="修改时间：2022-02-21 23:59:08" itemprop="dateModified" datetime="2022-02-21T23:59:08+08:00">2022-02-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,16 +223,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tutorials/" itemprop="url" rel="index"><span itemprop="name">tutorials</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tutorials/dSPACE/" itemprop="url" rel="index"><span itemprop="name">dSPACE</span></a>
+                  <a href="/categories/biomechanics/" itemprop="url" rel="index"><span itemprop="name">biomechanics</span></a>
                 </span>
             </span>
 
           
-            <span id="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/" class="post-meta-item leancloud_visitors" data-flag-title="MicroLabBox教程 2 - dSPACE硬件接口 基础篇" title="阅读次数">
+            <span id="/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/" class="post-meta-item leancloud_visitors" data-flag-title="人体解剖学-骨学基础" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -257,8 +243,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -273,84 +259,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本篇介绍dSPACE简单硬件接口的基本使用方法，包含数字量输入输出、模拟量输入输出、PWM信号输入输出，以及供电模块。</p>
+        <h2 id="骨学总论"><a href="#骨学总论" class="headerlink" title="骨学总论"></a>骨学总论</h2><p>骨是人体重要的器官之一，骨组织主要由骨细胞、胶原纤维和基质等构成，具有一定的形态，外被骨膜，内容骨髓，含有丰富的血管、淋巴管及神经；具有一定的功能，能不断进行新陈代谢和生长发育，并有修复、再生和重塑的能力。经常锻炼可促进骨的良好发育，长期废用则出现骨质疏松。骨基质中沉积有大量钙盐和磷酸盐，是人体钙、磷的储存库，参与体内钙、磷代谢。骨髓有造血功能。</p>
+<img src="/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/01.png" class title="01.png">
 <span id="more"></span>
-<h3 id="数字量输出"><a href="#数字量输出" class="headerlink" title="数字量输出"></a>数字量输出</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled.png" class title="Untitled">
+<h3 id="骨的形态"><a href="#骨的形态" class="headerlink" title="骨的形态"></a>骨的形态</h3><p>成人有206块骨，可分为颅骨、躯干骨和四肢骨三部分。前二者也称为中轴骨。按形态，骨可分为4类：</p>
 <ul>
-<li><strong>Tips</strong><ul>
-<li>管脚配置：<ul>
-<li>dSPACE的数字量引脚分为A、B两组，A组为基本DIO，B为高级DIO（只接受互补信号）</li>
-<li>基本DIO分为三个端口，每端口16个通道，可以设置为按组输出模式</li>
+<li><strong>长骨</strong>：呈长管状，分布于四肢，如尺骨和掌骨等。长骨分为一体两端, 体又称<strong>骨干</strong>，内有空腔称<strong>髓腔</strong>，容纳骨髓。体表面有1～2个血管出入的孔，称<strong>滋养孔</strong>。两端膨大称<strong>骺（hou）</strong>，有一光滑的关节面，与相邻关节面构成关节。</li>
+<li><strong>短骨</strong>：形似立方体，多成群分布于连结牢固且较灵活的部位，如腕骨和附骨。</li>
+<li><strong>扁骨</strong>：呈板状，主要构成颅腔、胸腔和盆腔的壁，起保护作用，如颅盖骨和肋骨。</li>
+<li><strong>不规则骨</strong>：形状不规则，如椎骨。有些不规则骨内有腔洞，称<strong>含气骨</strong>，如上颌骨。</li>
 </ul>
-</li>
-<li>输出配置：可配置为2.5\3.3\5V三种电平</li>
-<li>接受信号类型：布尔，或布尔向量（Matlab/Simulink默认类型为浮点型，对于输入需要加以数据类型转换）</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>两种修改数据类型的方法</p>
+<h3 id="骨的构造"><a href="#骨的构造" class="headerlink" title="骨的构造"></a>骨的构造</h3><img src="/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/02.png" class title="Untitled">
 <ul>
-<li>在模块中修改输出属性</li>
-<li>使用convert模块转换数据类型</li>
+<li><strong>骨质</strong>：由骨组织构成，分<strong>密质</strong>和<strong>松质</strong>。骨密质，质地致密，耐压性强，分布于骨的表面。骨松质，呈海绵状，由相互交织的骨小梁排列而成，配布于骨的内部，骨小梁按照骨所承受的压力和张力的方向排列，因而骨能承受较大的重量。颅盖骨表层为密质，分别称外板和内板，外板厚而坚韧，富有弹性，内板薄而松脆，故颅骨骨折多见于内板。内、外板之间为骨松质，称板障，有板障静脉经过。骨干与骺相邻的部分称干骺端，幼年时保留一片软骨，称<strong>骺软骨</strong>（<strong>骺板</strong>），骺软骨细胞不断分裂繁殖和骨化，使骨不断加长。成年后，骺软骨骨化，骨干与骺融为一体，其间遗留一<strong>骺线</strong>。</li>
+<li><strong>骨髓</strong>：充填于骨髓腔和骨松质间隙内。胎儿和幼儿的骨髓有<strong>造血功能</strong>，内含不同发育阶段的红细胞和某些白细胞，呈红色，称<strong>红骨髓</strong>。5岁以后，长骨骨干内的红骨髓逐渐被脂肪组织代替，呈黄色，称<strong>黄骨髓</strong>，失去造血能力。但在慢性失血过多或重度贫血时，黄骨髓能转化为红骨髓，恢复造血功能。在椎骨、髂骨、肋骨、胸骨及肱骨和股骨等长骨的骺内终生都是红骨髓，因此，临床常选髂前上嵴或髂后上嵴等处进行骨髓穿刺，检查骨髓象。</li>
+<li><strong>骨膜：</strong>除关节面的部分外，新鲜骨的表面都覆有骨膜。骨膜由纤维结缔组织构成，<strong>含有丰富的血管和神经</strong>，对骨的营养、再生和感觉有重要作用。骨膜可分为内、外两层，外层致密有许多胶原纤维束穿入骨质，使之固着于骨面。内层疏松有<strong>成骨细胞</strong>和<strong>破骨细胞</strong>，具有产生新骨质、破坏原骨质和重塑骨的功能，幼年期骨细胞功能活跃，促进骨的生长；成年时处于相对静止状态。但当骨发生损伤，如骨折时，骨膜又重新启动成骨功能，促进骨折的修复愈合。如骨膜剥离太多或损伤过大，则骨折愈合困难。<br>衬在骨髓腔内面和骨松质间隙内的骨膜称骨内膜, 是一层菲薄的结缔组织，也含有成骨细胞和破骨细胞，有造骨和破骨的功能。</li>
+<li><strong>骨的血管：</strong>长骨的动脉包括<strong>滋养动脉</strong>、<strong>干骺端动脉</strong>、<strong>骺动脉</strong>及<strong>骨膜动脉</strong>。滋养动脉是长骨的主要动脉，一般有1～2支，经骨干的<strong>滋养孔</strong>进入骨髓腔，分升支和降支达骨端，分支分布到骨干骨密质的内层、骨髓和干骺端，在成年人可与干骺端动脉及骺动脉的分支吻合。干骺端动脉和骺动脉均发自邻近动脉，从骺软骨附近穿入骨质。上述各动脉均有静脉伴行。不规则骨、扁骨和短骨的动脉来自骨膜动脉或滋养动脉。</li>
+<li><strong>骨的神经：</strong>伴滋养血管进入骨内，分布到血管周围间隙中，主要为内脏传出纤维，分布到血管壁；躯体传入纤维则多分布于骨膜。骨膜对张力或撕扯的刺激较为敏感，故骨脓肿和骨折常引起剧痛。</li>
 </ul>
-</blockquote>
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled1.png" class title="Untitled">
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled2.png" class title="Untitled">
-<h3 id="数字量输入"><a href="#数字量输入" class="headerlink" title="数字量输入"></a>数字量输入</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled3.png" class title="Untitled">
+<h3 id="骨的生长"><a href="#骨的生长" class="headerlink" title="骨的生长"></a>骨的生长</h3><p>骨根据发生，人体成骨的方式有两种，分为膜化骨和软骨化骨。</p>
 <ul>
-<li><strong>Tips</strong><ul>
-<li>管脚配置：dSPACE的所有数字量引脚均可设置为输入或输出模式，和输出一样可以配置为按组输</li>
-<li>为保证模块正常工作，输入模块后面必须接有其他模块</li>
+<li><strong>膜化骨</strong>：在结缔组织膜内出现骨化中心，成骨细胞不断分泌有机物胶原纤维和粘蛋白，同时无机盐不断沉积钙化，从而形成骨质。如颅骨中的一些扁形骨。</li>
+<li><strong>软骨化骨</strong>：人体的长骨、短骨和一些不规则骨，都属于软骨内成骨。在透明软骨的基础上逐渐骨化而成。</li>
 </ul>
-</li>
-</ul>
-<h3 id="数字量信号的管脚映射"><a href="#数字量信号的管脚映射" class="headerlink" title="数字量信号的管脚映射"></a>数字量信号的管脚映射</h3><blockquote>
-<p>ch1 - ch48  →  DB50 → 拓展板</p>
-</blockquote>
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/image-20211102025047013.png" class title="image-20211102025047013">
-<hr>
-<h3 id="模拟量输出和输入"><a href="#模拟量输出和输入" class="headerlink" title="模拟量输出和输入"></a>模拟量输出和输入</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/2221635676258_.pic.jpg" class title="2221635676258_.pic.jpg">
-<ul>
-<li><strong>Tips</strong><ul>
-<li>dSPACE有一组模拟量输出通道AO1，和两组模拟量输入通道AI1和AI2，AO1有16个通道，AI1包含24个通道，AI2有8个通道（32个输入，16个输出）；</li>
-<li>所有模拟量引脚均为BNC接口，其内芯为信号线，外部为地线/反相线，测量/输出电压均为两线之差；</li>
-<li>模拟量输入/输出范围均为-10V / +10V；</li>
-<li>dSPACE模拟量输入输出模块内部对电压进行了标准化，输出/输入的范围为-1/+1，<strong>即指令1代表输出10V电压</strong>，需要进行单位转换（输入信号需要放大10倍，输出信号需要缩小10倍）</li>
-</ul>
-</li>
-</ul>
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled5.png" class title="Untitled">
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled6.png" class title="Untitled">
-<hr>
-<h3 id="PWM输出和输入"><a href="#PWM输出和输入" class="headerlink" title="PWM输出和输入"></a>PWM输出和输入</h3><blockquote>
-<p><strong>dPSACE所有DIO1管脚（48个通道）都支持配置为PWM输入和输出模式</strong></p>
-</blockquote>
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled7.png" class title="Untitled">
-<ul>
-<li><strong>Tips</strong><ul>
-<li>输出指定周期、指定占空比的PWM信号，周期单位为秒，占空比范围0-1，1代表100%占空比（一条直线），二者都可以在线修改</li>
-</ul>
-</li>
-</ul>
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled8.png" class title="Untitled">
-<ul>
-<li>Tips<ul>
-<li>dSPACE中包含两种PWM输入模块，一种返回脉冲宽度时间（单位s），另一种返回PWM频率（Hz）和占空比（0-1）</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="Power-Supply"><a href="#Power-Supply" class="headerlink" title="Power Supply"></a>Power Supply</h3><img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/WechatIMG223.jpeg" class title="WechatIMG223.jpeg">
-<img src="/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/Untitled9.png" class title="Untitled">
-<ul>
-<li>Tips<ul>
-<li>dSPACE中包含两组电源输出，A组输出固定12V电压，不可被编程，上电即工作；B组为可调电压输出（2-20V），但输出功率较小；</li>
-<li>对于数字电路/模块供电的情况，在工作功率/电流极低的情况下，可以使用数字量输入输出引脚直接供电，<strong>功率模块禁止此操作</strong>；</li>
-<li><strong>任何涉及供电的配置、连线、测试务必十分小心！！！</strong></li>
-</ul>
-</li>
-</ul>
+<p>骨的生长是在膜内成骨和软骨内成骨的基础上进行的，使骨<strong>由小到大</strong>、<strong>由细变粗</strong>逐渐长成。现以长骨为例作以简要的说明：长骨的生长，包括<strong>长长</strong>和<strong>长粗</strong>两个过程。长粗是以膜内成骨的方式进行的，骨外膜内层的<strong>成骨细胞</strong>不断产生骨胶原，同时无机盐，不断沉积并钙化，<strong>使骨干不断增粗</strong>。而骨内膜中的<strong>破骨细胞则使骨髓腔扩大</strong>，使骨体增粗且保持一定的厚度。长骨的长长则依靠软骨内成骨来实现。<strong>骺软骨</strong>不断的产生又不断的骨化，<strong>使骨体不断的增长</strong>，当骺软骨完全骨化后，骨的长长则停止。</p>
 
     </div>
 
@@ -366,7 +298,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MicroLabBox教程 2 - dSPACE硬件接口 基础篇">https://jychennk.github.io/2021/06/12/dSPACE/dSPACE-02/dSPACE硬件接口 - 基础篇/</a>
+    <a href="https://jychennk.github.io/2022/02/02/%E7%94%9F%E7%89%A9%E5%8A%9B%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/" title="人体解剖学-骨学基础">https://jychennk.github.io/2022/02/02/生物力学/人体解剖学-骨学/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -377,7 +309,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/dSPACE/" rel="tag"># dSPACE</a>
+              <a href="/tags/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6/" rel="tag"># 人体解剖学</a>
           </div>
 
         
@@ -386,13 +318,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/06/11/dSPACE/dSPACE-01/Basic%20Info%20&%20Quick%20Start/" rel="prev" title="MicroLabBox教程 1 - Basic Info & Quick Start">
-      <i class="fa fa-chevron-left"></i> MicroLabBox教程 1 - Basic Info & Quick Start
+    <a href="/2022/01/01/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6/Chapter%202%20-%20%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80/" rel="prev" title="鲁棒控制 Chapter 2 - 线性代数基础">
+      <i class="fa fa-chevron-left"></i> 鲁棒控制 Chapter 2 - 线性代数基础
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/06/13/dSPACE/dSPACE-03/dSPACE%E7%A1%AC%E4%BB%B6%E6%8E%A5%E5%8F%A3%20-%20%E4%B8%AD%E7%BA%A7%E7%AF%87/" rel="next" title="MicroLabBox教程 3 - dSPACE硬件接口 中级篇">
-      MicroLabBox教程 3 - dSPACE硬件接口 中级篇 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -452,7 +381,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E9%87%8F%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">数字量输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E9%87%8F%E8%BE%93%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">数字量输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E9%87%8F%E4%BF%A1%E5%8F%B7%E7%9A%84%E7%AE%A1%E8%84%9A%E6%98%A0%E5%B0%84"><span class="nav-number">3.</span> <span class="nav-text">数字量信号的管脚映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E9%87%8F%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5"><span class="nav-number">4.</span> <span class="nav-text">模拟量输出和输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PWM%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5"><span class="nav-number">5.</span> <span class="nav-text">PWM输出和输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Power-Supply"><span class="nav-number">6.</span> <span class="nav-text">Power Supply</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%A8%E5%AD%A6%E6%80%BB%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">骨学总论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%A8%E7%9A%84%E5%BD%A2%E6%80%81"><span class="nav-number">1.1.</span> <span class="nav-text">骨的形态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%A8%E7%9A%84%E6%9E%84%E9%80%A0"><span class="nav-number">1.2.</span> <span class="nav-text">骨的构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%A8%E7%9A%84%E7%94%9F%E9%95%BF"><span class="nav-number">1.3.</span> <span class="nav-text">骨的生长</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
