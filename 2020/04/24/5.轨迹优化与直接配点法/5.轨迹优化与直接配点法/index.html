@@ -321,7 +321,7 @@ u \rightarrow u_{0} \ldots u_{k} \ldots u_{N} \\
 \dot{x} &=\nu \\
 \int_{t_{k}}^{t_{k+1}} \dot{x} d t &=\int_{t_{k}}^{t_{k+1}} \nu d t \\
 x_{k+1}-x_{k} & \approx \frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right)
-\end{aligned}</script><p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t<em>k$积分到时刻$t</em>{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h<em>k=(t</em>{k+1}-t_k)$。</p>
+\end{aligned}</script><p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t_k$积分到时刻$t_{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h_k=(t_{k+1}-t_k)$。</p>
 <p>我们把速度与作用力的动力学关系同样转化成上面的形式，忽略由梯形积分近似的误差，得到以下由配置点表示的约束方程：</p>
 <script type="math/tex; mode=display">
 \begin{array}{l}
@@ -353,7 +353,7 @@ x_{0}=0, & x_{N}=1 \\
 \boldsymbol{u}<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{u}_{k}<\mathbf{0} \quad \forall k\\
 \boldsymbol{g}(t, \boldsymbol{x}, \boldsymbol{u})<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{g}\left(t_{k}, \boldsymbol{x}_{k}, \boldsymbol{u}_{k}\right)<\mathbf{0} \quad \forall k\\
 \boldsymbol{h}\left(t_{0}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{u}\left(t_{0}\right)\right)<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{h}\left(t_{0}, \boldsymbol{x}_{0}, \boldsymbol{u}_{0}\right)<\mathbf{0} \quad 
-\end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point </em>用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t<em>{k}$，$h</em>{k}=t<em>{k+1}-t</em>{k}$）：</p>
+\end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point </em>用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t_{k}$，$h_{k}=t_{k+1}-t_{k}$）：</p>
 <script type="math/tex; mode=display">
 \boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/2020/04/24/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class>
 <p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。</p>

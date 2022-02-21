@@ -303,7 +303,7 @@ f_{\text {friction}}=\mu(v) f_{\text {normal}}</script><p>$\mu(v)$表示等效�
 <script type="math/tex; mode=display">
 \mathbf{f}(\mathbf{x}, \dot{\mathbf{x}}, \mathbf{u})=0</script><h2 id="肌骨模型的仿真应用"><a href="#肌骨模型的仿真应用" class="headerlink" title="肌骨模型的仿真应用"></a>肌骨模型的仿真应用</h2><h3 id="前向仿真"><a href="#前向仿真" class="headerlink" title="前向仿真"></a>前向仿真</h3><img src="/2020/04/26/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/1587828690595.png" class>
 <h3 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h3><p>逆向分析是指，在已有运动学、地反力数据后，根据实验数据推断出产生相应运动的肌肉活动，也就是OpenSim中的<strong>CMC</strong>。由于肌肉之间存在和比较严重的耦合问题，多块肌肉连接同一个关节，同一块肌肉连接着不同关节，因此逆向分析最重要的是解决肌肉冗余 - Solving the Muscle Redundancy Problem。</p>
-<p>在这个问题中，已有运动学数据$\mathbf{q}<em>k$和地反力$\mathbf{F}</em>{\mathbf{C}k}$序列，$k=1, \ldots, K$表示离散时间。我们先计算逆动力学得到关节力矩$T_{\mathbf{ID}k}$，关节力矩应当等于有肌肉收缩的等效力矩：</p>
+<p>在这个问题中，已有运动学数据$\mathbf{q}_k$和地反力$\mathbf{F}_{\mathbf{C}k}$序列，$k=1, \ldots, K$表示离散时间。我们先计算逆动力学得到关节力矩$T_{\mathbf{ID}k}$，关节力矩应当等于有肌肉收缩的等效力矩：</p>
 <script type="math/tex; mode=display">
 T_{\mathrm{ID} k}=\sum_{m=1}^{M} r_{m k} F_{\mathrm{T} m}+e_{\mathrm{T} k} T_{\mathrm{max}}</script><p>$m$表示肌肉序号，$r$表示肌肉对关节等效力矩。有时候关节力矩和肌肉里橘无法严格相等，因此我们添加了公式中的最后一项来表示力矩的残差，而$e_{\mathrm{T} k}$表示残差系数，在后面我们会设计优化目标是残差力尽可能的小。</p>
 <p>由此建立逆向分析的优化框架：</p>
