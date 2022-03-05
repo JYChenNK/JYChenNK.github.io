@@ -2299,10 +2299,10 @@ Angle_{acc}(k) =\begin{bmatrix} 1 & 0  \end{bmatrix}  \begin{bmatrix} Angle(k) \
 <p>下面给出<strong>卡尔曼滤波的递推公式</strong>，关于对卡尔曼滤波的理解，可以参考<a href="https://zhuanlan.zhihu.com/p/39912633">其他博客</a>。</p>
 <p>状态方程：</p>
 <script type="math/tex; mode=display">
-X(k+1)=AX(k)+BU(k)+Q(k)\\
-Y(k)=CX(k)+R(k)\\</script><p>状态一步预测：</p>
+X(k+1)=AX(k)+BU(k)+Q(k)</script><script type="math/tex; mode=display">
+Y(k)=CX(k)+R(k)</script><p>状态一步预测：</p>
 <script type="math/tex; mode=display">
-\hat X(k+1|k) = A\hat X(k|k)+BU(k)\\
+\hat X(k+1|k) = A\hat X(k|k)+BU(k)</script><script type="math/tex; mode=display">
 P(k+1|k)=AP(k|k)A^T+Q(k)</script><p>状态更新：</p>
 <script type="math/tex; mode=display">
 K(k+1)=P(k+1|k)C^T[CP(k+1|k)C^T+R(k+1)]^{-1}=\frac{P(k+1|k)C^T}{CP(k+1|k)C^T+R(k+1)}</script><script type="math/tex; mode=display">
