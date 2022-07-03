@@ -2464,12 +2464,12 @@ I_{m} & B \\
   </entry>
   <entry>
     <title>伯克利下肢外骨骼系统-结构与控制</title>
-    <url>/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/</url>
+    <url>/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/</url>
     <content><![CDATA[<p>BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。</p>
-<img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
 <span id="more"></span>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在平地上重物通常用轮式交通工具进行运输，而在复杂地形环境下常常会遇到阻碍，因此用腿式运动的方式进行物资运输具有很大的前景。BLEEX是第一个实现这种功能的机器人系统，它为穿戴者提供各种地形下搬运负载的能力。BLEEX由两条拟人化动力腿、一个电源供应器和一个累背包框架组成，其通过跟随穿戴者的运动或运动意图来实现负载的搬运与移动，好像为穿戴者佩戴上假肢一样。BLEEX通过借助机器人的驱动“力量”和人的导航“智慧”来实现非结构化、不确定地形上的重物搬运，作为一个多功能的运输平台，能够为士兵、救灾人员、消防员提供紧急物资的搬运能力。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png" style="zoom:80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580637468954.png" style="zoom:80%;"></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><blockquote>
 <p>在20世纪60年代早期，美国国防部表示有兴趣开发一种“人体放大器” - 一种增强士兵起重和携带能力的动力装甲。1962年，美国空军让康奈尔航空实验室(Cornell Aeronautical Laboratory)研究使用机器人系统实现人体放大器的可行性。在后来的研究中，康奈尔实验室设计了一种拟人形结构的机器人，并可以完成大多数想要完成的任务(Mizen 1965)，并将其命名为外骨骼。1960年到1971年，通用电气开发并测试了一个人体放大器的原型，称为哈迪曼(Hardiman)。哈迪曼是一套由人类操作员穿戴的外骨骼，外骨骼能够跟随人类操作员的运动。但这些研究发现，使用主从系统<strong>复制</strong>和<strong>放大</strong>人类的全部动作和是不现实的，人类感知的困难和系统的复杂性使它无法行走。</p>
 <p>上世纪六七十年代，贝尔格莱德大学(University of Belgrade)开发了几套外骨骼系统，用以帮助截瘫患者。虽然这些早期的设备仅限于预定义的动作，并且取得了有限的成功，但所开发的平衡算法仍在许多双足机器人中使用。<strong>RoboKnee</strong>是一种动力膝关节外骨骼，它与使用者的膝关节平行工作，并将载荷传递到使用者的脚踝(Pratt et al. 2004)。<strong>HAL</strong>是一种连接大腿和小腿的矫形器，它根据佩戴者发出的肌电信号移动病人的下肢(Kawamoto,Sankai 2002)。</p>
@@ -2479,25 +2479,25 @@ I_{m} & B \\
 </blockquote>
 <h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><h3 id="伪拟人化外骨骼整体结构"><a href="#伪拟人化外骨骼整体结构" class="headerlink" title="伪拟人化外骨骼整体结构"></a>伪拟人化外骨骼整体结构</h3><p>在外骨骼的结构设计中，通常会采用拟人化的设计思路，即将外骨骼与人体的<strong>自由度</strong>和肢<strong>体长度</strong>相匹配，使外骨骼的腿位置、关节轴线与人体完全一致。这种设计方案想法简单、自然，简化类似机械干涉的问题，但人体的关节运动(包含旋转和平移)无法通过简单技术来实现，且结构尺寸需和人体完全一致，可调节性差。而一些非拟人化的设计取得了很好的成功，例如自行车。非拟人化结构为外骨骼腿的设计带来更多的可能，但比较困难设计出与人腿功能类似的结构，同时安全性和机械干涉等问题也进一步增加了非拟人化结构的难度。</p>
 <p>为了最大化安全性同时最小化环境干涉，BLEEX采用一种接近接近拟人化(Pseudo-anthropomorphic)的结构，BLEEX的腿在运动学上与人类的腿相似，但又不包括人类腿的所有自由度。BLEEX的所有关节均为纯旋转关节，同时由于外骨骼与人体的运动学不完全一致，因此人体与外骨骼只有两处刚性接触（足和躯干），其他任何地方的刚性接触都会产生很大的力。伪拟人化使得BLEEX能够轻松适应不同的穿戴者。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png" style="zoom: 67%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580638847708.png" style="zoom: 67%;"></p>
 <h3 id="BLEEX外骨骼的自由度与关节设计"><a href="#BLEEX外骨骼的自由度与关节设计" class="headerlink" title="BLEEX外骨骼的自由度与关节设计"></a>BLEEX外骨骼的自由度与关节设计</h3><p>BLEEX的每条腿具有7个自由度：</p>
 <ul>
 <li>髋关节3自由度</li>
 <li>膝关节1自由度（矢状面上的纯转动）</li>
 <li>踝关节3自由度</li>
 </ul>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png" style="zoom: 67%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png" style="zoom:67%;"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580641561202.png" style="zoom: 67%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580642587844.png" style="zoom:67%;"></div></div></div></div>
 <p>人的髋关节是一个球窝关节，具有三个自由度。因此一个很自然的想法是设计一个三轴轴线通过人体髋关节球窝的外骨骼。但通过一些前期的样机和实验发现，这种结构存在奇异性（欧拉角）和运动角度限制的问题，因此最终BLEEX的髋关节设计成上图所示形式：两条腿的旋转轴合并为后侧一个单轴，并在每条外骨骼的腿上增加一个不通过人体髋关节球窝的附加旋转轴；外骨骼的外展/内收轴（hip abduction/adduction）和伸展/弯曲轴（flexion/extension）的轴线都通过人体髋关节。</p>
 <p>人体的膝关节是一个复合旋转和平移的复杂关节，BLEEX膝关节选择一个纯旋转关节使得设计简化并增加鲁棒性，同时方便动态建模。</p>
 <p>对于踝关节，为了简化设计，BLEXX的踝关节只有伸展/弯曲轴通过人体的踝关节。同时BLEEX为前脚掌增加了一个自由度（柔性），使得外骨骼与人体的脚掌更加贴合。</p>
 <h3 id="关节的运动范围"><a href="#关节的运动范围" class="headerlink" title="关节的运动范围"></a>关节的运动范围</h3><p>BLEEX的运动学接近于人体的运动学，因此BLEEX的关节活动范围由人体关节活动范围所决定。BLEEX的关节运动范围应当大略大于人体正常行走时的关节运动范围，同时安全性又要求BLEEX的关节运动范围应小于人体关节的最大活动角度，如表1所示。</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png" style="zoom:100%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png" style="zoom:40%;"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580643507721.png" style="zoom:100%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644405911.png" style="zoom:40%;"></div></div></div></div>
 <h3 id="辅助关节与驱动方式"><a href="#辅助关节与驱动方式" class="headerlink" title="辅助关节与驱动方式"></a>辅助关节与驱动方式</h3><p>出于控制和效率的考虑，只有部分关节是被驱动的，而其余的关节为顺从（被动）关节。驱动关节的选择是从功率角度进行考虑：踝关节和髋关节的弯曲/伸展运动在步态运动中做比较多的正功；膝关节虽然在步态运动中更多的起到能量吸收的作用，但在上下楼梯时是做最主要的做功关节；除此之外，髋关节的外展/内收运动提供主要的侧向平衡力，因此也作为驱动关节之一。最终BLEEX的每条腿具有四个驱动关节，如上右图所示。</p>
 <p>BLEEX采用液压驱动，具有体积小、重量轻、驱动力大等优点，但设计非常复杂。BLEEX的液压系统能够支持在75Kg的负载（包含外骨骼）下以1.3m/s的速度前进，相应的驱动功率为2.27KW。</p>
 <h3 id="模块化结构部件设计"><a href="#模块化结构部件设计" class="headerlink" title="模块化结构部件设计"></a>模块化结构部件设计</h3><p>整体模型如图9所示：</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png" style="zoom:67%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644937819.png" style="zoom:67%;"></p>
 <h4 id="关节设计"><a href="#关节设计" class="headerlink" title="关节设计"></a>关节设计</h4><p>BLEEX所有的关节具有统一的结构，但每个关节的驱动位置不同，类模块化的设计方便加工和装配。</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png" style="zoom:45%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png" style="zoom:100%;"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580644875143.png" style="zoom:45%;"></div><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580645648736.png" style="zoom:100%;"></div></div></div></div>
 <h4 id="足部设计"><a href="#足部设计" class="headerlink" title="足部设计"></a>足部设计</h4><p>BLEEX的足部是一个非常重要的部分（也是出液压驱动外设计最复杂的部分），因其所包含的诸多功能：</p>
 <ul>
 <li>它将外骨骼和负载的重量传递到地面上，因此要保证结构完整性和长寿命</li>
@@ -2507,22 +2507,22 @@ I_{m} & B \\
 </ul>
 <p>如图11所示，BLEEX足部的主要结构由刚性的脚跟和柔性的前脚掌组成，具有三层结构。刚性脚跟用来传递力与载荷，柔性脚掌使穿戴者更舒适。顶层结构用来固定穿戴者的鞋子，底层结构含有足底开关用来检测脚与地面接触的状态，中层含有压力传感器用来测量人体与地面之间的压力（不包含外骨骼的作用力）。这些测量数据用于外骨骼的实时控制。</p>
 <h4 id="大腿和小腿设计"><a href="#大腿和小腿设计" class="headerlink" title="大腿和小腿设计"></a>大腿和小腿设计</h4><p>BLEEX的大腿和小腿主要用来连接和结构支撑，这两者都被设计为可调节的结构，以方便适应不同的穿戴者。为了使液压回路最小化，设计了在阀门、执行机构、供应和回油管路之间的流体回路。</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png" style="zoom: 67%;"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647405832.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647416350.png" style="zoom:67%;"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580647498568.png" style="zoom: 67%;"></div></div></div></div>
 <h4 id="躯干设计"><a href="#躯干设计" class="headerlink" title="躯干设计"></a>躯干设计</h4><p>躯干的前侧装有操作员佩戴的安全带，这是与穿戴者的第二个刚性附着点。一般来说，绑带是由一个弯曲的，刚性的后板连接到躯干。它还包括舒适的背包状背带，可以抓住操作员，并将任何力量分配到操作员的躯干、胸部、肩膀和上背部。与大多数活动的背带不同，外骨骼背带必须在任何方向上分配力和力矩。理论上在完美的控制下在操作员和机器之间只需要转移平衡负载，但是在控制器开发期间绑带需要承受任何可能的负载。</p>
-<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
+<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
 <hr>
 <h2 id="控制策略"><a href="#控制策略" class="headerlink" title="控制策略"></a>控制策略</h2><p>BLEEX下肢外骨骼的有效性来自于穿戴者提供的人类智能和外骨骼提供的力量优势。换句话说，人类为外骨骼提供了一个智能控制系统，而外骨骼执行器提供了行走所需的大部分力量。控制算法确保外骨骼与穿戴者之间的协调运动，使两者之间的相互作用力最小。控制器不需要直接测量人机之间的交互力；相反，控制器只根据外骨骼自身的测量数据来估计如何移动才能让穿戴者感受到很小的力量。该控制方案之前从未应用于任何机器人系统，是在穿戴者与外骨骼的接触位置未知且不可预测的情况下产生运动的有效方法。该控制方法不同于应用于上肢外骨骼和触觉系统的柔顺控制方法，因为它不需要穿戴者与外骨骼之间的力传感器。</p>
 <p>BLEEX控制的基本原理是：<strong>外骨骼需要快速且无延迟地跟踪穿戴者的自主和非自主运动</strong>。这需要对外骨骼上的力和力矩进行高灵敏性的响应，尤其是那些由穿戴者作用在外骨骼上的力。在闭环反馈系统的设计中，这一需求与控制科学中最小化系统灵敏度的目标发生冲突。如果外骨骼的灵敏度较低，它就无法与佩戴者协调运动；而提高系统对外部力和力矩的灵敏度，则会导致系统鲁棒性的损失。</p>
 <p>考虑到这个新方法，我们的目标是开发一个高灵敏度的BLEEX控制系统，在这过程中面临两个现实的问题。第一问题是，外骨骼对外部力和扭矩的高灵敏度会对穿戴者以外的力做出反应。例如，如果有人推一个具有高灵敏度的外骨骼，外骨骼就会像它在穿戴者的控制下一样移动。尽管这种对于外力不稳定的行为听起来像一个严重的问题，当其发生时，穿戴者可以通过主动的控制来抵抗这些非期望的运动。稳定外骨骼并的关键在于穿戴者自身的快速移动，为自己和外骨骼创造一个稳定的环境。因此需要设计一个非常宽的控制带宽，这样外骨骼才能即使响应穿戴者的自愿和非自愿运动（对扰动的反应）。第二个问题是，对外力和扭矩的高灵敏度的系统对变化不具有鲁棒性，因此系统性能的精度将取决于外骨骼动态模型的精度。这是一个严重的缺点，但我们认为是不可避免的。尽管如此，我们实验室的各种实验已经证明了该控制方法在跟踪穿戴者运动方面的有效性。</p>
 <h3 id="灵敏度放大控制"><a href="#灵敏度放大控制" class="headerlink" title="灵敏度放大控制"></a>灵敏度放大控制</h3><h4 id="单自由度情况"><a href="#单自由度情况" class="headerlink" title="单自由度情况"></a>单自由度情况</h4><p>接下将从单自由度情况对控制算法进行分析。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png" style="zoom: 80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580829876938-8447654.png" style="zoom: 80%;"></p>
 <p>图2所示为人腿与一自由度外骨骼的连接情况，其中外骨骼腿为一个围绕关节旋转的刚性连接，并由一个驱动器驱动，能够在A点产生一个力矩。穿戴者除了脚与外骨骼相连外，身体的其他地方也可以与外骨骼相连接，这些连接的位置和作用力的方向可以未知的。穿戴者作用在外骨骼上的等效力矩用 $d$ 表示。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png" style="zoom:80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580831833133-8447654.png" style="zoom:80%;"></p>
 <p>图三表示在不考虑重力作用下，外骨骼的动力学特性：</p>
 <script type="math/tex; mode=display">
 v=Gr+Sd</script><p>$v$为外骨骼的角速度，$r$为驱动器输入（力矩），$G$为$r$到$v$的传递函数。$S$表示等效交互力矩$d$到外骨骼速度$v$之间的传递函数，也称为灵敏度函数。<strong>灵敏度函数表示等效交互力矩$d$与外骨骼速度$v$之间的映射关系，灵敏度函数的幅值越大则交互力越容易改变外骨骼的速度；当灵敏度函数非常大时，很小的交互力就可以产生很大的速度，换而言之人机之间的交互力会很小</strong>。如果执行机构已经有某种主要的稳定控制器，那么人机之间的交互力矩对稳定控制器而言是外界扰动，交互力矩对外骨骼的影响将会变小，新系统下灵敏度函数的幅值也会减小。</p>
 <p>注意到等效交互力矩$d$并不是一个外部输入，它是关于外骨骼穿戴者生物力学和动力学的函数。控制器设计的目标是尽可能的减少等效交互力矩。一种直接的思路是对d进行测量，然后设计相应的控制器，但在我们的前期试验中发现，现有传感器技术无法做到力矩的准确测量，同时也会给系统的设计和成本带来很多问题。因此我们想通过非直接测量的方式来实现我们的控制目标。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png" style="zoom:80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580834475727-8447654.png" style="zoom:80%;"></p>
 <p>考虑为外骨骼设计一个负反馈控制器$C$，如图4所示。则在反馈回路下，新的灵敏度函数为：</p>
 <script type="math/tex; mode=display">
 S_{N E W}=\frac{v}{d}=\frac{S}{1+G C}</script><p>可以看出在负反馈控制下，$1+G C&gt;1$，因而总是有$S_{N E W} \leq S$。</p>
@@ -2534,14 +2534,14 @@ C=\left(1-\alpha^{-1}\right) G^{-1}</script><p>其中$\alpha$为大于1的方法
 <h4 id="参数变化的鲁棒性"><a href="#参数变化的鲁棒性" class="headerlink" title="参数变化的鲁棒性"></a>参数变化的鲁棒性</h4><p>看出这种控制器严重依赖模型，当模型不准确时，控制器的性能较差。当模型存在10%的不确定时，灵敏度函数的不确定性达到90%。因此要想要使这种方法有比较好的效果，就必须对外骨骼的动力学模型有深刻的理解。这种方法可以看做是传感与控制之间一种tradeoff：若想不依赖交互力的信息，则必须要有准确的模型。这种方法本身不具备稳定性，系统的稳定是由穿戴者自身的控制来实现，接下来我们将进一步说明。</p>
 <h4 id="人体动力学"><a href="#人体动力学" class="headerlink" title="人体动力学"></a>人体动力学</h4><p>在所涉及的控制方案中，不需要考虑穿戴者肢体模型的内部组成：神经传导、肌肉收缩以及中枢神经系统的详细动态过程，这些在构建飞行员肢体的动态模型时被隐式地考虑。假设穿戴者与外骨的人机交互力是关于穿戴者人体的动力学$H$和运动学的函数，这里认为$H$是一个非线性函数并表示穿戴者的运动学与交互阻抗之间的关系：</p>
 <script type="math/tex; mode=display">
-d=-H(v)</script><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png" style="zoom:80%;"></p>
+d=-H(v)</script><p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580849529486-8447654.png" style="zoom:80%;"></p>
 <p>考虑人体动力学之后，人机系统就可以看过是一个双闭环的系统，如上图所示。上层反馈环路展示穿戴者的交互力对外骨骼的影响，底层环路展示反馈控制器对外骨骼的作用。尽管下面环路中的控制器是一个不稳定的正反馈，但上面环路中穿戴者的操控可以使整个系统得以稳定。也就是说，系统的稳定性取决于人体的平衡能力，人的平衡能力越强，那就可以设计更加不稳定的控制器，使人承受更多的重量，为此，作者Kazerooni改用尼采的名言来描述这种方法：</p>
 <blockquote>
 <p><strong>That which does not stabilize, will only make us stronger.</strong></p>
 </blockquote>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/v2-8369d023b420645ae1a71d284f884ba4_1440w.jpeg" style="zoom:50%;"></p>
 <h3 id="控制算法的实现"><a href="#控制算法的实现" class="headerlink" title="控制算法的实现"></a>控制算法的实现</h3><p>在一般的步态分析中，步态周期通常被划分为7个阶段。在本文的方法中，出于简单考虑我们将其分为具有不同动力学模型的3个阶段：单支撑阶段、双支撑阶段和有冗余的双支撑阶段，最后一个是指后侧脚后跟抬起的状态，如图8所示：</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png" style="zoom:90%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580850923188-8447654.png" style="zoom:90%;"></p>
 <p>在控制器设计的初期，我们将髋关节外展/内收的控制与其他的控制进行了解耦。髋关节的外展/内收运动相对缓慢，与矢状面运动相比，外展-内收运动可视为准静态运动，对系统其余部分的动态影响较小；这也表明外骨骼矢状面上的动力学只受髋关节外展/内收角影响，而与其速度、加速度无关。</p>
 <h4 id="单支撑阶段"><a href="#单支撑阶段" class="headerlink" title="单支撑阶段"></a>单支撑阶段</h4><p>在单支撑阶段，我们将BLEEX建模为矢状面上7自由度的连杆机构，如图10所示。动力学模型可以表示为：</p>
 <script type="math/tex; mode=display">
@@ -2549,8 +2549,8 @@ M(\theta) \ddot{\theta}+C(\theta, \dot{\theta}) \dot{\theta}+P(\theta)=T+d</scri
 <p>则控制器的控制可表示为：</p>
 <script type="math/tex; mode=display">
 T=\hat{P}(\theta)+\left(1-\alpha^{-1}\right)[\hat{M}(\theta) \ddot{\theta}+\hat{C}(\theta, \dot{\theta}) \dot{\theta}]</script><p>其中第一项可以理解为对重力作用的补偿，后面一项为正反馈项。在理想情况下，放大系数较大时，交互力矩近似接近于零；每当人机之间存在交互力时，控制器控制电机迅速产生驱动作用补偿由模型估计的交互力，使得交互力维持在一个很小的水平。</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png" style="zoom:67%;"></p>
-<h4 id="双支撑阶段"><a href="#双支撑阶段" class="headerlink" title="双支撑阶段"></a>双支撑阶段</h4><p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png" style="zoom:67%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580851493579-8447654.png" style="zoom:67%;"></p>
+<h4 id="双支撑阶段"><a href="#双支撑阶段" class="headerlink" title="双支撑阶段"></a>双支撑阶段</h4><p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1580853229872-8447654.png" style="zoom:67%;"></p>
 <p>在双支撑阶段，BLEEX的两条腿与地面均有接触与力的作用。外骨骼被建模为两个三自由度平面连杆并在顶轴相连接，如图11所示。动力学模型表示为如下形式：</p>
 <script type="math/tex; mode=display">
 M_{L}\left(m_{T L}, \theta_{L}\right) \ddot{\theta}_{L}+C_{L}\left(m_{T L}, \dot{\theta}_{L}, \theta_{L}\right) \dot{\theta}_{L}+P_{L}\left(m_{T L}, \theta_{L}\right)=T_{L}+d_{L}</script><script type="math/tex; mode=display">
@@ -2568,15 +2568,15 @@ T_{R}=\left[\begin{array}{lll}{T_{R 1}} & {T_{R 2}} & {T_{R 3}}\end{array}\right
 <p>在步态运动的过程中，摆动腿运动范围大但只需要支撑自己的重量，支撑腿的运动范围小但却需要支撑整个躯干和负载的重力；反应到控制中，摆动腿需要相对小的力矩和相对高的带宽，而支撑腿需要相对大的力矩和相对低的带宽。基于这个观点，我们在BLEEX中采用混合控制：支撑阶段采用位置控制，而摆动阶段采用灵敏度放大控制。因此，鲁棒稳定性（支撑阶段的位置控制）和对穿戴者人机交互力的高灵敏性（摆动阶段的灵敏度放大控制）能够在BLEEX上同时得以实现。</p>
 <h4 id="摆动阶段：灵敏度放大控制"><a href="#摆动阶段：灵敏度放大控制" class="headerlink" title="摆动阶段：灵敏度放大控制"></a>摆动阶段：灵敏度放大控制</h4><p>在摆动阶段采用灵敏度放大控制，正如如上所述，其中只采用摆动阶段的建模与控制。</p>
 <h4 id="支撑阶段：位置控制"><a href="#支撑阶段：位置控制" class="headerlink" title="支撑阶段：位置控制"></a>支撑阶段：位置控制</h4><p>在支撑阶段，控制器使外骨骼的关节角度跟踪穿戴者的关节角度，控制结构图如下：</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png" style="zoom:80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258656321.png" style="zoom:80%;"></p>
 <p>理想情况下，当角度误差为零时，人机之间的交互力矩也近似为零。控制器的实现采用比例控制：</p>
 <script type="math/tex; mode=display">
 T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关节，采用独立的控制器进行控制：</p>
-<p><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png" style="zoom:80%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259115805.png" style="zoom:80%;"></p>
 <p>在单关节（膝关节）情况下的控制效果如下所示（采样周期25ms），在低频时有不错的跟踪效果：</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png" class></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258867007.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581258884955.png" class></div></div></div></div>
 <p>在进行位置控制时，有两点需要注意。第一个问题是外骨骼与人体之间必须为柔顺连接，如图6所示。当人体想要进行运动时，其必须要很容易就能移动，也就是人机之间的阻抗应当很小，这样才能够产生位置误差，进而使外骨骼跟随；当人机之间为图11所示刚性连接时，穿戴者需要同时移动自己和外骨骼，此时人机之间的关节角误差将始终为零，同时交互力矩也将会很大。</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2021/11/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png" class></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259199208.png" class></div><div class="group-picture-column" style="width: 50%;"><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/BLEEX/1581259345430.png" class></div></div></div></div>
 <p>另外一个问题是外骨骼关节角与人体关节角之间的差异，由于BLEEX是拟人化设计，角度差异所导致的影响比较小，因此就没有专门进行处理。</p>
 <blockquote>
 <p>在研究的前期阶段，研究人员有尝试在步态的整个过程都使用位置控制，但很快发现这种方法在摆动阶段并不合适。穿戴者需要主动移动躯干才能使外骨骼前进，因此外骨骼的行走过程非常不自然，同时穿戴者感觉也非常不舒服。</p>
@@ -2599,48 +2599,48 @@ T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关�
   </entry>
   <entry>
     <title>下肢外骨骼系统简介</title>
-    <url>/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/</url>
+    <url>/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<p>可穿戴机器人是人类长久以来的梦想，它能够像衣服一样方便的穿戴在身体上。通过外骨骼的辅助，穿戴者能够实现原本难以实现或不可能实现的任务。根据设计目的和应用领域，外骨骼可主要分为三类：辅助外骨骼、康复外骨骼和增强型外骨骼。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606959581158.png" class title="|center">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606959581158.png" class title="|center">
 <span id="more"></span>
 <p>辅助外骨骼<code>Assistive Exoskeleton</code>通常用来弥补穿戴者已经丧失的能力，使其在辅助下能够完成基本的日常活动，其作用类似于假肢。例如对于脊髓损伤的患者，辅助外骨骼能够帮助他们重新行走。这类外骨骼较多采用位置控制策略，并且需要较高的控制精度，因为穿戴者完全没有运动能力；控制器中会预先设定好不同模式的运动轨迹，由穿戴者的运动意图触发，在不同的模式之间切换。</p>
 <p>康复外骨骼<code>Rehabilitation Exoskeleton</code>通常用来帮助恢复穿戴者受损伤的能力，使穿戴者能最终能够不借助外骨骼完成基本的日常活动。这类外骨骼通常需要在线调整控制策略，使外骨骼仅在“需要”时进行辅助，并随着穿戴者能力的提升逐渐减小辅助。控制上也有部分预定义的运动轨迹，因为穿戴者在康复时需要正确的运动轨迹进行指引，同时控制系统也会根据穿戴者的实际反应进行调整。在康复外骨骼的设计中，尺寸重量便携性一般不作考虑，大部分康复外骨骼系统都是固定在跑步机上，并在医生监督下使用。</p>
 <p>最后一类下肢外骨骼是用来增强人体能力<code>Augmentation Exoskeleton</code>，设计理念可以用一句话概括：<code>making the user superman.</code>增强型外骨骼通常装备在健康个体身上，因此预定义轨迹的策略不再适用，外骨骼大多跟随穿戴者的肢体运动，例如采用阻抗/导纳控制甚至基于正反馈的灵敏度放大控制。由于穿戴者本身具备运动能力，因此这类外骨骼通常采用非精确但有高能量密度的驱动器，如串联弹性驱动<code>SEA</code>、液压驱动等。</p>
 <p>由于不同类别的外骨骼有着完全不同的目的，结构设计、控制策略都有所不同，接下来我们对每个类别的外骨骼进行简单讨论。</p>
-<h2 id="辅助型外骨骼"><a href="#辅助型外骨骼" class="headerlink" title="辅助型外骨骼"></a>辅助型外骨骼</h2><img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606959610532.png" class title="|center">
+<h2 id="辅助型外骨骼"><a href="#辅助型外骨骼" class="headerlink" title="辅助型外骨骼"></a>辅助型外骨骼</h2><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606959610532.png" class title="|center">
 <p>辅助外骨骼主要用于脊髓损伤<code>spinal cord injury(SCI)</code>患者。大部分胸椎级别的脊髓损伤患者永久失去了行走能力，只能通过轮椅进行移动。然而轮椅的可达范围是非常有限的，长时间保持坐立状态也会带来很多健康问题，例如压疮、骨结节、下肢骨密度降低等，因此需求一种能够帮助穿戴者保持直立并有良好移动性的辅助设备。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606960023906.png" class title="|center">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606960023906.png" class title="|center">
 <p>辅助性外骨骼一般是采用层次控制器，实际上大部分外骨骼系统都是采用层次控制器。由于SCI患者完全失去了运动能力，因此基本上不需要考虑人机交互问题，外骨骼辅助能够使穿戴者完成基本运动即达到目标，因此辅助性外骨骼的控制通常采用位置控制策略。由于穿戴者没有运动能力，所以需要先识别出穿戴者的运动意图，如“前进”、“停止”等。除了额外的操作手柄外，目前商业化的辅助外骨骼较多采用IMU或足底压力数据来进行模式分类，这些信号在用于识别运动意图时有较好的效果，除此之外还有使用EMG信号和EEG信号来判断运意图，但都有一定的局限性，如个体差异、穿戴复杂等，甚至对于SCI患者，其下肢肌肉可能不存在EMG信号。</p>
 <p>当意图识别完成后，上层控制器会根据任务目标生成相应的期望轨迹，这些轨迹往往是根据任务预先定义好的。由于人的步态运动有着支撑、摆动不同的阶段，每个阶段都有不同的动力学模型，因此上层控制器会经过有限状态机来判断当前的步态状态，然后在根据步态状态和任务需求来生成轨迹。底层控制器根据随设定的轨迹进行闭环控制，大部分采用PID，有时也会加入迭代学习来提高跟踪精度。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606960068092.png" class title="|center">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606960068092.png" class title="|center">
 <p>辅助型外骨骼最大的挑战是保证人机系统的平衡，可以说现有的外骨骼系统基本没有做到完全意义上的平衡控制，像Ekso、ReWalk这样的商业外骨骼也都是搭配了拐杖进行辅助。MindWalker通过类似ZMP的方法来防止跌倒，但依然没有实现完全的自平衡。自平衡问题的难点来自于两部分：一是外骨骼系统欠驱动特性，人的每条腿有6个自由度，部分冗余的自由度提高了人类运动时的稳定性，但大部分外骨骼为了简化设计都选择忽略部分自由度，这种简化设计造成系统的欠驱动；另一方面，机器人领域中为实现双足机器人的步态运动需要对系统进行精确建模，但在外骨骼领域中现有的技术难以实现对人机系统参数的精确测量。</p>
 <h2 id="康复外骨骼"><a href="#康复外骨骼" class="headerlink" title="康复外骨骼"></a>康复外骨骼</h2><p>康复外骨骼是用来帮助恢复穿戴者受损伤的能力，使穿戴者能最终能够不借助外骨骼完成基本的日常活动。对于脊髓损伤患者，其运动能力的丧失一般是由于神经回路的损伤，而脑卒中患者一般是由于部分脑区受到损伤。不同于人体的骨骼和肌肉，人的神经损伤是永久性的，一旦受损就没有复原的可能。但循证医学发现，在一些连接通路断了之后，通过大量的、重复的、高强度的训练，能够重新构建出新的连接通路，甚至是重新构建一些脑区的连接，这叫神经体统的可塑性<code>Neuroplasticity</code>。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606961554639.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606961554639.png" class title="Alt text">
 <p>为了重建出新的连接来替代原来损伤的通路，需要进行大量的、重复的、高强度的神经康复训练<code>Neurorehabitation</code>。这样的康复训练往往需要多个理疗师来协助患者进行运动，康复的效果很大程度上取决于理疗师辅助的力量，对理疗师的体力有很高的要求。在中国，每年新增脑卒中患者200万，而现有的康复理疗师数量远远不能满足需要，所以我国的脑卒中致死率和致残率都远远高于美国和欧洲。因此使用康复外骨骼代替理疗师对患者进行康复训练成为了很大的需求。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/120201203_102740.gif" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/120201203_102740.gif" class title="Alt text">
 <p>在康复外骨骼的设计中，尺寸重量便携性一般不作考虑，大部分康复外骨骼系统都是固定在跑步机上，并在医生监督下使用。因为和辅助型外骨骼一样没有很好的平衡控制策略，因此在躯干处会连接一些支撑结构以承担体重。康复外骨骼所面对的是运动能力较弱或有有障碍的患者，其具有一定的自主运动能力，因此辅助型外骨骼中的位置控制策略不再适用。实际上，康复外骨骼一大核心问题就是辅助的柔顺性，所谓的柔顺是指人机之间交互力应当是平稳连续且舒适的，而不是剧烈变化或大到难以承受。有两种方法增加柔顺，在人机之间增加弹簧，或是通过控制算法来模拟一种柔顺特性。例如当患者穿戴外骨骼进行步态运动时，控制器预先定义好一条关节轨迹，当患者的运动轨迹与设置轨迹完全重合时，外骨骼不提供辅助，而当患者的运动轨迹与预定轨迹偏离时，外骨骼提供辅助，偏离位置越大辅助力也越大，形式上如同在关节上施加了一个虚拟的弹簧，这样方法叫做阻抗控制。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962702446.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962702446.png" class title="Alt text">
 <p>在康复外骨骼中，辅助并不是目的，目的是康复，需要让患者尽最大努力去参与到康复训练中。单纯采用阻抗控制方法容易使患者陷入一种被动的运动中，患者不再积极主动的进行训练，而是对辅助产生依赖。为了提高康复效果，辅助策略一般需要进行在线调整，仅在患者需要的时候进行辅助，并且随着患者的恢复逐渐降低辅助水平，这种策略叫做Assisted as Need。一般是通过定义一些目标函数，结合简化的人机交互模型，在维持运动目标的前提下最大化人体输出，或是最小化外骨骼输出。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962724477.png" class title="Alt text">
-<h2 id="增强型外骨骼"><a href="#增强型外骨骼" class="headerlink" title="增强型外骨骼"></a>增强型外骨骼</h2><img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962804430.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962724477.png" class title="Alt text">
+<h2 id="增强型外骨骼"><a href="#增强型外骨骼" class="headerlink" title="增强型外骨骼"></a>增强型外骨骼</h2><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962804430.png" class title="Alt text">
 <p>以上讨论的两种外骨骼都是面向有运动功能障碍的患者，增强型外骨骼的用户为健康人，通过外骨骼来增强或放大穿戴者的一些能力。增强型外骨骼主要存在两个分支，或者说是两种研究思路。第一种外骨骼是面向任务型的，可以让穿戴者在搬运重物的时候感受到的重量只有实际重量的十分之一，帮助护士去搬运病人或者是帮助士兵搬运弹药。这样的外骨骼必须是全下肢的，且主体为刚性结构，这样外部的负重才能够通过通过外骨骼结构传导到地面上，从而减轻人的负担。另一种是面向用户的，外骨骼仅辅助人体本身，多数情况下仅在部分关节施加辅助，其效果相当于给人增加了额外的肌肉，穿戴者依然需要自己需完成特定的任务，但在辅助下会轻松很多，但外界作用力最终还是需要经过人体。这一类外骨骼以Harvard大学Conor研究组的柔性外骨骼最为典型，可以做到轻型、便携、舒适。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962871187.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962871187.png" class title="Alt text">
 <p>面向任务型的外骨骼有两款比较出名的设计，一个是美国的BLEEX，一个是日本的HAL。先来说一下伯克利下肢外骨骼，Kazerooni等人对BLEEX的定位是可移动负载搬运全下肢外骨骼，它将外骨骼上的负载重量通过外骨骼的机械结构传递到地面上，而让人感觉不到这些重量的存在，同时能够跟随人体运动。它的每条腿有4个驱动自由度，驱动方式为液压驱动，髋关节两个，膝关节和踝关节各一个，其余没有驱动的方向上均为被动自由度。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962901455.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606962901455.png" class title="Alt text">
 <p>在控制上，BLEEX的研究人员提出了一种灵敏度放大控制的方法，这种方法能够在不测量人机交互力的情况下使外骨骼能够跟随人体的运动。考虑一个单自由度的情况，外骨骼的机械结构受到驱动器和人体共同作用，我们用一个控制框图来表示，其中r表示驱动器的输出力矩，d表示人体的作用力矩，G和S分别是相应对于单自由度关节角速度的传递函数。对于典型的控制系统，我们一般是要设计负反馈控制，使系统保持稳定或跟随特定目标，这时人体对于外骨骼的作用力对控制系统而言是外部扰动，是控制系统需要克服的对象。在负反馈闭环系统下人体作用力矩到关节速度的传递函数Snew相对原来的S变小，从外骨骼的角度看，外骨骼更不容易受到人的影响，但从人体的角度来看，外骨骼变得铁板一块，没办法被控制。对于负载搬运外骨骼而言，其设计目的是为了让外骨骼跟随人体运动，让人感受不到外骨骼的存在，因此灵敏度放大控制将负反馈变成了正反馈，控制系统不再抑制扰动，而是放大扰动，新的传递函数也因此变大，人体更够更轻易的影响外骨骼。</p>
 <p>说到这，学控制的同学可能坐不住了，这样一个正反馈系统怎么能够保证系统的稳定性呢？的确，这样的控制系统的确是不稳定的，但对于一个人机交互系统而言，不仅有外骨骼的控制回路，还有人体的控制回路，虽然控制系统不稳定，但如果人体能够控制的住外骨骼，那整个人机交互系统就是稳定的。也就是说，系统的稳定性取决于人体的平衡能力，人的平衡能力越强，那就可以设计更加不稳定的控制器，使人承受更多的重量，因此Kazerooni改用尼采的名言来描述这种方法，那些不稳定的，都使我们更加强大。</p>
 <blockquote>
 <p><strong>That which does not stabilize, will only make us stronger.</strong></p>
 </blockquote>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963028047.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963028047.png" class title="Alt text">
 <p>但在实际系统中，外骨骼受到的扰动不仅来自穿戴者的运动意图，还有来自外界真正的干扰，比如说外骨骼被人踹了一脚。控制系统并不能分辨哪些扰动是人体的，哪些是外界的，因此一并进行了放大，因此穿戴者不仅需要去维持一个系统的稳定，还要去抵抗被放大了的外界扰动。天下没有免费的午餐，想要承担更多的重量，就必须花费更多的力气去维持系统稳定，甚至这些力气可能比减轻了的重量还多。在第二年他们又提出了混合控制的策略，在步态的摆动相采用灵敏度放大控制，支撑相采用角度控制。但在这种混合控制策略下，外骨骼的最高移动速度只有0.5m/s。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963089953.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963089953.png" class title="Alt text">
 <p>与BLEEX几乎处于同一时期的外骨骼HAL，却采用完全不一样的控制思路。HAL的研究人员考虑能否从人体的神经系统中直接获得控制外骨骼的信号，就像控制人自身的肌肉一样来控制外骨骼。控制系统通过采集相关肌肉的肌电信号，经过滤波处理后乘以一个系数作为期望力矩，这种方法被称为比例肌电控制。这种方法的另一个意义在于，来自人体神经系统的肌电信号具有超前运动的特性，因此弥补控制系统的延时。当然这种方法的问题也很多，实际采集的肌电信号包含巨大的噪声，因此很难做到精确控制。另外这种肌电反馈的机制，必须存在肌电信号，才能产生力矩输出，没有肌电信号就没有外骨骼辅助，而肌电信号又包含巨大噪声，所以在这种控制策略下外骨骼无法实现完美辅助。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963132997.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963132997.png" class title="Alt text">
 <p>这些全下肢的刚性外骨骼都有相同的特点，太过笨重，有的甚至达到了150Kg。这个世界物理法则使得越重的物体有越大的惯性，人们原本希望穿上外骨骼之后可以变身钢铁侠，但实际却变成了相扑运动员，完全丧失了原有的机动性。于是人们开始思考，这样的外骨骼有没有意义？外骨骼的研究向着单关节、轻型便携化的方向发展，并且以代谢耗能作为终极指标。由于生物力学表明在步态运动中踝关节有着最大的力矩输出与能量输出，因此大部分单关节外骨骼都集中在踝关节辅助上，但驱动方式各有不同，MIT采用SEA，密西根采用气动人工肌肉，CMU采用刚性框架加绳驱动，哈佛采用绳索驱动的完全柔性外骨骼。但无论是怎样的外骨骼，其最终只有一个目标 - 降低代谢耗能，此后10年一直到现在，增强型外骨骼的核心研究课题就是如施加辅助才能够使代谢耗能下降。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963183136.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606963183136.png" class title="Alt text">
 <p>最早在2007年，弗吉尼亚大学的Norris、密歇根大学的Ferris首先尝试了外骨骼辅助下代谢耗能的变化，之后13年根特大学的Philippe Malcolm第一次实现了外骨骼辅助下的代谢耗能下降，进一步CMU的Juanjuan Zhang与哈佛大学的Ding Ye用代谢耗能作为目标函数来优化固定步态运动下的辅助模式，也就是人在环中优化；到19年哈佛大学Conor Walsh研究组成功的在不同的运动中使外骨骼辅助降低人体的代谢耗能。</p>
-<img src="/2021/11/20/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606964062826.png" class title="Alt text">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/1606964062826.png" class title="Alt text">
 <p>除了主动施加合适的辅助来降低代谢消耗，一些脑洞清奇的研究人员考虑能不能设计一种外骨骼，从人体本身吸收能量，再反过来降低人体的代谢耗能。这种有点像永动机的想法背后，体现的是对人体运动消耗能量的思考，为什么轮子朝前滚的时候基本不需要消耗能量，而人两条腿朝前走的时候就需要消耗能量呢？研究人员提出不同模型去描述双足生物的行走过程，典型的有倒立摆模型和质点弹簧模型，这些模型解释了人体行走时能量消耗的原因。Collins分析了行走过程中肌肉收缩的机制，并在此基础上设计了只有弹簧和棘轮组成的完全被动的外骨骼，并使穿戴者的代谢耗能下降了7%。这项研究发表在Nature上是因为其证明了人体不是一个完全优化结构，至少在特定的运动下能够通过一些被动原件使人体的结构得到优化。但对于外骨骼领域而言，这样纯机械结构的被动外骨骼有着主动驱动式外骨骼无法比拟的可靠性。</p>
 <p>经过几十年的发展，外骨骼技术的确取得了长足的进步，尤其是康复外骨骼已经展现的巨大的应用价值。但增强型外骨骼的道路依旧漫长，现有技术对于代谢耗能的下降仍不足以产生具有变革性的应用与产品。增强型外骨骼领域还需要更加深入的研究人机交互方法、人机协调控制方法，除了已展现的对力量和耐力的增强外，还需探讨如何通过外骨骼提高人体的机动性、敏捷性、平衡性，考虑外骨骼对于复杂环境的鲁棒性、对于穿戴者个体差异的适应性，这样才能诞生出真正有应用价值和社会意义的产品。最后希望外骨骼的研究者能够更多的去思考人道主义精神，减少文明之间碰撞与冲突的可能，用知识和技术去减少人类社会的苦难，增强人类探索未知世界的能力。愿我们的征途都是星辰大海。</p>
 <hr>
@@ -2978,48 +2978,48 @@ P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><hr>
   </entry>
   <entry>
     <title>Stanford下肢外骨骼系统设计控制与优化</title>
-    <url>/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/</url>
+    <url>/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<p>下肢外骨骼能够提高士兵、急救人员、体力工人、老年人、肢体损伤患者的动能力。在前期研究中，Stanford大学的Steven H Collins（原卡内基梅隆大学）研究组已经设计了踝关节骨骼用于步态运动过程的辅助，并成功的降低了穿戴者的代谢耗能。在此基础上，该研究组进一步设计开发了髋-膝-踝三关节外骨骼系统，用于外骨骼辅助策略的探索。本篇博客将简要介绍该三关节外骨骼的设计、控制与优化。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405104954391.png" alt="image-20210405104954391" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405104954391.png" alt="image-20210405104954391" style="zoom:50%;"></p>
 <span id="more"></span>
-<h2 id="外骨骼设计"><a href="#外骨骼设计" class="headerlink" title="外骨骼设计"></a>外骨骼设计</h2><p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/2.png" alt="image-20210405183442911" style="zoom:50%;"></p>
+<h2 id="外骨骼设计"><a href="#外骨骼设计" class="headerlink" title="外骨骼设计"></a>外骨骼设计</h2><p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/2.png" alt="image-20210405183442911" style="zoom:50%;"></p>
 <p>该外骨骼系统依然是采用emulator方式，end-effector穿戴在人体上，能够为髋关节、膝关节的弯曲和伸展以及踝关节的跖屈提供力矩辅助，两侧共计十个驱动电机与人体分离，电机的辅助通过鲍登管进行传递。整个外骨骼的机械结构由躯干、大腿、小腿和足部四个部分组成，每个部分主要由矢状面上的碳纤维板和横向的铝合金/钛合金支撑，除了换踝关节部分以外，其余的横向连接件都采用管型设计，能够提供更高的弯曲强度和扭转强度，各个部分之间通过关节轴轴进行连接。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405183442911.png" alt="image-20210405183442911" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405183442911.png" alt="image-20210405183442911" style="zoom:50%;"></p>
 <p>躯干部分由后背X型的碳纤维支架和腰部框架组成，两者之间通过一个竖直的碳纤维板进行连接。X型的碳纤维支架用来连接肩部吊带和背部护垫，一方面将外骨骼的重量更均匀的分配，另一方面增加了躯干远端的接触能够提高外骨骼与人体之间交互柔顺性。</p>
 <p>腰部框架由一个铝合金管和两侧的碳纤维板组成，碳纤维板的前部和后部分别由两个鲍登管的固定结构(图中的h)，这个固定结构包括三个部分：用来转换鲍登绳方向的滑轮，用来固定鲍登外管、同时防止鲍登绳脱落的黑色尼龙结构，以及用来防止鲍登管过度弯曲的白色弹性TPU护圈。碳纤维板的中下部安装的是外骨骼的髋关节轴，每个轴都由两个轴承来支撑，关节轴的外侧装有绝对式的磁编码器。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405183522883.png" alt="image-20210405183522883" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405183522883.png" alt="image-20210405183522883" style="zoom:50%;"></p>
 <p>大腿部分采用分体式设计，上部分碳纤维板连接髋关节，下部分连接膝关节，两块碳板之间通过一组孔进行固定，可以通过孔的位置来调整大腿部分的整体长度。来自腰部的鲍登绳在经过横向支撑管上的滑轮改变方向后，连接到垂直于碳纤维板的拉力传感器上。在前侧和后侧横向支架的中间，分别有用于膝关节弯曲于伸展辅助的鲍登管的固定端；在膝关节内侧有用来减缓碰撞的尼龙保护壳，外侧有安装磁编码器测量膝关节角度。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405203009154.png" alt="image-20210405203009154" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405203009154.png" alt="image-20210405203009154" style="zoom:50%;"></p>
 <p>小腿部分和大腿部分一样采用了分体式结构，通过调节连接孔的方式改变小腿部分的长度。在前侧的横向支架和后方的铝合金悬臂上装有拉力传感器(a, f)，分别测量膝关节弯曲与伸展辅助的辅助力。这两个拉力传感器都可以沿着安装轴旋转，使得测量方向始终与拉力方向共线，同时有额外的尼龙结构防止鲍登绳松弛时拉力传感器的过度旋转。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405203138708.png" alt="image-20210405203138708" style="zoom:35%;"></p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406084432773.png" alt="image-20210406084432773" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210405203138708.png" alt="image-20210405203138708" style="zoom:35%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406084432773.png" alt="image-20210406084432773" style="zoom:50%;"></p>
 <p>足部部分主体沿用了之前踝关节外骨骼的设计，但脚跟处的拉绳变为了刚性的碳纤维，碳纤维板通过一个铝合金悬臂连接到关节轴上，底部通过一个钢轴连接到鞋跟，同时前脚掌的碳纤维板也换为了钢轴。在踝关节轴的内侧同样增加了一个尼龙外壳以减轻两侧之间的碰撞。</p>
-<h2 id="外骨骼驱动"><a href="#外骨骼驱动" class="headerlink" title="外骨骼驱动"></a>外骨骼驱动</h2><p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/3.png" alt="image-20210406103333588" style="zoom:50%;"></p>
+<h2 id="外骨骼驱动"><a href="#外骨骼驱动" class="headerlink" title="外骨骼驱动"></a>外骨骼驱动</h2><p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/3.png" alt="image-20210406103333588" style="zoom:50%;"></p>
 <p>这套外骨骼的每条腿共有五个驱动自由度，以驱动作用在外骨骼上的角度来看，髋关节弯曲(flexion)辅助的鲍登线从腰部碳纤维板前侧连接到大腿碳纤维板前侧的支撑横架，再通过滑轮转向后垂直连接到大腿碳纤维板上，实际的辅助仅为腰部前侧碳纤维板到大腿前侧支撑横架这一段，通过滑轮转向仅为了方便拉力传感器的安装和测量。髋关节伸展辅助的鲍登线从腰部碳纤维板后部连接到大腿碳纤维板后方伸出的横向支架上，同样通过滑轮转向后连接到大腿碳纤维板。膝关节弯曲辅助的鲍登绳从大腿后方横向支架连接到小腿后方的横向支架上，伸展辅助则是由大腿前侧支撑横架连接到小腿前侧的横向支架。对于膝关节伸展辅助，通过合适的几何设计，使得当膝关节角度为零时，拉力作用线对膝关节轴的力臂也为零，从而提供保护作用。踝关节趾屈辅助则是和之前一样，通过小腿后方的横向支撑连接到足部后方的碳合金悬臂上。</p>
-<img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406091944324.png" class title="image-20210406091944324">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406091944324.png" class title="image-20210406091944324">
 <p>外骨骼的机械结构通过脚上的靴子和身体各部分的绑带将外骨骼的辅助传递到人体上，设计时绑带上的作用力被设计为法向力，从而尽可能的为人体提供力矩辅助。为了降低人体与外骨骼之间的交互力，绑带被尽可能的佩戴在辅助关节的远端肢体上，比如对于髋关节辅助，大腿上靠近膝关节的绑带和躯干的肩带与背垫都有更长的力臂，从而降低绑带上的拉力。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406103118884.png" alt="image-20210406103118884" style="zoom:50%;"></p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406103333588.png" alt="image-20210406103333588" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406103118884.png" alt="image-20210406103118884" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406103333588.png" alt="image-20210406103333588" style="zoom:50%;"></p>
 <p>整套外骨骼重13.5kg，其中机械部分仅重7.5kg，靴子和鲍登管都有比较大的重量。在9名测试者的穿戴实验中，1.25m/s的步态速度下，平均代谢耗能相对于不穿戴外骨骼增加了1.18W/kg，除去静态代谢，相当于增加了38.8%的代谢消耗。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/4.png" alt="image-20210406103333588" style="zoom:30%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/4.png" alt="image-20210406103333588" style="zoom:30%;"></p>
 <p>研究人员将该外骨骼穿戴在铝合金框架上对外骨骼的结构性能进行了测试，其中髋关节弯曲、伸展，膝关节伸展，踝关节趾屈都能提供200Nm以上的力矩，膝关节弯曲辅助最大能提供140Nm的力矩。闭环带宽的结果存在一定的问题，但总体来说带宽都大于10Hz，表明系统能提供很好的力矩跟踪特性。</p>
-<h2 id="外骨骼控制"><a href="#外骨骼控制" class="headerlink" title="外骨骼控制"></a>外骨骼控制</h2><p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406114738373.png" alt="image-20210406114738373" style="zoom:50%;"></p>
+<h2 id="外骨骼控制"><a href="#外骨骼控制" class="headerlink" title="外骨骼控制"></a>外骨骼控制</h2><p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406114738373.png" alt="image-20210406114738373" style="zoom:50%;"></p>
 <p>外骨骼系统采用了和之前相同的控制方法，控制器由上层力矩规划和底层的反馈控制组成。对于上层控制器，三个关节都有各自的期望力矩曲线，其中髋关节的辅助曲线和之前的定义完全一致，因此不在赘述。对于膝关节和髋关节外辅助，由于辅助力矩包含了弯曲和伸展两个方向，对于特定的方向，只有相应的辅助进行力矩控制，而与之相对的辅助采用跟随控制，从而使辅助在方向切换时能尽可能平滑。膝关节的辅助在步态前期到步态中期采用虚拟弹簧提供伸展力矩以模拟弹簧腿的特性，在支撑中期到支撑后期提供一个基于步态时间弯曲力矩。髋关节辅助在摆动末期到支撑初期提供伸展力矩，也就是后面的鲍登绳提供拉力，在支撑中期到摆动中期提供弯曲辅助，也就是前侧的鲍登绳产生拉力，由于髋关节在步态开始时刻，也就是脚跟着地时刻，处于力矩辅助状态，为了避免可能出现的期望力矩跳变，髋关节期望力矩曲线定义步态周期的84%为起始时刻。</p>
 <script type="math/tex; mode=display">
 \begin{array}{c}
 u(i, n)=K_{\mathrm{p}} \cdot e(i, n)+K_{\mathrm{v}} \cdot \dot{\theta}_{\mathrm{m}}(i, n)+u_{\mathrm{L}}(i+D, n) \\
 u_{\mathrm{L}}(i, n+1)=\beta \cdot u_{\mathrm{L}}(i, n)+K_{\mathrm{L}} \cdot e(i, n)
 \end{array}</script><p>底层控制器依然采用<strong>力矩误差反馈</strong>加<strong>电机角速度的阻尼注入</strong>再加<strong>迭代学习</strong>的方式，下图为多关节辅助时的力矩跟踪效果，其中膝关节辅助在虚拟阻抗阶段由于无法进行迭代学习，因此有较大的跟踪误差，髋关节辅助在力矩方向转换时也有一个明显的跟踪误差。跟踪误差的RMS为1.81Nm，约9%的峰值力矩。</p>
-<img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406144425976.png" class title="image-20210406144425976">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406144425976.png" class title="image-20210406144425976">
 <h2 id="外骨骼辅助优化"><a href="#外骨骼辅助优化" class="headerlink" title="外骨骼辅助优化"></a>外骨骼辅助优化</h2><p>在这样的多关节下肢外骨骼平台上，我们最希望从中了解的就是多关节外骨骼的辅助效果。毫无疑问多关节辅助肯定比单关节辅助有更高的效益，但考虑到外骨骼自身结构、重量带来的负面影响，某些形式的单关节外骨骼辅助可能更有效率，因此Collins研究组在这套多关节外骨骼上采用人在环中优化方法对不同关节组合辅助进行了对比。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406220740906.png" alt="image-20210406220740906" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210406220740906.png" alt="image-20210406220740906" style="zoom:50%;"></p>
 <p>外骨骼三个关节的辅助力矩曲线与之前控制器中的力矩曲线形式基本一致。其中踝关节辅助依然是四个参数；髋关节辅助包括弯曲力矩和伸展力矩，每个部分都和踝关节的单峰辅助有相同的形式，因此有八个参数；膝关节辅助由虚拟刚度、时间力矩和虚拟阻尼三部分组成，时间力矩部分具有四个参数，虚拟刚度部分和虚拟阻尼部分各有三个参数，因此共有10个参数。三个关节一共有22个优化参数。</p>
-<img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407095126152.png" class title="image-20210407095126152">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407095126152.png" class title="image-20210407095126152">
 <p>人在环中优化采用的依然是CMA-ES算法。受新冠病毒的影响，该项研究的受试者仅有三名，年龄从19岁到26岁，体重从60kg到90kg。人在环中优化实验分为三组，分别为单关节辅助优化，双关节辅助优化和三关节辅助优化，其中双关节辅助只有受试者P1进行。优化的时间长度可能影响最终的优化结果，因此P1受试者的优化实验进行了较长的时间，踝关节辅助优化了12代，可以在优化代数更新的中间中断休息，整个优化在3天内完成，但由于缺乏补充材料，并不清楚更具体的实验细节；髋关节、膝关节和三关节辅助优化进行了9代，双关节辅助优化进行了6代。在P1的基础上，受试者P2和P3优化的代数要小一些，更多细节在补充材料中，但每个受试者总的实验时间不小于50小时。</p>
 <p>人在环中优化完成后，优化结果通过验证实验进行评估，其中静态站立6min，零力矩模式行走10min，每个辅助模式行走20min，实验中测量了受试者的代谢肌电和关节角度。</p>
-<p><img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407133156706.png" alt="image-20210407133156706" style="zoom:50%;"></p>
+<p><img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407133156706.png" alt="image-20210407133156706" style="zoom:50%;"></p>
 <p>代谢耗能的结果均以减去了站立时静态代谢，且都是以穿戴外骨骼无辅助模式进行对比。无外骨骼的代谢相对于穿外骨骼无辅助低22%，相当于穿戴外骨骼增加了28%的代谢消耗。在各种辅助策略下，代谢耗能均有一定程度的下降。单关节辅助而策略下，踝关节的辅助效益最明显，代谢下降30%，髋关节下降26%，膝关节下降13%且不显著。单受试者的双关节辅助优化结果表示，髋-踝组合辅助的效益最大，代谢耗能下降42%。在三关节辅助下，代谢耗能有50%的下降。无论是单关节辅助还是双关节的组合，膝关节辅助的作用相比另两个关节更不明显，这个优化辅助的结果与步态分析相一致，因为踝关节是行走过程产生能量最大的关节，髋关节次之，膝关节最小。在其他的步态运动中，例如上坡、上下台阶，膝关节辅助可能会起到更大的作用。另一方面，膝关节的优化参数是三个关节中最多的，不充分的优化可能是导致膝关节辅助效益较低的一个原因，后面的优化力矩结果会进一步说明。另外一个值得关注的是，单关节辅助比多关节辅助有更大平均效益，即三个关节单独辅助的代谢下降之和，要小于三关节共同辅助的代谢下降。由于关节之间存在耦合，辅助影响了行走的整个动力学过程，单关节辅助也会的对其他的关节产生影响，使得代谢有更大程度的下降。因此考虑到结构复杂性与外骨骼的附加重量，可能但关节外骨骼，或某些组合的双关节外骨骼，可能比全下肢外骨骼更有效率。</p>
-<img src="/2021/11/10/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407140302142.png" class title="image-20210407140302142">
+<img src="/2022/06/01/%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F/Stanford%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/image-20210407140302142.png" class title="image-20210407140302142">
 <p>不同辅助组合下优化的关节力矩如上图所示。其中踝关节和髋关节的辅助曲线，在不同的辅助组合下具有比较好的一致性。踝关节力矩在单关节辅助下有更大的力矩峰值，在多关节辅助下有更大的上升时间，且几种不同的组合下的优化力矩基本相同。髋关节力矩在在不同的辅助组合下，力矩峰值有明显差异，但峰值时间基本一致，其中髋-踝辅助时弯曲力矩峰值最大，髋-膝辅助时伸展力矩峰值最大，而三关节辅助时的力矩峰值相对较小。膝关节辅助力矩的优化结果比较缺乏规律，尤其三关节优化的结果力矩比较小。一方面所设置的膝关节辅助曲线形式可能并不合适，目前对于膝关节的辅助研究相比于踝关节和髋关节还不够充分；另一方面由于膝关节辅助的优化参数太多，算法容易收敛到局部极值，高维优化的效果可能并不理想。因此后面非常有必要探索影响膝关节辅助效果的核心参数，就像踝关节的峰值力矩峰值与峰值时间那样，并在更需要膝关节的步态运动中探索膝关节的辅助效益。</p>
 ]]></content>
       <categories>
