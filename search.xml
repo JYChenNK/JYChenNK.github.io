@@ -1132,10 +1132,45 @@ F_{y}
     <title>102Lab数据处理软件AIOS</title>
     <url>/2021/10/04/5-Projects/AIOS/</url>
     <content><![CDATA[<img src="/2021/10/04/5-Projects/AIOS/fig1.png" class>
-<h2 id="最新版本-v6-15"><a href="#最新版本-v6-15" class="headerlink" title="最新版本 v6.15"></a>最新版本 v6.15</h2><span id="more"></span>
-<!-- [下载链接(GitHub)](/download/DPAS-102Lab_v6.15.mlappinstall) -->
-<p><a href="/download/DPAS-102Lab_v6.15.mlappinstall">下载链接</a>，拖动到Matlab命令行窗口中即可安装</p>
-<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><h3 id="v6-15"><a href="#v6-15" class="headerlink" title="v6.15"></a>v6.15</h3><ul>
+<h2 id="最新版本-v6-34"><a href="#最新版本-v6-34" class="headerlink" title="最新版本 v6.34"></a>最新版本 v6.34</h2><span id="more"></span>
+<!-- [下载链接(GitHub)](/download/DataProcess Kit - 102Lab - v6.34.mlappinstall) -->
+<p><a href="/download/DataProcess Kit - 102Lab - v6.34.mlappinstall">下载链接</a>，拖动到Matlab命令行窗口中即可安装</p>
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明"></a>更新说明</h2><h3 id="v6-34"><a href="#v6-34" class="headerlink" title="v6.34"></a>v6.34</h3><ul>
+<li>界面优化<ul>
+<li>优化界面显示，调整界面字体、字号</li>
+<li>禁用多彩界面</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/10/04/5-Projects/AIOS/image-20221016103315627.png" class title="image-20221016103315627">
+<ul>
+<li>数据管理<ul>
+<li>支持实验数据重命名</li>
+<li>支持实验数据顺序调整</li>
+<li>支持数据变量筛选（剔除无用测量信号，提高数据处理速度）</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/10/04/5-Projects/AIOS/image-20221016102933346.png" class title="image-20221016102933346">
+<ul>
+<li>数据处理<ul>
+<li>增加7个步态阶段细分，补充4个自定义步态阶段</li>
+<li>步态阶段细分仅通过步态特征体现，暂时无法独立绘图</li>
+<li>禁用快速数据处理模式</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/10/04/5-Projects/AIOS/image-20221016103452743.png" class title="image-20221016103452743">
+<ul>
+<li>柱状图绘制<ul>
+<li>增加水平柱状图绘制</li>
+<li>支持堆叠柱状图绘制</li>
+<li>支持柱状体Edge、Width手动调整</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/10/04/5-Projects/AIOS/image-20221016103856331.png" class title="image-20221016103856331">
+<h3 id="v6-15"><a href="#v6-15" class="headerlink" title="v6.15"></a>v6.15</h3><ul>
 <li>支持图像更多默认参数设置（字体大小、坐标轴粗细等）</li>
 <li>支持Figure间跳转</li>
 <li>支持点击选择绘图颜色</li>
@@ -1534,9 +1569,10 @@ T_{a c t}=K\left(\theta_{h}-\theta_{e x o}\right)</script><p>对于每一个关�
     <title>步态分析 4 - 步态循环详述 Detail</title>
     <url>/2022/03/01/1-Course/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%90/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%904-%E6%AD%A5%E6%80%81%E5%BE%AA%E7%8E%AF%E8%AF%A6%E8%BF%B0/</url>
     <content><![CDATA[<p>下面将根据步态循环中的典型事件和典型阶段，详细介绍在步态运动中<strong>上肢(upper body)、髋关节(hip)、膝关节(knee)、踝关节(ankle)、足部(feet)，</strong>在<strong>角度、力矩、功率、能量、肌肉活动</strong>方面的经历的过程和变化。</p>
-<img src="/2022/03/01/1-Course/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%90/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%904-%E6%AD%A5%E6%80%81%E5%BE%AA%E7%8E%AF%E8%AF%A6%E8%BF%B0/01.png" class title="未标题-8.png">
+<img src="/2022/03/01/1-Course/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%90/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%904-%E6%AD%A5%E6%80%81%E5%BE%AA%E7%8E%AF%E8%AF%A6%E8%BF%B0/Summary01.png" class title="Summary01">
 <span id="more"></span>
-<h2 id="初始接触-Initial-Contact"><a href="#初始接触-Initial-Contact" class="headerlink" title="初始接触 - Initial Contact"></a>初始接触 - Initial Contact</h2><h3 id="概括"><a href="#概括" class="headerlink" title="概括"></a><strong>概括</strong></h3><ul>
+<h2 id="初始接触-Initial-Contact"><a href="#初始接触-Initial-Contact" class="headerlink" title="初始接触 - Initial Contact"></a>初始接触 - Initial Contact</h2><img src="/2022/03/01/1-Course/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%90/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%904-%E6%AD%A5%E6%80%81%E5%BE%AA%E7%8E%AF%E8%AF%A6%E8%BF%B0/01.png" class title="未标题-8.png">
+<h3 id="概括"><a href="#概括" class="headerlink" title="概括"></a><strong>概括</strong></h3><ul>
 <li>初始接触(initial contact)是支撑初期/承重反应期(loading response)的开始，通常也被称为<strong>脚跟着地(heelstrike/foot contact)</strong>，通常会存在明显的脚和地面之间的撞击；</li>
 <li><strong>此时的地反力几乎竖直向上的(upward)</strong>，在随后的支撑初期/承重加载阶段(loading response)地反力的方向迅速向后移动，这一点可以在图2.8的地反力<strong>蝴蝶图</strong>中观察到；</li>
 </ul>
