@@ -1,66 +1,454 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!0,async:!0,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。"><meta property="og:type" content="article"><meta property="og:title" content="轨迹优化与直接配点法"><meta property="og:url" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/index.html"><meta property="og:site_name" content="萤火"><meta property="og:description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png"><meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png"><meta property="article:published_time" content="2020-04-23T16:00:00.000Z"><meta property="article:modified_time" content="2021-12-02T09:36:39.318Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="优化"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png"><link rel="canonical" href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>轨迹优化与直接配点法 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li><li class="menu-item menu-item-course"><a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i> 专业课程</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i> 留言板</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 轨迹优化与直接配点法</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2020-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-24T00:00:00+08:00">2020-04-24</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2021-12-02 17:36:39" itemprop="dateModified" datetime="2021-12-02T17:36:39+08:00">2021-12-02</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a></span></span><span id="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="轨迹优化与直接配点法" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。</p><span id="more"></span><h2 id="轨迹优化问题"><a href="#轨迹优化问题" class="headerlink" title="轨迹优化问题"></a>轨迹优化问题</h2><h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>轨迹用来描述一个物体的运动过程，通常是关于时间的变量。轨迹优化一种用于寻找最佳轨迹选择的方法，通常是通过选择合适的系统输入或控制量，是系统完成期望的运动过程。在控制领域，轨迹优化近似于最优控制，但从更广的概念上来讲，轨迹优化更具一般性。</p><p>下面我们用一个例子来进一步说明轨迹优化问题。</p> <img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" class><p>如图所示，一个滑块放置在光滑地面上，并受到一个水平方向的作用力。我们想要滑块在里的作用下，在1s的时间内从开始位置运动到指定位置，并刚好停在该处。这个问题存在着无数种可能的运动轨迹，进一步，我们希望从中确定一条最优的轨迹，如图所示。</p> <img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" class> <img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" class><p>我们可以把这个问题用数学语言形式化。系统满足如下的动力学方程：</p><script type="math/tex;mode=display">
-\dot{x}=\nu, \quad \dot{\nu}=u</script><p>并要求满足如下的边界约束：</p><script type="math/tex;mode=display">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+  </script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="轨迹优化与直接配点法">
+<meta property="og:url" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:description" content="本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png">
+<meta property="og:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png">
+<meta property="article:published_time" content="2020-04-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-02T09:36:39.318Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png">
+
+<link rel="canonical" href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>轨迹优化与直接配点法 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+        <li class="menu-item menu-item-course">
+
+    <a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i>专业课程</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          轨迹优化与直接配点法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-24T00:00:00+08:00">2020-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-02 17:36:39" itemprop="dateModified" datetime="2021-12-02T17:36:39+08:00">2021-12-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%BF%E7%9C%9F%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">仿真研究</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="轨迹优化与直接配点法" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文主要讨论轨迹优化问题中的直接配点法，希望通过此教程帮助理解轨迹优化问题的基本概念与直接配点法的相关理论基础，最后我们还会讨论一些具体实现问题。直接配点法最终是通过非线性规划求解器来得到最终结果，因此在阅读本文之间可以先了解NLP问题相关基础知识，当然这并不影响对本文的理解，本文仅需要一些简单的高等数学与微分方程的知识。</p>
+<span id="more"></span>
+<h2 id="轨迹优化问题"><a href="#轨迹优化问题" class="headerlink" title="轨迹优化问题"></a>轨迹优化问题</h2><h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>轨迹用来描述一个物体的运动过程，通常是关于时间的变量。轨迹优化一种用于寻找最佳轨迹选择的方法，通常是通过选择合适的系统输入或控制量，是系统完成期望的运动过程。在控制领域，轨迹优化近似于最优控制，但从更广的概念上来讲，轨迹优化更具一般性。</p>
+<p>下面我们用一个例子来进一步说明轨迹优化问题。</p>
+<img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587399082007.png" class>
+<p>如图所示，一个滑块放置在光滑地面上，并受到一个水平方向的作用力。我们想要滑块在里的作用下，在1s的时间内从开始位置运动到指定位置，并刚好停在该处。这个问题存在着无数种可能的运动轨迹，进一步，我们希望从中确定一条最优的轨迹，如图所示。</p>
+<img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400040884.png" class>
+<img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587400055329.png" class>
+<p>我们可以把这个问题用数学语言形式化。系统满足如下的动力学方程：</p>
+<script type="math/tex; mode=display">
+\dot{x}=\nu, \quad \dot{\nu}=u</script><p>并要求满足如下的边界约束：</p>
+<script type="math/tex; mode=display">
 \begin{array}{ll}
 x(0)=0, & x(1)=1 \\
 \nu(0)=0, & \nu(1)=0
-\end{array}</script><p>轨迹优化关心在一定指标下的最优轨迹，这样的指标可以用如下的目标函数来描述：</p><script type="math/tex;mode=display">
-\min _{u(t), x(t), \nu(t)} \int_{0}^{1} u^{2}(\tau) d \tau</script><h3 id="形式化描述"><a href="#形式化描述" class="headerlink" title="形式化描述"></a>形式化描述</h3><p>一般来说，轨迹优化问题通过在一定的约束条件下优化如下的目标函数来得到最优轨迹：</p><script type="math/tex;mode=display">
-\min _{t_{0}, t_{F}, \boldsymbol{x}(t), \boldsymbol{u}(t)} \underbrace{J\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right)}_{\text {Mayer Term }}+\underbrace{\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau}_{\text {Lagrange Term }}</script><p>其中的约束条件包含如下形式：<br>系统的动力学约束：</p><script type="math/tex;mode=display">
-\dot{\boldsymbol{x}}(t)=\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>路径约束：</p><script type="math/tex;mode=display">
-\boldsymbol{h}(t, \boldsymbol{x}(t), \boldsymbol{u}(t)) \leq \mathbf{0}</script><p>边界约束：</p><script type="math/tex;mode=display">
-\boldsymbol{g}\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right) \leq \mathbf{0}</script><p>和状态量与控制量边界：</p><script type="math/tex;mode=display">
+\end{array}</script><p>轨迹优化关心在一定指标下的最优轨迹，这样的指标可以用如下的目标函数来描述：</p>
+<script type="math/tex; mode=display">
+\min _{u(t), x(t), \nu(t)} \int_{0}^{1} u^{2}(\tau) d \tau</script><h3 id="形式化描述"><a href="#形式化描述" class="headerlink" title="形式化描述"></a>形式化描述</h3><p>一般来说，轨迹优化问题通过在一定的约束条件下优化如下的目标函数来得到最优轨迹：</p>
+<script type="math/tex; mode=display">
+\min _{t_{0}, t_{F}, \boldsymbol{x}(t), \boldsymbol{u}(t)} \underbrace{J\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right)}_{\text {Mayer Term }}+\underbrace{\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau}_{\text {Lagrange Term }}</script><p>其中的约束条件包含如下形式：<br>系统的动力学约束：</p>
+<script type="math/tex; mode=display">
+\dot{\boldsymbol{x}}(t)=\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>路径约束：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{h}(t, \boldsymbol{x}(t), \boldsymbol{u}(t)) \leq \mathbf{0}</script><p>边界约束：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{g}\left(t_{0}, t_{F}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{x}\left(t_{F}\right)\right) \leq \mathbf{0}</script><p>和状态量与控制量边界：</p>
+<script type="math/tex; mode=display">
 \begin{array}{l}
 \boldsymbol{x}_{\mathrm{low}} \leq \boldsymbol{x}(t) \leq \boldsymbol{x}_{\mathrm{upp}} \\
 \boldsymbol{u}_{\mathrm{low}} \leq \boldsymbol{u}(t) \leq \boldsymbol{u}_{\mathrm{upp}}
-\end{array}</script><p>由于最终我们想要求得的是控制量关于时间的具体函数形式，而非一个值或一个参数，因此轨迹优化问题也可以理解为在一定约束或大量约束下的泛函问题。</p><h3 id="变分法求解"><a href="#变分法求解" class="headerlink" title="变分法求解"></a>变分法求解</h3><p>（对变分法不熟悉的可以跳过本部分）<br>针对泛函问题，可以采用变分法进行求解。以滑块移动的问题为例，由于其目标函数可以表示为如下形式：</p><script type="math/tex;mode=display">
-J=\int_{0}^{1} u^{2}(\tau) d \tau=\int_{0}^{1} \ddot{x}^{2}(\tau) d \tau</script><p>因此可以构建拉格朗日方程：</p><script type="math/tex;mode=display">
-\mathcal{L}(t, x, \dot{x}, \ddot{x})=\mathcal{L}(\ddot{x})=\ddot{x}^{2}</script><p>对此应用推广的欧拉-拉格朗日方程：</p><script type="math/tex;mode=display">
-\frac{\partial \mathcal{L}}{\partial x^{*}}-\frac{d}{d t} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}-\frac{d^{2}}{d t^{2}} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}=0</script><p>可得：</p><script type="math/tex;mode=display">
+\end{array}</script><p>由于最终我们想要求得的是控制量关于时间的具体函数形式，而非一个值或一个参数，因此轨迹优化问题也可以理解为在一定约束或大量约束下的泛函问题。</p>
+<h3 id="变分法求解"><a href="#变分法求解" class="headerlink" title="变分法求解"></a>变分法求解</h3><p>（对变分法不熟悉的可以跳过本部分）<br>针对泛函问题，可以采用变分法进行求解。以滑块移动的问题为例，由于其目标函数可以表示为如下形式：</p>
+<script type="math/tex; mode=display">
+J=\int_{0}^{1} u^{2}(\tau) d \tau=\int_{0}^{1} \ddot{x}^{2}(\tau) d \tau</script><p>因此可以构建拉格朗日方程：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}(t, x, \dot{x}, \ddot{x})=\mathcal{L}(\ddot{x})=\ddot{x}^{2}</script><p>对此应用推广的欧拉-拉格朗日方程：</p>
+<script type="math/tex; mode=display">
+\frac{\partial \mathcal{L}}{\partial x^{*}}-\frac{d}{d t} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}-\frac{d^{2}}{d t^{2}} \frac{\partial \mathcal{L}}{\partial \dot{x}^{*}}=0</script><p>可得：</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
 (0)-(0)-\frac{d^{2}}{d t^{2}}\left(2 \ddot{x}^{*}\right) &=0 \\
 \frac{d^{4}}{d t^{4}} x^{*} &=0
-\end{aligned}</script><p>因此$x$具有三次函数的形式，将相应的边界条件代入，得到最优轨迹：</p><script type="math/tex;mode=display">
-u^{*}(t)=6-12 t, \quad x^{*}(t)=3 t^{2}-2 t^{3}</script><h2 id="直接配点法-direct-collocation-methods"><a href="#直接配点法-direct-collocation-methods" class="headerlink" title="直接配点法-direct collocation methods"></a>直接配点法-direct collocation methods</h2><p>对于简单问题，使用变分法可以很快的求解出最优轨迹，但对于复杂的轨迹优化问题，状态变量或控制变量有可能达到几十万的维度，约束条件也会非常复杂。因此有必要研究通过数值方法求解轨迹优化问题，接下来我们介绍其中一种数值求解的思想，也就是直接配点法。对于一些其他的方法，例如shooting methods，则不在本文的讨论范围之内。接下来我们先通过滑块移动的问题来说明直接配点法的思想，之后再详细介绍梯形聚点法。</p><p>直接配点法的核心思想是将连续时间曲线离散为有限时间序列，从而把轨迹规划问题转化大规模非线性规划问题。首先，我们对轨迹进行离散化，将状态变量$x(t)$和$v(t)$表示为一系列离散时刻上的值，也称为配置点：</p><script type="math/tex;mode=display">
+\end{aligned}</script><p>因此$x$具有三次函数的形式，将相应的边界条件代入，得到最优轨迹：</p>
+<script type="math/tex; mode=display">
+u^{*}(t)=6-12 t, \quad x^{*}(t)=3 t^{2}-2 t^{3}</script><h2 id="直接配点法-direct-collocation-methods"><a href="#直接配点法-direct-collocation-methods" class="headerlink" title="直接配点法-direct collocation methods"></a>直接配点法-direct collocation methods</h2><p>对于简单问题，使用变分法可以很快的求解出最优轨迹，但对于复杂的轨迹优化问题，状态变量或控制变量有可能达到几十万的维度，约束条件也会非常复杂。因此有必要研究通过数值方法求解轨迹优化问题，接下来我们介绍其中一种数值求解的思想，也就是直接配点法。对于一些其他的方法，例如shooting methods，则不在本文的讨论范围之内。接下来我们先通过滑块移动的问题来说明直接配点法的思想，之后再详细介绍梯形聚点法。</p>
+<p>直接配点法的核心思想是将连续时间曲线离散为有限时间序列，从而把轨迹规划问题转化大规模非线性规划问题。首先，我们对轨迹进行离散化，将状态变量$x(t)$和$v(t)$表示为一系列离散时刻上的值，也称为配置点：</p>
+<script type="math/tex; mode=display">
 \begin{array}{l}
 t \rightarrow t_{0} \ldots t_{k} \ldots t_{N} \\
 x \rightarrow x_{0} \ldots x_{k} \ldots x_{N} \\
 \nu \rightarrow \nu_{0} \ldots \nu_{k} \ldots \nu_{N}\\
 u \rightarrow u_{0} \ldots u_{k} \ldots u_{N} \\
-\end{array}</script><p>这些配置点实际上就是最终转化的NLP问题优化变量，$N$表示离散的细化程度，N越大则离散化误差越小，但优化单独越大。接下来我们要把原始问题用这些配置点进行近似表示，其核心思想是两个配置点之间的状态变化等于系统动力学的积分：</p><script type="math/tex;mode=display">
+\end{array}</script><p>这些配置点实际上就是最终转化的NLP问题优化变量，$N$表示离散的细化程度，N越大则离散化误差越小，但优化单独越大。接下来我们要把原始问题用这些配置点进行近似表示，其核心思想是两个配置点之间的状态变化等于系统动力学的积分：</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
 \dot{x} &=\nu \\
 \int_{t_{k}}^{t_{k+1}} \dot{x} d t &=\int_{t_{k}}^{t_{k+1}} \nu d t \\
 x_{k+1}-x_{k} & \approx \frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right)
-\end{aligned}</script><p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t_k$积分到时刻$t_{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h_k=(t_{k+1}-t_k)$。</p><p>我们把速度与作用力的动力学关系同样转化成上面的形式，忽略由梯形积分近似的误差，得到以下由配置点表示的约束方程：</p><script type="math/tex;mode=display">
+\end{aligned}</script><p>由于位置的微分等于速度，对等式两侧进行积分，从时刻$t_k$积分到时刻$t_{k+1}$。等式左侧自然等于两个状态之间的差值，而对于等式右侧我们用梯形积分公式进行近似。这里$h_k=(t_{k+1}-t_k)$。</p>
+<p>我们把速度与作用力的动力学关系同样转化成上面的形式，忽略由梯形积分近似的误差，得到以下由配置点表示的约束方程：</p>
+<script type="math/tex; mode=display">
 \begin{array}{l}
 x_{k+1}-x_{k}=\frac{1}{2}\left(h_{k}\right)\left(\nu_{k+1}+\nu_{k}\right) \\
 \nu_{k+1}-\nu_{k}=\frac{1}{2}\left(h_{k}\right)\left(u_{k+1}+u_{k}\right)
-\end{array}</script><p>注意到通过离散化，我们把原来连续的动力学方程，转化为N个等式约束。当然为了满足题目要求，配置点还要满足以下的约束：</p><script type="math/tex;mode=display">
+\end{array}</script><p>注意到通过离散化，我们把原来连续的动力学方程，转化为N个等式约束。当然为了满足题目要求，配置点还要满足以下的约束：</p>
+<script type="math/tex; mode=display">
 \begin{array}{ll}
 x_{0}=0, & x_{N}=1 \\
 \nu_{0}=0, & \nu_{N}=0
-\end{array}</script><p>最后，通过采用梯形积分近似的方法，将目标函数也用配置点进行表示：</p><script type="math/tex;mode=display">
-\min _{u(t)} \int_{t_{0}}^{t_{N}} u^{2}(\tau) d \tau \quad = \min _{u_{0} \ldots u_{N}} \sum_{k=0}^{N-1} \frac{1}{2}\left(h_{k}\right)\left(u_{k}^{2}+u_{k+1}^{2}\right)</script><p>至此，滑块移动问题被完全转化为一个3N个优化参数（配置点），2N+4个约束的非线性规划问题，采用类似内点法的非线性规划求解器（IPOPT）进行求解，就可以得到问题数值结果。</p><h2 id="梯形配点法"><a href="#梯形配点法" class="headerlink" title="梯形配点法"></a>梯形配点法</h2><p>在上面的例子中，我们采用梯形公式来近似积分，将问题中的所用连续问题转化为离散问题，这种方法称为梯形配点法，下面对其进行详细说明。</p><h3 id="积分方程的近似"><a href="#积分方程的近似" class="headerlink" title="积分方程的近似"></a>积分方程的近似</h3><p>积分方程一般出现在目标函数中，梯形配点法中采用被积函数两个时刻之间的梯形面积来近似积分：</p><script type="math/tex;mode=display">
-\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau \quad \approx \sum_{k=0}^{N-1} \frac{1}{2} h_{k} \cdot\left(w_{k}+w_{k+1}\right)</script><h3 id="微分方程的近似"><a href="#微分方程的近似" class="headerlink" title="微分方程的近似"></a>微分方程的近似</h3><p>微分方程一般出现在动力学方程中。直接配点法的关键特征之一是，它将系统动力学表示为一组约束，称为配点约束。梯形配点法将动力学方程写成积分形式，然后用梯形求积法来近似积分：</p><script type="math/tex;mode=display">
+\end{array}</script><p>最后，通过采用梯形积分近似的方法，将目标函数也用配置点进行表示：</p>
+<script type="math/tex; mode=display">
+\min _{u(t)} \int_{t_{0}}^{t_{N}} u^{2}(\tau) d \tau \quad = \min _{u_{0} \ldots u_{N}} \sum_{k=0}^{N-1} \frac{1}{2}\left(h_{k}\right)\left(u_{k}^{2}+u_{k+1}^{2}\right)</script><p>至此，滑块移动问题被完全转化为一个3N个优化参数（配置点），2N+4个约束的非线性规划问题，采用类似内点法的非线性规划求解器（IPOPT）进行求解，就可以得到问题数值结果。</p>
+<h2 id="梯形配点法"><a href="#梯形配点法" class="headerlink" title="梯形配点法"></a>梯形配点法</h2><p>在上面的例子中，我们采用梯形公式来近似积分，将问题中的所用连续问题转化为离散问题，这种方法称为梯形配点法，下面对其进行详细说明。</p>
+<h3 id="积分方程的近似"><a href="#积分方程的近似" class="headerlink" title="积分方程的近似"></a>积分方程的近似</h3><p>积分方程一般出现在目标函数中，梯形配点法中采用被积函数两个时刻之间的梯形面积来近似积分：</p>
+<script type="math/tex; mode=display">
+\int_{t_{0}}^{t_{F}} w(\tau, \boldsymbol{x}(\tau), \boldsymbol{u}(\tau)) d \tau \quad \approx \sum_{k=0}^{N-1} \frac{1}{2} h_{k} \cdot\left(w_{k}+w_{k+1}\right)</script><h3 id="微分方程的近似"><a href="#微分方程的近似" class="headerlink" title="微分方程的近似"></a>微分方程的近似</h3><p>微分方程一般出现在动力学方程中。直接配点法的关键特征之一是，它将系统动力学表示为一组约束，称为配点约束。梯形配点法将动力学方程写成积分形式，然后用梯形求积法来近似积分：</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
 \dot{\boldsymbol{x}} &=\boldsymbol{f} \\
 \int_{t_{k}}^{t_{k+1}} \boldsymbol{x} d t &=\int_{t_{k}}^{t_{k+1}} \boldsymbol{f} d t \\
 \boldsymbol{x}_{k+1}-\boldsymbol{x}_{k} & \approx \frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right)
-\end{aligned}</script><p>然后在每对配置点之间都建立这种近似的约束关系：</p><script type="math/tex;mode=display">
-\boldsymbol{x}_{k+1}-\boldsymbol{x}_{k}=\frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right), \quad k \in 0, \ldots,(N-1)</script><h3 id="原始约束"><a href="#原始约束" class="headerlink" title="原始约束"></a>原始约束</h3><p>离散后的配置点，应当满足原问题的状态约束、控制约束、路径约束、边界约束：</p><script type="math/tex;mode=display">
+\end{aligned}</script><p>然后在每对配置点之间都建立这种近似的约束关系：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{x}_{k+1}-\boldsymbol{x}_{k}=\frac{1}{2} h_{k} \cdot\left(\boldsymbol{f}_{k+1}+\boldsymbol{f}_{k}\right), \quad k \in 0, \ldots,(N-1)</script><h3 id="原始约束"><a href="#原始约束" class="headerlink" title="原始约束"></a>原始约束</h3><p>离散后的配置点，应当满足原问题的状态约束、控制约束、路径约束、边界约束：</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
 \boldsymbol{x}<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{x}_{k}<\mathbf{0} \quad \forall k\\
 \boldsymbol{u}<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{u}_{k}<\mathbf{0} \quad \forall k\\
 \boldsymbol{g}(t, \boldsymbol{x}, \boldsymbol{u})<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{g}\left(t_{k}, \boldsymbol{x}_{k}, \boldsymbol{u}_{k}\right)<\mathbf{0} \quad \forall k\\
 \boldsymbol{h}\left(t_{0}, \boldsymbol{x}\left(t_{0}\right), \boldsymbol{u}\left(t_{0}\right)\right)<\mathbf{0} \quad &\rightarrow \quad \boldsymbol{h}\left(t_{0}, \boldsymbol{x}_{0}, \boldsymbol{u}_{0}\right)<\mathbf{0} \quad 
-\end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point</em> 用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t_{k}$，$h_{k}=t_{k+1}-t_{k}$）：</p><script type="math/tex;mode=display">
-\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class><p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。</p><script type="math/tex;mode=display">
-\boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex;mode=display">
-\boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex;mode=display">
-\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" class><h2 id="实现问题"><a href="#实现问题" class="headerlink" title="实现问题"></a>实现问题</h2><p>接下来我们来讨论一些配点法实际实现时可能遇到的问题和解决方法。</p><h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><p>几乎所有的轨迹优化技术都需要一个良好的初始猜测来开始优化。良好的初始化将确保求解器快速地得到全局最优解，一个糟糕的初始化会导致非线性规划求解器无法解决一个正确的优化问题。初始猜测的选择会影响优化最终收敛到哪一个局部最小值，不合适的初始值会使求解器优化到一个局部极小值，而约束的存在使情况变得更糟，优化器甚至无法找到一个可行的解决方案。</p><p>轨迹优化的最佳初始化通常需要一些特定的知识，但也有一些通用的方法可以采用。通常建议尝试集中不同的初始化策略，检查他们是否都优化到同一个结果。最简单的初始方法是假设轨迹是状态空间的一条直线，当然也可以设计为可能预想到的结果。</p><p>对于更复杂的轨迹优化问题，我们建议先从一个简单的问题开始优化，以优化结果作为下一个优化问题的初始猜测，然后构造一系列优化问题，逐渐接近最终的问题。举例来说，让一个双足行走机器人以3.0m/s的速度奔跑或许是一个比较复杂的优化问题，你可以先从1.0m/s的行走开始优化，逐渐增加前进速度，直至达到期望的速度，在这过程中每次优化的结果都作为下一次优化的初始估计。</p><h3 id="网格细化"><a href="#网格细化" class="headerlink" title="网格细化"></a>网格细化</h3><p>直接配点法采用分段多项式样条函数来对轨迹曲线进行近似，显然离散的时间越短、多项式的阶数越高，则近似的精度越高。网格细分是在一系列不同的配置网格上求解轨迹优化问题的过程，也称为配置网格。一般情况下，初始的网格比较粗糙，配置点数量较少，并采用较低阶的配置方法，而后续的网格有更多的点和更高阶的配置方法。这种迭代策略是为了以最少的计算工作量获得最精确的解决方案：初始的粗网格位置计算量小，并能给出一个比较好的初始估计，之后通过更精细的网格配置得到更准确的结果。</p> <img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" class><h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>在所述的轨迹优化方法中存在两种形式的数值误差：转换误差和求解误差，这里我们主要关注前一种误差，即量化离散所带来的误差。衡量误差的标准有很多，这里我们用候选轨迹的动力学误差进行评价。由于在任何时刻系统都要满足动力学方程，因此有:</p><script type="math/tex;mode=display">
-\dot{\boldsymbol{x}}^{*}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{*}(t), \boldsymbol{u}^{*}(t)\right)</script><p>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：</p><script type="math/tex;mode=display">
-\varepsilon(t)=\dot{\boldsymbol{x}}(t)-\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>上式在配置点处应该严格等于零，但在配置点之间一般不为零。通过误差的积分可以量化转化误差：</p><script type="math/tex;mode=display">
-\boldsymbol{\eta}_{k}=\int_{t_{k}}^{t_{k+1}}|\varepsilon(\tau)| d \tau</script><p>若转化误差大于一定水平，则需要进一步进行网格细化。</p></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" title="轨迹优化与直接配点法">https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.轨迹优化与直接配点法/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2020/04/22/4-Tutorials/OpenSim/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="prev" title="非线性规划"><i class="fa fa-chevron-left"></i> 非线性规划</a></div><div class="post-nav-item"> <a href="/2020/04/26/4-Tutorials/OpenSim/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="next" title="基于肌肉骨骼模型的预测仿真">基于肌肉骨骼模型的预测仿真<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+\end{aligned}</script><h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p>为了从配置点恢复连续轨迹，需要进行曲线插值。梯形配点法的将控制轨迹和系统动力学近似为分段线性函数，也称为线性样条。构造样条曲线时，术语结点<em>knot point </em>用来表示连接两个多项式段的任何点，对于梯形配点法而言，样条的结点与配置点是重合的。首先通过分段线性插值重建控制轨迹（$\tau=t-t_{k}$，$h_{k}=t_{k+1}-t_{k}$）：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{u}(t) \approx \boldsymbol{u}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{u}_{k+1}-\boldsymbol{u}_{k}\right)</script><img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487370709.png" class>
+<p>之后重建状态变量的轨迹，需要说明的是，状态变量的轨迹是二次样条曲线的形式。因为在梯形配点法中，系统动力学是用线性样条近似，而状态轨迹是动力学方程的积分，因此具有二次形式。显然这样重建出的状态轨迹更准确，如下图所示。</p>
+<script type="math/tex; mode=display">
+\boldsymbol{f}(t)=\dot{\boldsymbol{x}}(t) \approx \boldsymbol{f}_{k}+\frac{\tau}{h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
+\boldsymbol{x}(t)=\int \dot{\boldsymbol{x}}(t) d \tau \approx \boldsymbol{c}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><script type="math/tex; mode=display">
+\boldsymbol{x}(t) \approx \boldsymbol{x}_{k}+\boldsymbol{f}_{k} \tau+\frac{\tau^{2}}{2 h_{k}}\left(\boldsymbol{f}_{k+1}-\boldsymbol{f}_{k}\right)</script><img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587487392318.png" class>
+<h2 id="实现问题"><a href="#实现问题" class="headerlink" title="实现问题"></a>实现问题</h2><p>接下来我们来讨论一些配点法实际实现时可能遇到的问题和解决方法。</p>
+<h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><p>几乎所有的轨迹优化技术都需要一个良好的初始猜测来开始优化。良好的初始化将确保求解器快速地得到全局最优解，一个糟糕的初始化会导致非线性规划求解器无法解决一个正确的优化问题。初始猜测的选择会影响优化最终收敛到哪一个局部最小值，不合适的初始值会使求解器优化到一个局部极小值，而约束的存在使情况变得更糟，优化器甚至无法找到一个可行的解决方案。</p>
+<p>轨迹优化的最佳初始化通常需要一些特定的知识，但也有一些通用的方法可以采用。通常建议尝试集中不同的初始化策略，检查他们是否都优化到同一个结果。最简单的初始方法是假设轨迹是状态空间的一条直线，当然也可以设计为可能预想到的结果。</p>
+<p>对于更复杂的轨迹优化问题，我们建议先从一个简单的问题开始优化，以优化结果作为下一个优化问题的初始猜测，然后构造一系列优化问题，逐渐接近最终的问题。举例来说，让一个双足行走机器人以3.0m/s的速度奔跑或许是一个比较复杂的优化问题，你可以先从1.0m/s的行走开始优化，逐渐增加前进速度，直至达到期望的速度，在这过程中每次优化的结果都作为下一次优化的初始估计。</p>
+<h3 id="网格细化"><a href="#网格细化" class="headerlink" title="网格细化"></a>网格细化</h3><p>直接配点法采用分段多项式样条函数来对轨迹曲线进行近似，显然离散的时间越短、多项式的阶数越高，则近似的精度越高。网格细分是在一系列不同的配置网格上求解轨迹优化问题的过程，也称为配置网格。一般情况下，初始的网格比较粗糙，配置点数量较少，并采用较低阶的配置方法，而后续的网格有更多的点和更高阶的配置方法。这种迭代策略是为了以最少的计算工作量获得最精确的解决方案：初始的粗网格位置计算量小，并能给出一个比较好的初始估计，之后通过更精细的网格配置得到更准确的结果。</p>
+<img src="/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/1587490201492.png" class>
+<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>在所述的轨迹优化方法中存在两种形式的数值误差：转换误差和求解误差，这里我们主要关注前一种误差，即量化离散所带来的误差。衡量误差的标准有很多，这里我们用候选轨迹的动力学误差进行评价。由于在任何时刻系统都要满足动力学方程，因此有:</p>
+<script type="math/tex; mode=display">
+\dot{\boldsymbol{x}}^{*}(t)=\boldsymbol{f}\left(t, \boldsymbol{x}^{*}(t), \boldsymbol{u}^{*}(t)\right)</script><p>公式中的变量都可以由配置点插值得到，因此动力学方程误差为：</p>
+<script type="math/tex; mode=display">
+\varepsilon(t)=\dot{\boldsymbol{x}}(t)-\boldsymbol{f}(t, \boldsymbol{x}(t), \boldsymbol{u}(t))</script><p>上式在配置点处应该严格等于零，但在配置点之间一般不为零。通过误差的积分可以量化转化误差：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{\eta}_{k}=\int_{t_{k}}^{t_{k+1}}|\varepsilon(\tau)| d \tau</script><p>若转化误差大于一定水平，则需要进一步进行网格细化。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E4%B8%8E%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95/" title="轨迹优化与直接配点法">https://jychennk.github.io/2020/04/24/4-Tutorials/OpenSim/5.轨迹优化与直接配点法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/22/4-Tutorials/OpenSim/6.%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="prev" title="非线性规划">
+      <i class="fa fa-chevron-left"></i> 非线性规划
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/26/4-Tutorials/OpenSim/7.%E5%9F%BA%E4%BA%8E%E8%82%8C%E8%82%89%E9%AA%A8%E9%AA%BC%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%A2%84%E6%B5%8B%E4%BB%BF%E7%9C%9F/" rel="next" title="基于肌肉骨骼模型的预测仿真">
+      基于肌肉骨骼模型的预测仿真 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -80,7 +468,155 @@ x_{0}=0, & x_{N}=1 \\
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">轨迹优化问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">问题简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.2.</span> <span class="nav-text">形式化描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%88%86%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">变分法求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95-direct-collocation-methods"><span class="nav-number">2.</span> <span class="nav-text">直接配点法-direct collocation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BD%A2%E9%85%8D%E7%82%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">梯形配点法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%AF%E5%88%86%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC"><span class="nav-number">3.1.</span> <span class="nav-text">积分方程的近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC"><span class="nav-number">3.2.</span> <span class="nav-text">微分方程的近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.3.</span> <span class="nav-text">原始约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B2%E7%BA%BF%E6%8F%92%E5%80%BC"><span class="nav-number">3.4.</span> <span class="nav-text">曲线插值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">实现问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">初始化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E7%BB%86%E5%8C%96"><span class="nav-number">4.2.</span> <span class="nav-text">网格细化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90"><span class="nav-number">4.3.</span> <span class="nav-text">误差分析</span></a></li></ol></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">55</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">25</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2022</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%A8%E8%BF%B9%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">轨迹优化问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">问题简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.2.</span> <span class="nav-text">形式化描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%88%86%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">变分法求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%82%B9%E6%B3%95-direct-collocation-methods"><span class="nav-number">2.</span> <span class="nav-text">直接配点法-direct collocation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BD%A2%E9%85%8D%E7%82%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">梯形配点法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%AF%E5%88%86%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC"><span class="nav-number">3.1.</span> <span class="nav-text">积分方程的近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%91%E4%BC%BC"><span class="nav-number">3.2.</span> <span class="nav-text">微分方程的近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.3.</span> <span class="nav-text">原始约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B2%E7%BA%BF%E6%8F%92%E5%80%BC"><span class="nav-number">3.4.</span> <span class="nav-text">曲线插值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">实现问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">初始化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E7%BB%86%E5%8C%96"><span class="nav-number">4.2.</span> <span class="nav-text">网格细化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90"><span class="nav-number">4.3.</span> <span class="nav-text">误差分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -130,7 +666,14 @@ x_{0}=0, & x_{N}=1 \\
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -156,4 +699,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>

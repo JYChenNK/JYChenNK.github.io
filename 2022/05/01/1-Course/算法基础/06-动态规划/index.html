@@ -1,9 +1,482 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!0,async:!0,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta property="og:type" content="article"><meta property="og:title" content="算法基础 6 - 动态规划 Dynamic Programming"><meta property="og:url" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html"><meta property="og:site_name" content="萤火"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png"><meta property="article:published_time" content="2022-04-30T16:05:00.000Z"><meta property="article:modified_time" content="2022-09-12T10:28:42.617Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="Algorithm"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png"><link rel="canonical" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>算法基础 6 - 动态规划 Dynamic Programming | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li><li class="menu-item menu-item-course"><a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i> 专业课程</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i> 留言板</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 算法基础 6 - 动态规划 Dynamic Programming</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-01 00:05:00" itemprop="dateCreated datePublished" datetime="2022-05-01T00:05:00+08:00">2022-05-01</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2022-09-12 18:28:42" itemprop="dateModified" datetime="2022-09-12T18:28:42+08:00">2022-09-12</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a></span></span><span id="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-meta-item leancloud_visitors" data-flag-title="算法基础 6 - 动态规划 Dynamic Programming" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png" class><span id="more"></span><p>将一个复杂的问题，转化为可以递归的子问题，尽可能减少解的可能空间，然后进行局部暴力破解。</p><h3 id="DP的特性与步骤（SRTBOT）"><a href="#DP的特性与步骤（SRTBOT）" class="headerlink" title="DP的特性与步骤（SRTBOT）"></a>DP的特性与步骤（SRTBOT）</h3><ul><li><strong>定义子问题</strong>（subproblem）<ul><li>使用词汇语句来描述子问题</li><li>通常采用输入的子集：前缀、后缀、子串</li><li>通常会采用额外的辅助变量对子问题进行扩充</li></ul></li><li><strong>关联性</strong>（Relate）<ul><li>子问题的求解通过递归来实现，$x(i)=f(x(j),\ \dots)$</li></ul></li><li><strong>拓扑顺序</strong>（Topological Order）<ul><li>问题的求解时单向递进的，不存在循环的回路</li></ul></li><li><strong>基本案列</strong>（Basic Cases）<ul><li>不存在关联性的初始状态的解</li></ul></li><li><strong>原始问题</strong>（Original Problem）<ul><li>展示如何由子问题求解原始问题</li></ul></li><li><p><strong>时间分析</strong>（Time Analysis）</p><ul><li><p>求解原始问题所需求解的所有子问题时间总和</p><script type="math/tex;mode=display">
-\sum_{x\in X}work(x),\ or |X|\cdot O(W)\quad if \ work(x)=O(W)</script></li></ul></li></ul><hr><h3 id="Trick-1-增加记忆-斐波那契数"><a href="#Trick-1-增加记忆-斐波那契数" class="headerlink" title="Trick 1: 增加记忆 - 斐波那契数"></a>Trick 1: 增加记忆 - 斐波那契数</h3><aside> 💡 通过存储子问题的解，提高递归求解的效率</aside><p><strong>问题</strong>：计算第n个斐波那契数$F_n$</p><p><strong>DP求解</strong>：</p><ul><li>子问题：计算第i个斐波那契数$F(i),\ i\in\{1, 2, \dots, n\}$</li><li>关联性：$F(i)=F(i-1)+F(i-2)$</li><li>拓扑顺序：递增 i</li><li>基本案例：$F(0)=0,\ F(1)=1$</li><li>原始问题：$F_n = F(n)$</li><li>时间分析：</li></ul><script type="math/tex;mode=display">
-T(n)=T(n-1)+T(n-2)+O(1)\to T = n\cdot O(1) = O(n)\ (by\ memo)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">    memo = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">F</span>(<span class="params">i</span>):</span></span><br><span class="line">        <span class="keyword">if</span> i &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> memo:</span><br><span class="line">            memo[i] = F(i - <span class="number">1</span>) + F(i - <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> memo[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> F(n)</span><br></pre></td></tr></table></figure><h3 id="Trick-2-局部暴力破解-保龄球问题"><a href="#Trick-2-局部暴力破解-保龄球问题" class="headerlink" title="Trick 2: 局部暴力破解 - 保龄球问题"></a>Trick 2: 局部暴力破解 - 保龄球问题</h3><aside> 💡 局部遍历问题所有可能解，通过子问题递归减少解集空间</aside><p><strong>问题</strong>：在一组给定带标签的保龄球数列，计算最大得分</p><ul><li>每次可以击中一个或相邻两个保龄球，也可以选择不击球（结束）</li><li>击中一个得该球分数，击中相邻讲个得两球得分乘积</li><li>测试案例：$[-1,1,1,1,9,9,3,-3,-5,2,2]$</li></ul><p><strong>DP求解</strong>：</p><ul><li>子问题：求解输入的子序列的最大得分<code>B(i) = Max Score of Input v[i:n]</code></li><li>关联性（局部暴力破解）：<code>B(i) = max&#123;B(i+1), B(i+1)+v[i], B(i+2)+v[i]*v[i+1]&#125;</code></li><li>拓扑顺序：递减 i <code>(for i = n, n-1, 0)</code></li><li>基本案例：<code>B(n) = B(n+1) = 0</code></li><li>原始问题：<code>B(0)</code></li><li>时间分析：<code>Time = O(n) subproblems * O(1) work on each = O(n)</code></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bowl</span>(<span class="params">v</span>):</span></span><br><span class="line">    memo = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">B</span>(<span class="params">i</span>):</span></span><br><span class="line">        <span class="keyword">if</span> i &gt;= <span class="built_in">len</span>(v)-<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> memo:</span><br><span class="line">            memo[i] = <span class="built_in">max</span>(B(i+<span class="number">1</span>), B(i+<span class="number">1</span>)+v[i], B(i+<span class="number">2</span>)+v[i]*v[i+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> memo[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> B(<span class="number">0</span>)</span><br></pre></td></tr></table></figure><h3 id="Trick-3-通过子序列构造子问题-最长相同子序列（Longest-Common-Subsequence-LCS）"><a href="#Trick-3-通过子序列构造子问题-最长相同子序列（Longest-Common-Subsequence-LCS）" class="headerlink" title="Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）"></a>Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）</h3><aside> 💡 通过输入的子序列（前缀、后缀、子串）构造子问题，再进行局部破解</aside><p><strong>问题</strong>：给定两个字符串，找出两个字符串最长的公共部分</p><ul><li>测试案例：<code>A = hieroglyphology, B = michaelangelo</code></li><li>解集：<code>hello, heglo, iello, ieglo</code></li></ul><p><strong>DP求解</strong>：</p><ul><li>子问题：<code>x(i,j) = Longest Common Subsequence of A[i:n] and B[j:n]</code></li><li>关联性（局部暴力破解）:</li></ul><script type="math/tex;mode=display">
-x(i, j)= \begin{cases}x(i+1, j+1)+1 & \text { if } A[i]=B[j] \\ \max \{x(i+1, j), x(i, j+1)\} & \text { otherwise }\end{cases}</script><ul><li>拓扑顺序：递减 i + j；先递减 i，然后递减 j</li><li>基本案例：<code>x(i,|B|) = x(|A|,j) = 0</code></li><li>原始问题：<code>x(0,0)</code></li><li>时间分析：<code>Time = O(|A|+1)*O(|B|+1) subproblems * O(1) work on each = O(|A|*|B|)</code></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lcs</span>(<span class="params">A, B</span>):</span></span><br><span class="line">    a, b = <span class="built_in">len</span>(A), <span class="built_in">len</span>(B)</span><br><span class="line">    x = [[<span class="number">0</span>]*(b+<span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a+<span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(b)):</span><br><span class="line">            <span class="keyword">if</span> A[i] == B[j]:</span><br><span class="line">                x[i][j] = x[i+<span class="number">1</span>][j+<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                x[i][j] = <span class="built_in">max</span>(x[i+<span class="number">1</span>][j], x[i][j+<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> x[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure><h3 id="Trick-4-增加问题约束-最长递增子序列（Longest-Increasing-Subsequence-LIS）"><a href="#Trick-4-增加问题约束-最长递增子序列（Longest-Increasing-Subsequence-LIS）" class="headerlink" title="Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）"></a>Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）</h3><aside> 💡 通过增加额外的约束条件修改原问题，降低子问题的解空间维度，提高局部暴力破解的效率</aside><p><strong>问题</strong>：给定一个字符串，找出最长的严格递增的子串</p><ul><li>测试案例：<code>A = carbohydrate</code></li><li>解集：<code>abort</code></li></ul><p><strong>DP求解</strong>：</p><ul><li>子问题：<strong><em>包含首个元素</em></strong>的最长递增子序列<br><code>x(i) = Longest Increasing Subsequence of A[i:n] that include A[i]</code></li><li>关联性（局部暴力破解）:</li></ul><script type="math/tex;mode=display">
-x(i)=\max \{1+x(j)|i<j<| A \mid, A[j]>A[i]\} \cup\{1\}</script><ul><li>拓扑顺序：递减 i</li><li>基本案例：<code>x(n) = 1</code></li><li>原始问题：<code>max(x(i)| 0 &lt;= i &lt;= |A|)</code></li><li>时间分析：<code>Time = O(|A|) subproblems * O(log|A|) each by AVL Tree = O(|A|log|A|)</code></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lis</span>(<span class="params">A</span>):</span></span><br><span class="line">    a = <span class="built_in">len</span>(A)</span><br><span class="line">    x = [<span class="number">1</span>] * a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i, a):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[i]:</span><br><span class="line">                x[i] = <span class="built_in">max</span>(x[i], <span class="number">1</span> + x[j])</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(x)</span><br></pre></td></tr></table></figure><h3 id="Trick-5-子问题扩张-括号化算数运算（Arithmetic-Parenthesization）"><a href="#Trick-5-子问题扩张-括号化算数运算（Arithmetic-Parenthesization）" class="headerlink" title="Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）"></a>Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）</h3><aside> 💡 将原问题扩张为几个**相关联的、并列的**子问题，对每个子问题采用局部暴力破解</aside><p><strong>问题</strong>：给定一个算数表达式$a_0 <em>_1 a_1</em> _2 a_2 \cdots *_{n-1} a_{n-1}$，通过添加括号使运算结果最大化</p><ul><li>$*_i \in\{+, \times\}$，$a_i$为正、负整数</li><li>测试案例：$7+(-4) \times 3+(-5)$</li><li>解集：$((7)+((-4) \times((3)+(-5))))=15$</li></ul><p><strong>DP求解</strong>：</p><ul><li>子问题：求解输入的子序列的<strong>最大和最小</strong>运算结果<ul><li><code>x(i,j,opt) = opt value of subsquence</code> $a_i<em>_{i+1}\cdots</em>_{j-1}a_{j-1}$</li><li><code>0 ≤ i &lt; j ≤ n, opt in &#123;max, min&#125;</code></li></ul></li><li>关联性（局部暴力破解）：</li></ul><script type="math/tex;mode=display">
-\left.x(i, j, \text { opt })=\operatorname{opt}\left\{x\left(i, k, \text { opt }^{\prime}\right) *_k x\left(k, j, \text { opt }^{\prime \prime}\right)\right) \mid i<k<j ; \text { opt }^{\prime}, \mathrm{opt}^{\prime \prime} \in\{\min , \max \}\right\}</script><ul><li>拓扑顺序：递增 j - i</li><li>基本案例：<code>x(i,i+1,opt) = A[i]</code></li><li>原始问题：<code>x(0,n,max)</code></li><li>时间分析：<code>Time = O(n^2) subproblems * O(n) work on each = O(n^3)</code></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ap</span>(<span class="params">A, O</span>):</span></span><br><span class="line">    a = <span class="built_in">len</span>(A)</span><br><span class="line">    a_max = [[<span class="number">0</span>] * (a) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a)]</span><br><span class="line">    a_min = [[<span class="number">0</span>] * (a) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxmin_subseq</span>(<span class="params">i, k, j, opt</span>):</span></span><br><span class="line">        <span class="keyword">if</span> O[k] == <span class="string">&#x27;*&#x27;</span>:</span><br><span class="line">            a = [x*y <span class="keyword">for</span> x <span class="keyword">in</span> [a_max[i][k], a_min[i][k]] </span><br><span class="line">                 <span class="keyword">for</span> y <span class="keyword">in</span> [a_max[k+<span class="number">1</span>][j], a_min[k+<span class="number">1</span>][j]]]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = [x+y <span class="keyword">for</span> x <span class="keyword">in</span> [a_max[i][k], a_min[i][k]] </span><br><span class="line">                 <span class="keyword">for</span> y <span class="keyword">in</span> [a_max[k+<span class="number">1</span>][j], a_min[k+<span class="number">1</span>][j]]]</span><br><span class="line">        <span class="keyword">if</span> opt == <span class="string">&quot;max&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">max</span>(a_max[i][j], <span class="built_in">max</span>(a))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">min</span>(a_min[i][j], <span class="built_in">min</span>(a))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i, a):</span><br><span class="line">            <span class="keyword">if</span> j == i:</span><br><span class="line">                a_max[i][i] = A[i]</span><br><span class="line">                a_min[i][i] = A[i]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(i, j):</span><br><span class="line">                    a_max[i][j] = maxmin_subseq(i, k, j, <span class="string">&quot;max&quot;</span>)</span><br><span class="line">                    a_min[i][j] = maxmin_subseq(i, k, j, <span class="string">&quot;min&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> a_max[<span class="number">0</span>][<span class="built_in">len</span>(A)-<span class="number">1</span>]</span><br></pre></td></tr></table></figure></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法基础 6 - 动态规划 Dynamic Programming">https://jychennk.github.io/2022/05/01/1-Course/算法基础/06-动态规划/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/Algorithm/" rel="tag"># Algorithm</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2022/03/01/1-Course/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%90/%E6%AD%A5%E6%80%81%E5%88%86%E6%9E%901-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86/" rel="prev" title="步态分析 1 - 背景知识"><i class="fa fa-chevron-left"></i> 步态分析 1 - 背景知识</a></div><div class="post-nav-item"> <a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/05-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E4%B8%8E%E4%BA%8C%E5%8F%89%E5%A0%86/" rel="next" title="算法基础 5 - 优先队列与二叉堆 Binary Heap">算法基础 5 - 优先队列与二叉堆 Binary Heap<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+  </script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="算法基础 6 - 动态规划 Dynamic Programming">
+<meta property="og:url" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png">
+<meta property="article:published_time" content="2022-04-30T16:05:00.000Z">
+<meta property="article:modified_time" content="2022-09-12T10:28:42.617Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png">
+
+<link rel="canonical" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法基础 6 - 动态规划 Dynamic Programming | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+        <li class="menu-item menu-item-course">
+
+    <a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i>专业课程</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法基础 6 - 动态规划 Dynamic Programming
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 00:05:00" itemprop="dateCreated datePublished" datetime="2022-05-01T00:05:00+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-12 18:28:42" itemprop="dateModified" datetime="2022-09-12T18:28:42+08:00">2022-09-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-meta-item leancloud_visitors" data-flag-title="算法基础 6 - 动态规划 Dynamic Programming" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/0.png" class>
+<span id="more"></span>
+<p>将一个复杂的问题，转化为可以递归的子问题，尽可能减少解的可能空间，然后进行局部暴力破解。</p>
+<h3 id="DP的特性与步骤（SRTBOT）"><a href="#DP的特性与步骤（SRTBOT）" class="headerlink" title="DP的特性与步骤（SRTBOT）"></a>DP的特性与步骤（SRTBOT）</h3><ul>
+<li><strong>定义子问题</strong>（subproblem）<ul>
+<li>使用词汇语句来描述子问题</li>
+<li>通常采用输入的子集：前缀、后缀、子串</li>
+<li>通常会采用额外的辅助变量对子问题进行扩充</li>
+</ul>
+</li>
+<li><strong>关联性</strong>（Relate）<ul>
+<li>子问题的求解通过递归来实现，$x(i)=f(x(j),\ \dots)$</li>
+</ul>
+</li>
+<li><strong>拓扑顺序</strong>（Topological Order）<ul>
+<li>问题的求解时单向递进的，不存在循环的回路</li>
+</ul>
+</li>
+<li><strong>基本案列</strong>（Basic Cases）<ul>
+<li>不存在关联性的初始状态的解</li>
+</ul>
+</li>
+<li><strong>原始问题</strong>（Original Problem）<ul>
+<li>展示如何由子问题求解原始问题</li>
+</ul>
+</li>
+<li><p><strong>时间分析</strong>（Time Analysis）</p>
+<ul>
+<li><p>求解原始问题所需求解的所有子问题时间总和</p>
+<script type="math/tex; mode=display">
+\sum_{x\in X}work(x),\ or |X|\cdot O(W)\quad if \ work(x)=O(W)</script></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Trick-1-增加记忆-斐波那契数"><a href="#Trick-1-增加记忆-斐波那契数" class="headerlink" title="Trick 1: 增加记忆 - 斐波那契数"></a>Trick 1: 增加记忆 - 斐波那契数</h3><aside>
+💡 通过存储子问题的解，提高递归求解的效率
+
+</aside>
+
+<p><strong>问题</strong>：计算第n个斐波那契数$F_n$</p>
+<p><strong>DP求解</strong>：</p>
+<ul>
+<li>子问题：计算第i个斐波那契数$F(i),\ i\in\{1, 2, \dots, n\}$</li>
+<li>关联性：$F(i)=F(i-1)+F(i-2)$</li>
+<li>拓扑顺序：递增 i</li>
+<li>基本案例：$F(0)=0,\ F(1)=1$</li>
+<li>原始问题：$F_n = F(n)$</li>
+<li>时间分析：</li>
+</ul>
+<script type="math/tex; mode=display">
+T(n)=T(n-1)+T(n-2)+O(1)\to T = n\cdot O(1) = O(n)\ (by\ memo)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">    memo = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">F</span>(<span class="params">i</span>):</span></span><br><span class="line">        <span class="keyword">if</span> i &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> memo:</span><br><span class="line">            memo[i] = F(i - <span class="number">1</span>) + F(i - <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> memo[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> F(n)</span><br></pre></td></tr></table></figure>
+<h3 id="Trick-2-局部暴力破解-保龄球问题"><a href="#Trick-2-局部暴力破解-保龄球问题" class="headerlink" title="Trick 2: 局部暴力破解 - 保龄球问题"></a>Trick 2: 局部暴力破解 - 保龄球问题</h3><aside>
+💡 局部遍历问题所有可能解，通过子问题递归减少解集空间
+
+</aside>
+
+<p><strong>问题</strong>：在一组给定带标签的保龄球数列，计算最大得分</p>
+<ul>
+<li>每次可以击中一个或相邻两个保龄球，也可以选择不击球（结束）</li>
+<li>击中一个得该球分数，击中相邻讲个得两球得分乘积</li>
+<li>测试案例：$[-1,1,1,1,9,9,3,-3,-5,2,2]$</li>
+</ul>
+<p><strong>DP求解</strong>：</p>
+<ul>
+<li>子问题：求解输入的子序列的最大得分<code>B(i) = Max Score of Input v[i:n]</code></li>
+<li>关联性（局部暴力破解）：<code>B(i) = max&#123;B(i+1), B(i+1)+v[i], B(i+2)+v[i]*v[i+1]&#125;</code></li>
+<li>拓扑顺序：递减 i <code>(for i = n, n-1, 0)</code></li>
+<li>基本案例：<code>B(n) = B(n+1) = 0</code></li>
+<li>原始问题：<code>B(0)</code></li>
+<li>时间分析：<code>Time = O(n) subproblems * O(1) work on each = O(n)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bowl</span>(<span class="params">v</span>):</span></span><br><span class="line">    memo = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">B</span>(<span class="params">i</span>):</span></span><br><span class="line">        <span class="keyword">if</span> i &gt;= <span class="built_in">len</span>(v)-<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> memo:</span><br><span class="line">            memo[i] = <span class="built_in">max</span>(B(i+<span class="number">1</span>), B(i+<span class="number">1</span>)+v[i], B(i+<span class="number">2</span>)+v[i]*v[i+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> memo[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> B(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Trick-3-通过子序列构造子问题-最长相同子序列（Longest-Common-Subsequence-LCS）"><a href="#Trick-3-通过子序列构造子问题-最长相同子序列（Longest-Common-Subsequence-LCS）" class="headerlink" title="Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）"></a>Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）</h3><aside>
+💡 通过输入的子序列（前缀、后缀、子串）构造子问题，再进行局部破解
+
+</aside>
+
+<p><strong>问题</strong>：给定两个字符串，找出两个字符串最长的公共部分</p>
+<ul>
+<li>测试案例：<code>A = hieroglyphology, B = michaelangelo</code></li>
+<li>解集：<code>hello, heglo, iello, ieglo</code></li>
+</ul>
+<p><strong>DP求解</strong>：</p>
+<ul>
+<li>子问题：<code>x(i,j) = Longest Common Subsequence of A[i:n] and B[j:n]</code></li>
+<li>关联性（局部暴力破解）:</li>
+</ul>
+<script type="math/tex; mode=display">
+x(i, j)= \begin{cases}x(i+1, j+1)+1 & \text { if } A[i]=B[j] \\ \max \{x(i+1, j), x(i, j+1)\} & \text { otherwise }\end{cases}</script><ul>
+<li>拓扑顺序：递减 i + j；先递减 i，然后递减 j</li>
+<li>基本案例：<code>x(i,|B|) = x(|A|,j) = 0</code></li>
+<li>原始问题：<code>x(0,0)</code></li>
+<li>时间分析：<code>Time = O(|A|+1)*O(|B|+1) subproblems * O(1) work on each = O(|A|*|B|)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lcs</span>(<span class="params">A, B</span>):</span></span><br><span class="line">    a, b = <span class="built_in">len</span>(A), <span class="built_in">len</span>(B)</span><br><span class="line">    x = [[<span class="number">0</span>]*(b+<span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a+<span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(b)):</span><br><span class="line">            <span class="keyword">if</span> A[i] == B[j]:</span><br><span class="line">                x[i][j] = x[i+<span class="number">1</span>][j+<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                x[i][j] = <span class="built_in">max</span>(x[i+<span class="number">1</span>][j], x[i][j+<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> x[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Trick-4-增加问题约束-最长递增子序列（Longest-Increasing-Subsequence-LIS）"><a href="#Trick-4-增加问题约束-最长递增子序列（Longest-Increasing-Subsequence-LIS）" class="headerlink" title="Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）"></a>Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）</h3><aside>
+💡 通过增加额外的约束条件修改原问题，降低子问题的解空间维度，提高局部暴力破解的效率
+
+</aside>
+
+<p><strong>问题</strong>：给定一个字符串，找出最长的严格递增的子串</p>
+<ul>
+<li>测试案例：<code>A = carbohydrate</code></li>
+<li>解集：<code>abort</code></li>
+</ul>
+<p><strong>DP求解</strong>：</p>
+<ul>
+<li>子问题：<strong><em>包含首个元素</em></strong>的最长递增子序列<br><code>x(i) = Longest Increasing Subsequence of A[i:n] that include A[i]</code></li>
+<li>关联性（局部暴力破解）:</li>
+</ul>
+<script type="math/tex; mode=display">
+x(i)=\max \{1+x(j)|i<j<| A \mid, A[j]>A[i]\} \cup\{1\}</script><ul>
+<li>拓扑顺序：递减 i</li>
+<li>基本案例：<code>x(n) = 1</code></li>
+<li>原始问题：<code>max(x(i)| 0 &lt;= i &lt;= |A|)</code></li>
+<li>时间分析：<code>Time = O(|A|) subproblems * O(log|A|) each by AVL Tree = O(|A|log|A|)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lis</span>(<span class="params">A</span>):</span></span><br><span class="line">    a = <span class="built_in">len</span>(A)</span><br><span class="line">    x = [<span class="number">1</span>] * a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i, a):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[i]:</span><br><span class="line">                x[i] = <span class="built_in">max</span>(x[i], <span class="number">1</span> + x[j])</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(x)</span><br></pre></td></tr></table></figure>
+<h3 id="Trick-5-子问题扩张-括号化算数运算（Arithmetic-Parenthesization）"><a href="#Trick-5-子问题扩张-括号化算数运算（Arithmetic-Parenthesization）" class="headerlink" title="Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）"></a>Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）</h3><aside>
+💡 将原问题扩张为几个**相关联的、并列的**子问题，对每个子问题采用局部暴力破解
+
+</aside>
+
+<p><strong>问题</strong>：给定一个算数表达式$a_0 <em>_1 a_1 </em>_2 a_2 \cdots *_{n-1} a_{n-1}$，通过添加括号使运算结果最大化</p>
+<ul>
+<li>$*_i \in\{+, \times\}$，$a_i$为正、负整数</li>
+<li>测试案例：$7+(-4) \times 3+(-5)$</li>
+<li>解集：$((7)+((-4) \times((3)+(-5))))=15$</li>
+</ul>
+<p><strong>DP求解</strong>：</p>
+<ul>
+<li>子问题：求解输入的子序列的<strong>最大和最小</strong>运算结果<ul>
+<li><code>x(i,j,opt) = opt value of subsquence</code> $a_i<em>_{i+1}\cdots</em>_{j-1}a_{j-1}$</li>
+<li><code>0 ≤ i &lt; j ≤ n, opt in &#123;max, min&#125;</code></li>
+</ul>
+</li>
+<li>关联性（局部暴力破解）：</li>
+</ul>
+<script type="math/tex; mode=display">
+\left.x(i, j, \text { opt })=\operatorname{opt}\left\{x\left(i, k, \text { opt }^{\prime}\right) *_k x\left(k, j, \text { opt }^{\prime \prime}\right)\right) \mid i<k<j ; \text { opt }^{\prime}, \mathrm{opt}^{\prime \prime} \in\{\min , \max \}\right\}</script><ul>
+<li>拓扑顺序：递增 j - i</li>
+<li>基本案例：<code>x(i,i+1,opt) = A[i]</code></li>
+<li>原始问题：<code>x(0,n,max)</code></li>
+<li>时间分析：<code>Time = O(n^2) subproblems * O(n) work on each = O(n^3)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ap</span>(<span class="params">A, O</span>):</span></span><br><span class="line">    a = <span class="built_in">len</span>(A)</span><br><span class="line">    a_max = [[<span class="number">0</span>] * (a) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a)]</span><br><span class="line">    a_min = [[<span class="number">0</span>] * (a) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(a)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxmin_subseq</span>(<span class="params">i, k, j, opt</span>):</span></span><br><span class="line">        <span class="keyword">if</span> O[k] == <span class="string">&#x27;*&#x27;</span>:</span><br><span class="line">            a = [x*y <span class="keyword">for</span> x <span class="keyword">in</span> [a_max[i][k], a_min[i][k]] </span><br><span class="line">                 <span class="keyword">for</span> y <span class="keyword">in</span> [a_max[k+<span class="number">1</span>][j], a_min[k+<span class="number">1</span>][j]]]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = [x+y <span class="keyword">for</span> x <span class="keyword">in</span> [a_max[i][k], a_min[i][k]] </span><br><span class="line">                 <span class="keyword">for</span> y <span class="keyword">in</span> [a_max[k+<span class="number">1</span>][j], a_min[k+<span class="number">1</span>][j]]]</span><br><span class="line">        <span class="keyword">if</span> opt == <span class="string">&quot;max&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">max</span>(a_max[i][j], <span class="built_in">max</span>(a))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">min</span>(a_min[i][j], <span class="built_in">min</span>(a))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i, a):</span><br><span class="line">            <span class="keyword">if</span> j == i:</span><br><span class="line">                a_max[i][i] = A[i]</span><br><span class="line">                a_min[i][i] = A[i]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(i, j):</span><br><span class="line">                    a_max[i][j] = maxmin_subseq(i, k, j, <span class="string">&quot;max&quot;</span>)</span><br><span class="line">                    a_min[i][j] = maxmin_subseq(i, k, j, <span class="string">&quot;min&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> a_max[<span class="number">0</span>][<span class="built_in">len</span>(A)-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/06-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="算法基础 6 - 动态规划 Dynamic Programming">https://jychennk.github.io/2022/05/01/1-Course/算法基础/06-动态规划/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/01/3-Biomechanics/%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80/" rel="prev" title="Electromyography - 原理与应用基础">
+      <i class="fa fa-chevron-left"></i> Electromyography - 原理与应用基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/05-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E4%B8%8E%E4%BA%8C%E5%8F%89%E5%A0%86/" rel="next" title="算法基础 5 - 优先队列与二叉堆 Binary Heap">
+      算法基础 5 - 优先队列与二叉堆 Binary Heap <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -23,7 +496,155 @@ x(i)=\max \{1+x(j)|i<j<| A \mid, A[j]>A[i]\} \cup\{1\}</script><ul><li>拓扑顺
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DP%E7%9A%84%E7%89%B9%E6%80%A7%E4%B8%8E%E6%AD%A5%E9%AA%A4%EF%BC%88SRTBOT%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">DP的特性与步骤（SRTBOT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-1-%E5%A2%9E%E5%8A%A0%E8%AE%B0%E5%BF%86-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Trick 1: 增加记忆 - 斐波那契数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-2-%E5%B1%80%E9%83%A8%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BF%9D%E9%BE%84%E7%90%83%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">Trick 2: 局部暴力破解 - 保龄球问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-3-%E9%80%9A%E8%BF%87%E5%AD%90%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E5%AD%90%E9%97%AE%E9%A2%98-%E6%9C%80%E9%95%BF%E7%9B%B8%E5%90%8C%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88Longest-Common-Subsequence-LCS%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-4-%E5%A2%9E%E5%8A%A0%E9%97%AE%E9%A2%98%E7%BA%A6%E6%9D%9F-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88Longest-Increasing-Subsequence-LIS%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-5-%E5%AD%90%E9%97%AE%E9%A2%98%E6%89%A9%E5%BC%A0-%E6%8B%AC%E5%8F%B7%E5%8C%96%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%EF%BC%88Arithmetic-Parenthesization%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">55</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">25</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2022</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DP%E7%9A%84%E7%89%B9%E6%80%A7%E4%B8%8E%E6%AD%A5%E9%AA%A4%EF%BC%88SRTBOT%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">DP的特性与步骤（SRTBOT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-1-%E5%A2%9E%E5%8A%A0%E8%AE%B0%E5%BF%86-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Trick 1: 增加记忆 - 斐波那契数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-2-%E5%B1%80%E9%83%A8%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BF%9D%E9%BE%84%E7%90%83%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">Trick 2: 局部暴力破解 - 保龄球问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-3-%E9%80%9A%E8%BF%87%E5%AD%90%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E5%AD%90%E9%97%AE%E9%A2%98-%E6%9C%80%E9%95%BF%E7%9B%B8%E5%90%8C%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88Longest-Common-Subsequence-LCS%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">Trick 3: 通过子序列构造子问题 - 最长相同子序列（Longest Common Subsequence, LCS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-4-%E5%A2%9E%E5%8A%A0%E9%97%AE%E9%A2%98%E7%BA%A6%E6%9D%9F-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88Longest-Increasing-Subsequence-LIS%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Trick 4: 增加问题约束 - 最长递增子序列（Longest Increasing Subsequence, LIS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trick-5-%E5%AD%90%E9%97%AE%E9%A2%98%E6%89%A9%E5%BC%A0-%E6%8B%AC%E5%8F%B7%E5%8C%96%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%EF%BC%88Arithmetic-Parenthesization%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Trick 5: 子问题扩张 - 括号化算数运算（Arithmetic Parenthesization）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -73,7 +694,14 @@ x(i)=\max \{1+x(j)|i<j<| A \mid, A[j]>A[i]\} \cup\{1\}</script><ul><li>拓扑顺
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -99,4 +727,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>
