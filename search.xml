@@ -6760,12 +6760,12 @@ $$
 
 </aside>
 
-<h3 id="极点配置"><a href="#极点配置" class="headerlink" title="极点配置"></a>极点配置</h3><p>状态空间模型表示系统的响应特性主要由状态矩阵的极点决定，因此可以通过配置(A-BK)的极点于期望的位置。若系统可控，则通过状态反馈，可以实现配置闭环系统极点的位置。在Matlab中可以通过如下代码来计算反馈增益矩阵：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">poles = [<span class="number">-10</span>,<span class="number">-20</span>];</span><br><span class="line">K1 = place(A,B,poles);</span><br></pre></td></tr></table></figure>
+<h3 id="极点配置"><a href="#极点配置" class="headerlink" title="极点配置"></a>极点配置</h3><p>状态空间模型表示系统的响应特性主要由状态矩阵的极点决定，因此可以通过配置(A-BK)的极点于期望的位置。若系统可控，则通过状态反馈，可以实现任意配置闭环系统极点的位置。在Matlab中可以通过如下代码来计算反馈增益矩阵：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">poles = [<span class="number">-10</span>,<span class="number">-20</span>];</span><br><span class="line">K1 = place(A,B,poles);</span><br></pre></td></tr></table></figure>
 <h3 id="LQR-线性二次型调节器"><a href="#LQR-线性二次型调节器" class="headerlink" title="LQR - 线性二次型调节器"></a>LQR - 线性二次型调节器</h3><p>另一种设计反馈增益矩阵的方法，是通过构造控制代价函数，通过优化求解最优的增益矩阵。在实际的工程应用中，我们希望控制系统在跟踪误差、响应速度、输入能耗等各方面能有一个综合考虑，因此构造如下的代价函数（指标泛函）：</p>
 <script type="math/tex; mode=display">
 J=\int_0^\infty x^TQx+u^TRu\ dt</script><p>代价函数的含义是，当系统存在一个初始扰动x(0)时，将系统状态控制到原点过程中，状态误差和控制输出的总体评估。其中Q，R为权重矩阵，通常使用对角阵，在应用时往往根据工程需要和设计经验来确定。在Matlab中可以通过如下代码来计算LQR控制器的反馈增益矩阵：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">Q = [<span class="number">0.01</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">0.0001</span>]; R = <span class="number">1</span>;</span><br><span class="line">[K2,S,P] = lqr(ModelSS,Q,R);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">Q = [<span class="number">0.01</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">0.0001</span>]; R = <span class="number">1</span>;</span><br><span class="line">[K2,S,P] = lqr(ModelSS,Q,R);</span><br></pre></td></tr></table></figure>
 <p>通过如下代码可以对所设计的控制器进行验证：</p>
 <figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">CL_SS1 = ss(A-B*K1,B*K1(<span class="number">1</span>),C,D);</span><br><span class="line">CL_SS2 = ss(A-B*K2,B*K2(<span class="number">1</span>),C,D);</span><br><span class="line">linearSystemAnalyzer(CL_SS1,CL_SS2);</span><br></pre></td></tr></table></figure>
 <p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png" alt="Untitled"></p>
@@ -6924,46 +6924,54 @@ i_a=-\frac{K_g}{K_i}\sin\theta</script><p><img src="/2022/05/26/4-Tutorials/Cont
 \dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin(\theta)</script><p>其中$K_g$为恒定或缓慢变化的未知参数，为简化后面的表达，所有参数对$K_m$归一化。</p>
 <p>由于$K_g$未知，因此对构造一个估计变量$\hat K_g$，估计误差为：</p>
 <script type="math/tex; mode=display">
-\tilde K_g=K_g-\hat K_g\\
+\tilde K_g=K_g-\hat K_g</script><script type="math/tex; mode=display">
 \dot{\tilde K_g}=\dot K_g-\dot{\hat K_g}=-\dot{\hat K_g}</script><p>考虑对于期望转速$w_d$的跟踪问题，跟踪误差为：</p>
 <script type="math/tex; mode=display">
-e=w_d-w\\
+e=w_d-w</script><script type="math/tex; mode=display">
 \dot e = \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+K_g\sin\theta)</script><p>设计如下控制器和参数估计器：</p>
 <script type="math/tex; mode=display">
-i_a=\frac{1}{K_i}(\dot w_d+K_fw-\hat K_g\sin\theta+ke)\\
+i_a=\frac{1}{K_i}(\dot w_d+K_fw-\hat K_g\sin\theta+ke)</script><script type="math/tex; mode=display">
 \dot{\hat K_g}=-\gamma e \sin\theta</script><p>则有：</p>
 <script type="math/tex; mode=display">
-\dot e =\dot w_d-[-K_fw+(\dot w_d+K_fw-\hat K_g\sin\theta+ke)+K_g\sin\theta]\\
-=-ke-(K_g-\hat K_g)\sin\theta\\
-=-ke-\tilde K_g\sin\theta</script><p>构造李雅普诺夫函数：</p>
+\begin{align}
+\dot e &=\dot w_d-[-K_fw+(\dot w_d+K_fw-\hat K_g\sin\theta+ke)+K_g\sin\theta]\\
+&=-ke-(K_g-\hat K_g)\sin\theta\\
+&=-ke-\tilde K_g\sin\theta
+\end{align}</script><p>构造李雅普诺夫函数：</p>
 <script type="math/tex; mode=display">
-V=\frac{1}{2}e^2+\frac{1}{2\gamma}{\tilde K_g}^2</script><script type="math/tex; mode=display">
-\dot V=e\dot e+\frac{1}{\gamma}{\tilde K_g}\dot{\tilde K_g}\\
-=e(-ke-\tilde K_g\sin\theta)-\frac{1}{\gamma}{\tilde K_g}\dot{\hat K_g}\\
-=-ke^2-\tilde K_ge\sin\theta +\tilde K_ge\sin\theta\\
-=-ke^2</script><p>因此自适应系统是全局稳定的，Barbalat引理保证跟踪误差全局渐进收敛。</p>
+\begin{align}
+V&=\frac{1}{2}e^2+\frac{1}{2\gamma}{\tilde K_g}^2\\
+\dot V&=e\dot e+\frac{1}{\gamma}{\tilde K_g}\dot{\tilde K_g}\\
+&=e(-ke-\tilde K_g\sin\theta)-\frac{1}{\gamma}{\tilde K_g}\dot{\hat K_g}\\
+&=-ke^2-\tilde K_ge\sin\theta +\tilde K_ge\sin\theta\\
+&=-ke^2
+\end{align}</script><p>因此自适应系统是全局稳定的，Barbalat引理保证跟踪误差全局渐进收敛。</p>
 <p>在具体实现代码实现时，阶跃曲线的$\dot w_d=0$，$i_a=\frac{1}{K_i}(K_fw-\hat K_g\sin\theta+ke)$，其中$(K_fw-\hat K_g\sin\theta)$是通过估计参数进行反馈线性化，$ke$是比例控制。我们也可以根据设计成其他形式的自适应控制器，例如采取比例积分方法：</p>
 <script type="math/tex; mode=display">
-i_a=K_pe+K_i\int e dt-\hat K_g^{'}\sin\theta\\
-\dot{\hat K_g^{'}}=-\gamma e \sin\theta</script><p>其中$K_g^{‘}=\frac{K_g}{K_i}$。dSAPCE的代码如下：</p>
+\begin{align*}
+i_a&=K_pe+K_i\int e dt-\hat K_g^{'}\sin\theta\\
+\dot{\hat K_g^{'}}&=-\gamma e \sin\theta
+\end{align*}</script><p>其中$K_g^{‘}=\frac{K_g}{K_i}$。dSAPCE的代码如下：</p>
 <figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">e = des_vel - motor_vel;</span><br><span class="line">e_i = e_i + e*Ts;</span><br><span class="line">theta = <span class="number">2</span>*<span class="built_in">pi</span>*motor_pos/<span class="number">180</span>;</span><br><span class="line">Kg = Kg - <span class="built_in">gamma</span>*e*<span class="built_in">sin</span>(theta)*Ts;</span><br><span class="line">ia = Kp*e + Ki*e_init + Kg*<span class="built_in">sin</span>(theta);</span><br></pre></td></tr></table></figure>
 <p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%201.png" alt="Untitled"></p>
 <p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%202.png" alt="Untitled"></p>
 <p>从实验结果可以看出，随着自适应学习过程的推进，参数估计逐渐准确，非线性的影响逐渐被抵消。</p>
 <h3 id="滑模控制"><a href="#滑模控制" class="headerlink" title="滑模控制"></a>滑模控制</h3><p>滑模控制是另一种处理非线性系统模型不确定的方法，它考虑系统的参数快速变化、或是模型结构未知的情况，但所有的不确定项存在一个上确界函数。例如：</p>
 <script type="math/tex; mode=display">
-\dot w(t)+K_fw(t)=K_ii_a(t)+f(w)\\
+\dot w(t)+K_fw(t)=K_ii_a(t)+f(w)</script><script type="math/tex; mode=display">
 |f(x)|<\rho(w)=(K_g+\epsilon)|sin(\theta)|</script><p>同样考虑跟踪期望转速$w_d$问题，跟踪误差为：</p>
 <script type="math/tex; mode=display">
-e=w_d-w\\
-\dot e = \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+f(w))</script><p>设计控制器：</p>
+\begin{align*}
+e&=w_d-w\\
+\dot e &= \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+f(w))
+\end{align*}</script><p>设计控制器：</p>
 <script type="math/tex; mode=display">
 i_a=\frac{1}{K_i}[\dot w_d+K_fw+ke+\rho\cdot sgn(e)]</script><p>则有：</p>
 <script type="math/tex; mode=display">
 \dot e =-ke - f - \rho\cdot sgn(e)</script><p>构造李雅普诺夫函数：</p>
 <script type="math/tex; mode=display">
-V=\frac{1}{2}e^2</script><script type="math/tex; mode=display">
 \begin{align*}
+V&=\frac{1}{2}e^2\\
 \dot V&=e\dot e\\
 &=e[-ke-f- \rho\cdot sgn(e)]\\
 &=-ke^2-fe-\rho|e|\\
@@ -6980,6 +6988,67 @@ V=\frac{1}{2}e^2</script><script type="math/tex; mode=display">
       </categories>
       <tags>
         <tag>Control</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>下肢外骨骼系统文献汇总</title>
+    <url>/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="系统平台"><a href="#系统平台" class="headerlink" title="系统平台"></a>系统平台</h2><h3 id="Hardiman"><a href="#Hardiman" class="headerlink" title="Hardiman"></a>Hardiman</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/hardiman.png" alt="hardiman" style="zoom: 40%;"></p>
+<ul>
+<li><a href="/papers/Mosher - 1967 - Handyman to Hardiman.pdf">Handyman to Hardiman</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hardiman">Hardiman - Wikipedia</a></li>
+<li><a href="https://cyberneticzoo.com/man-amplifiers/1966-69-g-e-hardiman-i-ralph-mosher-american/">1965-71 - G.E. Hardiman I Exoskeleton - Ralph Mosher (American) - cyberneticzoo.com</a></li>
+</ul>
+<h3 id="EHPA-DARPA"><a href="#EHPA-DARPA" class="headerlink" title="EHPA - DARPA"></a>EHPA - DARPA</h3><ul>
+<li><a href="papers/Exoskeletons for Human Performance Augmentation (EHPA">Exoskeletons for Human Performance Augmentation (EHPA)  A Program Summary.pdf</a>  A Program Summary.pdf) </li>
+<li><a href="https://www.oocities.org/marksrealm/project450.html">Exoskeletons for Human Performance Augmentation (oocities.org)</a></li>
+</ul>
+<h3 id="BLEEX"><a href="#BLEEX" class="headerlink" title="BLEEX"></a>BLEEX</h3><h2 id="专题"><a href="#专题" class="headerlink" title="专题"></a>专题</h2><h3 id="人在环中优化"><a href="#人在环中优化" class="headerlink" title="人在环中优化"></a>人在环中优化</h3><h4 id="2017-Science"><a href="#2017-Science" class="headerlink" title="2017 Science"></a>2017 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163302181.png" alt="image-20240329163302181" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/Zhang et al_2017_Human-in-the-loop optimization of exoskeleton assistance during walking.pdf">Human-in-the-loop optimization of exoskeleton assistance during walking</a></li>
+<li><a href="/papers/Zhang et al_2017_SM.pdf">Supplementary Materials</a></li>
+</ul>
+<h4 id="2018-Science-Robotics"><a href="#2018-Science-Robotics" class="headerlink" title="2018 Science Robotics"></a>2018 Science Robotics</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163741132.png" alt="image-20240329163741132" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/Ding et al_2018_Human-in-the-loop optimization of hip assistance with a soft exosuit during.pdf">Human-in-the-loop optimization of hip assistance with a soft exosuit during walking</a></li>
+<li><a href="/papers/Ding et al_2018_SM.pdf">Supplementary Materials</a></li>
+</ul>
+<h2 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a>前沿</h2><h4 id="2015-Nature"><a href="#2015-Nature" class="headerlink" title="2015 Nature"></a>2015 Nature</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164117993.png" alt="image-20240329164117993" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/Collins et al_2015_Reducing the energy cost of human walking using an unpowered exoskeleton.pdf">Reducing the energy cost of human walking using an unpowered exoskeleton</a></li>
+</ul>
+<h4 id="2017-Science-1"><a href="#2017-Science-1" class="headerlink" title="2017 Science"></a>2017 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163302181.png" alt="image-20240329163302181" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/Zhang et al_2017_Human-in-the-loop optimization of exoskeleton assistance during walking.pdf">Human-in-the-loop optimization of exoskeleton assistance during walking</a></li>
+<li><a href="/papers/Zhang et al_2017_SM.pdf">Supplementary Materials</a></li>
+</ul>
+<h4 id="2019-Science"><a href="#2019-Science" class="headerlink" title="2019 Science"></a>2019 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164826954.png" alt="image-20240329164826954" style="zoom:40%;"></p>
+<ul>
+<li><a href="/papers/Kim et al_2019_Reducing the metabolic rate of walking and running with a versatile, portable.pdf">Reducing the metabolic rate of walking and running with a versatile, portable exosuit</a></li>
+<li><a href="/papers/Kim et al_2019_sm.pdf">Supplementary Materials</a></li>
+</ul>
+<h4 id><a href="#" class="headerlink" title=" "></a> </h4><h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><h4 id="Kazerooni"><a href="#Kazerooni" class="headerlink" title="Kazerooni"></a>Kazerooni</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329235451294.png" alt="image-20240329235451294" style="zoom: 60%;"></th>
+<th style="text-align:left">加州大学伯克利分校(UC Berkeley)机械工程教授<br>伯克利机器人与人类工程实验室主任<br>开发BLEEX下肢外骨骼系统<br><a href="https://eksobionics.com">Ekso Bionics</a>、<a href="https://www.suitx.com/en/home">suitX</a>公司创始人<br><a href="https://me.berkeley.edu/people/homayoon-kazerooni/">[个人主页 ] Homayoon Kazerooni - UC Berkeley Mechanical Engineering</a><br><a href="https://bleex.me.berkeley.edu/">[实验室网站] Robotics &amp; Human Engineering Laboratory (berkeley.edu)</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>exoskeleton</category>
+      </categories>
+      <tags>
+        <tag>外骨骼系统</tag>
       </tags>
   </entry>
 </search>

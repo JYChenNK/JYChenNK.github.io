@@ -1,43 +1,429 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!0,async:!0,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。"><meta property="og:type" content="article"><meta property="og:title" content="控制系统实践4 - 非线性控制"><meta property="og:url" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/index.html"><meta property="og:site_name" content="萤火"><meta property="og:description" content="前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_41_04_Pro.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_23_38_46_Pro.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%201.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%202.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%203.png"><meta property="article:published_time" content="2022-05-25T16:00:07.000Z"><meta property="article:modified_time" content="2023-11-08T19:10:00.128Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="Control"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg"><link rel="canonical" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>控制系统实践4 - 非线性控制 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li><li class="menu-item menu-item-course"><a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i> 专业课程</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i> 留言板</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 控制系统实践4 - 非线性控制</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-26 00:00:07" itemprop="dateCreated datePublished" datetime="2022-05-26T00:00:07+08:00">2022-05-26</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2023-11-09 03:10:00" itemprop="dateModified" datetime="2023-11-09T03:10:00+08:00">2023-11-09</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/tutorials/" itemprop="url" rel="index"><span itemprop="name">tutorials</span></a></span></span><span id="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="控制系统实践4 - 非线性控制" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。</p><span id="more"></span><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg" alt="WIN_20231108_22_29_11_Pro.jpg"></p><p>考虑在电机输出轴安装一个悬臂负载，则系统的动力学模型如下：</p><script type="math/tex;mode=display">
-K_m\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin(\theta)</script><p>可以看出此时系统存在一个非线性项$K_g\sin(\theta)$。此时若采用前面设计的PI控制器进行速度控制，则系统会由于非线性项的影响而存在周期性的波动：</p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled.png" alt="Untitled"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_41_04_Pro.gif" alt="WIN_20231108_22_41_04_Pro.gif"></p><h3 id="反馈线性化"><a href="#反馈线性化" class="headerlink" title="反馈线性化"></a>反馈线性化</h3><script type="math/tex;mode=display">
-K_m\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin\theta</script><p>对于结构明确、参数已知的非线性系统，一个很自然的想法就是通过适当的变换，将系统非线性部分消除掉，再对变换后的线性系统采用经典控制或现代控制的方法设计控制器。例如考虑构建新的控制量$i_u$：</p><script type="math/tex;mode=display">
-i_u=i_a+\frac{K_g}{K_i}\sin\theta</script><p>则变换后系统的模型为：</p><script type="math/tex;mode=display">
-K_m\dot w(t)+K_fw(t)=K_ii_u(t)</script><p>根据前面的分析，对于变换后的线性系统我们设计PI控制器：</p><script type="math/tex;mode=display">
-i_u=K_p(w_{d}-w)+K_i\int(w_{d}-w)dt</script><p>则总的电机控制电流为：</p><script type="math/tex;mode=display">
-i_a=K_p(w_{d}-w)+K_i\int(w_{d}-w)dt-\frac{K_g}{K_i}\sin\theta</script><p>这里我们实现最简单的反馈线性化形式，对于更复杂的非线性系统有着更系统的反馈线性化理论。</p><p>我们实际上是通过驱动电流补偿负载转矩，来消除系统的非线性项，从而修改了系统模型。前面我们介绍过测速反馈也是一种修改模型的方法，和这里的反馈线性化是相似的思想。实际上仅通过上面的反馈线性化部分，就可以实现负载的重力补偿：</p><script type="math/tex;mode=display">
-i_a=-\frac{K_g}{K_i}\sin\theta</script><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_23_38_46_Pro.gif" alt="WIN_20231108_23_38_46_Pro.gif"></p><h3 id="自适应控制"><a href="#自适应控制" class="headerlink" title="自适应控制"></a>自适应控制</h3><p>在上面的反馈线性化中，系统的非线性结构和参数是完全已知。但在实际系统中，我们可能无法预先知道参数的大小，甚至是非线性的结构。对非线性结构已知、参数未知的情况，可以通过辨识非线性参数，进而通过反馈线性化实现稳定控制，由此发展了模型参考自适应控制和自校正控制，这里我们 介绍前一种方法。</p><p>考虑动力学模型：</p><script type="math/tex;mode=display">
-\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin(\theta)</script><p>其中$K_g$为恒定或缓慢变化的未知参数，为简化后面的表达，所有参数对$K_m$归一化。</p><p>由于$K_g$未知，因此对构造一个估计变量$\hat K_g$，估计误差为：</p><script type="math/tex;mode=display">
-\tilde K_g=K_g-\hat K_g\\
-\dot{\tilde K_g}=\dot K_g-\dot{\hat K_g}=-\dot{\hat K_g}</script><p>考虑对于期望转速$w_d$的跟踪问题，跟踪误差为：</p><script type="math/tex;mode=display">
-e=w_d-w\\
-\dot e = \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+K_g\sin\theta)</script><p>设计如下控制器和参数估计器：</p><script type="math/tex;mode=display">
-i_a=\frac{1}{K_i}(\dot w_d+K_fw-\hat K_g\sin\theta+ke)\\
-\dot{\hat K_g}=-\gamma e \sin\theta</script><p>则有：</p><script type="math/tex;mode=display">
-\dot e =\dot w_d-[-K_fw+(\dot w_d+K_fw-\hat K_g\sin\theta+ke)+K_g\sin\theta]\\
-=-ke-(K_g-\hat K_g)\sin\theta\\
-=-ke-\tilde K_g\sin\theta</script><p>构造李雅普诺夫函数：</p><script type="math/tex;mode=display">
-V=\frac{1}{2}e^2+\frac{1}{2\gamma}{\tilde K_g}^2</script><script type="math/tex;mode=display">
-\dot V=e\dot e+\frac{1}{\gamma}{\tilde K_g}\dot{\tilde K_g}\\
-=e(-ke-\tilde K_g\sin\theta)-\frac{1}{\gamma}{\tilde K_g}\dot{\hat K_g}\\
-=-ke^2-\tilde K_ge\sin\theta +\tilde K_ge\sin\theta\\
-=-ke^2</script><p>因此自适应系统是全局稳定的，Barbalat引理保证跟踪误差全局渐进收敛。</p><p>在具体实现代码实现时，阶跃曲线的$\dot w_d=0$，$i_a=\frac{1}{K_i}(K_fw-\hat K_g\sin\theta+ke)$，其中$(K_fw-\hat K_g\sin\theta)$是通过估计参数进行反馈线性化，$ke$是比例控制。我们也可以根据设计成其他形式的自适应控制器，例如采取比例积分方法：</p><script type="math/tex;mode=display">
-i_a=K_pe+K_i\int e dt-\hat K_g^{'}\sin\theta\\
-\dot{\hat K_g^{'}}=-\gamma e \sin\theta</script><p>其中$K_g^{‘}=\frac{K_g}{K_i}$。dSAPCE的代码如下：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">e = des_vel - motor_vel;</span><br><span class="line">e_i = e_i + e*Ts;</span><br><span class="line">theta = <span class="number">2</span>*<span class="built_in">pi</span>*motor_pos/<span class="number">180</span>;</span><br><span class="line">Kg = Kg - <span class="built_in">gamma</span>*e*<span class="built_in">sin</span>(theta)*Ts;</span><br><span class="line">ia = Kp*e + Ki*e_init + Kg*<span class="built_in">sin</span>(theta);</span><br></pre></td></tr></table></figure><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%201.png" alt="Untitled"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%202.png" alt="Untitled"></p><p>从实验结果可以看出，随着自适应学习过程的推进，参数估计逐渐准确，非线性的影响逐渐被抵消。</p><h3 id="滑模控制"><a href="#滑模控制" class="headerlink" title="滑模控制"></a>滑模控制</h3><p>滑模控制是另一种处理非线性系统模型不确定的方法，它考虑系统的参数快速变化、或是模型结构未知的情况，但所有的不确定项存在一个上确界函数。例如：</p><script type="math/tex;mode=display">
-\dot w(t)+K_fw(t)=K_ii_a(t)+f(w)\\
-|f(x)|<\rho(w)=(K_g+\epsilon)|sin(\theta)|</script><p>同样考虑跟踪期望转速$w_d$问题，跟踪误差为：</p><script type="math/tex;mode=display">
-e=w_d-w\\
-\dot e = \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+f(w))</script><p>设计控制器：</p><script type="math/tex;mode=display">
-i_a=\frac{1}{K_i}[\dot w_d+K_fw+ke+\rho\cdot sgn(e)]</script><p>则有：</p><script type="math/tex;mode=display">
-\dot e =-ke - f - \rho\cdot sgn(e)</script><p>构造李雅普诺夫函数：</p><script type="math/tex;mode=display">
-V=\frac{1}{2}e^2</script><script type="math/tex;mode=display">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+  </script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="控制系统实践4 - 非线性控制">
+<meta property="og:url" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:description" content="前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_41_04_Pro.gif">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_23_38_46_Pro.gif">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%201.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%202.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%203.png">
+<meta property="article:published_time" content="2022-05-25T16:00:07.000Z">
+<meta property="article:modified_time" content="2023-12-19T13:14:57.883Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="Control">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg">
+
+<link rel="canonical" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>控制系统实践4 - 非线性控制 | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+        <li class="menu-item menu-item-course">
+
+    <a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i>专业课程</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          控制系统实践4 - 非线性控制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-26 00:00:07" itemprop="dateCreated datePublished" datetime="2022-05-26T00:00:07+08:00">2022-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-19 21:14:57" itemprop="dateModified" datetime="2023-12-19T21:14:57+08:00">2023-12-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tutorials/" itemprop="url" rel="index"><span itemprop="name">tutorials</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="控制系统实践4 - 非线性控制" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面我们讨论的所有系统均为线性系统，线性系统的分析和设计方法已经相当成熟和完善。但实际物理世界中的完美线性系统几乎不存在，摩擦、迟滞、饱和等各种非线性特性是几乎无法避免的，也因此发展出了一套非线性系统的分析和控制的方法。本小节简单介绍非线性控制中的反馈线性化、自适应控制和滑模控制等方法。</p>
+<span id="more"></span>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_29_11_Pro.jpg" alt="WIN_20231108_22_29_11_Pro.jpg"></p>
+<p>考虑在电机输出轴安装一个悬臂负载，则系统的动力学模型如下：</p>
+<script type="math/tex; mode=display">
+K_m\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin(\theta)</script><p>可以看出此时系统存在一个非线性项$K_g\sin(\theta)$。此时若采用前面设计的PI控制器进行速度控制，则系统会由于非线性项的影响而存在周期性的波动：</p>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled.png" alt="Untitled"></p>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_22_41_04_Pro.gif" alt="WIN_20231108_22_41_04_Pro.gif"></p>
+<h3 id="反馈线性化"><a href="#反馈线性化" class="headerlink" title="反馈线性化"></a>反馈线性化</h3><script type="math/tex; mode=display">
+K_m\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin\theta</script><p>对于结构明确、参数已知的非线性系统，一个很自然的想法就是通过适当的变换，将系统非线性部分消除掉，再对变换后的线性系统采用经典控制或现代控制的方法设计控制器。例如考虑构建新的控制量$i_u$：</p>
+<script type="math/tex; mode=display">
+i_u=i_a+\frac{K_g}{K_i}\sin\theta</script><p>则变换后系统的模型为：</p>
+<script type="math/tex; mode=display">
+K_m\dot w(t)+K_fw(t)=K_ii_u(t)</script><p>根据前面的分析，对于变换后的线性系统我们设计PI控制器：</p>
+<script type="math/tex; mode=display">
+i_u=K_p(w_{d}-w)+K_i\int(w_{d}-w)dt</script><p>则总的电机控制电流为：</p>
+<script type="math/tex; mode=display">
+i_a=K_p(w_{d}-w)+K_i\int(w_{d}-w)dt-\frac{K_g}{K_i}\sin\theta</script><p>这里我们实现最简单的反馈线性化形式，对于更复杂的非线性系统有着更系统的反馈线性化理论。</p>
+<p>我们实际上是通过驱动电流补偿负载转矩，来消除系统的非线性项，从而修改了系统模型。前面我们介绍过测速反馈也是一种修改模型的方法，和这里的反馈线性化是相似的思想。实际上仅通过上面的反馈线性化部分，就可以实现负载的重力补偿：</p>
+<script type="math/tex; mode=display">
+i_a=-\frac{K_g}{K_i}\sin\theta</script><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/WIN_20231108_23_38_46_Pro.gif" alt="WIN_20231108_23_38_46_Pro.gif"></p>
+<h3 id="自适应控制"><a href="#自适应控制" class="headerlink" title="自适应控制"></a>自适应控制</h3><p>在上面的反馈线性化中，系统的非线性结构和参数是完全已知。但在实际系统中，我们可能无法预先知道参数的大小，甚至是非线性的结构。对非线性结构已知、参数未知的情况，可以通过辨识非线性参数，进而通过反馈线性化实现稳定控制，由此发展了模型参考自适应控制和自校正控制，这里我们 介绍前一种方法。</p>
+<p>考虑动力学模型：</p>
+<script type="math/tex; mode=display">
+\dot w(t)+K_fw(t)=K_ii_a(t)+K_g \sin(\theta)</script><p>其中$K_g$为恒定或缓慢变化的未知参数，为简化后面的表达，所有参数对$K_m$归一化。</p>
+<p>由于$K_g$未知，因此对构造一个估计变量$\hat K_g$，估计误差为：</p>
+<script type="math/tex; mode=display">
+\tilde K_g=K_g-\hat K_g</script><script type="math/tex; mode=display">
+\dot{\tilde K_g}=\dot K_g-\dot{\hat K_g}=-\dot{\hat K_g}</script><p>考虑对于期望转速$w_d$的跟踪问题，跟踪误差为：</p>
+<script type="math/tex; mode=display">
+e=w_d-w</script><script type="math/tex; mode=display">
+\dot e = \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+K_g\sin\theta)</script><p>设计如下控制器和参数估计器：</p>
+<script type="math/tex; mode=display">
+i_a=\frac{1}{K_i}(\dot w_d+K_fw-\hat K_g\sin\theta+ke)</script><script type="math/tex; mode=display">
+\dot{\hat K_g}=-\gamma e \sin\theta</script><p>则有：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\dot e &=\dot w_d-[-K_fw+(\dot w_d+K_fw-\hat K_g\sin\theta+ke)+K_g\sin\theta]\\
+&=-ke-(K_g-\hat K_g)\sin\theta\\
+&=-ke-\tilde K_g\sin\theta
+\end{align}</script><p>构造李雅普诺夫函数：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+V&=\frac{1}{2}e^2+\frac{1}{2\gamma}{\tilde K_g}^2\\
+\dot V&=e\dot e+\frac{1}{\gamma}{\tilde K_g}\dot{\tilde K_g}\\
+&=e(-ke-\tilde K_g\sin\theta)-\frac{1}{\gamma}{\tilde K_g}\dot{\hat K_g}\\
+&=-ke^2-\tilde K_ge\sin\theta +\tilde K_ge\sin\theta\\
+&=-ke^2
+\end{align}</script><p>因此自适应系统是全局稳定的，Barbalat引理保证跟踪误差全局渐进收敛。</p>
+<p>在具体实现代码实现时，阶跃曲线的$\dot w_d=0$，$i_a=\frac{1}{K_i}(K_fw-\hat K_g\sin\theta+ke)$，其中$(K_fw-\hat K_g\sin\theta)$是通过估计参数进行反馈线性化，$ke$是比例控制。我们也可以根据设计成其他形式的自适应控制器，例如采取比例积分方法：</p>
+<script type="math/tex; mode=display">
 \begin{align*}
+i_a&=K_pe+K_i\int e dt-\hat K_g^{'}\sin\theta\\
+\dot{\hat K_g^{'}}&=-\gamma e \sin\theta
+\end{align*}</script><p>其中$K_g^{‘}=\frac{K_g}{K_i}$。dSAPCE的代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">e = des_vel - motor_vel;</span><br><span class="line">e_i = e_i + e*Ts;</span><br><span class="line">theta = <span class="number">2</span>*<span class="built_in">pi</span>*motor_pos/<span class="number">180</span>;</span><br><span class="line">Kg = Kg - <span class="built_in">gamma</span>*e*<span class="built_in">sin</span>(theta)*Ts;</span><br><span class="line">ia = Kp*e + Ki*e_init + Kg*<span class="built_in">sin</span>(theta);</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%202.png" alt="Untitled"></p>
+<p>从实验结果可以看出，随着自适应学习过程的推进，参数估计逐渐准确，非线性的影响逐渐被抵消。</p>
+<h3 id="滑模控制"><a href="#滑模控制" class="headerlink" title="滑模控制"></a>滑模控制</h3><p>滑模控制是另一种处理非线性系统模型不确定的方法，它考虑系统的参数快速变化、或是模型结构未知的情况，但所有的不确定项存在一个上确界函数。例如：</p>
+<script type="math/tex; mode=display">
+\dot w(t)+K_fw(t)=K_ii_a(t)+f(w)</script><script type="math/tex; mode=display">
+|f(x)|<\rho(w)=(K_g+\epsilon)|sin(\theta)|</script><p>同样考虑跟踪期望转速$w_d$问题，跟踪误差为：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+e&=w_d-w\\
+\dot e &= \dot w_d-\dot w=\dot w_d-(-K_fw+K_ii_a+f(w))
+\end{align*}</script><p>设计控制器：</p>
+<script type="math/tex; mode=display">
+i_a=\frac{1}{K_i}[\dot w_d+K_fw+ke+\rho\cdot sgn(e)]</script><p>则有：</p>
+<script type="math/tex; mode=display">
+\dot e =-ke - f - \rho\cdot sgn(e)</script><p>构造李雅普诺夫函数：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+V&=\frac{1}{2}e^2\\
 \dot V&=e\dot e\\
 &=e[-ke-f- \rho\cdot sgn(e)]\\
 &=-ke^2-fe-\rho|e|\\
 &\le -ke^2 + |f||e|-\rho|e|\\
 &\le -ke^2 + \rho|e|-\rho|e|\\
 &=-ke^2
-\end{align*}</script><p>由<strong><strong>Lyapunov-like Lemma</strong></strong>可知系统全局渐进稳定。通过一下代码在dSPACE中实现滑模控制</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">e = des_vel - motor_vel;</span><br><span class="line">theta = <span class="number">2</span>*<span class="built_in">pi</span>*motor_pos/<span class="number">180</span>;</span><br><span class="line">rho = Kr*<span class="built_in">abs</span>(<span class="built_in">sin</span>(theta))</span><br><span class="line">ia = Kp*e + Ki*e_init + rho*<span class="built_in">sign</span>(e);</span><br></pre></td></tr></table></figure><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%203.png" alt="Untitled"></p><p>在具体实现时，滑模控制是通过产生较大的控制输出来将系统强行到期望“滑模面”上，并容易出现抖振现象，电机电流波动震荡较大。</p></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" title="控制系统实践4 - 非线性控制">https://jychennk.github.io/2022/05/26/4-Tutorials/Control/控制系统实践4 - 非线性控制/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/Control/" rel="tag"># Control</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2022/05/25/1-Course/%E7%B3%BB%E7%BB%9F%E8%A7%A3%E5%89%96%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/" rel="prev" title="人体解剖学 1 - 骨学基础"><i class="fa fa-chevron-left"></i> 人体解剖学 1 - 骨学基础</a></div><div class="post-nav-item"> <a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" rel="next" title="控制系统实践3 - 状态反馈与状态观测">控制系统实践3 - 状态反馈与状态观测<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+\end{align*}</script><p>由<strong><strong>Lyapunov-like Lemma</strong></strong>可知系统全局渐进稳定。通过一下代码在dSPACE中实现滑模控制</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">e = des_vel - motor_vel;</span><br><span class="line">theta = <span class="number">2</span>*<span class="built_in">pi</span>*motor_pos/<span class="number">180</span>;</span><br><span class="line">rho = Kr*<span class="built_in">abs</span>(<span class="built_in">sin</span>(theta))</span><br><span class="line">ia = Kp*e + Ki*e_init + rho*<span class="built_in">sign</span>(e);</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/Untitled%203.png" alt="Untitled"></p>
+<p>在具体实现时，滑模控制是通过产生较大的控制输出来将系统强行到期望“滑模面”上，并容易出现抖振现象，电机电流波动震荡较大。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" title="控制系统实践4 - 非线性控制">https://jychennk.github.io/2022/05/26/4-Tutorials/Control/控制系统实践4 - 非线性控制/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Control/" rel="tag"># Control</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/25/1-Course/%E7%B3%BB%E7%BB%9F%E8%A7%A3%E5%89%96%E5%AD%A6/%E4%BA%BA%E4%BD%93%E8%A7%A3%E5%89%96%E5%AD%A6-%E9%AA%A8%E5%AD%A6/" rel="prev" title="人体解剖学 1 - 骨学基础">
+      <i class="fa fa-chevron-left"></i> 人体解剖学 1 - 骨学基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" rel="next" title="控制系统实践3 - 状态反馈与状态观测">
+      控制系统实践3 - 状态反馈与状态观测 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -57,7 +443,155 @@ V=\frac{1}{2}e^2</script><script type="math/tex;mode=display">
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E9%A6%88%E7%BA%BF%E6%80%A7%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">反馈线性化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">自适应控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%91%E6%A8%A1%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">滑模控制</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">59</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">26</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2023</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E9%A6%88%E7%BA%BF%E6%80%A7%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">反馈线性化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">自适应控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%91%E6%A8%A1%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">滑模控制</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -107,7 +641,14 @@ V=\frac{1}{2}e^2</script><script type="math/tex;mode=display">
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -133,4 +674,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,372 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!0,async:!0,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta property="og:type" content="article"><meta property="og:title" content="算法基础 3 - 排序 Sorting"><meta property="og:url" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/index.html"><meta property="og:site_name" content="萤火"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/1.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/2.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/3.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/4.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/5.gif"><meta property="article:published_time" content="2022-04-30T16:08:00.000Z"><meta property="article:modified_time" content="2022-09-12T10:30:37.980Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="Algorithm"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png"><link rel="canonical" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>算法基础 3 - 排序 Sorting | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li><li class="menu-item menu-item-course"><a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i> 专业课程</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i> 留言板</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 算法基础 3 - 排序 Sorting</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-01 00:08:00" itemprop="dateCreated datePublished" datetime="2022-05-01T00:08:00+08:00">2022-05-01</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2022-09-12 18:30:37" itemprop="dateModified" datetime="2022-09-12T18:30:37+08:00">2022-09-12</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a></span></span><span id="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" class="post-meta-item leancloud_visitors" data-flag-title="算法基础 3 - 排序 Sorting" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png" class><span id="more"></span><h2 id="排序算法对比"><a href="#排序算法对比" class="headerlink" title="排序算法对比"></a>排序算法对比</h2><img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/1.png" class><hr><h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul><li>每次将未排序序列的最大元素放入已排序序列的开头</li><li>in-place算法，时间复杂度O(n^2)，排序算法不稳定</li></ul> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/2.gif" class><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)-<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        m = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[m]:</span><br><span class="line">                m = j</span><br><span class="line">        A[i], A[m] = A[m], A[i]</span><br></pre></td></tr></table></figure><h3 id="插入排序（Insertion-Sort）"><a href="#插入排序（Insertion-Sort）" class="headerlink" title="插入排序（Insertion Sort）"></a>插入排序（Insertion Sort）</h3><ul><li>每次将一个<strong>待排序元素</strong>插入到<strong>已排序序列</strong>中的合适位置</li><li>in-place算法，时间复杂度O(n^2)，排序算法稳定</li></ul> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/3.gif" class><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(A)):</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> j &gt; <span class="number">0</span> <span class="keyword">and</span> A[j] &lt; A[j-<span class="number">1</span>]:</span><br><span class="line">            A[j], A[j-<span class="number">1</span>] = A[j-<span class="number">1</span>], A[j]</span><br><span class="line">            j -= <span class="number">1</span></span><br></pre></td></tr></table></figure><h3 id="冒泡排序（Bubble-Sort）"><a href="#冒泡排序（Bubble-Sort）" class="headerlink" title="冒泡排序（Bubble Sort）"></a>冒泡排序（Bubble Sort）</h3><ul><li>每次交换相邻的两个元素，直至没有需要交换的元素</li><li>in-place算法，时间复杂度O(n^2)，排序算法稳定</li></ul> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/4.gif" class><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)-<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        exchange = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, i):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[j+<span class="number">1</span>]:</span><br><span class="line">                A[j], A[j+<span class="number">1</span>] = A[j+<span class="number">1</span>], A[j]</span><br><span class="line">                exchange = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> exchange:</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure><h3 id="归并排序（Merge-Sort）"><a href="#归并排序（Merge-Sort）" class="headerlink" title="归并排序（Merge Sort）"></a>归并排序（Merge Sort）</h3><ul><li>把一个序列分成两半，先分别对每个子序列排序，然后再将两个子序列合并</li><li>一般采用递归法，时间复杂度为O(<em>nlogn</em>)</li></ul> <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/5.gif" class><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_sort</span>(<span class="params">A, a=<span class="number">0</span>, b=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        b = <span class="built_in">len</span>(A)</span><br><span class="line">    <span class="keyword">if</span> <span class="number">1</span> &lt; b - a:</span><br><span class="line">        c = (a + b + <span class="number">1</span>)//<span class="number">2</span></span><br><span class="line">        merge_sort(A, a, c)</span><br><span class="line">        merge_sort(A, c, b)</span><br><span class="line">        L, R = A[a:c], A[c:b]</span><br><span class="line">        i, j, k = <span class="number">0</span>, <span class="number">0</span>, a</span><br><span class="line">        <span class="keyword">while</span> k &lt; b:</span><br><span class="line">            <span class="keyword">if</span> (j &gt;= <span class="built_in">len</span>(R)) <span class="keyword">or</span> (i &lt; <span class="built_in">len</span>(L) <span class="keyword">and</span> L[i] &lt; R[j]):</span><br><span class="line">                A[k] = L[i]</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                A[k] = R[j]</span><br><span class="line">                j += <span class="number">1</span></span><br><span class="line">            k += <span class="number">1</span></span><br></pre></td></tr></table></figure><h3 id="基数排序（Radix-Sort）"><a href="#基数排序（Radix-Sort）" class="headerlink" title="基数排序（Radix Sort）"></a>基数排序（Radix Sort）</h3><ul><li>在Direct Access Array Sort、Counting Sort、Tuple Sort基础上演化出来的排序算法，将每个整数分解为n的幂次，根据幂级顺序进行元组排序，可以做到线性时间内完成排序</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">counting_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="string">&quot;Sort A assuming items non-negative keys&quot;</span></span><br><span class="line">    u = <span class="number">1</span> + <span class="built_in">max</span>([x.key <span class="keyword">for</span> x <span class="keyword">in</span> A])</span><br><span class="line">    D = [<span class="number">0</span>] * u</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> A:</span><br><span class="line">        D[x.key] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, u):</span><br><span class="line">        D[k] += D[k-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">list</span>(<span class="built_in">reversed</span>(A)):</span><br><span class="line">        A[D[x.key] - <span class="number">1</span>] = x</span><br><span class="line">        D[x.key] -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">radix_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="string">&quot;Sort A assuming items have non-negative keys&quot;</span></span><br><span class="line">    n = <span class="built_in">len</span>(A)</span><br><span class="line">    u = <span class="number">1</span> + <span class="built_in">max</span>([x <span class="keyword">for</span> x <span class="keyword">in</span> A])</span><br><span class="line">    c = <span class="number">1</span> + (u.bit_length()) // n.bit_length()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Obj</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    D = [Obj() <span class="keyword">for</span> a <span class="keyword">in</span> A]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        D[i].digits = []</span><br><span class="line">        D[i].item = A[i]</span><br><span class="line">        high = A[i]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(c):</span><br><span class="line">            high, low = <span class="built_in">divmod</span>(high, n)</span><br><span class="line">            D[i].digits.append(low)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(c):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            D[j].key = D[j].digits[i]</span><br><span class="line">        counting_sort(D)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        A[i] = D[i].item</span><br></pre></td></tr></table></figure></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" title="算法基础 3 - 排序 Sorting">https://jychennk.github.io/2022/05/01/1-Course/算法基础/03-排序/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/Algorithm/" rel="tag"># Algorithm</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/04-%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="prev" title="算法基础 4 - 二叉树 Binary Tree"><i class="fa fa-chevron-left"></i> 算法基础 4 - 二叉树 Binary Tree</a></div><div class="post-nav-item"> <a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/02-%E9%9B%86%E5%90%88/" rel="next" title="算法基础 2 - 集合 Set Interface">算法基础 2 - 集合 Set Interface<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+  </script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="算法基础 3 - 排序 Sorting">
+<meta property="og:url" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="萤火">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/1.png">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/2.gif">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/3.gif">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/4.gif">
+<meta property="og:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/5.gif">
+<meta property="article:published_time" content="2022-04-30T16:08:00.000Z">
+<meta property="article:modified_time" content="2022-09-12T10:30:37.980Z">
+<meta property="article:author" content="Jayren Chen">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png">
+
+<link rel="canonical" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法基础 3 - 排序 Sorting | 萤火</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">萤火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tutorials">
+
+    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
+
+  </li>
+        <li class="menu-item menu-item-develop">
+
+    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
+
+  </li>
+        <li class="menu-item menu-item-exoskeleton">
+
+    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
+
+  </li>
+        <li class="menu-item menu-item-biomechanics">
+
+    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
+
+  </li>
+        <li class="menu-item menu-item-course">
+
+    <a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i>专业课程</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jayren Chen">
+      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法基础 3 - 排序 Sorting
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 00:08:00" itemprop="dateCreated datePublished" datetime="2022-05-01T00:08:00+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-12 18:30:37" itemprop="dateModified" datetime="2022-09-12T18:30:37+08:00">2022-09-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" class="post-meta-item leancloud_visitors" data-flag-title="算法基础 3 - 排序 Sorting" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/0.png" class>
+<span id="more"></span>
+<h2 id="排序算法对比"><a href="#排序算法对比" class="headerlink" title="排序算法对比"></a>排序算法对比</h2><img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/1.png" class>
+<hr>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><ul>
+<li>每次将未排序序列的最大元素放入已排序序列的开头</li>
+<li>in-place算法，时间复杂度O(n^2)，排序算法不稳定</li>
+</ul>
+<img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/2.gif" class>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)-<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        m = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[m]:</span><br><span class="line">                m = j</span><br><span class="line">        A[i], A[m] = A[m], A[i]</span><br></pre></td></tr></table></figure>
+<h3 id="插入排序（Insertion-Sort）"><a href="#插入排序（Insertion-Sort）" class="headerlink" title="插入排序（Insertion Sort）"></a>插入排序（Insertion Sort）</h3><ul>
+<li>每次将一个<strong>待排序元素</strong>插入到<strong>已排序序列</strong>中的合适位置</li>
+<li>in-place算法，时间复杂度O(n^2)，排序算法稳定</li>
+</ul>
+<img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/3.gif" class>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(A)):</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> j &gt; <span class="number">0</span> <span class="keyword">and</span> A[j] &lt; A[j-<span class="number">1</span>]:</span><br><span class="line">            A[j], A[j-<span class="number">1</span>] = A[j-<span class="number">1</span>], A[j]</span><br><span class="line">            j -= <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="冒泡排序（Bubble-Sort）"><a href="#冒泡排序（Bubble-Sort）" class="headerlink" title="冒泡排序（Bubble Sort）"></a>冒泡排序（Bubble Sort）</h3><ul>
+<li>每次交换相邻的两个元素，直至没有需要交换的元素</li>
+<li>in-place算法，时间复杂度O(n^2)，排序算法稳定</li>
+</ul>
+<img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/4.gif" class>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)-<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        exchange = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, i):</span><br><span class="line">            <span class="keyword">if</span> A[j] &gt; A[j+<span class="number">1</span>]:</span><br><span class="line">                A[j], A[j+<span class="number">1</span>] = A[j+<span class="number">1</span>], A[j]</span><br><span class="line">                exchange = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> exchange:</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h3 id="归并排序（Merge-Sort）"><a href="#归并排序（Merge-Sort）" class="headerlink" title="归并排序（Merge Sort）"></a>归并排序（Merge Sort）</h3><ul>
+<li>把一个序列分成两半，先分别对每个子序列排序，然后再将两个子序列合并</li>
+<li>一般采用递归法，时间复杂度为O(<em>nlogn</em>)</li>
+</ul>
+<img src="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/5.gif" class>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_sort</span>(<span class="params">A, a=<span class="number">0</span>, b=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        b = <span class="built_in">len</span>(A)</span><br><span class="line">    <span class="keyword">if</span> <span class="number">1</span> &lt; b - a:</span><br><span class="line">        c = (a + b + <span class="number">1</span>)//<span class="number">2</span></span><br><span class="line">        merge_sort(A, a, c)</span><br><span class="line">        merge_sort(A, c, b)</span><br><span class="line">        L, R = A[a:c], A[c:b]</span><br><span class="line">        i, j, k = <span class="number">0</span>, <span class="number">0</span>, a</span><br><span class="line">        <span class="keyword">while</span> k &lt; b:</span><br><span class="line">            <span class="keyword">if</span> (j &gt;= <span class="built_in">len</span>(R)) <span class="keyword">or</span> (i &lt; <span class="built_in">len</span>(L) <span class="keyword">and</span> L[i] &lt; R[j]):</span><br><span class="line">                A[k] = L[i]</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                A[k] = R[j]</span><br><span class="line">                j += <span class="number">1</span></span><br><span class="line">            k += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="基数排序（Radix-Sort）"><a href="#基数排序（Radix-Sort）" class="headerlink" title="基数排序（Radix Sort）"></a>基数排序（Radix Sort）</h3><ul>
+<li>在Direct Access Array Sort、Counting Sort、Tuple Sort基础上演化出来的排序算法，将每个整数分解为n的幂次，根据幂级顺序进行元组排序，可以做到线性时间内完成排序</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">counting_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="string">&quot;Sort A assuming items non-negative keys&quot;</span></span><br><span class="line">    u = <span class="number">1</span> + <span class="built_in">max</span>([x.key <span class="keyword">for</span> x <span class="keyword">in</span> A])</span><br><span class="line">    D = [<span class="number">0</span>] * u</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> A:</span><br><span class="line">        D[x.key] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, u):</span><br><span class="line">        D[k] += D[k-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">list</span>(<span class="built_in">reversed</span>(A)):</span><br><span class="line">        A[D[x.key] - <span class="number">1</span>] = x</span><br><span class="line">        D[x.key] -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">radix_sort</span>(<span class="params">A</span>):</span></span><br><span class="line">    <span class="string">&quot;Sort A assuming items have non-negative keys&quot;</span></span><br><span class="line">    n = <span class="built_in">len</span>(A)</span><br><span class="line">    u = <span class="number">1</span> + <span class="built_in">max</span>([x <span class="keyword">for</span> x <span class="keyword">in</span> A])</span><br><span class="line">    c = <span class="number">1</span> + (u.bit_length()) // n.bit_length()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Obj</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    D = [Obj() <span class="keyword">for</span> a <span class="keyword">in</span> A]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        D[i].digits = []</span><br><span class="line">        D[i].item = A[i]</span><br><span class="line">        high = A[i]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(c):</span><br><span class="line">            high, low = <span class="built_in">divmod</span>(high, n)</span><br><span class="line">            D[i].digits.append(low)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(c):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            D[j].key = D[j].digits[i]</span><br><span class="line">        counting_sort(D)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        A[i] = D[i].item</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jayren Chen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://jychennk.github.io/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/03-%E6%8E%92%E5%BA%8F/" title="算法基础 3 - 排序 Sorting">https://jychennk.github.io/2022/05/01/1-Course/算法基础/03-排序/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/04-%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="prev" title="算法基础 4 - 二叉树 Binary Tree">
+      <i class="fa fa-chevron-left"></i> 算法基础 4 - 二叉树 Binary Tree
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/1-Course/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/02-%E9%9B%86%E5%90%88/" rel="next" title="算法基础 2 - 集合 Set Interface">
+      算法基础 2 - 集合 Set Interface <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -18,7 +386,155 @@
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="nav-number">1.</span> <span class="nav-text">排序算法对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">1.1.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88Insertion-Sort%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">插入排序（Insertion Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%EF%BC%88Bubble-Sort%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">冒泡排序（Bubble Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%EF%BC%88Merge-Sort%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序（Merge Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%EF%BC%88Radix-Sort%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">基数排序（Radix Sort）</span></a></li></ol></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">59</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">26</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2023</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="nav-number">1.</span> <span class="nav-text">排序算法对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">1.1.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88Insertion-Sort%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">插入排序（Insertion Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%EF%BC%88Bubble-Sort%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">冒泡排序（Bubble Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%EF%BC%88Merge-Sort%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序（Merge Sort）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%EF%BC%88Radix-Sort%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">基数排序（Radix Sort）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jayren Chen</p>
+  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -68,7 +584,14 @@
     MathJax.texReset();
     MathJax.typeset();
   }
-</script><script>
+</script>
+
+    
+
+  
+
+
+<script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -94,4 +617,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script><script async src="/js/cursor/fireworks.js"></script></body></html>
+</script>
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+</body>
+</html>
