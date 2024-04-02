@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>伯克利下肢外骨骼系统-结构与控制</title>
+    <title>BLEEX下肢外骨骼系统</title>
     <url>/2022/06/01/2-Exoskeleton/BLEEX/</url>
     <content><![CDATA[<p>BLEEX (Berkeley Lower Extremity Exoskeleton) 是世界上首个具有负载搬运能力的自主下肢外骨骼。本文将总结BLEEX的结构设计与控制方法。</p>
 <img src="/2022/06/01/2-Exoskeleton/BLEEX/37221533727400.5fb0a22b2d89e.jpg" class>
@@ -6993,7 +6993,8 @@ V&=\frac{1}{2}e^2\\
   <entry>
     <title>下肢外骨骼系统文献汇总</title>
     <url>/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_13-38-55.png" class title="Snipaste_2024-04-02_13-38-55">
+<span id="more"></span>
 <h2 id="系统平台"><a href="#系统平台" class="headerlink" title="系统平台"></a>系统平台</h2><h3 id="Hardiman"><a href="#Hardiman" class="headerlink" title="Hardiman"></a>Hardiman</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/hardiman.png" alt="hardiman" style="zoom: 40%;"></p>
 <ul>
 <li><a href="/papers/Mosher - 1967 - Handyman to Hardiman.pdf">Handyman to Hardiman</a></li>
@@ -7001,39 +7002,137 @@ V&=\frac{1}{2}e^2\\
 <li><a href="https://cyberneticzoo.com/man-amplifiers/1966-69-g-e-hardiman-i-ralph-mosher-american/">1965-71 - G.E. Hardiman I Exoskeleton - Ralph Mosher (American) - cyberneticzoo.com</a></li>
 </ul>
 <h3 id="EHPA-DARPA"><a href="#EHPA-DARPA" class="headerlink" title="EHPA - DARPA"></a>EHPA - DARPA</h3><ul>
-<li><a href="papers/Exoskeletons for Human Performance Augmentation (EHPA">Exoskeletons for Human Performance Augmentation (EHPA)  A Program Summary.pdf</a>  A Program Summary.pdf) </li>
+<li><a href="/papers/Exoskeletons for Human Performance Augmentation A Program Summary.pdf">Exoskeletons for Human Performance Augmentation (EHPA)  A Program Summary.pdf</a> </li>
 <li><a href="https://www.oocities.org/marksrealm/project450.html">Exoskeletons for Human Performance Augmentation (oocities.org)</a></li>
 </ul>
-<h3 id="BLEEX"><a href="#BLEEX" class="headerlink" title="BLEEX"></a>BLEEX</h3><h2 id="专题"><a href="#专题" class="headerlink" title="专题"></a>专题</h2><h3 id="人在环中优化"><a href="#人在环中优化" class="headerlink" title="人在环中优化"></a>人在环中优化</h3><h4 id="2017-Science"><a href="#2017-Science" class="headerlink" title="2017 Science"></a>2017 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163302181.png" alt="image-20240329163302181" style="zoom: 33%;"></p>
+<h3 id="BLEEX"><a href="#BLEEX" class="headerlink" title="BLEEX"></a>BLEEX</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/EXO_03.jpg" alt="EXO_03" style="zoom:25%;"></p>
+<p><strong>系统设计</strong></p>
 <ul>
-<li><a href="/papers/Zhang et al_2017_Human-in-the-loop optimization of exoskeleton assistance during walking.pdf">Human-in-the-loop optimization of exoskeleton assistance during walking</a></li>
-<li><a href="/papers/Zhang et al_2017_SM.pdf">Supplementary Materials</a></li>
+<li><a href="/papers/The Berkeley Lower Extremity Exoskeleton.pdf">The Berkeley Lower Extremity Exoskeleton</a> </li>
+<li><a href="/papers/Zoss 等 - 2006 - Biomechanical design of the Berkeley lower extremi.pdf">Biomechanical design of the Berkeley lower extremity exoskeleton (BLEEX) [TMECH]</a> </li>
+<li><a href="/papers/Zoss et al_2005_On the mechanical design of the Berkeley Lower Extremity Exoskeleton (BLEEX">On the mechanical design of the Berkeley Lower Extremity Exoskeleton (BLEEX) [IROS]</a>.pdf) </li>
+<li><a href="/papers/Zoss 和 Kazerooni - 2006 - Design of an electrically actuated lower extremity.pdf">Design of an electrically actuated lower extremity exoskeleton</a> </li>
 </ul>
-<h4 id="2018-Science-Robotics"><a href="#2018-Science-Robotics" class="headerlink" title="2018 Science Robotics"></a>2018 Science Robotics</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163741132.png" alt="image-20240329163741132" style="zoom: 33%;"></p>
+<p><strong>控制算法</strong></p>
 <ul>
-<li><a href="/papers/Ding et al_2018_Human-in-the-loop optimization of hip assistance with a soft exosuit during.pdf">Human-in-the-loop optimization of hip assistance with a soft exosuit during walking</a></li>
-<li><a href="/papers/Ding et al_2018_SM.pdf">Supplementary Materials</a></li>
+<li><a href="/papers/Kazerooni 等 - 2007 - That Which Does Not Stabilize, Will Only Make Us S.pdf">That Which Does Not Stabilize, Will Only Make Us Stronger [IJRR]</a> </li>
+<li><a href="/papers/Kazerooni et al_2005_On the Control of the Berkeley Lower Extremity Exoskeleton (BLEEX">On the Control of the Berkeley Lower Extremity Exoskeleton (BLEEX) [ICRA]</a>.pdf) </li>
+<li><a href="/papers/Kazerooni et al_2006_Hybrid Control of the Berkeley Lower Extremity Exoskeleton (BLEEX">Hybrid Control of the Berkeley Lower Extremity Exoskeleton (BLEEX) [IJRR]</a>.pdf) </li>
+<li><a href="/papers/Steger 等 - 2006 - Control scheme and networked control architecture .pdf">Control scheme and networked control architecture for the Berkeley lower extremity exoskeleton (BLEEX) [ICRA]</a> </li>
+<li><a href="/papers/Ghan 和 Kazerooni - 2006 - System identification for the Berkeley lower extre.pdf">System identification for the Berkeley lower extremity exoskeleton (BLEEX) [ICRA]</a> </li>
+<li><a href="/papers/Ghan 等 - 2006 - Control and system identification for the Berkeley.pdf">Control and system identification for the Berkeley lower extremity exoskeleton (BLEEX)</a> </li>
 </ul>
-<h2 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a>前沿</h2><h4 id="2015-Nature"><a href="#2015-Nature" class="headerlink" title="2015 Nature"></a>2015 Nature</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164117993.png" alt="image-20240329164117993" style="zoom: 33%;"></p>
+<p><strong>其他资源</strong></p>
+<ul>
+<li><a href="/videos/伯克利大学负重外骨骼.mp4">BLEEX演示视频</a> </li>
+<li><a href="https://bleex.me.berkeley.edu/research-projects/">BLEEX项目官网</a></li>
+</ul>
+<h3 id="Army-Exoskeleton"><a href="#Army-Exoskeleton" class="headerlink" title="Army Exoskeleton"></a>Army Exoskeleton</h3><ul>
+<li><a href="https://www.army-technology.com/projects/human-universal-load-carrier-hulc/">Human Universal Load Carrier (HULC) - Army Technology </a></li>
+<li><a href="https://www.army-technology.com/projects/raytheon-xos-2-exoskeleton-us/?cf-view">Raytheon XOS 2 Exoskeleton, Second-Generation Robotics Suit - Army Technology</a></li>
+</ul>
+<h3 id="MIT-Exoskeleton"><a href="#MIT-Exoskeleton" class="headerlink" title="MIT-Exoskeleton"></a>MIT-Exoskeleton</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240331002107668.png" alt="image-20240331002107668" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2006_An autonomous, underactuated exoskeleton for load-carrying augmentation.pdf">An autonomous, underactuated exoskeleton for load-carrying augmentation</a>  </li>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2006_Development of a lightweight, underactuated exoskeleton for load-carrying.pdf">Development of a lightweight, underactuated exoskeleton for load-carrying augmentation</a> </li>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2007_A QUASI-PASSIVE LEG EXOSKELETON FOR LOAD-CARRYING AUGMENTATION.pdf">A quasi-passive leg exoskeleton for load-carrying augmentation</a>  </li>
+<li><a href="/papers/MIT-Exoskeleton/76756862-MIT.pdf">Biomimetic design for an under-actuated leg exoskeleton for load-carrying augmentation</a> </li>
+</ul>
+<h3 id="HAL"><a href="#HAL" class="headerlink" title="HAL"></a>HAL</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240401022045136.png" alt="image-20240401022045136" style="zoom:33%;"></p>
+<ul>
+<li><a href="/papers/HAL/Kasaoka 和 Sankai - 2001 - Predictive control estimating operator&#39;s intention.pdf">Predictive control estimating operator’s intention for stepping-up motion by exo-skeleton type power assist system HAL</a> </li>
+<li><a href="../../papers/HAL/Kawamoto_Sankai_2002_Power Assist System HAL-3 for Gait Disorder Person.pdf">Power Assist System HAL-3 for Gait Disorder Person</a> </li>
+<li><a href="../../papers/HAL/Kawamoto 和 Sankai - 2002 - Comfortable power assist control method for walkin.pdf">Comfortable power assist control method for walking aid by HAL-3</a> </li>
+<li><a href="../../papers/HAL/Lee 和 Sankai - 2002 - Power assist control for walking aid with HAL-3 ba.pdf">Power assist control for walking aid with HAL-3 based on EMG and impedance adjustment around knee joint</a> </li>
+<li><a href="../../papers/HAL/Kawamoto 等 - 2003 - Power assist method for HAL-3 estimating operator&#39;.pdf">Power assist method for HAL-3 estimating operator’s intention based on motion information</a> </li>
+<li><p><a href="../../papers/HAL/Kawamoto et al_2003_Power assist method for HAL-3 using EMG-based feedback controller.pdf">Power assist method for HAL-3 using EMG-based feedback controller</a> </p>
+</li>
+<li><p><a href="../../papers/HAL/Hayashi et al_2005_Control method of robot suit HAL working as operator&#39;s muscle using biological.pdf">Control method of robot suit HAL working as operator’s muscle using biological and dynamical information</a> </p>
+</li>
+<li><p><a href="../../papers/HAL/Suzuki et al_2007_Intention-based walking support for paraplegia patients with Robot Suit HAL.pdf">Intention-based walking support for paraplegia patients with Robot Suit HAL</a> </p>
+</li>
+<li><a href="../../papers/HAL/Sankai_2010_HAL.pdf">HAL: Hybrid Assistive Limb Based on Cybernics</a> </li>
+<li><a href="https://recruit.jobcan.jp/cyberdyne/">CYBERDYNE株式会社</a></li>
+<li><a href="https://www.youtube.com/watch?v=T_-LCa-hLk4">HAL演示视频 - YouTube</a></li>
+</ul>
+<h3 id="Dynamic-Walking"><a href="#Dynamic-Walking" class="headerlink" title="Dynamic Walking"></a>Dynamic Walking</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_03-49-21.png" alt="Snipaste_2024-04-02_03-49-21" style="zoom: 40%;"></p>
+<ul>
+<li><a href="/papers/WalkModel/Kuo - 2007 - The six determinants of gait and the inverted pend.pdf">Kuo - 2007 - The six determinants of gait and the inverted pend.pdf</a> </li>
+<li><a href="/papers/WalkModel/Kuo 和 Donelan - 2010 - Dynamic Principles of Gait and Their Clinical Impl.pdf">Kuo 和 Donelan - 2010 - Dynamic Principles of Gait and Their Clinical Impl.pdf</a> </li>
+<li><a href="/papers/WalkModel/Kuo 等 - 2005 - Energetic Consequences of Walking Like an Inverted.pdf">Kuo 等 - 2005 - Energetic Consequences of Walking Like an Inverted.pdf</a> </li>
+<li><a href="/papers/WalkModel/Maxwell Donelan 等 - 2001 - Mechanical and metabolic determinants of the prefe.pdf">Maxwell Donelan 等 - 2001 - Mechanical and metabolic determinants of the prefe.pdf</a> </li>
+<li><a href="/papers/WalkModel/Kuo - 2002 - Energetics of Actively Powered Locomotion Using th.pdf">Kuo - 2002 - Energetics of Actively Powered Locomotion Using th.pdf</a> </li>
+<li><a href="/papers/WalkModel/Kuo - 2001 - A Simple Model of Bipedal Walking Predicts the Pre.pdf">Kuo - 2001 - A Simple Model of Bipedal Walking Predicts the Pre.pdf</a> </li>
+<li><a href="/papers/WalkModel/Donelan 等 - 2004 - Mechanical and metabolic requirements for active l.pdf">Donelan 等 - 2004 - Mechanical and metabolic requirements for active l.pdf</a> </li>
+<li><a href="/papers/WalkModel/Bauby 和 Kuo - 2000 - Active control of lateral balance in human walking.pdf">Bauby 和 Kuo - 2000 - Active control of lateral balance in human walking.pdf</a> </li>
+<li><a href="/papers/WalkModel/Collins - Dynamic Walking Principles Applied to Human Gait.pdf">Collins - Dynamic Walking Principles Applied to Human Gait.pdf</a> </li>
+</ul>
+<h3 id="Powered-Ankle-Foot-Orthosis-UMICH"><a href="#Powered-Ankle-Foot-Orthosis-UMICH" class="headerlink" title="Powered Ankle-Foot Orthosis - UMICH"></a>Powered Ankle-Foot Orthosis - UMICH</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_05-19-13.png" alt="Snipaste_2024-04-02_05-19-13" style="zoom:40%;"></p>
+<p><strong>结构与控制</strong> </p>
+<ul>
+<li><a href="/papers/UMICH/Ferris 等 - 2005 - An Ankle-Foot Orthosis Powered by Artificial Pneum.pdf">Ferris 等 - 2005 - An Ankle-Foot Orthosis Powered by Artificial Pneum.pdf</a> </li>
+<li><a href="/papers/UMICH/Ferris et al_2006_An improved powered ankle–foot orthosis using proportional myoelectric control.pdf">Ferris et al_2006_An improved powered ankle–foot orthosis using proportional myoelectric control.pdf</a> </li>
+<li><a href="/papers/UMICH/Gordon 等 - 2006 - Mechanical performance of artificial pneumatic mus.pdf">Gordon 等 - 2006 - Mechanical performance of artificial pneumatic mus.pdf</a> </li>
+<li><a href="/papers/UMICH/Kinnaird 和 Ferris - 2009 - Medial Gastrocnemius Myoelectric Control of a Robo.pdf">Kinnaird 和 Ferris - 2009 - Medial Gastrocnemius Myoelectric Control of a Robo.pdf</a> </li>
+<li><a href="/papers/UMICH/Koller et al_2015_Learning to walk with an adaptive gain proportional myoelectric controller for.pdf">Koller et al_2015_Learning to walk with an adaptive gain proportional myoelectric controller for.pdf</a> </li>
+</ul>
+<p><strong>生理学研究</strong></p>
+<ul>
+<li><a href="/papers/UMICH/Ferris 等 - 2005 - Powered Lower Limb Orthoses for Gait Rehabilitatio.pdf">Ferris 等 - 2005 - Powered Lower Limb Orthoses for Gait Rehabilitatio.pdf</a> </li>
+<li><a href="/papers/UMICH/Sawicki 等 - 2005 - Powered Lower Limb Orthoses Applications in Motor.pdf">Sawicki 等 - 2005 - Powered Lower Limb Orthoses Applications in Motor.pdf</a> </li>
+<li><a href="/papers/UMICH/Sawicki 等 - 2006 - The effects of powered ankle-foot orthoses on join.pdf">Sawicki 等 - 2006 - The effects of powered ankle-foot orthoses on join.pdf</a> </li>
+<li><a href="/papers/UMICH/Cain 等 - 2007 - Locomotor adaptation to a powered ankle-foot ortho.pdf">Cain 等 - 2007 - Locomotor adaptation to a powered ankle-foot ortho.pdf</a> </li>
+<li><p><a href="/papers/UMICH/Gordon 和 Ferris - 2007 - Learning to walk with a robotic ankle exoskeleton.pdf">Gordon 和 Ferris - 2007 - Learning to walk with a robotic ankle exoskeleton.pdf</a> </p>
+</li>
+<li><p><a href="/papers/UMICH/Sawicki 和 Ferris - 2008 - Mechanics and energetics of level walking with pow.pdf">Sawicki 和 Ferris - 2008 - Mechanics and energetics of level walking with robotic ankle exoskeletons.pdf</a> </p>
+</li>
+<li><a href="/papers/UMICH/Sawicki_Ferris_2009_Mechanics and energetics of incline walking with robotic ankle exoskeletons.pdf">Sawicki_Ferris_2009_Mechanics and energetics of incline walking with robotic ankle exoskeletons.pdf</a> </li>
+<li><a href="/papers/UMICH/Sawicki 和 Ferris - 2009 - Powered ankle exoskeletons reveal the metabolic co.pdf">Sawicki 和 Ferris - 2009 - Powered ankle exoskeletons reveal the metabolic co.pdf</a> </li>
+</ul>
+<h3 id="WALL-X-Ghent-University"><a href="#WALL-X-Ghent-University" class="headerlink" title="WALL-X  -  Ghent University"></a>WALL-X  -  Ghent University</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_09-52-54.png" alt="Snipaste_2024-04-02_09-52-54" style="zoom: 25%;"></p>
+<ul>
+<li><a href="/papers/Ghent/Malcolm et al_2013_A Simple Exoskeleton That Assists Plantarflexion Can Reduce the Metabolic Cost.pdf">Malcolm et al_2013_A Simple Exoskeleton That Assists Plantarflexion Can Reduce the Metabolic Cost.pdf</a> </li>
+<li><a href="/papers/Ghent/Galle et al_2017_Reducing the metabolic cost of walking with an ankle exoskeleton.pdf">Galle et al_2017_Reducing the metabolic cost of walking with an ankle exoskeleton.pdf</a> </li>
+</ul>
+<h3 id="MIT-Autonomous-Ankle-Exoskeleton"><a href="#MIT-Autonomous-Ankle-Exoskeleton" class="headerlink" title="MIT Autonomous Ankle Exoskeleton"></a>MIT Autonomous Ankle Exoskeleton</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_11-42-59.png" alt="Snipaste_2024-04-02_11-42-59" style="zoom: 40%;"></p>
+<ul>
+<li><a href="../../papers/MIT-Exoskeleton/Mooney et al_2014_Autonomous exoskeleton reduces metabolic cost of human walking during load.pdf">Mooney et al_2014_Autonomous exoskeleton reduces metabolic cost of human walking during load.pdf</a> </li>
+<li><a href="../../papers/MIT-Exoskeleton/Mooney et al_2014_Autonomous exoskeleton reduces metabolic cost of human walking.pdf">Mooney et al_2014_Autonomous exoskeleton reduces metabolic cost of human walking.pdf</a> </li>
+<li><a href="../../papers/MIT-Exoskeleton/Mooney_Herr_2016_Biomechanical walking mechanisms underlying the metabolic reduction caused by.pdf">Mooney_Herr_2016_Biomechanical walking mechanisms underlying the metabolic reduction caused by.pdf</a> </li>
+</ul>
+<h3 id="Harvard-Soft-Exosuit"><a href="#Harvard-Soft-Exosuit" class="headerlink" title="Harvard Soft Exosuit"></a>Harvard Soft Exosuit</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_11-46-57.png" alt="Snipaste_2024-04-02_11-46-57" style="zoom:30%;"></p>
+<ul>
+<li><a href="https://biodesign.seas.harvard.edu/publications">All Publications | Harvard Biodesign Lab</a></li>
+</ul>
+<h3 id="Stanford-Exoskeleton-Emulators"><a href="#Stanford-Exoskeleton-Emulators" class="headerlink" title="Stanford Exoskeleton Emulators"></a>Stanford Exoskeleton Emulators</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240402120923493.png" alt="image-20240402120923493" style="zoom:35%;"></p>
+<ul>
+<li><a href="https://biomechatronics.stanford.edu/papers">Publications | Biomechatronics Laboratory (stanford.edu)</a></li>
+</ul>
+<h2 id="前沿研究"><a href="#前沿研究" class="headerlink" title="前沿研究"></a>前沿研究</h2><h3 id="2015-Nature"><a href="#2015-Nature" class="headerlink" title="2015 Nature"></a>2015 Nature</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164117993.png" alt="image-20240329164117993" style="zoom: 33%;"></p>
 <ul>
 <li><a href="/papers/Collins et al_2015_Reducing the energy cost of human walking using an unpowered exoskeleton.pdf">Reducing the energy cost of human walking using an unpowered exoskeleton</a></li>
 </ul>
-<h4 id="2017-Science-1"><a href="#2017-Science-1" class="headerlink" title="2017 Science"></a>2017 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163302181.png" alt="image-20240329163302181" style="zoom: 33%;"></p>
+<h3 id="2017-Science"><a href="#2017-Science" class="headerlink" title="2017 Science"></a>2017 Science</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163302181.png" alt="image-20240329163302181" style="zoom: 33%;"></p>
 <ul>
 <li><a href="/papers/Zhang et al_2017_Human-in-the-loop optimization of exoskeleton assistance during walking.pdf">Human-in-the-loop optimization of exoskeleton assistance during walking</a></li>
 <li><a href="/papers/Zhang et al_2017_SM.pdf">Supplementary Materials</a></li>
 </ul>
-<h4 id="2019-Science"><a href="#2019-Science" class="headerlink" title="2019 Science"></a>2019 Science</h4><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164826954.png" alt="image-20240329164826954" style="zoom:40%;"></p>
+<h3 id="2019-Science"><a href="#2019-Science" class="headerlink" title="2019 Science"></a>2019 Science</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329164826954.png" alt="image-20240329164826954" style="zoom:35%;"></p>
 <ul>
 <li><a href="/papers/Kim et al_2019_Reducing the metabolic rate of walking and running with a versatile, portable.pdf">Reducing the metabolic rate of walking and running with a versatile, portable exosuit</a></li>
 <li><a href="/papers/Kim et al_2019_sm.pdf">Supplementary Materials</a></li>
 </ul>
-<h4 id><a href="#" class="headerlink" title=" "></a> </h4><h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><h4 id="Kazerooni"><a href="#Kazerooni" class="headerlink" title="Kazerooni"></a>Kazerooni</h4><div class="table-container">
+<h3 id="2018-Science-Robotics"><a href="#2018-Science-Robotics" class="headerlink" title="2018 Science Robotics"></a>2018 Science Robotics</h3><p><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329163741132.png" alt="image-20240329163741132" style="zoom: 33%;"></p>
+<ul>
+<li><a href="/papers/Ding et al_2018_Human-in-the-loop optimization of hip assistance with a soft exosuit during.pdf">Human-in-the-loop optimization of hip assistance with a soft exosuit during walking</a></li>
+<li><a href="/papers/Ding et al_2018_SM.pdf">Supplementary Materials</a></li>
+</ul>
+<h2 id="重要人物"><a href="#重要人物" class="headerlink" title="重要人物"></a>重要人物</h2><h3 id="Kazerooni"><a href="#Kazerooni" class="headerlink" title="Kazerooni"></a>Kazerooni</h3><div class="table-container">
 <table>
 <thead>
 <tr>
 <th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/image-20240329235451294.png" alt="image-20240329235451294" style="zoom: 60%;"></th>
-<th style="text-align:left">加州大学伯克利分校(UC Berkeley)机械工程教授<br>伯克利机器人与人类工程实验室主任<br>开发BLEEX下肢外骨骼系统<br><a href="https://eksobionics.com">Ekso Bionics</a>、<a href="https://www.suitx.com/en/home">suitX</a>公司创始人<br><a href="https://me.berkeley.edu/people/homayoon-kazerooni/">[个人主页 ] Homayoon Kazerooni - UC Berkeley Mechanical Engineering</a><br><a href="https://bleex.me.berkeley.edu/">[实验室网站] Robotics &amp; Human Engineering Laboratory (berkeley.edu)</a></th>
+<th>加利福尼亚大学伯克利分校机械工程教授<br>伯克利机器人与人类工程实验室主任<br>BLEEX下肢外骨骼系统团队领导人<br><a href="https://eksobionics.com">Ekso Bionics</a>、<a href="https://www.suitx.com/en/home">suitX</a>公司创始人<br><a href="https://me.berkeley.edu/people/homayoon-kazerooni/">[个人主页] Homayoon Kazerooni - UC Berkeley Mechanical Engineering</a><br><a href="https://bleex.me.berkeley.edu/">[实验室网站] Robotics &amp; Human Engineering Laboratory (berkeley.edu)</a></th>
 </tr>
 </thead>
 <tbody>
@@ -7043,6 +7142,167 @@ V&=\frac{1}{2}e^2\\
 </tbody>
 </table>
 </div>
+<h3 id="Yoshiyuki-Sankai"><a href="#Yoshiyuki-Sankai" class="headerlink" title="Yoshiyuki Sankai"></a>Yoshiyuki Sankai</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/OIP (3).jpeg" alt="OIP (3)" style="zoom:45%;"></th>
+<th>日本筑波大学(University of Tsukuba)教授<br>日本筑波大学半机械人研究中心(Center for Cybernics)主任<br>日本内阁府战略创新推进计划项目主任<br>CYBERDYNE株式会社社长<br>日本富豪榜排名40(2018年)<br><a href="https://trios.tsukuba.ac.jp/en/researcher/0000001020">[个人主页] TRIOS 研究人员信息 </a><br><a href="https://recruit.jobcan.jp/cyberdyne/">[公司官网] CYBERDYNE株式会社</a><br><a href="https://ja.wikipedia.org/wiki/山海嘉之">[维基百科] Yoshiyuki Sankai</a><br><a href="https://scholar.google.com/citations?hl=en&amp;user=zuk28pEAAAAJ&amp;view_op=list_works&amp;sortby=pubdate">‪[谷歌学术] yoshiyuki sankai‬‬</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Hugh-Herr"><a href="#Hugh-Herr" class="headerlink" title="Hugh Herr"></a>Hugh Herr</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Hugh-Herr-Bio-2023.webp" alt="image-20240329235451294" style="zoom: 35%;"></th>
+<th>麻省理工学院媒体实验室(MIT Media Lab)教授<br>MIT杨氏仿生学中心(Yang Center for Bionics)共同主任<br><a href="https://www.media.mit.edu/people/hherr/overview/">[个人主页] Hugh Herr — MIT Media Lab</a><br><a href="https://www.media.mit.edu/groups/biomechatronics/overview/">[实验室网站] Biomechatronics — MIT Media Lab</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Arthur-Kuo"><a href="#Arthur-Kuo" class="headerlink" title="Arthur Kuo"></a>Arthur Kuo</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/ArtKuo.jpg" alt="ArtKuo" style="zoom:80%;"></th>
+<th>前密歇根大学机械工程系教授<br>前密歇根人体生物力学与控制实验室主任<br>加拿大卡尔加里大学(University of Calgary)教授<br>人体性能实验室(Human Performance Lab)主任<br>加拿大神经肌肉骨骼与生物力学研究主席<br>Dynamic Walking领域的权威专家<br><a href="https://profiles.ucalgary.ca/arthur-kuo">[个人主页] Arthur Kuo - University of Calgary</a><br><a href="https://scholar.google.com/citations?user=J-HSgVwAAAAJ&amp;hl=zh-CN">‪[谷歌学术] Art Kuo‬‬</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Daniel-Ferris"><a href="#Daniel-Ferris" class="headerlink" title="Daniel Ferris"></a>Daniel Ferris</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/daniel_ferris-300x300.png" alt="daniel_ferris-300x300" style="zoom:70%;"></th>
+<th>佛罗里达大学(University of Florida)生物医学工程系教授<br>人体神经力学实验室(Human Neuromechanics Laboratory)主任<br>TNSRE期刊主编(2018-2020)<br><a href="https://www.bme.ufl.edu/dept-member/ferris_daniel/">[个人主页] Daniel Ferris – University of Florida</a><br><a href="https://faculty.eng.ufl.edu/human-neuromechanics-laboratory/research/">[实验室网站] Research – Human Neuromechanics Laboratory</a><br><a href="https://scholar.google.com/citations?user=zjJ4V0UAAAAJ&amp;hl=en">‪‪[谷歌学术] Daniel P. Ferris‬‬</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Gregory-Sawicki"><a href="#Gregory-Sawicki" class="headerlink" title="Gregory Sawicki"></a>Gregory Sawicki</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_07-34-51.png" alt="Snipaste_2024-04-02_07-34-51" style="zoom:25%;"></th>
+<th>佐治亚理工学院(Georgia Tech)机械工程系副教授<br>可穿戴机器人生理学实验室(Physiology of Wearable Robotics Lab)负责人<br><a href="https://www.me.gatech.edu/faculty/sawicki">[个人主页] Gregory_Sawicki (gatech.edu)</a><br><a href="https://power.me.gatech.edu/">[实验室网站] Home - Physiology of Wearable Robotics Lab (gatech.edu)</a><br></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Philippe-Malcolm"><a href="#Philippe-Malcolm" class="headerlink" title="Philippe Malcolm"></a>Philippe Malcolm</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/philippe-malcolm.jpg" alt="philippe-malcolm" style="zoom:70%;"></th>
+<th>内布拉斯加州大学奥马哈分校(University of Nebraska Omaha)助理教授<br><a href="https://www.unomaha.edu/college-of-education-health-and-human-sciences/biomechanics-core-facility/about-us/directory/philippe-malcolm.php">[个人主页] Philippe Malcolm (unomaha.edu)</a><br><a href="https://scholar.google.be/citations?user=Q1XcsrUAAAAJ&amp;hl=en&amp;oi=sra">‪[谷歌学术] Philippe Malcolm‬‬</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Conor-Walsh"><a href="#Conor-Walsh" class="headerlink" title="Conor Walsh"></a>Conor Walsh</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/Snipaste_2024-04-02_11-34-06.png" alt="Snipaste_2024-04-02_11-34-06" style="zoom:33%;"></th>
+<th>哈佛大学工程与应用科学学院教授<br>哈佛大学Wyss生物启发工程学院副教授<br>哈佛生物设计实验室(Harvard Biodesign Lab)创始人<br><a href="https://wyss.harvard.edu/team/associate-faculty/conor-walsh/">[个人主页]  Conor Walsh, Ph.D. (harvard.edu)</a><br><a href="https://biodesign.seas.harvard.edu/soft-exosuits">[实验室网站] Soft Exosuits - Harvard Biodesign Lab</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Steve-Collins"><a href="#Steve-Collins" class="headerlink" title="Steve Collins"></a>Steve Collins</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="/2022/06/01/2-Exoskeleton/%E4%B8%8B%E8%82%A2%E5%A4%96%E9%AA%A8%E9%AA%BC%E7%B3%BB%E7%BB%9F%E6%96%87%E7%8C%AE%E6%95%B4%E7%90%86/images (2).jpeg" alt="images (2)"></th>
+<th>斯坦福大学机械工程学副教授<br>斯坦福大学生物工程学副教授<br>斯坦福大学生物机电实验室主任<br>Science Robotics编委会成员<br><a href="https://biomechatronics.stanford.edu/people/steve-collins">[个人主页]  Steve Collins - Biomechatronics Laboratory (stanford.edu)</a><br><a href="https://biomechatronics.stanford.edu/">[实验室网站] Biomechatronics Laboratory (stanford.edu)</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>exoskeleton</category>
+      </categories>
+      <tags>
+        <tag>外骨骼系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MIT-Exoskeleton半被动式负重外骨骼</title>
+    <url>/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/</url>
+    <content><![CDATA[<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig.png" class title="Untitled">
+<span id="more"></span>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MIT-Exoskeleton同样是收到DAPAR的EHPA项目的资助。但不同于BLEEX和XOS这些主动驱动的下肢外骨骼，MIT的研究人员受Passive Walker和Dynamic Walker的启发，开发出以被动驱动为主的下肢负重外骨骼，他们称之为欠驱动外骨骼(underactuated exoskeleton)或半被动外骨骼(<strong>quasi-passive exoskeleton</strong>)。其实这种想法也比较直观，既然是要用来帮助承重，那就把负重通过一个铝管直接连接到脚底就得了，一根铝管不行就整两根，中间再加点弹簧提供一下支撑。当然MIT的外骨骼结构设计还是比较复杂的，不仅考虑了人体自然运动的生理学特性，还对结构做了若干优化。本文主要介绍MIT-Exoskeleton结构设计。</p>
+<h2 id="外骨骼的自由度"><a href="#外骨骼的自由度" class="headerlink" title="外骨骼的自由度"></a>外骨骼的自由度</h2><img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig1.png" class title="Untitled">
+<p>MIT-Exoskeleton由负重背包(Backpack)、骨盆护具(Pelvic Harness)和大腿、小腿以及足部结构组成。其中髋关节有3个自由度，膝关节有一个自由度，踝关节有跖屈/背屈和外展/内收2个自由度。在早期研究中，髋关节的屈伸方向有被动驱动和主动驱动两种设计方案，膝关节的屈伸方向为可变阻尼器，踝关节2个自由度均为被动弹簧。在矢状面上三个关节的驱动方案图下图所示：</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig2.png" class title="Untitled">
+<hr>
+<h2 id="外骨骼的关节设计"><a href="#外骨骼的关节设计" class="headerlink" title="外骨骼的关节设计"></a>外骨骼的关节设计</h2><p>MIT-Exoskeleton是根据人体步态生物力学的特性设计其结构和关节形式，下面对其每个关节的设计理念和结构形式进行介绍。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig3.png" class title="Untitled">
+<h3 id="髋关节设计"><a href="#髋关节设计" class="headerlink" title="髋关节设计"></a>髋关节设计</h3><p>髋关节在0.8m/s慢速行走中的屈伸方向的角度近似为正弦函数形式，其行为特性非常接近于行走倒立摆模型。在摆动末期到支撑初期，髋关节产生最大伸展力矩帮助躯干向运动，在慢速行走中这是整个步态第二高的肌肉生物力矩。在整个步态运动，尤其是伸展阶段，髋关节的角度和力矩具有比较稳定的线性关系。但考虑髋关节的能量输出特性，作者提出两种髋关节结构：主动驱动与被动驱动。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig4.png" class title="Untitled">
+<h3 id="髋关节的被动弹性驱动"><a href="#髋关节的被动弹性驱动" class="headerlink" title="髋关节的被动弹性驱动"></a>髋关节的被动弹性驱动</h3><p>髋关节在弯曲(flexion)方向上有一个单向压缩弹簧(Coil Spring)，下图为外骨骼髋关节的右视图。当髋关节向前运动时(flexion)对弹簧进行压缩，产生被动伸展(extension)力矩，同时将能量存储在弹簧中并在之后的支撑阶段释放出来。在髋关节向后运动时(extension)，活塞(Spring Plunger)与弹簧分离，不影响髋关节运动。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig5.png" class title="Untitled">
+<p>在髋关节外展(Abduction)方向上同样有一个被动弹簧，如下图所示。外骨骼的腿部结构有一个凸轮结构，如下图Hip joint下方有一片黑色阴影区域，其与轴向上的一个销钉(Brass Plunger)相啮合，销钉左侧轴向安装着一个压缩弹簧。当髋关节外展时，凸轮挤压销钉使得轴向的弹簧压缩，提供一个冠状面上的被动力矩。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig6.png" class title="Untitled">
+<h3 id="髋关节的主动弹性驱动"><a href="#髋关节的主动弹性驱动" class="headerlink" title="髋关节的主动弹性驱动"></a>髋关节的主动弹性驱动</h3><p>在另一个方案上，MIT-Exoskeleton通过串联弹性驱动来控制外骨骼髋关节矢状面上的运动。如下右图所示，外骨骼的大腿构建件通过一个四杆机构驱动，其中下方的连杆为滚轴丝杆的线性驱动，平行的Maxson电机通过同步带轮连接到丝杆，同时在直线方向上添加了串联弹簧降低人机交互阻抗。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig7.png" class title="Untitled">
+<h3 id="膝关节设计"><a href="#膝关节设计" class="headerlink" title="膝关节设计"></a>膝关节设计</h3><p>在慢速步态中，膝关节主要为躯体提供支撑，大多数时间在吸收能量，类似阻尼器一样。因此研究人员使用一种<strong>磁流变阻尼器</strong>作为外骨骼的膝关节，可以通过电流来调节关节的旋转阻尼。在步态支撑阶段，电流驱动磁场在膝关节产生较高的阻尼，为外骨骼的腿部提供支撑；在摆动相阶段，电流断开磁场关闭，减小对膝关节自然弯曲和摆动的影响。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig8.png" class title="Untitled">
+<h3 id="踝关节的被动弹性"><a href="#踝关节的被动弹性" class="headerlink" title="踝关节的被动弹性"></a>踝关节的被动弹性</h3><img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig9.png" class title="Untitled">
+<p>在慢速步态中，踝关节的跖屈力矩与关节背屈角度也是有着近似线性关系，因此外骨骼的踝关节结构也是采用被动弹性驱动。被动弹性结构经历了两个不同的版本。早期外骨骼的足部是与人体穿戴的鞋子分开的，外骨骼的小腿部分通过关节轴连接到一个碳纤维的足部底板上，并在两者之间有一个单向橡胶弹簧来提供背屈时的跖屈力矩。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig10.png" class title="Untitled">
+<p>在改进的版本中，外骨骼的足部结构被和军用靴集成在一起，同时原来的一个背屈弹簧也优化为足跟叶片弹簧(右图)、背屈弹簧和跖屈弹簧(左图)。足跟的叶片弹簧主要用于减小外骨骼与地面之间的撞击，背屈弹簧则主要用来储存能量并在踝关节跖屈阶段释放。</p>
+<img src="/2022/06/01/2-Exoskeleton/MIT-Exoskeleton%E5%8D%8A%E8%A2%AB%E5%8A%A8%E5%BC%8F%E8%B4%9F%E9%87%8D%E5%A4%96%E9%AA%A8%E9%AA%BC/fig11.png" class title="Untitled">
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2006_An autonomous, underactuated exoskeleton for load-carrying augmentation.pdf">An autonomous, underactuated exoskeleton for load-carrying augmentation</a>  </li>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2006_Development of a lightweight, underactuated exoskeleton for load-carrying.pdf">Development of a lightweight, underactuated exoskeleton for load-carrying augmentation</a> </li>
+<li><a href="/papers/MIT-Exoskeleton/Walsh et al_2007_A QUASI-PASSIVE LEG EXOSKELETON FOR LOAD-CARRYING AUGMENTATION.pdf">A quasi-passive leg exoskeleton for load-carrying augmentation</a>  </li>
+<li><a href="/papers/MIT-Exoskeleton/76756862-MIT.pdf">Biomimetic design for an under-actuated leg exoskeleton for load-carrying augmentation</a> </li>
+</ul>
 ]]></content>
       <categories>
         <category>exoskeleton</category>
