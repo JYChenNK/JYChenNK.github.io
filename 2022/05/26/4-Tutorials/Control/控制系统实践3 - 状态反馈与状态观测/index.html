@@ -1,295 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
-  <script>
-    (function(){
-        if(''){
-            if (prompt('请输入文章密码') !== ''){
-                alert('密码错误');
-                history.back();
-            }
-        }
-    })();
-  </script>
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"jychennk.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="控制系统实践3 - 状态反馈与状态观测">
-<meta property="og:url" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/index.html">
-<meta property="og:site_name" content="萤火">
-<meta property="og:description" content="经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%201.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%202.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%203.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%204.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%205.png">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/WIN_20231108_21_42_05_Pro.gif">
-<meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%206.png">
-<meta property="article:published_time" content="2022-05-25T16:00:08.000Z">
-<meta property="article:modified_time" content="2023-11-09T05:15:49.061Z">
-<meta property="article:author" content="Jayren Chen">
-<meta property="article:tag" content="Control">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png">
-
-<link rel="canonical" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>控制系统实践3 - 状态反馈与状态观测 | 萤火</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">萤火</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">有一份热，发一分光</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-tutorials">
-
-    <a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i>教程</a>
-
-  </li>
-        <li class="menu-item menu-item-develop">
-
-    <a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i>开发</a>
-
-  </li>
-        <li class="menu-item menu-item-exoskeleton">
-
-    <a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i>外骨骼</a>
-
-  </li>
-        <li class="menu-item menu-item-biomechanics">
-
-    <a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i>生物力学</a>
-
-  </li>
-        <li class="menu-item menu-item-course">
-
-    <a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i>专业课程</a>
-
-  </li>
-        <li class="menu-item menu-item-guestbook">
-
-    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jayren Chen">
-      <meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="萤火">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          控制系统实践3 - 状态反馈与状态观测
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-26 00:00:08" itemprop="dateCreated datePublished" datetime="2022-05-26T00:00:08+08:00">2022-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-09 13:15:49" itemprop="dateModified" datetime="2023-11-09T13:15:49+08:00">2023-11-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tutorials/" itemprop="url" rel="index"><span itemprop="name">tutorials</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" class="post-meta-item leancloud_visitors" data-flag-title="控制系统实践3 - 状态反馈与状态观测" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。</p>
-<span id="more"></span>
-<h3 id="状态空间模型与状态反馈"><a href="#状态空间模型与状态反馈" class="headerlink" title="状态空间模型与状态反馈"></a>状态空间模型与状态反馈</h3><p>考虑电机的动力学模型：</p>
-<script type="math/tex; mode=display">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css"><script src="/lib/pace/pace.min.js"></script><script></script><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"jychennk.github.io",root:"/",scheme:"Gemini",version:"7.8.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!1},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:"valine",storage:!0,lazyload:!1,nav:null,activeClass:"valine"},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:3,unescape:!1,preload:!1},motion:{enable:!0,async:!0,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},path:"search.xml"}</script><meta name="description" content="经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。"><meta property="og:type" content="article"><meta property="og:title" content="控制系统实践3 - 状态反馈与状态观测"><meta property="og:url" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/index.html"><meta property="og:site_name" content="萤火"><meta property="og:description" content="经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%201.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%202.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%203.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%204.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%205.png"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/WIN_20231108_21_42_05_Pro.gif"><meta property="og:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%206.png"><meta property="article:published_time" content="2022-05-25T16:00:08.000Z"><meta property="article:modified_time" content="2023-11-09T05:15:49.061Z"><meta property="article:author" content="Jayren Chen"><meta property="article:tag" content="Control"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png"><link rel="canonical" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>控制系统实践3 - 状态反馈与状态观测 | 萤火</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span><h1 class="site-title">萤火</h1><span class="logo-line-after"><i></i></span></a><p class="site-subtitle" itemprop="description">有一份热，发一分光</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-tutorials"><a href="/categories/tutorials/" rel="section"><i class="fa fa-wrench fa-fw"></i> 教程</a></li><li class="menu-item menu-item-develop"><a href="/categories/develop/" rel="section"><i class="fa fa-rocket fa-fw"></i> 开发</a></li><li class="menu-item menu-item-exoskeleton"><a href="/categories/exoskeleton/" rel="section"><i class="fa fa-university fa-fw"></i> 外骨骼</a></li><li class="menu-item menu-item-biomechanics"><a href="/categories/biomechanics/" rel="section"><i class="fa fa-child fa-fw"></i> 生物力学</a></li><li class="menu-item menu-item-course"><a href="/categories/course/" rel="section"><i class="fa fa-bookmark fa-fw"></i> 专业课程</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i> 留言板</a></li></ul></nav></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><div class="reading-progress-bar"></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="Jayren Chen"><meta itemprop="description" content="Life becomes a lot more fun when you know that it is meaningless."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="萤火"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 控制系统实践3 - 状态反馈与状态观测</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-26 00:00:08" itemprop="dateCreated datePublished" datetime="2022-05-26T00:00:08+08:00">2022-05-26</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2023-11-09 13:15:49" itemprop="dateModified" datetime="2023-11-09T13:15:49+08:00">2023-11-09</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/tutorials/" itemprop="url" rel="index"><span itemprop="name">tutorials</span></a></span></span><span id="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" class="post-meta-item leancloud_visitors" data-flag-title="控制系统实践3 - 状态反馈与状态观测" title="阅读次数"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-comment"></i></span> <span class="post-meta-item-text">Valine：</span><a title="valine" href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>经典控制在处理SISO系统上有较好的效果，不管是理论分析和设计方法都较为系统丰富。但实际的控制系统往往不止包含唯一的输入输出，例如电机的角度和速度都输系统的输出，这时候现代控制理论的状态空间方法将会发挥作用。本小节介绍基于状态空间模型的状态反馈、LQR、卡尔曼滤波等。</p><span id="more"></span><h3 id="状态空间模型与状态反馈"><a href="#状态空间模型与状态反馈" class="headerlink" title="状态空间模型与状态反馈"></a>状态空间模型与状态反馈</h3><p>考虑电机的动力学模型：</p><script type="math/tex;mode=display">
 K_m\dot w(t)+K_fw(t)=K_ii(t)\\
-\dot\theta(t)=w(t)</script><p>令状态变量$x=[\theta,w]^T$，控制量$u=i_a$，得到如下状态空间模型：</p>
-<script type="math/tex; mode=display">
+\dot\theta(t)=w(t)</script><p>令状态变量$x=[\theta,w]^T$，控制量$u=i_a$，得到如下状态空间模型：</p><script type="math/tex;mode=display">
 \dot x=
 \begin{bmatrix}
 \dot\theta\\\dot w
@@ -308,8 +19,7 @@ y = \begin{bmatrix}
 1 & 0
 \end{bmatrix}\begin{bmatrix}
 \theta\\w
-\end{bmatrix}=Cx</script><p>在设计系统的控制器之前，首先考虑系统的能控性：</p>
-<script type="math/tex; mode=display">
+\end{bmatrix}=Cx</script><p>在设计系统的控制器之前，首先考虑系统的能控性：</p><script type="math/tex;mode=display">
 S=
 \begin{bmatrix}
 B & AB
@@ -320,39 +30,10 @@ B & AB
 \frac{K_i}{K_m} & -\frac{K_fK_i}{K_m^2}
 \end{bmatrix},
 \quad 
-\text{rank}(S)=2</script><p>在此基础上，设计状态反馈：</p>
-<script type="math/tex; mode=display">
-u=-Kx</script><p>则有：</p>
-<script type="math/tex; mode=display">
-\dot x = Ax+Bu=(A-BK)x</script><aside>
-💡 上面设计的控制器是将系统的状态变量控制到$\begin{bmatrix}
-0 \\ 0
-\end{bmatrix}$，对于跟踪指定输入问题，例如控制电机角度跟踪期望轨迹$r(t)$，做如下状态变换，反馈系统有相同的状态矩阵：
-
-$$
-u=-K\left(
-\begin{bmatrix}
-1\\0
-\end{bmatrix}r-x
-\right)\\
-\dot x = (A-BK)x+Bk_1r
-$$
-
-</aside>
-
-<h3 id="极点配置"><a href="#极点配置" class="headerlink" title="极点配置"></a>极点配置</h3><p>状态空间模型表示系统的响应特性主要由状态矩阵的极点决定，因此可以通过配置(A-BK)的极点于期望的位置。若系统可控，则通过状态反馈，可以实现任意配置闭环系统极点的位置。在Matlab中可以通过如下代码来计算反馈增益矩阵：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">poles = [<span class="number">-10</span>,<span class="number">-20</span>];</span><br><span class="line">K1 = place(A,B,poles);</span><br></pre></td></tr></table></figure>
-<h3 id="LQR-线性二次型调节器"><a href="#LQR-线性二次型调节器" class="headerlink" title="LQR - 线性二次型调节器"></a>LQR - 线性二次型调节器</h3><p>另一种设计反馈增益矩阵的方法，是通过构造控制代价函数，通过优化求解最优的增益矩阵。在实际的工程应用中，我们希望控制系统在跟踪误差、响应速度、输入能耗等各方面能有一个综合考虑，因此构造如下的代价函数（指标泛函）：</p>
-<script type="math/tex; mode=display">
-J=\int_0^\infty x^TQx+u^TRu\ dt</script><p>代价函数的含义是，当系统存在一个初始扰动x(0)时，将系统状态控制到原点过程中，状态误差和控制输出的总体评估。其中Q，R为权重矩阵，通常使用对角阵，在应用时往往根据工程需要和设计经验来确定。在Matlab中可以通过如下代码来计算LQR控制器的反馈增益矩阵：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">Q = [<span class="number">0.01</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">0.0001</span>]; R = <span class="number">1</span>;</span><br><span class="line">[K2,S,P] = lqr(ModelSS,Q,R);</span><br></pre></td></tr></table></figure>
-<p>通过如下代码可以对所设计的控制器进行验证：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CL_SS1 = ss(A-B*K1,B*K1(<span class="number">1</span>),C,D);</span><br><span class="line">CL_SS2 = ss(A-B*K2,B*K2(<span class="number">1</span>),C,D);</span><br><span class="line">linearSystemAnalyzer(CL_SS1,CL_SS2);</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png" alt="Untitled"></p>
-<h3 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h3><p>控制和观测是控制理论中的对偶问题。除了通过状态反馈构建反馈控制器，状态空间模型的另一个重要的应用是进行状态观测，并由此引出一种非常重要的算法-卡尔曼滤波[1]。鉴于已经存在的优秀入门资料[2,3]，本文不会深入介绍Kalman Filter的理论推导，而仅介绍其在M3508控制中的一些具体应用和技巧。</p>
-<p>M3508电机的反馈信号包括电机的角度、角速度和电机电流，其中角度和电流是由编码器和电流传感器直接测量得到的，角速度则是由角度差分得到的，前面我们做速度控制时也发现电机转速有较大的噪声。由于我们能够测量到电机的电流，通过电机的动力学模型我们也可以估计电机的转速， 那是不是可以利用模型计算和实际测量，来得到得到更准确的电机转速呢？</p>
-<p>首先考虑如下最简单的状态空间模型：</p>
-<script type="math/tex; mode=display">
+\text{rank}(S)=2</script><p>在此基础上，设计状态反馈：</p><script type="math/tex;mode=display">
+u=-Kx</script><p>则有：</p><script type="math/tex;mode=display">
+\dot x = Ax+Bu=(A-BK)x</script><aside> 💡 上面设计的控制器是将系统的状态变量控制到$\begin{bmatrix} 0 \\ 0 \end{bmatrix}$，对于跟踪指定输入问题，例如控制电机角度跟踪期望轨迹$r(t)$，做如下状态变换，反馈系统有相同的状态矩阵： $$ u=-K\left( \begin{bmatrix} 1\\0 \end{bmatrix}r-x \right)\\ \dot x = (A-BK)x+Bk_1r $$</aside><h3 id="极点配置"><a href="#极点配置" class="headerlink" title="极点配置"></a>极点配置</h3><p>状态空间模型表示系统的响应特性主要由状态矩阵的极点决定，因此可以通过配置(A-BK)的极点于期望的位置。若系统可控，则通过状态反馈，可以实现任意配置闭环系统极点的位置。在Matlab中可以通过如下代码来计算反馈增益矩阵：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">poles = [<span class="number">-10</span>,<span class="number">-20</span>];</span><br><span class="line">K1 = place(A,B,poles);</span><br></pre></td></tr></table></figure><h3 id="LQR-线性二次型调节器"><a href="#LQR-线性二次型调节器" class="headerlink" title="LQR - 线性二次型调节器"></a>LQR - 线性二次型调节器</h3><p>另一种设计反馈增益矩阵的方法，是通过构造控制代价函数，通过优化求解最优的增益矩阵。在实际的工程应用中，我们希望控制系统在跟踪误差、响应速度、输入能耗等各方面能有一个综合考虑，因此构造如下的代价函数（指标泛函）：</p><script type="math/tex;mode=display">
+J=\int_0^\infty x^TQx+u^TRu\ dt</script><p>代价函数的含义是，当系统存在一个初始扰动x(0)时，将系统状态控制到原点过程中，状态误差和控制输出的总体评估。其中Q，R为权重矩阵，通常使用对角阵，在应用时往往根据工程需要和设计经验来确定。在Matlab中可以通过如下代码来计算LQR控制器的反馈增益矩阵：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A=[<span class="number">0</span>,<span class="number">1</span>;<span class="number">0</span>,<span class="number">-7.2</span>];B=[<span class="number">0</span>;<span class="number">3000</span>];</span><br><span class="line">C=[<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>];D=[<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">ModelSS = ss(A,B,C,D);</span><br><span class="line">Q = [<span class="number">0.01</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">0.0001</span>]; R = <span class="number">1</span>;</span><br><span class="line">[K2,S,P] = lqr(ModelSS,Q,R);</span><br></pre></td></tr></table></figure><p>通过如下代码可以对所设计的控制器进行验证：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CL_SS1 = ss(A-B*K1,B*K1(<span class="number">1</span>),C,D);</span><br><span class="line">CL_SS2 = ss(A-B*K2,B*K2(<span class="number">1</span>),C,D);</span><br><span class="line">linearSystemAnalyzer(CL_SS1,CL_SS2);</span><br></pre></td></tr></table></figure><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled.png" alt="Untitled"></p><h3 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h3><p>控制和观测是控制理论中的对偶问题。除了通过状态反馈构建反馈控制器，状态空间模型的另一个重要的应用是进行状态观测，并由此引出一种非常重要的算法-卡尔曼滤波[1]。鉴于已经存在的优秀入门资料[2,3]，本文不会深入介绍Kalman Filter的理论推导，而仅介绍其在M3508控制中的一些具体应用和技巧。</p><p>M3508电机的反馈信号包括电机的角度、角速度和电机电流，其中角度和电流是由编码器和电流传感器直接测量得到的，角速度则是由角度差分得到的，前面我们做速度控制时也发现电机转速有较大的噪声。由于我们能够测量到电机的电流，通过电机的动力学模型我们也可以估计电机的转速， 那是不是可以利用模型计算和实际测量，来得到得到更准确的电机转速呢？</p><p>首先考虑如下最简单的状态空间模型：</p><script type="math/tex;mode=display">
 
 x=[w(t)],\quad u=i_a(t)\\
 \dot x=
@@ -364,10 +45,7 @@ x=[w(t)],\quad u=i_a(t)\\
 \end{bmatrix}u=Ax+Bu\\
 y=
 \begin{bmatrix} 1 \end{bmatrix}x
-=Cx</script><p>由于卡尔曼滤波一般处理离散系统，因此在Matlab中通过如下代码将连续系统变换为离散模型：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ac = [<span class="number">-7.2</span>]; Bc = [<span class="number">3000</span>]; Cc = [<span class="number">1</span>]; Dc = <span class="number">0</span>;</span><br><span class="line">modelSSC = ss(Ac,Bc,Cc,Dc);</span><br><span class="line">modelSSD = c2d(modelSSC,<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure>
-<p>得到如下离散状态空间模型：</p>
-<script type="math/tex; mode=display">
+=Cx</script><p>由于卡尔曼滤波一般处理离散系统，因此在Matlab中通过如下代码将连续系统变换为离散模型：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ac = [<span class="number">-7.2</span>]; Bc = [<span class="number">3000</span>]; Cc = [<span class="number">1</span>]; Dc = <span class="number">0</span>;</span><br><span class="line">modelSSC = ss(Ac,Bc,Cc,Dc);</span><br><span class="line">modelSSD = c2d(modelSSC,<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure><p>得到如下离散状态空间模型：</p><script type="math/tex;mode=display">
 x=[w(k)],\quad u=i_a(k)\\
 x(k+1)=
 \begin{bmatrix}
@@ -378,33 +56,17 @@ x(k+1)=
 \end{bmatrix}u(k)\\
 y(k)=\begin{bmatrix}
 1
-\end{bmatrix}x(k)</script><p>由于电机角速度存在一定的测量噪声，建立的模型也存在一定的不确定性，因此考虑如下关系：</p>
-<script type="math/tex; mode=display">
+\end{bmatrix}x(k)</script><p>由于电机角速度存在一定的测量噪声，建立的模型也存在一定的不确定性，因此考虑如下关系：</p><script type="math/tex;mode=display">
 x(k+1)=
 Ax(k)+
 Bu(k)+\text{w}(k)\\
-y(k)=Cx(k)+\text{v}(k)</script><p>其中第一个式子的$\text{w}(k)$表示模型的误差，第二个式子的$\text{v}(k)$表示速度测量时的噪声。</p>
-<p>当我们已知第k个时刻电机的速度$x(k)$和控制电流$u(k)$，并在第k+1个时刻测量到带有噪声的电机转速$y(k+1)$，那么可以把两者加权平均，得到k+1时刻更准确的速度估计$\hat x(k+1)=\alpha[Ax(k)+Bu(k)]+(1-\alpha)y(k+1)$。下面通过卡尔曼滤波来实现这一过程。</p>
-<p>状态预测：</p>
-<script type="math/tex; mode=display">
+y(k)=Cx(k)+\text{v}(k)</script><p>其中第一个式子的$\text{w}(k)$表示模型的误差，第二个式子的$\text{v}(k)$表示速度测量时的噪声。</p><p>当我们已知第k个时刻电机的速度$x(k)$和控制电流$u(k)$，并在第k+1个时刻测量到带有噪声的电机转速$y(k+1)$，那么可以把两者加权平均，得到k+1时刻更准确的速度估计$\hat x(k+1)=\alpha[Ax(k)+Bu(k)]+(1-\alpha)y(k+1)$。下面通过卡尔曼滤波来实现这一过程。</p><p>状态预测：</p><script type="math/tex;mode=display">
 \hat x(k+1|k)=A\hat x(k|k)+Bu(k)\\
-P(k+1|k)=AP(k|k)A^T+Q</script><p>计算新息与增益矩阵：</p>
-<script type="math/tex; mode=display">
+P(k+1|k)=AP(k|k)A^T+Q</script><p>计算新息与增益矩阵：</p><script type="math/tex;mode=display">
 \varepsilon(k+1)=y(k+1)-C\hat x(k+1|k)\\
-K(k+1)=P(k+1|k)C^T[CP(k+1|k)C^T+R]^{-1}</script><p>状态更新：</p>
-<script type="math/tex; mode=display">
+K(k+1)=P(k+1|k)C^T[CP(k+1|k)C^T+R]^{-1}</script><p>状态更新：</p><script type="math/tex;mode=display">
 \hat x(k+1|k+1) =x(k+1|k)+K(k+1)\varepsilon(k+1)\\
-P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><p>在dPSACE中我们通过如下代码实现卡尔曼滤波：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 状态预测</span></span><br><span class="line">X_k1k = A*X_kk + B*u;</span><br><span class="line">P_k1k = A*P_kk*A&#x27;+Q;</span><br><span class="line"><span class="comment">% 计算新息</span></span><br><span class="line">e_k1 = y-C*X_k1k;</span><br><span class="line">K_k1 = (P_k1k*C&#x27;)/(C*P_k1k*C&#x27;+R);</span><br><span class="line"><span class="comment">% 状态更新</span></span><br><span class="line">P_kk = P_k1k-K_k1*C*P_kk;</span><br><span class="line">X_kk = X_k1k + K_k1*e_k1;</span><br></pre></td></tr></table></figure>
-<p>其中u和y是外部输入，Q和R分别是w和v的协方差矩阵(一般为对角阵)，反应模型预测的不准确度和输出测量的噪声大小。当模型越不准确，Q应该取值越大；测量信号噪声越大，R应当越大，设计应用时需要根据经验进行调整，卡尔曼滤波的实际效果受这两个参数极大的影响。</p>
-<p>我们还可以直接使用Simulink自带的卡尔曼滤波模块，Simulink提供了KF、EKF、UKF等多种形式的卡尔曼滤波器。但在Simulink代码生成时，自带的卡尔曼滤波不支持ControlDesk在线调参，没有自行编写的代码灵活。</p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%201.png" alt="Untitled"></p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%202.png" alt="Untitled"></p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%203.png" alt="Untitled"></p>
-<p>可以看到经过卡尔曼滤波后得到的电机速度更加平稳，并且滤波的数据并没有明显的延迟。这就是Kalman Filter的第一种用法 - 滤波(废话)。</p>
-<h3 id="数据融合"><a href="#数据融合" class="headerlink" title="数据融合"></a>数据融合</h3><p>在前面的实验中我们发现不仅测量的电机速度有较大的噪声，电流的噪声也较大，这是由于电流传感器本身的测量特性。观察到我们的模型同时包含电机转速和电机电流，那能否同时利用测量的转速和电流，来得到更准确的输出？</p>
-<p>为此，我们需要将电流也看作是一个状态变量而非控制量，考虑如下状态空间模型：</p>
-<script type="math/tex; mode=display">
+P(k+1|k+1)=P(k+1|k)-K(k+1)CP(k+1|k)</script><p>在dPSACE中我们通过如下代码实现卡尔曼滤波：</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 状态预测</span></span><br><span class="line">X_k1k = A*X_kk + B*u;</span><br><span class="line">P_k1k = A*P_kk*A&#x27;+Q;</span><br><span class="line"><span class="comment">% 计算新息</span></span><br><span class="line">e_k1 = y-C*X_k1k;</span><br><span class="line">K_k1 = (P_k1k*C&#x27;)/(C*P_k1k*C&#x27;+R);</span><br><span class="line"><span class="comment">% 状态更新</span></span><br><span class="line">P_kk = P_k1k-K_k1*C*P_kk;</span><br><span class="line">X_kk = X_k1k + K_k1*e_k1;</span><br></pre></td></tr></table></figure><p>其中u和y是外部输入，Q和R分别是w和v的协方差矩阵(一般为对角阵)，反应模型预测的不准确度和输出测量的噪声大小。当模型越不准确，Q应该取值越大；测量信号噪声越大，R应当越大，设计应用时需要根据经验进行调整，卡尔曼滤波的实际效果受这两个参数极大的影响。</p><p>我们还可以直接使用Simulink自带的卡尔曼滤波模块，Simulink提供了KF、EKF、UKF等多种形式的卡尔曼滤波器。但在Simulink代码生成时，自带的卡尔曼滤波不支持ControlDesk在线调参，没有自行编写的代码灵活。</p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%201.png" alt="Untitled"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%202.png" alt="Untitled"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%203.png" alt="Untitled"></p><p>可以看到经过卡尔曼滤波后得到的电机速度更加平稳，并且滤波的数据并没有明显的延迟。这就是Kalman Filter的第一种用法 - 滤波(废话)。</p><h3 id="数据融合"><a href="#数据融合" class="headerlink" title="数据融合"></a>数据融合</h3><p>在前面的实验中我们发现不仅测量的电机速度有较大的噪声，电流的噪声也较大，这是由于电流传感器本身的测量特性。观察到我们的模型同时包含电机转速和电机电流，那能否同时利用测量的转速和电流，来得到更准确的输出？</p><p>为此，我们需要将电流也看作是一个状态变量而非控制量，考虑如下状态空间模型：</p><script type="math/tex;mode=display">
 
 x=[w(t),i_a(t)]^T\\
 \dot x=
@@ -424,17 +86,8 @@ y=
 \begin{bmatrix} 
 1 & 0 \\ 0 & 1 
 \end{bmatrix}x
-=Cx</script><p>这里我们假设$\dot{i_a}=0$，因为电机电流本身是一个控制量，由我们设计的控制器产生，在没有其他信息的情况下我们只能假设其状态不变，并被测量到的结果所修正。</p>
-<p>同样将系统转换为离散模型，使用上面相同的卡尔曼滤波器框架，并调整模型参数、输入数据和参数矩阵Q、R。注意这里的Q和R将从前面的标量变为二维矩阵(一般为对角阵)。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 模型离散化</span></span><br><span class="line">Ac = [<span class="number">-7.2</span>,<span class="number">3000</span>;<span class="number">0</span>,<span class="number">0</span>]; Bc = [<span class="number">0</span>]; Cc = [<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>]; Dc = [<span class="number">0</span>];</span><br><span class="line">modelSSC = ss(Ac,Bc,Cc,Dc);</span><br><span class="line">modelSSD = c2d(modelSSC,<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% kalman filter code</span></span><br><span class="line"><span class="comment">% 状态预测</span></span><br><span class="line">X_k1k = A*X_kk;</span><br><span class="line">Y_k1 = [vel;ia];</span><br><span class="line">P_k1k = A*P_kk*A&#x27;+ <span class="built_in">diag</span>(Q);</span><br><span class="line"><span class="comment">% 计算新息</span></span><br><span class="line">e_k1 = Y_k1 - C*X_k1k;</span><br><span class="line">K_k1 = (P_k1k*C&#x27;)/(C*P_k1k*C&#x27;+ <span class="built_in">diag</span>(R));</span><br><span class="line"><span class="comment">% 状态更新</span></span><br><span class="line">X_kk = X_k1k + K_k1*e_k1;</span><br><span class="line">P_kk = P_k1k-K_k1*C*P_kk;</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%204.png" alt="Untitled"></p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%205.png" alt="Untitled"></p>
-<p>可以看出经过卡尔曼滤波后，电机速度和电流的估计比原始测量的结果都有更小的噪声。在这个过程中，我们综合利用了多种传感器的数据来得到更准确的估计，这种手段一般被称为数据融合，也是卡尔曼滤波非常常见的一种用法。在这篇博客[4]中介绍了使用IMU的加速度的和角速度信息，数据融合得到姿态角度的方法。</p>
-<h3 id="状态观测与估计"><a href="#状态观测与估计" class="headerlink" title="状态观测与估计"></a>状态观测与估计</h3><p>上面两个案例中，系统的状态都可以直接被观测到（也就是被传感器测量到），通过模型或数据融合得到更准确的估计。当有一些状态无法直接测量时，能否通过Kalman Filter进行估计呢？考虑前面电机模型，电机转动时若受到一个外力作用，能否能把外力的大小估计出来？考虑如下的动力学模型，其中$\tau_{ext}$为外部作用力：</p>
-<script type="math/tex; mode=display">
-K_m\dot w(t)+K_fw(t)=K_ii(t)+\tau_{ext}</script><p>构造如下的状态空间模型：</p>
-<script type="math/tex; mode=display">
+=Cx</script><p>这里我们假设$\dot{i_a}=0$，因为电机电流本身是一个控制量，由我们设计的控制器产生，在没有其他信息的情况下我们只能假设其状态不变，并被测量到的结果所修正。</p><p>同样将系统转换为离散模型，使用上面相同的卡尔曼滤波器框架，并调整模型参数、输入数据和参数矩阵Q、R。注意这里的Q和R将从前面的标量变为二维矩阵(一般为对角阵)。</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 模型离散化</span></span><br><span class="line">Ac = [<span class="number">-7.2</span>,<span class="number">3000</span>;<span class="number">0</span>,<span class="number">0</span>]; Bc = [<span class="number">0</span>]; Cc = [<span class="number">1</span>,<span class="number">0</span>;<span class="number">0</span>,<span class="number">1</span>]; Dc = [<span class="number">0</span>];</span><br><span class="line">modelSSC = ss(Ac,Bc,Cc,Dc);</span><br><span class="line">modelSSD = c2d(modelSSC,<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% kalman filter code</span></span><br><span class="line"><span class="comment">% 状态预测</span></span><br><span class="line">X_k1k = A*X_kk;</span><br><span class="line">Y_k1 = [vel;ia];</span><br><span class="line">P_k1k = A*P_kk*A&#x27;+ <span class="built_in">diag</span>(Q);</span><br><span class="line"><span class="comment">% 计算新息</span></span><br><span class="line">e_k1 = Y_k1 - C*X_k1k;</span><br><span class="line">K_k1 = (P_k1k*C&#x27;)/(C*P_k1k*C&#x27;+ <span class="built_in">diag</span>(R));</span><br><span class="line"><span class="comment">% 状态更新</span></span><br><span class="line">X_kk = X_k1k + K_k1*e_k1;</span><br><span class="line">P_kk = P_k1k-K_k1*C*P_kk;</span><br></pre></td></tr></table></figure><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%204.png" alt="Untitled"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%205.png" alt="Untitled"></p><p>可以看出经过卡尔曼滤波后，电机速度和电流的估计比原始测量的结果都有更小的噪声。在这个过程中，我们综合利用了多种传感器的数据来得到更准确的估计，这种手段一般被称为数据融合，也是卡尔曼滤波非常常见的一种用法。在这篇博客[4]中介绍了使用IMU的加速度的和角速度信息，数据融合得到姿态角度的方法。</p><h3 id="状态观测与估计"><a href="#状态观测与估计" class="headerlink" title="状态观测与估计"></a>状态观测与估计</h3><p>上面两个案例中，系统的状态都可以直接被观测到（也就是被传感器测量到），通过模型或数据融合得到更准确的估计。当有一些状态无法直接测量时，能否通过Kalman Filter进行估计呢？考虑前面电机模型，电机转动时若受到一个外力作用，能否能把外力的大小估计出来？考虑如下的动力学模型，其中$\tau_{ext}$为外部作用力：</p><script type="math/tex;mode=display">
+K_m\dot w(t)+K_fw(t)=K_ii(t)+\tau_{ext}</script><p>构造如下的状态空间模型：</p><script type="math/tex;mode=display">
 
 x=[w(t),i_a(t),\tau_{ext}(t)]^T\\
 \dot x=
@@ -455,74 +108,7 @@ y=
 \begin{bmatrix} 
 1 & 0 & 0 \\ 0 & 1 & 0
 \end{bmatrix}x
-=Cx</script><p>其中$\tau_{ext}$作为外部作用力，同样假设为恒定不变。将系统离散化后，采用相同的方法实现卡尔曼滤波。为测试估计效果，我们为电机产生一个外部输入：</p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/WIN_20231108_21_42_05_Pro.gif" alt="WIN_20231108_21_42_05_Pro.gif"></p>
-<p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%206.png" alt="Untitled"></p>
-<p>能看到算法实现了对外部扭矩的估计。其实在多数未安装扭矩传感器的机械臂中，就是采用类似的方法实现对输出转矩的估计。这就是卡尔曼滤波的第三种用法 - 状态观测。</p>
-<p><strong>Reference</strong></p>
-<ol>
-<li>Kalman R E. A new approach to linear filtering and prediction problems[J]. 1960.</li>
-<li>Faragher R. Understanding the basis of the kalman filter via a simple and intuitive derivation [lecture notes][J]. IEEE Signal processing magazine, 2012, 29(5): 128-132.</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/39912633">图说卡尔曼滤波，一份通俗易懂的教程 - 知乎 (zhihu.com)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jychen.cn/2021/03/02/5-Projects/%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/2-IMU%E6%95%B0%E6%8D%AE%E8%9E%8D%E5%90%88%E4%B8%8E%E5%A7%BF%E6%80%81%E8%A7%A3%E7%AE%97/">An Introduction for IMU 2 - IMU数据融合与姿态解算 | 萤火 (jychen.cn)</a></li>
-</ol>
-
-    </div>
-
-    
-    
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Jayren Chen
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" title="控制系统实践3 - 状态反馈与状态观测">https://jychennk.github.io/2022/05/26/4-Tutorials/Control/控制系统实践3 - 状态反馈与状态观测/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Control/" rel="tag"># Control</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" rel="prev" title="控制系统实践4 - 非线性控制">
-      <i class="fa fa-chevron-left"></i> 控制系统实践4 - 非线性控制
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B52%20-%20%E5%9F%BA%E4%BA%8E%E7%BB%8F%E5%85%B8%E6%8E%A7%E5%88%B6%E7%9A%84%E5%88%86%E6%9E%90%E8%AE%BE%E8%AE%A1%20/" rel="next" title="控制系统实践2 - 基于经典控制的分析设计">
-      控制系统实践2 - 基于经典控制的分析设计 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
+=Cx</script><p>其中$\tau_{ext}$作为外部作用力，同样假设为恒定不变。将系统离散化后，采用相同的方法实现卡尔曼滤波。为测试估计效果，我们为电机产生一个外部输入：</p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/WIN_20231108_21_42_05_Pro.gif" alt="WIN_20231108_21_42_05_Pro.gif"></p><p><img src="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/Untitled%206.png" alt="Untitled"></p><p>能看到算法实现了对外部扭矩的估计。其实在多数未安装扭矩传感器的机械臂中，就是采用类似的方法实现对输出转矩的估计。这就是卡尔曼滤波的第三种用法 - 状态观测。</p><p><strong>Reference</strong></p><ol><li>Kalman R E. A new approach to linear filtering and prediction problems[J]. 1960.</li><li>Faragher R. Understanding the basis of the kalman filter via a simple and intuitive derivation [lecture notes][J]. IEEE Signal processing magazine, 2012, 29(5): 128-132.</li><li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/39912633">图说卡尔曼滤波，一份通俗易懂的教程 - 知乎 (zhihu.com)</a></li><li><a target="_blank" rel="noopener" href="https://www.jychen.cn/2021/03/02/5-Projects/%E5%8F%AF%E7%A9%BF%E6%88%B4%E4%BC%A0%E6%84%9F%E7%B3%BB%E7%BB%9F/2-IMU%E6%95%B0%E6%8D%AE%E8%9E%8D%E5%90%88%E4%B8%8E%E5%A7%BF%E6%80%81%E8%A7%A3%E7%AE%97/">An Introduction for IMU 2 - IMU数据融合与姿态解算 | 萤火 (jychen.cn)</a></li></ol></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> Jayren Chen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://jychennk.github.io/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B53%20-%20%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E4%B8%8E%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B/" title="控制系统实践3 - 状态反馈与状态观测">https://jychennk.github.io/2022/05/26/4-Tutorials/Control/控制系统实践3 - 状态反馈与状态观测/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/Control/" rel="tag"># Control</a></div><div class="post-nav"><div class="post-nav-item"><a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B54%20-%20%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%8E%A7%E5%88%B6/" rel="prev" title="控制系统实践4 - 非线性控制"><i class="fa fa-chevron-left"></i> 控制系统实践4 - 非线性控制</a></div><div class="post-nav-item"> <a href="/2022/05/26/4-Tutorials/Control/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B52%20-%20%E5%9F%BA%E4%BA%8E%E7%BB%8F%E5%85%B8%E6%8E%A7%E5%88%B6%E7%9A%84%E5%88%86%E6%9E%90%E8%AE%BE%E8%AE%A1%20/" rel="next" title="控制系统实践2 - 基于经典控制的分析设计">控制系统实践2 - 基于经典控制的分析设计<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><div class="comments" id="valine-comments"></div><script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -542,155 +128,7 @@ y=
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88"><span class="nav-number">1.</span> <span class="nav-text">状态空间模型与状态反馈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E7%82%B9%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">极点配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LQR-%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E5%9E%8B%E8%B0%83%E8%8A%82%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">LQR - 线性二次型调节器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2"><span class="nav-number">4.</span> <span class="nav-text">卡尔曼滤波</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%9E%8D%E5%90%88"><span class="nav-number">5.</span> <span class="nav-text">数据融合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B%E4%B8%8E%E4%BC%B0%E8%AE%A1"><span class="nav-number">6.</span> <span class="nav-text">状态观测与估计</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jayren Chen"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Jayren Chen</p>
-  <div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">61</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">26</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2019 – 
-  <span itemprop="copyrightYear">2024</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Jayren Chen</span>
-</div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-
-<script>
+</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88"><span class="nav-number">1.</span> <span class="nav-text">状态空间模型与状态反馈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E7%82%B9%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">极点配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LQR-%E7%BA%BF%E6%80%A7%E4%BA%8C%E6%AC%A1%E5%9E%8B%E8%B0%83%E8%8A%82%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">LQR - 线性二次型调节器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2"><span class="nav-number">4.</span> <span class="nav-text">卡尔曼滤波</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%9E%8D%E5%90%88"><span class="nav-number">5.</span> <span class="nav-text">数据融合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B%E4%B8%8E%E4%BC%B0%E8%AE%A1"><span class="nav-number">6.</span> <span class="nav-text">状态观测与估计</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Jayren Chen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">Jayren Chen</p><div class="site-description" itemprop="description">Life becomes a lot more fun when you know that it is meaningless.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">61</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">8</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <span class="site-state-item-count">26</span> <span class="site-state-item-name">标签</span></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/jychennk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jychennk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:jychen@mail.nankai.edu.cn" title="E-Mail → mailto:jychen@mail.nankai.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span></div><div class="cc-license motion-element" itemprop="license"> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-cn" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; 2019 – <span itemprop="copyrightYear">2024</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Jayren Chen</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/pisces.js"></script><script src="/js/next-boot.js"></script><script>
   if (typeof MathJax === 'undefined') {
     window.MathJax = {
       loader: {
@@ -740,14 +178,7 @@ y=
     MathJax.texReset();
     MathJax.typeset();
   }
-</script>
-
-    
-
-  
-
-
-<script>
+</script><script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
@@ -773,11 +204,4 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
   }, window.Valine);
 });
-</script>
-
-  
-
-  <script async src="/js/cursor/fireworks.js"></script>
-
-</body>
-</html>
+</script><script async src="/js/cursor/fireworks.js"></script></body></html>
